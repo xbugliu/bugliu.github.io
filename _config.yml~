@@ -5,9 +5,9 @@
 url: http://xuechongliu.github.io
 title: ToWriting
 subtitle: There is nothing to writing. All you do is sit down at a typewriter and bleed.
-author: xuechongliu
+author: ToWriting
 simple_search: http://google.com/search
-description:
+description: There is nothing to writing. All you do is sit down at a typewriter and bleed.
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -90,7 +90,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: towriting
 disqus_show_comment_count: false
 
 # Google Analytics
