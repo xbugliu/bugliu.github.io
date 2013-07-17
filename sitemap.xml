@@ -1,8 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://xuechongliu.github.io/blog/2013/07/17/begin-writing-blog/</loc>
+        <lastmod>2013-07-17T22:40:19+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://xuechongliu.github.io/blog/archives/</loc>
-        <lastmod>2013-07-14T19:21:12+08:00</lastmod>
+        <lastmod>2013-07-17T22:40:19+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://xuechongliu.github.io/about/</loc>
+        <lastmod>2013-07-17T22:46:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://xuechongliu.github.io/robots.txt</loc>
@@ -10,6 +18,10 @@
     </url>
     <url>
         <loc>http://xuechongliu.github.io/</loc>
-        <lastmod>2013-07-14T19:21:12+08:00</lastmod>
+        <lastmod>2013-07-17T22:40:19+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://xuechongliu.github.io/search.html</loc>
+        <lastmod>2013-07-17T22:40:19+08:00</lastmod>
     </url>
 </urlset>
