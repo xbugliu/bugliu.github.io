@@ -4,7 +4,7 @@
   <title><![CDATA[ToWriting]]></title>
   <link href="http://xuechongliu.github.io/atom.xml" rel="self"/>
   <link href="http://xuechongliu.github.io/"/>
-  <updated>2013-07-20T00:31:03+08:00</updated>
+  <updated>2013-07-20T21:25:09+08:00</updated>
   <id>http://xuechongliu.github.io/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[the-books-i-have-read]]></title>
+    <link href="http://xuechongliu.github.io/blog/2013/07/20/the-books-i-have-read/"/>
+    <updated>2013-07-20T08:13:00+08:00</updated>
+    <id>http://xuechongliu.github.io/blog/2013/07/20/the-books-i-have-read</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[开始写博客]]></title>
