@@ -2,8 +2,8 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://xuechongliu.github.io
-title: ToWriting
+url: http://towriting.com
+title: 书写|留下人生痕迹
 subtitle: There is nothing to writing. All you do is sit down at a typewriter and bleed.
 author: ToWriting
 simple_search: http://google.com/search
@@ -94,7 +94,7 @@ disqus_short_name: towriting
 disqus_show_comment_count: true
 
 # Google Analytics
-google_analytics_tracking_id:UA-42601840-1
+google_analytics_tracking_id: UA-42601840-1
 
 # Facebook Like
 facebook_like: false
