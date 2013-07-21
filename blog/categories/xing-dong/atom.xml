@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 行动 | ToWriting]]></title>
-  <link href="http://xuechongliu.github.io/blog/categories/xing-dong/atom.xml" rel="self"/>
-  <link href="http://xuechongliu.github.io/"/>
-  <updated>2013-07-21T00:17:17+08:00</updated>
-  <id>http://xuechongliu.github.io/</id>
+  <title><![CDATA[Category: 行动 | 书写|留下人生痕迹]]></title>
+  <link href="http://towriting.com/blog/categories/xing-dong/atom.xml" rel="self"/>
+  <link href="http://towriting.com/"/>
+  <updated>2013-07-21T19:05:35+08:00</updated>
+  <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[开始写博客]]></title>
-    <link href="http://xuechongliu.github.io/blog/2013/07/17/begin-writing-blog/"/>
+    <link href="http://towriting.com/blog/2013/07/17/begin-writing-blog/"/>
     <updated>2013-07-17T22:04:00+08:00</updated>
-    <id>http://xuechongliu.github.io/blog/2013/07/17/begin-writing-blog</id>
+    <id>http://towriting.com/blog/2013/07/17/begin-writing-blog</id>
     <content type="html"><![CDATA[<h3>离职的意外收获</h3>
 
 <p>今年离职有一个意外收获，合适的工作很难找，找工作的空白期间，买了个域名（towriting)，开了这个个人博客，自此可以在这里记录自己的成长，乃至老去。</p>

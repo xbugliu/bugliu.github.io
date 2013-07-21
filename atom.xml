@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[ToWriting]]></title>
-  <link href="http://xuechongliu.github.io/atom.xml" rel="self"/>
-  <link href="http://xuechongliu.github.io/"/>
-  <updated>2013-07-21T00:17:17+08:00</updated>
-  <id>http://xuechongliu.github.io/</id>
+  <title><![CDATA[书写|留下人生痕迹]]></title>
+  <link href="http://towriting.com/atom.xml" rel="self"/>
+  <link href="http://towriting.com/"/>
+  <updated>2013-07-21T19:05:35+08:00</updated>
+  <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Smart GetProcAddress之实现]]></title>
-    <link href="http://xuechongliu.github.io/blog/2013/07/20/smart-getprocaddress/"/>
+    <link href="http://towriting.com/blog/2013/07/20/smart-getprocaddress/"/>
     <updated>2013-07-20T22:36:00+08:00</updated>
-    <id>http://xuechongliu.github.io/blog/2013/07/20/smart-getprocaddress</id>
+    <id>http://towriting.com/blog/2013/07/20/smart-getprocaddress</id>
     <content type="html"><![CDATA[<p>Windows下有过编程经验的朋友肯定用过这个函数：<a href="http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx">GetProcAddress</a>，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：</p>
 
 <figure class='code'><figcaption><span>DLL导出函数的头文件:dll.h</span></figcaption>
@@ -112,18 +112,18 @@
   
   <entry>
     <title type="html"><![CDATA[我曾读过的那些书]]></title>
-    <link href="http://xuechongliu.github.io/blog/2013/07/20/the-books-i-have-read/"/>
+    <link href="http://towriting.com/blog/2013/07/20/the-books-i-have-read/"/>
     <updated>2013-07-20T08:13:00+08:00</updated>
-    <id>http://xuechongliu.github.io/blog/2013/07/20/the-books-i-have-read</id>
+    <id>http://towriting.com/blog/2013/07/20/the-books-i-have-read</id>
     <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[开始写博客]]></title>
-    <link href="http://xuechongliu.github.io/blog/2013/07/17/begin-writing-blog/"/>
+    <link href="http://towriting.com/blog/2013/07/17/begin-writing-blog/"/>
     <updated>2013-07-17T22:04:00+08:00</updated>
-    <id>http://xuechongliu.github.io/blog/2013/07/17/begin-writing-blog</id>
+    <id>http://towriting.com/blog/2013/07/17/begin-writing-blog</id>
     <content type="html"><![CDATA[<h3>离职的意外收获</h3>
 
 <p>今年离职有一个意外收获，合适的工作很难找，找工作的空白期间，买了个域名（towriting)，开了这个个人博客，自此可以在这里记录自己的成长，乃至老去。</p>
