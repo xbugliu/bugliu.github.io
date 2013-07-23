@@ -3,7 +3,7 @@
 # ----------------------- #
 
 url: http://towriting.com
-title: 书写|留下人生痕迹
+title: 书写|记下人生痕迹
 subtitle: There is nothing to writing. All you do is sit down at a typewriter and bleed.
 author: ToWriting
 simple_search: http://google.com/search
@@ -89,12 +89,18 @@ pinboard_count: 3
 delicious_user:
 delicious_count: 3
 
-# Disqus Comments
-disqus_short_name: towriting
-disqus_show_comment_count: true
+# Disqus Comments：name towriting
+disqus_short_name:
+disqus_show_comment_count: false
+
+# DuoShuo Comments
+duoshuo_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id: UA-42601840-1
 
 # Facebook Like
 facebook_like: false
+
+# Use BShare
+bshare: true
