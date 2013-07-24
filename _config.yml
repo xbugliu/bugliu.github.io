@@ -104,3 +104,6 @@ facebook_like: false
 
 # Use BShare
 bshare: true
+
+# Tapir Search
+tapir_token: 51effcb368548801000006d3
