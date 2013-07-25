@@ -4,6 +4,8 @@ title: "Smart GetProcAddress之实现"
 date: 2013-07-20 22:36
 comments: true
 categories: C++ Windows
+keywords: C++,模板
+description: 尝试一种更智能实现GetProcAddress的方式
 ---
 Windows下有过编程经验的朋友肯定用过这个函数：[GetProcAddress][1]，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：
 
@@ -56,7 +58,7 @@ T SmartGetProcAddress(HModule hModule, TChar* pFuncName)
 auto func1 = SmartGetProcAddress<decltype(func1)>(hDLL, _T("func1"));
 {%endcodeblock%}
 
-使用decltype可以解决，函数取地址（&)会静态依赖DLL问题，不过不知VS2010支持不支持decltype(func1)这种写法，经测试G++4.7是支持的。
+使用decltype可以解决，函数取地址（&)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。
 
   [1]: http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx
   [2]: http://en.cppreference.com/w/cpp/language/decltype
