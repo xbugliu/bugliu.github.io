@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-07-25T00:39:52+08:00</updated>
+  <updated>2013-07-25T08:28:07+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -106,7 +106,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，不过不知VS2010支持不支持decltype(func1)这种写法，经测试G++4.7是支持的。</p>
+<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。</p>
 ]]></content>
   </entry>
   
