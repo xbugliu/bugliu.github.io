@@ -64,6 +64,7 @@ typedef struct _OBJECT_TYPE_INFORMATION
 } OBJECT_TYPE_INFORMATION, *POBJECT_TYPE_INFORMATION;
 {% endcodeblock%}
 其中第一个成员TypeName即是句柄类型的类型名
+<!--more-->
 
     4. 获取句柄的名字
 调用函数NtQueryObject，指定获取ObjectNameInformation即可获取句柄的类型信息，获取到的句柄的名字数据结构是UNICODE_STRING类型。
