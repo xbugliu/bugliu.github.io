@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>书写|记下人生痕迹</title>
+	<title>获取进程打开的互斥量 - 书写|记下人生痕迹</title>
         <meta name="author" content="ToWriting">
         
-        <meta name="description" content="记录人生痕迹|分享技术心得 -- ToWriting.com">
-        <meta name="keywords" content="C++,Python,Writing,Programming,Windows,Linux,书写,阅读,思考,程序员">
+        <meta name="description" content="获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象">
+        <meta name="keywords" content="mutex,handle,process,互斥量,内核对象,句柄,线程">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
@@ -91,40 +91,9 @@
 <div id="toload">
 <!-- begin toload --> 
     <div id="content" class="inner">
-        
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/25/mutexs-owned-by-process/">
-		
-			获取进程打开的互斥量</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-25T21:36:00+08:00" pubdate data-updated="true">2013-07-25</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
-
-
-</div>
-    </div>
-		<p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&#8221;拥有&#8221;的互斥量来区分这些进程。所以下面实现了获取指定进程&#8221;拥有&#8221;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
+        <article class="post">
+	<h2 class="title">获取进程打开的互斥量</h2>
+	<div class="entry-content"><p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&#8221;拥有&#8221;的互斥量来区分这些进程。所以下面实现了获取指定进程&#8221;拥有&#8221;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
 
 <pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
 </code></pre>
@@ -693,287 +662,41 @@
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-
-		
-		
-	</div>
+</div>
 
 <div class="meta">
 	
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/20/smart-getprocaddress/">
-		
-			Smart GetProcAddress之实现</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-20T22:36:00+08:00" pubdate data-updated="true">2013-07-20</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
-
-
-</div>
-    </div>
-		<p>Windows下有过编程经验的朋友肯定用过这个函数：<a href="http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx">GetProcAddress</a>，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：</p>
-
-<figure class='code'><figcaption><span>DLL导出函数的头文件:dll.h</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span>动态加载DLL调用上面两个函数</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC2</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="n">FUNC1</span> <span class="n">func1</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC1</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">FUNC2</span> <span class="n">func2</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC2</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func2&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">func1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="n">func2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上是主流的代码写法，但其实稍有问题：
-1. 要定义一套函数类型，且违反DRY，枯燥乏味，影响代码美观
-2. 隐式类型转换是魔鬼，如果DLL实现变化，则调用出错，比如：</p>
-
-<figure class='code'><figcaption><span>DLL导出函数的头文件：fun2的参数变成了三个，调用非出错不可</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>好，问题来了，如何避免：</p>
-
-<figure class='code'><figcaption><span>方案1：使用模板</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 使用方法如下：注意1. 要引用对应头文件，2. auto（自动类型推导）关键字从VS2010开始支持</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">func1</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看起来我们解决了DRY问题，也不用写繁琐的typedef了，于是我们开始Build，很快你就发现Link错误，unresolved external symbol，没注意取地址&amp;func1，已静态依赖于DLL，看来此路不通。取地址的目的是从头文件中获取函数的类型，还有什么方法可以获取函数的类型呢？</p>
-
-<figure class='code'><figcaption><span>方案2：使用decltype</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 使用方法如下：</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="o">&lt;</span><span class="n">decltype</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">));</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。</p>
-
-		
-		
-	</div>
-
-<div class="meta">
+	<div class="share">
+	
+	<div class="bshare-custom icon-medium-plus"><a title="分享到" href="http://www.bShare.cn/" id="bshare-shareto" class="bshare-more">分享到</a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 	
 </div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/20/the-books-i-have-read/">
-		
-			我曾读过的那些书</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-07-20T08:13:00+08:00" pubdate data-updated="true">2013-07-20</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/ji-lu/'>记录</a>, <a class='category' href='/blog/categories/yue-du/'>阅读</a>
-
-
+<section id="comment">
+    <h2 class="title">评论</h2>
+    <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"towriting"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
 </div>
-    </div>
-		<p>在我心中读书一直是一件很酷的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。</p>
+</section>
 
-<blockquote><p>大学以前读的书：这个时期距今较久，房屋翻新书籍都已轶失，当时亦没有记录下来读书清单，所以只能模糊的回忆了：</p></blockquote>
-
-<ol>
-<li><p>书名：各种启蒙读物  作者：百家 阅读时间：启蒙时至小学毕业</p>
-
-<p> 此时读过的非课本书主要是一些启蒙读物、幼儿读物、作文书。能说的上名字的只有有：《小学生必读》系列杂志、《舒克和贝塔》、《旁中华书法》，《格林童话》，《上下五千年》，《成语故事》。这个时期好像没有主动买过书，父母偶尔会买一些绘画、作文书，故事书也很少买。自己读书的主要来源是班上的同学带来的课外书，和哥哥的教材。哥哥比我大四岁，他那些语文书我总是看的津津有味，一遍又一遍。</p></li>
-<li><p>白马笑西风</p></li>
-<li>鹿鼎记</li>
-<li>碧血剑</li>
-<li>雪山飞狐</li>
-<li>鸳鸯刀</li>
-<li>物理演义</li>
-<li>化学演义</li>
-<li>东周列国志</li>
-<li>情人剑</li>
-<li>方与圆 高二</li>
-<li>平凡的世界 高二</li>
-<li>胡雪岩</li>
-<li>红与黑</li>
-<li>平凡的世界</li>
-<li>红楼梦</li>
-<li>战争与和平</li>
-<li>学习的革命</li>
-<li>鲁迅文集</li>
-<li>余秋雨文集</li>
-</ol>
-
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/17/begin-writing-blog/">
-		
-			开始写博客</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-17T22:04:00+08:00" pubdate data-updated="true">2013-07-17</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/shu-xie/'>书写</a>, <a class='category' href='/blog/categories/xing-dong/'>行动</a>
-
-
-</div>
-    </div>
-		<h3>离职的意外收获</h3>
-
-<p>今年离职有一个意外收获，合适的工作很难找，找工作的空白期间，买了个域名（towriting)，开了这个个人博客，自此可以在这里记录自己的成长，乃至老去。</p>
-
-<h3>写博客的好处</h3>
-
-<p>这个好处是显而易见，人所共知的，刘未鹏很早以前就提出了一个技术人员应该写博客，书写是为了更好的思考，可以使知识融汇贯通。除了这些，世俗的讲，博客可以是姜太公钓鱼的勾，好的博客可以大大增加简历的含金量，吸引各种Headhunting；恶俗的讲，博客更可以引入Google Ads等，成为一项收入来源。</p>
-
-<h3>我为什么必须要写博客</h3>
-
-<ul>
-<li>自己生于农村，较之同侪启蒙早，当时农村文娱匮乏，酷喜读书，聊以消遣。16岁左右，正值高中，甚喜作文，高二以前，还能写有生命的作文，语言与文字能力倍受老师同学钦佩，自己竟曾立志成为中国最后一个释、儒、道集大成者。高三读《石头记》，且其它科目压力骤大，遂由《芙蓉女儿诔》推导出适应各种命题的万能作文模板，自此文章徒具形式。虽旧梦难圆，但做程序员久矣，口齿含糊，木讷呆滞，想借写博客，防止自己失语与老年痴呆。</li>
-<li>从业三年来，读书不辍，遇问题好奇追根，所以技术进步较大。因识人不多，所以自视C++水平处周围大部分人之上。然半路出家，技术似空中楼阁，学习已经进入瓶颈期。技能进步的目标模糊，但写博客无疑是朝目标走的，瓶颈期只能先如此了，同时梳理一下三年来的收获。</li>
-<li>记录下自己活着的证据。</li>
-</ul>
-
-
-<h3>给自己的要求</h3>
-
-<ul>
-<li>内容必需保证原创或翻译</li>
-<li>能保证每周一篇文章</li>
-<li>不能因为上一条的要求而使内容敷衍</li>
-</ul>
-
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav>
 
     </div>
     <footer id="footer">
