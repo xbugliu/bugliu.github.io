@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-07-29T23:00:13+08:00</updated>
+  <updated>2013-07-30T07:22:16+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -123,6 +123,9 @@
 
 
 <p>其中第一个成员TypeName即是句柄类型的类型名</p>
+
+<!--more-->
+
 
 <pre><code>4. 获取句柄的名字
 </code></pre>
