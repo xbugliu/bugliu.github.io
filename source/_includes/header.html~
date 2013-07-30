@@ -11,3 +11,5 @@
 {% include navigation.html %}
 
 {% include custom/header.html %}
+
+{% include google_analytics_body.html %}
