@@ -6,7 +6,7 @@ url: http://towriting.com
 title: 书写|记下人生痕迹
 subtitle: There is nothing to writing. All you do is sit down at a typewriter and bleed.
 author: ToWriting
-simple_search: http://google.com/search
+simple_search: #http://google.com/search
 description: 记录人生痕迹|分享技术心得 -- ToWriting.com
 keywords: C++,Python,Writing,Programming,Windows,Linux,书写,阅读,思考,程序员
 
@@ -98,7 +98,7 @@ disqus_show_comment_count: false
 duoshuo_show_comment_count: true
 
 # Google Analytics
-google_analytics_tracking_id: UA-42601840-1
+google_analytics_tracking_id:# UA-42601840-1
 
 # Facebook Like
 facebook_like: false
