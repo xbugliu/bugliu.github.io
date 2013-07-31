@@ -97,8 +97,8 @@ disqus_show_comment_count: false
 # DuoShuo Comments
 duoshuo_show_comment_count: true
 
-# Google Analytics# UA-42601840-1
-google_analytics_tracking_id:
+# Google Analytics
+google_analytics_tracking_id: UA-42601840-1
 
 # Facebook Like
 facebook_like: false
