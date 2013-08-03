@@ -8,6 +8,7 @@ keywords: C++11
 description: 介绍了什么是C++11
 ---
 ##什么是C++0x?
+{% category_cloud %} 
 C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9月份，C++0x正式由官方发布并命名C++11，现在很多编译器已经支持了部分C++11特性。
 
 C++11包括大量的新特性：主要特征像[lambda][1]表达式和移动语义，实用的类型推导关键字auto，更简单的容器遍历方法，和大量使模板更容易使用的改进。这一系列教程将包含所以以上特性。
@@ -100,7 +101,7 @@ C++11特性的数量是客观的。你可以阅读维基百科里的[C++11][4]�
 下一篇：如何用auto、decltype和新的函数语法编写更好的代码
 
 
-译者：[toWriting.com][9]；翻译自：[What is C++0x? - Cprogramming.com][8]
+本文翻译自：[What is C++0x? - Cprogramming.com][8]
 
 
   [1]:http://en.cppreference.com/w/cpp/language/lambda
@@ -110,4 +111,3 @@ C++11特性的数量是客观的。你可以阅读维基百科里的[C++11][4]�
   [5]:http://wiki.apache.org/stdcxx/C%2B%2B0xCompilerSupport
   [6]:http://gcc.gnu.org/gcc-4.7/cxx0x_status.html
   [8]:http://www.cprogramming.com/c++11/what-is-c++0x.html
-  [9]:toWriting.com

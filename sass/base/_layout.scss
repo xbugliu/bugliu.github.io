@@ -1,4 +1,4 @@
-$max-width: 1000px;
+$max-width: 960px;
 
 *{
 	margin: 0;
@@ -9,7 +9,7 @@ body{
 	font-weight: 300;
 	font-size: 18px;
 	background: url('/images/retina_dust.png'); 
-	color: #444;
+	color: #111111;
 	colori: $color-gray01;
 	@media screen and (max-width: 1040px){
 		margin: 0 20px;
