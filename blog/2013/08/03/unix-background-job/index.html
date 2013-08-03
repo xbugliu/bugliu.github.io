@@ -1,0 +1,249 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务 - 书写|记下人生痕迹</title>
+        <meta name="author" content="ToWriting">
+        
+        <meta name="description" content="Linux后台进程管理">
+        <meta name="keywords" content="linux,backgroud,process,job,后台任务">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.ico" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+    <!-- remove or comment it to disable ajaxification -->   
+    <script src="/javascripts/ajaxify.js"></script>
+   
+    
+    
+	<script type="text/javascript">			
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-42601840-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+    <div id="wrapper">
+    <header id="header" class="inner"><!-- for more effects see _animate.scss -->
+<h1 class="animated bounceInDown">
+    <div id="headerbg">
+        ToWriting
+    </div>
+</h1>
+<br>
+
+<ul id="social-links" style="text-align:center">
+  
+  
+  
+  
+  
+  
+  
+  
+</ul>
+
+
+<!-- use full url including 'index.html' for navigation bar if you are using ajax -->
+<ul id="nav">
+	<li id="ajax"><a href="/index.html">Home</a></li>
+	<li id="ajax"><a href="/blog/archives/index.html">Archives</a></li>
+	<li id="ajax"><a href="/about">About</a></li>
+    <li><a href="/atom.xml">RSS</a></li>
+        
+</ul>
+
+
+
+
+
+
+</header>
+
+<div id="toload">
+<!-- begin toload --> 
+    <div id="content" class="inner">
+        <article class="post">
+	<h2 class="title">Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务</h2>
+	<div class="entry-content"><p>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。</p>
+
+<p>在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换到前台、查看所有后台任务和结束一个后台任务。</p>
+
+<h2>1. 执行一个后台任务</h2>
+
+<p>在命令后面添加<a href="https://en.wikipedia.org/wiki/Ampersand">&amp;</a>就可以将任务执行到后台。</p>
+
+<p>比如，当你执行一个可能耗时很长的查找命令，你可以像下面例子中一样将它执行到后台。下面的例子将查找root目录下24小时内被修改过的文件：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt &amp;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2. 通过CTRL-Z和bg命令将当前任务切换到后台</h2>
+
+<p>你也可以将一个已经运行的前台任务切换到后台：</p>
+
+<ul>
+<li>组合键 ‘CTRL+Z’ 将暂停当前任务。</li>
+<li>执行bg将任务切换到后台执行</li>
+</ul>
+
+
+<p>像下面的例子，假如你忘记将任务执行到后台，你无需结束当前任务再启动一个新的后台任务。你可以暂停当前任务然后将它切换到后台：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="o">[</span>CTRL-Z<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>+  Stopped                 find / -ctime -1 &gt; /tmp/changed-file-list.txt
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">bg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3. 使用jobs命令查看所有后台任务</h2>
+
+<p>你可以使用<strong>jobs</strong>命令列出所有后台任务。一个jobs命令的可能输出如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
+</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4. 通过fg命令将后台任务切换到前台</h2>
+
+<p>你可以通过<strong>fg</strong>命令将后台任务切换到前台。如果执行fg命令不带参数，则将最近的后台任务切换到前台。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">fg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>假如你有多个后台任务，你又想将指定任务切换到前台，那你可以先执行jobs命令列出所有任务号和对应命令。下面的例子，fg %1将一号任务(download-file.sh)切换到前台。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
+</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">fg</span> %1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>5. 通过kill %结束指定的后台任务</h2>
+
+<p>假如你想杀死指定的后台任务，用<strong>kill</strong> %任务号就行了。下面是杀死2号任务的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> %2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>译者：<a href="toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
+</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+	<div class="share">
+	
+	<div class="bshare-custom icon-medium-plus"><a title="分享到" href="http://www.bShare.cn/" id="bshare-shareto" class="bshare-more">分享到</a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+	
+</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">评论</h2>
+    <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"towriting"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</div>
+</section>
+
+
+    </div>
+    <footer id="footer">
+    <div style="display:inline">
+    Copyright &copy; 2013
+
+    ToWriting
+. Powered by <a href="http://octopress.org">Octopress</a> | 
+    Theme <a href="http://github.com/panks/fabric">fabric</a>
+</div>
+
+
+    </footer>
+    <script src="/javascripts/fabric.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+<!-- end toload --> 
+</div>
+</div>
+<script src="/javascripts/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+;(function($){$().UItoTop({easingType:'easeOutCirc'});})(jQuery); 
+/*]]>*/
+</script><!-- remove it to remove the scroll to top button -->
+</body>
+</html>
