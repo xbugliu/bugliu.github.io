@@ -110,4 +110,4 @@ C++11特性的数量是客观的。你可以阅读维基百科里的[C++11][4]�
   [5]:http://wiki.apache.org/stdcxx/C%2B%2B0xCompilerSupport
   [6]:http://gcc.gnu.org/gcc-4.7/cxx0x_status.html
   [8]:http://www.cprogramming.com/c++11/what-is-c++0x.html
-  [9]:toWriting.com
+  [9]:http://toWriting.com

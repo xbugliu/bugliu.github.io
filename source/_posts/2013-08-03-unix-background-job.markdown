@@ -67,4 +67,4 @@ $ kill %2
 
   [1]:https://en.wikipedia.org/wiki/Ampersand
   [2]:http://www.thegeekstuff.com/2010/05/unix-background-job/
-  [3]:toWriting.com
+  [3]:http://toWriting.com
