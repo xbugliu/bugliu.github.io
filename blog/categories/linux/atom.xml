@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-03T20:59:43+08:00</updated>
+  <updated>2013-08-03T21:53:53+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -73,7 +73,7 @@ $ fg
 $ jobs
 <a href="https://en.wikipedia.org/wiki/Ampersand">1</a>   Running                 bash download-file.sh &amp;
 <a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">2</a>&ndash;  Running                 evolution &amp;
-<a href="toWriting.com">3</a>+  Done                    nautilus .</p>
+<a href="http://toWriting.com">3</a>+  Done                    nautilus .</p>
 
 <p>$ fg %1
 ```</p>
@@ -84,7 +84,7 @@ $ jobs
 <code>bash
 $ kill %2
 </code>
-译者：<a href="toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
+译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
 ]]></content>
   </entry>
   
