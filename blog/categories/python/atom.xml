@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: python | 书写|记下人生痕迹]]></title>
+  <link href="http://towriting.com/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://towriting.com/"/>
+  <updated>2013-08-03T23:23:02+08:00</updated>
+  <id>http://towriting.com/</id>
+  <author>
+    <name><![CDATA[ToWriting]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[暴力禁止windows自动安装驱动]]></title>
+    <link href="http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/"/>
+    <updated>2013-08-03T22:24:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver</id>
+    <content type="html"><![CDATA[<p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="&lsquo;windows自动安装驱动&rsquo; &lsquo;windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。&rsquo;" ></p>
+
+<p>前两天我需要手动安装一个手机的根节点驱动，这个驱动属于系统基础驱动，所以一插入手机windows就帮你装上了，这不是我想要的。当我用遍了google、yahoo、ixquick、duckduckgo、baidu、soso各种搜索引擎仍然没有找到有效的禁用windows自动安装驱动的办法后，我只好尝试暴力对抗了。</p>
+
+<p>很快用ProcessMonitor定位到安装驱动的进程：
+<img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver.png"></p>
+
+<p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">subprocess</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">RunLoop</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">startupinfo</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTUPINFO</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">startupinfo</span><span class="o">.</span><span class="n">dwFlags</span> <span class="o">|=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTF_USESHOWWINDOW</span>
+</span><span class='line'>        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;taskkill /F /IM drvinst.exe&#39;</span><span class="p">,</span> <span class="n">startupinfo</span><span class="o">=</span><span class="n">startupinfo</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">RunLoop</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<strong>注意：</strong>如果破坏drvinst进程后发现系统对新插入的设备不再自动安装驱动，则设备管理器中扫描检测硬件改动即可。</p>
+]]></content>
+  </entry>
+  
+</feed>

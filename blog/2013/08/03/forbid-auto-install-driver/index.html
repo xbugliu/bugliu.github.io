@@ -1,0 +1,198 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>暴力禁止windows自动安装驱动 - 书写|记下人生痕迹</title>
+        <meta name="author" content="ToWriting">
+        
+        <meta name="description" content="暴力禁止windows自动安装驱动">
+        <meta name="keywords" content="windows,driver,驱动">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.ico" rel="shortcut icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+    <!-- remove or comment it to disable ajaxification -->   
+    <script src="/javascripts/ajaxify.js"></script>
+   
+    
+    
+	<script type="text/javascript">			
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-42601840-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+</head>
+
+
+<body>
+    <div id="wrapper">
+    <header id="header" class="inner"><!-- for more effects see _animate.scss -->
+<h1 class="animated bounceInDown">
+    <div id="headerbg">
+        ToWriting
+    </div>
+</h1>
+<br>
+
+<ul id="social-links" style="text-align:center">
+  
+  
+  
+  
+  
+  
+  
+  
+</ul>
+
+
+<!-- use full url including 'index.html' for navigation bar if you are using ajax -->
+<ul id="nav">
+	<li id="ajax"><a href="/index.html">Home</a></li>
+	<li id="ajax"><a href="/blog/archives/index.html">Archives</a></li>
+	<li id="ajax"><a href="/about">About</a></li>
+    <li><a href="/atom.xml">RSS</a></li>
+        
+</ul>
+
+
+
+
+
+
+</header>
+
+<div id="toload">
+<!-- begin toload --> 
+    <div id="content" class="inner">
+        <article class="post">
+	<h2 class="title">暴力禁止windows自动安装驱动</h2>
+	<div class="entry-content"><p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="windows自动安装驱动" alt="windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。"></p>
+
+<p>前两天我需要手动安装一个手机的根节点驱动，这个驱动属于系统基础驱动，所以一插入手机windows就帮你装上了，这不是我想要的。当我用遍了google、yahoo、ixquick、duckduckgo、baidu、soso各种搜索引擎仍然没有找到有效的禁用windows自动安装驱动的办法后，我只好尝试暴力对抗了。</p>
+
+<p>很快用ProcessMonitor定位到安装驱动的进程：
+<img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver.png"></p>
+
+<p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：</p>
+
+<figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">subprocess</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">RunLoop</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">startupinfo</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTUPINFO</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">startupinfo</span><span class="o">.</span><span class="n">dwFlags</span> <span class="o">|=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTF_USESHOWWINDOW</span>
+</span><span class='line'>        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;taskkill /F /IM drvinst.exe&#39;</span><span class="p">,</span> <span class="n">startupinfo</span><span class="o">=</span><span class="n">startupinfo</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">RunLoop</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注意：</strong>如果破坏drvinst进程后发现系统对新插入的设备不再自动安装驱动，则设备管理器中扫描检测硬件改动即可。</p>
+</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+	<div class="share">
+	
+	<div class="bshare-custom icon-medium-plus"><a title="分享到" href="http://www.bShare.cn/" id="bshare-shareto" class="bshare-more">分享到</a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+	
+</div>
+
+
+
+
+<section id="comment">
+    <h2 class="title">评论</h2>
+    <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"towriting"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</div>
+</section>
+
+
+    </div>
+    <footer id="footer">
+    <div style="display:inline">
+    Copyright &copy; 2013
+
+    ToWriting
+. Powered by <a href="http://octopress.org">Octopress</a> | 
+    Theme <a href="http://github.com/panks/fabric">fabric</a>
+</div>
+
+
+    </footer>
+    <script src="/javascripts/fabric.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+<!-- end toload --> 
+</div>
+</div>
+<script src="/javascripts/jquery.ui.totop.js" type="text/javascript"></script>
+<script type="text/javascript">
+/*<![CDATA[*/
+;(function($){$().UItoTop({easingType:'easeOutCirc'});})(jQuery); 
+/*]]>*/
+</script><!-- remove it to remove the scroll to top button -->
+</body>
+</html>

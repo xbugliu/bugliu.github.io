@@ -86,6 +86,136 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2013/07/20/smart-getprocaddress/">
+		
+			Smart GetProcAddress之实现</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-20T22:36:00+08:00" pubdate data-updated="true">2013-07-20</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
+
+
+</div>
+    </div>
+		<p>Windows下有过编程经验的朋友肯定用过这个函数：<a href="http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx">GetProcAddress</a>，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：</p>
+
+<figure class='code'><figcaption><span>DLL导出函数的头文件:dll.h</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>动态加载DLL调用上面两个函数</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC2</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="n">FUNC1</span> <span class="n">func1</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC1</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">FUNC2</span> <span class="n">func2</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC2</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func2&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">func1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="n">func2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上是主流的代码写法，但其实稍有问题：
+1. 要定义一套函数类型，且违反DRY，枯燥乏味，影响代码美观
+2. 隐式类型转换是魔鬼，如果DLL实现变化，则调用出错，比如：</p>
+
+<figure class='code'><figcaption><span>DLL导出函数的头文件：fun2的参数变成了三个，调用非出错不可</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，问题来了，如何避免：</p>
+
+<figure class='code'><figcaption><span>方案1：使用模板</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
+</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 使用方法如下：注意1. 要引用对应头文件，2. auto（自动类型推导）关键字从VS2010开始支持</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">func1</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看起来我们解决了DRY问题，也不用写繁琐的typedef了，于是我们开始Build，很快你就发现Link错误，unresolved external symbol，没注意取地址&amp;func1，已静态依赖于DLL，看来此路不通。取地址的目的是从头文件中获取函数的类型，还有什么方法可以获取函数的类型呢？</p>
+
+<figure class='code'><figcaption><span>方案2：使用decltype</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
+</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 使用方法如下：</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="o">&lt;</span><span class="n">decltype</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。</p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2013/07/20/the-books-i-have-read/">
 		
 			我曾读过的那些书</a>
