@@ -4,7 +4,7 @@
   <title><![CDATA[Category: blog | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-04T23:11:47+08:00</updated>
+  <updated>2013-08-05T00:22:11+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -30,7 +30,7 @@ rake new_page[error/404.html]
 
 <p>但后来看到github自定义404页面的<a href="https://help.github.com/articles/custom-404-pages">说明</a>，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：
 <code>bash
-git rake new_page[404.html]
+rake new_page[404.html]
 </code></p>
 
 <h2>2. Robots文件隐藏404页面</h2>
