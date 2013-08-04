@@ -18,7 +18,7 @@ rake new_page[error/404.html]
 
 但后来看到github自定义404页面的[说明][1]，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：
 ```bash
-rake new_page[404.html]
+git rake new_page[404.html]
 ```
 
 ##2. Robots文件隐藏404页面
