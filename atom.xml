@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-04T20:51:17+08:00</updated>
+  <updated>2013-08-04T21:55:03+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,112 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[octopress定制公益404页面]]></title>
+    <link href="http://towriting.com/blog/2013/08/04/octopress-custom-404/"/>
+    <updated>2013-08-04T00:10:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/08/04/octopress-custom-404</id>
+    <content type="html"><![CDATA[<p>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。</p>
+
+<h2>1. 创建404页面</h2>
+
+<p>首先，需要创建自定义的404页面，最初我是这样创建的，将404错误页面创建到source目录下的error目录</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>error/404.html<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建一个新的目录error专门保存错误页面，有两个好处。1是存储结构清晰，2是可以在robots.txt将整个目录Disallow掉。</p>
+
+<p>但后来看到github自定义404页面的<a href="https://help.github.com/articles/custom-404-pages">说明</a>，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git rake new_page<span class="o">[</span>404.html<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2. Robots文件隐藏404页面</h2>
+
+<p>404页面异常页面，所谓家丑不可外扬，此页面无需搜索引擎爬虫知道。编辑robots.txt文件，添加404页面的Disallow：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
+</span><span class='line'>layout: nil
+</span><span class='line'>---
+</span><span class='line'>User-agent: *
+</span><span class='line'>Disallow: /404.html
+</span><span class='line'>
+</span><span class='line'>Sitemap: <span class="o"></span>/sitemap.xml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3. 网站地图中隐藏掉404页面</h2>
+
+<p>同样网站地图也不需要包含添加404页面。打开plugins/sitemap_generator.rb，找到EXCLUDED_FILES，然后添加404.html。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Change SITEMAP_FILE_NAME if you would like your sitemap file</span>
+</span><span class='line'><span class="c1"># to be called something else</span>
+</span><span class='line'><span class="no">SITEMAP_FILE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sitemap.xml&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Any files to exclude from being included in the sitemap.xml</span>
+</span><span class='line'><span class="no">EXCLUDED_FILES</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;atom.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;404.html&quot;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Any files that include posts, so that when a new post is added, the last</span>
+</span><span class='line'><span class="c1"># modified date of these pages should take that into account</span>
+</span><span class='line'><span class="no">PAGES_INCLUDE_POSTS</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;index.html&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4. 定制公益404页面</h2>
+
+<p>我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
+</span><span class='line'>layout: page
+</span><span class='line'>title: <span class="s2">&quot;&quot;</span>
+</span><span class='line'>header: <span class="nb">false</span>
+</span><span class='line'>date: 2013-08-04 00:08
+</span><span class='line'>comments: <span class="nb">false</span>
+</span><span class='line'>sharing: <span class="nb">false</span>
+</span><span class='line'>footer: <span class="nb">false</span>
+</span><span class='line'>---
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;ToWriting.com 404!&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js?edition=small&quot;</span> <span class="nv">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>&gt;&lt;/script&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务]]></title>
