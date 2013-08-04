@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-04T21:55:03+08:00</updated>
+  <updated>2013-08-04T23:07:40+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -71,7 +71,7 @@ Disallow: /404.html</p>
 
 <h2>4. 定制公益404页面</h2>
 
-<p>我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
+<p>我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面(404.html)即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
 
 <h2>```bash</h2>
 
