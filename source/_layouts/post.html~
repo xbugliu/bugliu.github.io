@@ -15,7 +15,7 @@ single: true
 {% endif %}
 {% if site.duoshuo_show_comment_count == true %}
 <section id="comment">
-    <h2 class="title">è¯„è®º</h2>
+    <h2 class="title">ÆÀÂÛ</h2>
     <div id="duoshuo_thread" aria-live="polite">{% include post/duoshuo_thread.html %}</div>
 </section>
 {% endif %}
