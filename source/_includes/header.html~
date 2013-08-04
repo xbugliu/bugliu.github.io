@@ -1,9 +1,5 @@
 <!-- for more effects see _animate.scss -->
-{% if page.keywords %}
-<h1>
-{%else%}
 <h1 class="animated tada">
-{% endif %}
     <div id="headerbg">
         {{ site.author }}
     </div>
