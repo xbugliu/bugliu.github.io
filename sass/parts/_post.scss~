@@ -6,7 +6,7 @@
 	}
 	.meta{
 		line-height: 2;
-		font-size: 0.8em;
+		font-size: 0.9em;
 		color: $color-gray02;
 		width: 370px;
 		@media screen and (max-width: 800px){
