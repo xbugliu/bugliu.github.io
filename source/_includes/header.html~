@@ -1,5 +1,9 @@
 <!-- for more effects see _animate.scss -->
-<h1 class="animated bounceInDown">
+{% if page.keywords %}
+<h1>
+{%else%}
+<h1 class="animated tada">
+{% endif %}
     <div id="headerbg">
         {{ site.author }}
     </div>
@@ -12,4 +16,4 @@
 
 {% include custom/header.html %}
 
-{% include google_analytics_body.html %}
+
