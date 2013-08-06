@@ -89,6 +89,99 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2013/08/06/process-can-drag-drop/">
+		
+			创建支持拖拽的进程</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-06T22:48:00+08:00" pubdate data-updated="true">2013-08-06</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/windows/'>Windows</a>
+
+
+</div>
+    </div>
+		<p>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>。</p>
+
+<p>而后的一次交谈，才知道同事的真正目的是，创建出的进程支持拖拽。我只是创建出了非管理员的进程，而是否管理员与支持拖拽并没有直接联系，决定拖拽的是<strong>User Interface Privilege Isolation</strong> (<a href="http://en.wikipedia.org/wiki/User_Interface_Privilege_Isolation">UIPI</a>)特性。</p>
+
+<p>根据UIPI，低Integrity的进程无法向高Integrity的进程发送任意消息，这导致高Integrity看起来不支持拖拽。所以要使创建的进程支持拖拽，要满足Integrity低于或等于Explorer进程的Integrity值。</p>
+
+<p>前面文章<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>中，我们通过函数CreateNormalUserToken取得了受限的Token，只要修改此Token的Integrity即可使创建的进程拥有合适的Integrity，我们实现一个修改TokenIntegrity值的函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">BOOL</span> <span class="n">ChangeTokenIntegrity</span><span class="p">(</span><span class="n">HANDLE</span> <span class="o">&amp;</span><span class="n">hToken</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">SID_IDENTIFIER_AUTHORITY</span> <span class="n">MLAuthority</span> <span class="o">=</span> <span class="n">SECURITY_MANDATORY_LABEL_AUTHORITY</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">PSID</span> <span class="n">pIntegritySid</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">AllocateAndInitializeSid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">MLAuthority</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SECURITY_MANDATORY_MEDIUM_RID</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pIntegritySid</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">TOKEN_MANDATORY_LABEL</span> <span class="n">tml</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Attributes</span> <span class="o">=</span> <span class="n">SE_GROUP_INTEGRITY</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Sid</span> <span class="o">=</span> <span class="n">pIntegritySid</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bRet</span> <span class="o">=</span> <span class="n">SetTokenInformation</span><span class="p">(</span><span class="n">hToken</span><span class="p">,</span> <span class="n">TokenIntegrityLevel</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tml</span><span class="p">,</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tml</span><span class="p">)</span> <span class="o">+</span> <span class="n">GetLengthSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)));</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">FreeSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">bRet</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面第五行AllocateAndInitializeSid函数的第三个参数，这里取值SECURITY_MANDATORY_MEDIUM_RID是因为Explorer进程的Integrity一般是Medium。当然如果有必要也可以根据获取的Explorer进程的Integrity设置这个值。</p>
+
+<p>参考：<a href="http://msdn.microsoft.com/en-us/library/bb625963.aspx">Windows Integrity Mechanism Design</a></p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2013/08/04/octopress-custom-404/">
 		
 			Octopress定制公益404页面</a>
@@ -754,157 +847,10 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/25/mutexs-owned-by-process/">
-		
-			获取进程打开的互斥量</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-25T21:36:00+08:00" pubdate data-updated="true">2013-07-25</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
-
-
-</div>
-    </div>
-		<p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&#8221;拥有&#8221;的互斥量来区分这些进程。所以下面实现了获取指定进程&#8221;拥有&#8221;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
-
-<pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
-</code></pre>
-
-<p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>2. 将句柄复制到当前进程
-</code></pre>
-
-<p>想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。</p>
-
-<pre><code>3. 获取句柄的类型信息
-</code></pre>
-
-<p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_OBJECT_TYPE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中第一个成员TypeName即是句柄类型的类型名</p>
-
+<h3>需要创建出的进程支持拖拽的看这里：<a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
 
 		
-		<a href="/blog/2013/07/25/mutexs-owned-by-process/" class="more-link">阅读全文 &rarr;</a>
+		
 	</div>
 
 <div class="meta">
