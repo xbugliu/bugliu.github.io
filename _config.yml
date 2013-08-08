@@ -4,11 +4,11 @@
 
 url: http://towriting.com
 title: 书写|记下人生痕迹
-subtitle: There is nothing to writing. All you do is sit down at a typewriter and bleed.
+subtitle: 一个C++程序员的博客网站
 author: ToWriting
 simple_search: #http://google.com/search
-description: 记录人生痕迹|分享技术心得 -- ToWriting.com
-keywords: C++,Python,Writing,Programming,Windows,Linux,书写,阅读,思考,程序员
+description: 记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等的技术知识; 所有文章皆为原创或翻译.
+keywords: 阅读,思考,书写,程序员,C++
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
