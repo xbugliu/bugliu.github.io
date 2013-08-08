@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-07T00:06:45+08:00</updated>
+  <updated>2013-08-08T23:44:47+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -281,7 +281,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[C++11系列：什么是C++11]]></title>
+    <title type="html"><![CDATA[C++11系列-什么是C++11]]></title>
     <link href="http://towriting.com/blog/2013/08/01/what-is-cpp11/"/>
     <updated>2013-08-01T20:32:00+08:00</updated>
     <id>http://towriting.com/blog/2013/08/01/what-is-cpp11</id>
@@ -417,7 +417,7 @@
 <p>C++11特性的数量是客观的。你可以阅读维基百科里的<a href="http://en.wikipedia.org/wiki/C%2B%2B0x">C++11</a>页面，而我计划在这一系列文章中深入探索这些特性，包括：</p>
 
 <ul>
-<li>如何用auto、decltype和新的函数语法编写更好的代码</li>
+<li><a href="http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
 <li>Lambda表达式</li>
 <li>区间迭代</li>
 <li>静态表达式</li>
@@ -432,7 +432,7 @@
 
 <p>有些编译器，比如GCC，不会默认支持这些新特性&mdash;例如，为了支持C++11特性，编译时必须指定 -std=c++0x。当然这也是很有用的，你可以在你的项目中选择编译器和语言集。</p>
 
-<p>下一篇：如何用auto、decltype和新的函数语法编写更好的代码</p>
+<p>下一篇：<a href="http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
 
 <p>译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
 ]]></content>
