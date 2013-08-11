@@ -100,7 +100,7 @@ C++11特性的数量是客观的。你可以阅读维基百科里的[C++11][4]�
 下一篇：[如何用auto、decltype和新的函数语法编写更好的代码][10]
 
 
-译者：[toWriting.com][9]；翻译自：[What is C++0x? - Cprogramming.com][8]
+译者：[toWriting.com](/)；翻译自：[What is C++0x? - Cprogramming.com][8]
 
 
   [1]:http://en.cppreference.com/w/cpp/language/lambda
