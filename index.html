@@ -6,7 +6,7 @@
 	<title>书写|记下人生痕迹</title>
         <meta name="author" content="ToWriting">
         
-        <meta name="description" content="记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等的技术知识; 所有文章皆为原创或翻译.">
+        <meta name="description" content="记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等相关技术知识; 所有文章皆为原创或翻译.">
         <meta name="keywords" content="阅读,思考,书写,程序员,C++">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -84,6 +84,352 @@
 <!-- begin toload --> 
     <div id="content" class="inner">
         
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">
+		
+			C++11系列-改进的类型推导：auto、decltype和新的函数语法</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-08T00:18:00+08:00" pubdate data-updated="true">2013-08-08</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/c-plus-plus-11/'>C++11</a>
+
+
+</div>
+    </div>
+		<p>C++11引入了一些新的实用的类型推导能力，这意味着你可以花费更少的时间去写那些编译器已经知道的东西。当然有些时候你需要帮助编译器或者你的编程伙伴。但是C++11，你可以在一些乏味的东西上花更少的时间，而多去关注逻辑本身。</p>
+
+<h2>auto之乐</h2>
+
+<p>我们先快速回顾一下auto，万一你没有读<a href="/blog/2013/08/01/what-is-cpp11/">第一篇C++11文章</a>中关于auto的部分。在C++11中，如果编译器在定义一个变量的时候可以推断出变量的类型，不用写变量的类型，你只需写auto即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在可以这样写：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这当然不是auto预期的用途！它会在模板和迭代器的配合使用中闪耀光芒：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">iterator</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其它时候auto也会非常有用。比如，你有一些下面格式的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">BuiltType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">BuiltType</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码，我们看到这里需要两个模板参数：一个是Builder对象的类型，另一个是Builder创建出的对象的类型。糟糕的是创建出的类型无法被推导出，所以每次你必须这样调用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span><span class="o">&lt;</span><span class="n">MyObj</span><span class="o">&gt;</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是auto立即将丑陋的代码一扫无余，当Builder创建对象时不用写特殊代码了，你可以让C++帮你做：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在你仅需一个模板参数，而且这个参数可以在函数调用的时候轻松推导：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样更易调用了，并且没丢失可读性，却更清晰了。</p>
+
+<h2>decltype和新的返回值语法</h2>
+
+<p>现在你可能会说auto就这样吗，假如我想返回Builder创建的对象怎么办？我还是需要提供一个模板参数作为返回值的类型。好！这充分证明了标准委员有一群聪明的家伙，对这个问题他们早想好了一个完美的解决方案。这个方案由两部分组成：decltype和新的返回值语法。</p>
+
+<h3>新的返回值语法</h3>
+
+<p>让我们讲一下新的返回值语法，这个语法还能看到auto的另一个用处。在以前版本的C和C++中，返回值的类型必须写在函数的前面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在C++11中，你可以把返回类型放在函数声明的后面，用auto代替前面的返回类型，像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是为什么我要这样用？让我们看一个证明这个语法好处的例子。一个包含枚举的类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Person</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="k">enum</span> <span class="n">PersonType</span> <span class="p">{</span> <span class="n">ADULT</span><span class="p">,</span> <span class="n">CHILD</span><span class="p">,</span> <span class="n">SENIOR</span> <span class="p">};</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">PersonType</span> <span class="n">getPersonType</span> <span class="p">();</span>
+</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">PersonType</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们写了一个简单的类，里面有一个类型PersonType表明Person是小孩、成人和老人。不做特殊考虑，我们定义这些成员方法时会发生什么？
+第一个设置方法，很简单，你可以使用枚举类型PersonType而不会有错误：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">Person</span><span class="o">::</span><span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">_person_type</span> <span class="o">=</span> <span class="n">person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而第二个方法却是一团糟。简单的代码却编译不过：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 编译器不知道PersonType是什么，因为PersonType会在Person类之外使用</span>
+</span><span class='line'><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你必须要这样写，才能使返回值正常工作</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">Person</span><span class="o">::</span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这可能不算大问题，不过会容易出错，尤其是牵连进模板的时候。</p>
+
+<p>这就是新的返回值语法引进的原因。因为函数的返回值出现在函数的最后，而不是前面，你不需要补全类作用域。当编译器解析到返回值的时候，它已经知道返回值属于Person类，所以它也知道PersonType是什么。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PersonType</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，这确实不错，但它真的能帮助我们什么吗？我们还不能使用新的返回值语法去解决我们之前的问题，我们能吗？不能，让我们介绍新的概念：decltype。</p>
+
+<h2>decltype</h2>
+
+<p>decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量，decltype让你从一个变量（或表达式）中得到类型。我说的是什么？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'><span class="n">decltype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 相当于 auto y = x;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以对基本上任何类型使用decltype，包括函数的返回值。嗯，听起来像个熟悉的问题，假如我们这样写：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们将得到makeObject的返回值类型，这能让我们指定makeAndProcessObject的返回类型。我们可以整合进新的返回值语法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">auto</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这仅适用于新的返回值语法，因为旧的语法下，我们在声明函数返回值的时候无法引用函数参数，而新语法，所有的参数都是可访问的。</p>
+
+<h2>auto：引用、指针和常量</h2>
+
+<p>下面要确定的一个问题是auto如何处理引用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp; or int?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>答案是在C++11中，auto处理引用时默认是值类型，所以下面的代码bar是int。不过你可以指定&amp;作为修饰符强制它作为引用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int</span>
+</span><span class='line'><span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不过，假如你有一个指针auto则自动获取指针类型：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是你也可以显式指定表明变量是一个指针：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">auto</span> <span class="o">*</span><span class="n">p_baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当处理引用时，你一样可以标记const，如果需要的话：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int&amp;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者指针：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="n">const_foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">const</span> <span class="k">auto</span><span class="o">*</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int*</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">const_foo</span><span class="p">();</span> <span class="c1">// const int*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所有这些都很自然，并且这遵循C++模板中类型推导的规则。</p>
+
+<p>下一篇：Lambda表达式简明教程</p>
+
+<p>上一篇：<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a></p>
+
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html">C++11 &ndash; Auto, Decltype and return values after functions &ndash; Cprogramming.com</a></p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -614,7 +960,7 @@
 <p>C++11特性的数量是客观的。你可以阅读维基百科里的<a href="http://en.wikipedia.org/wiki/C%2B%2B0x">C++11</a>页面，而我计划在这一系列文章中深入探索这些特性，包括：</p>
 
 <ul>
-<li>如何用auto、decltype和新的函数语法编写更好的代码</li>
+<li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
 <li>Lambda表达式</li>
 <li>区间迭代</li>
 <li>静态表达式</li>
@@ -629,225 +975,9 @@
 
 <p>有些编译器，比如GCC，不会默认支持这些新特性&mdash;例如，为了支持C++11特性，编译时必须指定 -std=c++0x。当然这也是很有用的，你可以在你的项目中选择编译器和语言集。</p>
 
-<p>下一篇：如何用auto、decltype和新的函数语法编写更好的代码</p>
+<p>下一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
 
-<p>译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/31/de-elevate-start-process/">
-		
-			降权启动进程</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-31T22:01:00+08:00" pubdate data-updated="true">2013-07-31</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
-
-
-</div>
-    </div>
-		<p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
-
-<figure class='code'><figcaption><span>代码：WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
-</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;UserEnv.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinBase.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinSafer.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
-</span><span class='line'><span class="n">HANDLE</span> <span class="n">CreateNormalUserToken</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">HANDLE</span> <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferComputeTokenFromLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hRestrictedToken</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">SaferCloseLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">hRestrictedToken</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
-</span><span class='line'><span class="n">BOOL</span> <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">DWORD</span> <span class="n">dwCreationFlags</span> <span class="o">=</span> <span class="n">NORMAL_PRIORITY_CLASS</span> <span class="o">|</span> <span class="n">CREATE_NEW_CONSOLE</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">LPVOID</span> <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">CreateEnvironmentBlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pEnv</span><span class="p">,</span> <span class="n">hRestToken</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">dwCreationFlags</span> <span class="o">|=</span> <span class="n">CREATE_UNICODE_ENVIRONMENT</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">PROCESS_INFORMATION</span> <span class="n">pi</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">STARTUPINFO</span> <span class="n">si</span><span class="p">;</span>    
-</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">si</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">cb</span><span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">lpDesktop</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;winsta0</span><span class="se">\\</span><span class="s">default&quot;</span><span class="p">);</span> <span class="c1">//default input desktop for the interactive window station</span>
-</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pi</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">pi</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bResult</span> <span class="o">=</span> <span class="n">CreateProcessAsUser</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">,</span>    <span class="c1">// client&#39;s access token</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// file to execute</span>
-</span><span class='line'>                      <span class="n">cmd</span><span class="p">,</span>      <span class="c1">// command line</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to process SECURITY_ATTRIBUTES</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to thread SECURITY_ATTRIBUTES</span>
-</span><span class='line'>                      <span class="n">FALSE</span><span class="p">,</span>                  <span class="c1">// handles are not inheritable</span>
-</span><span class='line'>                      <span class="n">dwCreationFlags</span><span class="p">,</span>        <span class="c1">// creation flags</span>
-</span><span class='line'>                      <span class="n">pEnv</span><span class="p">,</span>                   <span class="c1">// pointer to new environment block</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// name of current directory</span>
-</span><span class='line'>                      <span class="o">&amp;</span><span class="n">si</span><span class="p">,</span>                    <span class="c1">// pointer to STARTUPINFO structure</span>
-</span><span class='line'>                      <span class="o">&amp;</span><span class="n">pi</span>                     <span class="c1">// receives information about new process</span>
-</span><span class='line'>                      <span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">bResult</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hProcess</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">pEnv</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">DestroyEnvironmentBlock</span><span class="p">(</span><span class="n">pEnv</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>需要创建出的进程支持拖拽的看这里：<a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
 
 		
 		
