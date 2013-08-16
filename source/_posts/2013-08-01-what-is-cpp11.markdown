@@ -86,7 +86,7 @@ vector<vector<int>> vector_of_int_vectors;
 C++11特性的数量是客观的。你可以阅读维基百科里的[C++11][4]页面，而我计划在这一系列文章中深入探索这些特性，包括：
 
 * [如何用auto、decltype和新的函数语法编写更好的代码][10]
-* Lambda表达式
+* [Lambda表达式][11]
 * 区间迭代
 * 静态表达式
 * 右值引用和移动语义
@@ -112,3 +112,4 @@ C++11特性的数量是客观的。你可以阅读维基百科里的[C++11][4]�
   [8]:http://www.cprogramming.com/c++11/what-is-c++0x.html
   [9]:http://toWriting.com
   [10]:/blog/2013/08/08/improved-type-inference-in-cpp11/
+  [11]:/blog/2013/08/11/lambda-closures/
