@@ -29,14 +29,14 @@ body{
 }
 
 h1{
-	font-size: 1.7em;
+	font-size: 1.6em;
 }
 h2{
     font-family: 'arial', sans-serif;;
-	font-size: 1.5em;
+	font-size: 1.4em;
 }
 h3{
-	font-size: 1.3em;
+	font-size: 1.2em;
 }
 a{
 	text-decoration: none;
