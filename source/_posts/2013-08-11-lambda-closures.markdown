@@ -305,10 +305,11 @@ processor.setHandlerFunc(
 lambda函数会不会出现在C++代码的各种地方？我觉得会。我开始使用lambda函数在更富生产力的代码中，它们出现在所有的地方：一些为精简代码、一些为支持单元测试、一些代替以前用宏实现的代码。Year，我想lambda比其它希腊字母要酷。
 
 
-下一篇：区间迭代
+下一篇：[区间迭代][3]
 
 上一篇：[如何用auto、decltype和新的函数语法编写更好的代码][1]
 
 译者：[toWriting.com](/)；翻译自：[C++11 - Lambda Closures, the Definitive Guide - Cprogramming.com][2]
  [1]:/blog/2013/08/08/improved-type-inference-in-cpp11/
  [2]:http://www.cprogramming.com/c++11/c++11-lambda-closures.html
+ [3]:/blog/2013/08/20/ranged-for-loop/
