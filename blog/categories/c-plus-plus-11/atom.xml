@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++11 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus-11/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-18T21:38:04+08:00</updated>
+  <updated>2013-08-21T01:50:49+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,193 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++11系列-区间迭代]]></title>
+    <link href="http://towriting.com/blog/2013/08/20/ranged-for-loop/"/>
+    <updated>2013-08-20T22:50:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/08/20/ranged-for-loop</id>
+    <content type="html"><![CDATA[<p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。</p>
+
+<h2>区间迭代的基本语法</h2>
+
+<p>近来，基本上所有现代编程语言都有一种对一个区间写for循环的便捷方式。最终，C++也有了相同的概念；你可以给循环提供一个容器，它帮你迭代。前面我们已经在<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a>中看到了一些简单的例子。让我们回忆一下区间迭代的样子：
+```cpp
+vector<int> vec;
+vec.push_back( 10 );
+vec.push_back( 20 );</p>
+
+<p>for (int i : vec )
+{</p>
+
+<pre><code>cout &lt;&lt; i;
+</code></pre>
+
+<p>}
+<code>
+上面代码打印一个名叫vec的vector的内容，用i去捕获vector里面的值，直至vector的最后。你也可以用auto代替类型便利的迭代复杂的数据结构。例如，迭代一个map:
+</code>cpp
+map&lt;string, string> address_book;
+for ( auto address_entry : address_book )
+{</p>
+
+<pre><code>        cout  &lt;&lt; address_entry.first &lt;&lt; " &lt; " &lt;&lt; address_entry.second &lt;&lt; "&gt;" &lt;&lt; endl;
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>修改vector的值</h2>
+
+<p>假如你想修改你正在迭代的容器的值，或者你想避免拷贝大对象，你可以用引用的变量遍历。比如，下面的迭代对一个整形vector中每个元素的值加1。
+```cpp
+vector<int> vec;
+vec.push_back( 1 );
+vec.push_back( 2 );</p>
+
+<p>for (int&amp; i : vec )
+{</p>
+
+<pre><code>i++; // increments the value in the vector
+</code></pre>
+
+<p>}
+for (int i : vec )
+{</p>
+
+<pre><code>// show that the values are updated
+cout &lt;&lt; i &lt;&lt; endl;
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>区间意味着什么？</h2>
+
+<p>Strings,arrays,和所有的STL容器可以被新的区间迭代方式迭代。但是如果你想让你自己的数据结构使用这个新语法怎么办？</p>
+
+<p>为了使这个数据结构可迭代，它必须类似于STL迭代器。</p>
+
+<ul>
+<li>这个数据结构必须要有begin和end方法，成员方法和独立函数都行，这两个方法分别返回开始和结束的迭代器</li>
+<li>迭代器支持*操作符、!=操作符、++方法（前缀形式，成员函数和独立函数都行）</li>
+</ul>
+
+
+<p>就这些！实现这五个函数，你就可以有一个支持区间迭代的数据结构。因为begin、end可以是非成员函数，你甚至可以适配现有数据结构而不用实现STL风格的迭代器。所有你要做的是创建你自己的支持*、前缀++和!=的迭代器，并且定义好自己的begin、end。</p>
+
+<p>区间迭代如此NICE。所以我怀疑大部分还不支持STL迭代模型的容器都会想添加某种适配方式以支持区间迭代。这里有一个小程序演示创建一个支持区间迭代的迭代器。这个例子里，我创建了一个固定Size是100的IntVector，并且可以被一个叫做Iter的类迭代。
+```cpp</p>
+
+<h1>include <iostream></h1>
+
+<p>using namespace std;</p>
+
+<p>class IntVector;</p>
+
+<p>class Iter
+{</p>
+
+<pre><code>public:
+Iter (const IntVector* p_vec, int pos)
+    : _pos( pos )
+    , _p_vec( p_vec )
+{ }
+
+// 这三个方法组成支持区间迭代的迭代器的基础
+bool
+operator!= (const Iter&amp; other) const
+{
+    return _pos != other._pos;
+}
+
+int operator* () const;
+
+const Iter&amp; operator++ ()
+{
+    ++_pos;
+    return *this;
+}
+
+private:
+int _pos;
+const IntVector *_p_vec;
+</code></pre>
+
+<p>};</p>
+
+<p>class IntVector
+{</p>
+
+<pre><code>public:
+IntVector ()
+{
+}
+
+int get (int col) const
+{
+    return _data[ col ];
+}
+Iter begin () const
+{
+    return Iter( this, 0 );
+}
+
+Iter end () const
+{
+    return Iter( this, 100 );
+}
+
+void set (int index, int val)
+{
+    _data[ index ] = val;
+}
+
+private:
+</code></pre>
+
+<p>   int _data[ 100 ];
+};</p>
+
+<p>int
+Iter::operator* () const
+{</p>
+
+<pre><code> return _p_vec-&gt;get( _pos );
+</code></pre>
+
+<p>}</p>
+
+<p>int main()
+{</p>
+
+<pre><code>IntVector v;
+for ( int i = 0; i &lt; 100; i++ )
+{
+    v.set( i , i );
+}
+for ( int i : v ) { cout &lt;&lt; i &lt;&lt; endl; }
+</code></pre>
+
+<p>}
+```
+注意这段代码中区间迭代时，不允许以引用修改IntVector中的元素。这是为了不使代码变长而影响代码的主要结构，所以并没添加返回引用类型的函数。</p>
+
+<h2>区间迭代提升性能？</h2>
+
+<p>在我使用GCC4.6的有限的测试中，我并没看到区间迭代相对于标准STL迭代的性能提升，但好像可以和STL中的for_each拥有同样的性能。</p>
+
+<h2>编译器支持</h2>
+
+<p>不幸的是，区间迭代的编译器支持的不好。MSVC11以后开始支持，GCC是4.6以后支持。</p>
+
+<p>下一篇：静态表达式</p>
+
+<p>上一篇：<a href="/blog/2013/08/11/lambda-closures/">lambda表达式</a></p>
+
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-ranged-for-loop.html">Range-Based For Loops in C++11 &ndash; Cprogramming.com</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++11系列-lambda函数]]></title>
@@ -407,7 +594,7 @@ processor.setHandlerFunc(</p>
 
 <p>lambda函数会不会出现在C++代码的各种地方？我觉得会。我开始使用lambda函数在更富生产力的代码中，它们出现在所有的地方：一些为精简代码、一些为支持单元测试、一些代替以前用宏实现的代码。Year，我想lambda比其它希腊字母要酷。</p>
 
-<p>下一篇：区间迭代</p>
+<p>下一篇：<a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
 
 <p>上一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
 
@@ -705,7 +892,7 @@ for (auto address_entry: address_book)
 <code>
 这将打印出：
 </code>bash
-Alex <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#119;&#x65;&#98;&#x6d;&#x61;&#115;&#x74;&#x65;&#x72;&#x40;&#x74;&#x6f;&#119;&#x72;&#105;&#x74;&#x69;&#x6e;&#103;&#x2e;&#x63;&#111;&#x6d;">&#119;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#101;&#114;&#64;&#116;&#x6f;&#x77;&#114;&#x69;&#116;&#x69;&#110;&#x67;&#46;&#99;&#x6f;&#109;</a>
+Alex <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x77;&#101;&#x62;&#x6d;&#x61;&#x73;&#116;&#x65;&#114;&#x40;&#116;&#111;&#x77;&#x72;&#105;&#116;&#x69;&#x6e;&#x67;&#x2e;&#99;&#x6f;&#109;">&#119;&#101;&#98;&#x6d;&#97;&#115;&#116;&#101;&#x72;&#x40;&#116;&#111;&#119;&#x72;&#105;&#116;&#x69;&#x6e;&#103;&#x2e;&#x63;&#x6f;&#x6d;</a>
 ```
 这是一个不错的C++11新特性组合用法吧？</p>
 
@@ -734,7 +921,7 @@ vector&lt;vector&lt;int&gt;&gt; vector_of_int_vectors;
 <ul>
 <li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
 <li><a href="/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
-<li>区间迭代</li>
+<li><a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
 <li>静态表达式</li>
 <li>右值引用和移动语义</li>
 <li>nullptr和强类型的枚举</li>

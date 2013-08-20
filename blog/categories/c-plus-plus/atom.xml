@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-18T21:38:04+08:00</updated>
+  <updated>2013-08-21T01:50:49+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,193 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++11系列-区间迭代]]></title>
+    <link href="http://towriting.com/blog/2013/08/20/ranged-for-loop/"/>
+    <updated>2013-08-20T22:50:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/08/20/ranged-for-loop</id>
+    <content type="html"><![CDATA[<p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。</p>
+
+<h2>区间迭代的基本语法</h2>
+
+<p>近来，基本上所有现代编程语言都有一种对一个区间写for循环的便捷方式。最终，C++也有了相同的概念；你可以给循环提供一个容器，它帮你迭代。前面我们已经在<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a>中看到了一些简单的例子。让我们回忆一下区间迭代的样子：
+```cpp
+vector<int> vec;
+vec.push_back( 10 );
+vec.push_back( 20 );</p>
+
+<p>for (int i : vec )
+{</p>
+
+<pre><code>cout &lt;&lt; i;
+</code></pre>
+
+<p>}
+<code>
+上面代码打印一个名叫vec的vector的内容，用i去捕获vector里面的值，直至vector的最后。你也可以用auto代替类型便利的迭代复杂的数据结构。例如，迭代一个map:
+</code>cpp
+map&lt;string, string> address_book;
+for ( auto address_entry : address_book )
+{</p>
+
+<pre><code>        cout  &lt;&lt; address_entry.first &lt;&lt; " &lt; " &lt;&lt; address_entry.second &lt;&lt; "&gt;" &lt;&lt; endl;
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>修改vector的值</h2>
+
+<p>假如你想修改你正在迭代的容器的值，或者你想避免拷贝大对象，你可以用引用的变量遍历。比如，下面的迭代对一个整形vector中每个元素的值加1。
+```cpp
+vector<int> vec;
+vec.push_back( 1 );
+vec.push_back( 2 );</p>
+
+<p>for (int&amp; i : vec )
+{</p>
+
+<pre><code>i++; // increments the value in the vector
+</code></pre>
+
+<p>}
+for (int i : vec )
+{</p>
+
+<pre><code>// show that the values are updated
+cout &lt;&lt; i &lt;&lt; endl;
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>区间意味着什么？</h2>
+
+<p>Strings,arrays,和所有的STL容器可以被新的区间迭代方式迭代。但是如果你想让你自己的数据结构使用这个新语法怎么办？</p>
+
+<p>为了使这个数据结构可迭代，它必须类似于STL迭代器。</p>
+
+<ul>
+<li>这个数据结构必须要有begin和end方法，成员方法和独立函数都行，这两个方法分别返回开始和结束的迭代器</li>
+<li>迭代器支持*操作符、!=操作符、++方法（前缀形式，成员函数和独立函数都行）</li>
+</ul>
+
+
+<p>就这些！实现这五个函数，你就可以有一个支持区间迭代的数据结构。因为begin、end可以是非成员函数，你甚至可以适配现有数据结构而不用实现STL风格的迭代器。所有你要做的是创建你自己的支持*、前缀++和!=的迭代器，并且定义好自己的begin、end。</p>
+
+<p>区间迭代如此NICE。所以我怀疑大部分还不支持STL迭代模型的容器都会想添加某种适配方式以支持区间迭代。这里有一个小程序演示创建一个支持区间迭代的迭代器。这个例子里，我创建了一个固定Size是100的IntVector，并且可以被一个叫做Iter的类迭代。
+```cpp</p>
+
+<h1>include <iostream></h1>
+
+<p>using namespace std;</p>
+
+<p>class IntVector;</p>
+
+<p>class Iter
+{</p>
+
+<pre><code>public:
+Iter (const IntVector* p_vec, int pos)
+    : _pos( pos )
+    , _p_vec( p_vec )
+{ }
+
+// 这三个方法组成支持区间迭代的迭代器的基础
+bool
+operator!= (const Iter&amp; other) const
+{
+    return _pos != other._pos;
+}
+
+int operator* () const;
+
+const Iter&amp; operator++ ()
+{
+    ++_pos;
+    return *this;
+}
+
+private:
+int _pos;
+const IntVector *_p_vec;
+</code></pre>
+
+<p>};</p>
+
+<p>class IntVector
+{</p>
+
+<pre><code>public:
+IntVector ()
+{
+}
+
+int get (int col) const
+{
+    return _data[ col ];
+}
+Iter begin () const
+{
+    return Iter( this, 0 );
+}
+
+Iter end () const
+{
+    return Iter( this, 100 );
+}
+
+void set (int index, int val)
+{
+    _data[ index ] = val;
+}
+
+private:
+</code></pre>
+
+<p>   int _data[ 100 ];
+};</p>
+
+<p>int
+Iter::operator* () const
+{</p>
+
+<pre><code> return _p_vec-&gt;get( _pos );
+</code></pre>
+
+<p>}</p>
+
+<p>int main()
+{</p>
+
+<pre><code>IntVector v;
+for ( int i = 0; i &lt; 100; i++ )
+{
+    v.set( i , i );
+}
+for ( int i : v ) { cout &lt;&lt; i &lt;&lt; endl; }
+</code></pre>
+
+<p>}
+```
+注意这段代码中区间迭代时，不允许以引用修改IntVector中的元素。这是为了不使代码变长而影响代码的主要结构，所以并没添加返回引用类型的函数。</p>
+
+<h2>区间迭代提升性能？</h2>
+
+<p>在我使用GCC4.6的有限的测试中，我并没看到区间迭代相对于标准STL迭代的性能提升，但好像可以和STL中的for_each拥有同样的性能。</p>
+
+<h2>编译器支持</h2>
+
+<p>不幸的是，区间迭代的编译器支持的不好。MSVC11以后开始支持，GCC是4.6以后支持。</p>
+
+<p>下一篇：静态表达式</p>
+
+<p>上一篇：<a href="/blog/2013/08/11/lambda-closures/">lambda表达式</a></p>
+
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-ranged-for-loop.html">Range-Based For Loops in C++11 &ndash; Cprogramming.com</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++11系列-lambda函数]]></title>
@@ -407,7 +594,7 @@ processor.setHandlerFunc(</p>
 
 <p>lambda函数会不会出现在C++代码的各种地方？我觉得会。我开始使用lambda函数在更富生产力的代码中，它们出现在所有的地方：一些为精简代码、一些为支持单元测试、一些代替以前用宏实现的代码。Year，我想lambda比其它希腊字母要酷。</p>
 
-<p>下一篇：区间迭代</p>
+<p>下一篇：<a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
 
 <p>上一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
 
@@ -705,7 +892,7 @@ for (auto address_entry: address_book)
 <code>
 这将打印出：
 </code>bash
-Alex <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x77;&#101;&#x62;&#109;&#x61;&#x73;&#x74;&#x65;&#x72;&#64;&#x74;&#111;&#119;&#x72;&#105;&#x74;&#x69;&#110;&#103;&#46;&#99;&#111;&#x6d;">&#119;&#101;&#x62;&#x6d;&#97;&#115;&#116;&#x65;&#x72;&#64;&#116;&#x6f;&#119;&#x72;&#x69;&#x74;&#105;&#x6e;&#103;&#46;&#x63;&#111;&#x6d;</a>
+Alex <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#58;&#x77;&#101;&#x62;&#109;&#x61;&#115;&#116;&#101;&#x72;&#64;&#x74;&#111;&#x77;&#114;&#105;&#x74;&#105;&#x6e;&#103;&#46;&#99;&#111;&#x6d;">&#x77;&#x65;&#98;&#x6d;&#97;&#x73;&#116;&#101;&#114;&#64;&#116;&#111;&#x77;&#114;&#105;&#116;&#x69;&#x6e;&#x67;&#x2e;&#99;&#x6f;&#x6d;</a>
 ```
 这是一个不错的C++11新特性组合用法吧？</p>
 
@@ -734,7 +921,7 @@ vector&lt;vector&lt;int&gt;&gt; vector_of_int_vectors;
 <ul>
 <li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
 <li><a href="/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
-<li>区间迭代</li>
+<li><a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
 <li>静态表达式</li>
 <li>右值引用和移动语义</li>
 <li>nullptr和强类型的枚举</li>
@@ -932,596 +1119,6 @@ vector&lt;vector&lt;int&gt;&gt; vector_of_int_vectors;
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>需要创建出的进程支持拖拽的看这里：<a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[获取进程打开的互斥量]]></title>
-    <link href="http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/"/>
-    <updated>2013-07-25T21:36:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process</id>
-    <content type="html"><![CDATA[<p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程"拥有"的互斥量来区分这些进程。所以下面实现了获取指定进程"拥有"哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
-
-<pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
-</code></pre>
-
-<p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span>
-</span><span class='line'><span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
-</span><span class='line'><span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
-</span><span class='line'><span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
-</span><span class='line'><span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
-</span><span class='line'><span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
-</span><span class='line'><span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<pre><code>2. 将句柄复制到当前进程
-</code></pre>
-
-<p>想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。</p>
-
-<pre><code>3. 获取句柄的类型信息
-</code></pre>
-
-<p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_OBJECT_TYPE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
-</span><span class='line'><span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
-</span><span class='line'><span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
-</span><span class='line'><span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'><span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-其中第一个成员TypeName即是句柄类型的类型名</p>
-
-<!--more-->
-
-
-<pre><code>4. 获取句柄的名字
-</code></pre>
-
-<p>调用函数NtQueryObject，指定获取ObjectNameInformation即可获取句柄的类型信息，获取到的句柄的名字数据结构是UNICODE_STRING类型。</p>
-
-<pre><code>5. 找到当前进程占有的互斥量
-</code></pre>
-
-<p>由获取的句柄的类型信息和句柄所在的进程ID，即可找到当前进程拥有的互斥量，同时我们也得到了互斥量的名字。</p>
-
-<h3>完整代码如下：</h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>代码：WIN7/VS2010 (get_process_mutex.cpp)</span> <a href='/downloads/code/cpp/get_process_mutex.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-<span class='line-number'>201</span>
-<span class='line-number'>202</span>
-<span class='line-number'>203</span>
-<span class='line-number'>204</span>
-<span class='line-number'>205</span>
-<span class='line-number'>206</span>
-<span class='line-number'>207</span>
-<span class='line-number'>208</span>
-<span class='line-number'>209</span>
-<span class='line-number'>210</span>
-<span class='line-number'>211</span>
-<span class='line-number'>212</span>
-<span class='line-number'>213</span>
-<span class='line-number'>214</span>
-<span class='line-number'>215</span>
-<span class='line-number'>216</span>
-<span class='line-number'>217</span>
-<span class='line-number'>218</span>
-<span class='line-number'>219</span>
-<span class='line-number'>220</span>
-<span class='line-number'>221</span>
-<span class='line-number'>222</span>
-<span class='line-number'>223</span>
-<span class='line-number'>224</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
-</span><span class='line'><span class="cp">#include &lt;functional&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;winternl.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;vector&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;ntstatus.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// NtQueryObject枚举出的内核对象的类型信息的结构</span>
-</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_OBJECT_TYPE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 一个句柄信息的数据结构</span>
-</span><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 获取一个句柄的详细信息</span>
-</span><span class='line'><span class="c1">// 可以获取类型名和内核对象的名字</span>
-</span><span class='line'><span class="c1">// bType - 获取句柄的类型名</span>
-</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">QueryHandleNameInfo</span><span class="p">(</span><span class="n">HANDLE</span> <span class="n">handle</span><span class="p">,</span> <span class="n">BOOL</span> <span class="n">bType</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strName</span><span class="p">;</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">HMODULE</span> <span class="n">hDll</span> <span class="o">=</span> <span class="n">LoadLibrary</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;ntdll.dll&quot;</span><span class="p">));</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">hDll</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">return</span> <span class="n">strName</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>	<span class="k">typedef</span> <span class="n">NTSTATUS</span> <span class="p">(</span><span class="n">NTAPI</span> <span class="o">*</span><span class="n">NtQueryObjectFunc</span><span class="p">)(</span><span class="n">HANDLE</span><span class="p">,</span> <span class="n">OBJECT_INFORMATION_CLASS</span><span class="p">,</span> <span class="n">PVOID</span><span class="p">,</span> <span class="n">ULONG</span><span class="p">,</span> <span class="n">PULONG</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">NtQueryObjectFunc</span> <span class="n">NtQueryObject_</span> <span class="o">=</span> <span class="p">(</span><span class="n">NtQueryObjectFunc</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDll</span><span class="p">,</span> <span class="s">&quot;NtQueryObject&quot;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="k">do</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">NtQueryObject_</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="p">)</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">break</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>		<span class="c1">// 获取信息</span>
-</span><span class='line'>		<span class="k">const</span> <span class="n">DWORD</span> <span class="n">ObjectNameInformation</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>		<span class="n">OBJECT_INFORMATION_CLASS</span> <span class="n">infoType</span> <span class="o">=</span> <span class="n">bType</span> <span class="o">?</span> <span class="n">ObjectTypeInformation</span> <span class="o">:</span> <span class="n">OBJECT_INFORMATION_CLASS</span><span class="p">(</span><span class="n">ObjectNameInformation</span><span class="p">);</span>
-</span><span class='line'>		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BYTE</span><span class="o">&gt;</span> <span class="n">objVec</span><span class="p">(</span><span class="mi">256</span><span class="p">);</span>
-</span><span class='line'>		<span class="n">ULONG</span> <span class="n">bytesOfRead</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>	
-</span><span class='line'>		<span class="n">NTSTATUS</span> <span class="n">status</span> <span class="o">=</span> <span class="n">STATUS_UNSUCCESSFUL</span><span class="p">;</span>
-</span><span class='line'>		<span class="k">do</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="n">status</span> <span class="o">=</span> <span class="n">NtQueryObject_</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">infoType</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">objVec</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">objVec</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">bytesOfRead</span><span class="p">);</span>
-</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="n">STATUS_INFO_LENGTH_MISMATCH</span> <span class="o">==</span> <span class="n">status</span><span class="p">)</span>
-</span><span class='line'>			<span class="p">{</span>
-</span><span class='line'>				<span class="n">objVec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">objVec</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>
-</span><span class='line'>				<span class="k">continue</span><span class="p">;</span>
-</span><span class='line'>			<span class="p">}</span>
-</span><span class='line'>			<span class="k">break</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">TRUE</span><span class="p">);</span>
-</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">NT_SUCCESS</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">break</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>		<span class="n">objVec</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">bytesOfRead</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">bType</span><span class="p">)</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">const</span> <span class="n">OBJECT_TYPE_INFORMATION</span> <span class="o">*</span><span class="n">pObjType</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">OBJECT_TYPE_INFORMATION</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">objVec</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
-</span><span class='line'>			<span class="n">strName</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">wstring</span><span class="p">(</span><span class="n">pObjType</span><span class="o">-&gt;</span><span class="n">TypeName</span><span class="p">.</span><span class="n">Buffer</span><span class="p">,</span> <span class="n">pObjType</span><span class="o">-&gt;</span><span class="n">TypeName</span><span class="p">.</span><span class="n">Length</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">WCHAR</span><span class="p">));</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>		<span class="k">else</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">const</span> <span class="n">UNICODE_STRING</span> <span class="o">*</span><span class="n">pObjName</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">UNICODE_STRING</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">objVec</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
-</span><span class='line'>			<span class="n">strName</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">wstring</span><span class="p">(</span><span class="n">pObjName</span><span class="o">-&gt;</span><span class="n">Buffer</span><span class="p">,</span> <span class="n">pObjName</span><span class="o">-&gt;</span><span class="n">Length</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">WCHAR</span><span class="p">));</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="n">FreeLibrary</span><span class="p">(</span><span class="n">hDll</span><span class="p">);</span>
-</span><span class='line'>	<span class="k">return</span> <span class="n">strName</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 遍历句柄辅助类</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">WalkHandleHelper</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'>	<span class="n">WalkHandleHelper</span><span class="p">(</span><span class="k">const</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="o">&amp;</span> <span class="n">handleInfo</span><span class="p">,</span> <span class="k">const</span> <span class="n">HANDLE</span><span class="o">&amp;</span> <span class="n">handle</span><span class="p">)</span><span class="o">:</span><span class="n">m_HandleInfo</span><span class="p">(</span><span class="n">handleInfo</span><span class="p">),</span> <span class="n">m_Handle</span><span class="p">(</span><span class="n">handle</span><span class="p">){}</span>
-</span><span class='line'>	<span class="n">DWORD</span> <span class="n">GetProcessID</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_HandleInfo</span><span class="p">.</span><span class="n">ProcessId</span><span class="p">;}</span>
-</span><span class='line'>	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">GetTypeName</span><span class="p">()</span> <span class="k">const</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">return</span> <span class="n">QueryHandleNameInfo</span><span class="p">(</span><span class="n">m_Handle</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">GetObjectName</span><span class="p">()</span> <span class="k">const</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">return</span> <span class="n">QueryHandleNameInfo</span><span class="p">(</span><span class="n">m_Handle</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="o">&amp;</span> <span class="n">m_HandleInfo</span><span class="p">;</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">HANDLE</span><span class="o">&amp;</span> <span class="n">m_Handle</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 枚举系统的句柄</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WalkHandle</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="k">const</span> <span class="n">WalkHandleHelper</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">functor</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">HMODULE</span> <span class="n">hDll</span> <span class="o">=</span> <span class="n">LoadLibrary</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;ntdll.dll&quot;</span><span class="p">));</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">hDll</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">return</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="c1">// 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">DWORD</span> <span class="n">SystemHandleInformation</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>		
-</span><span class='line'>
-</span><span class='line'>	<span class="c1">// 通过SystemHandleInformation检索到的系统中所有句柄的数据结构</span>
-</span><span class='line'>	<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_INFORMATION</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span>
-</span><span class='line'>		<span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>	<span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>	<span class="k">typedef</span> <span class="n">NTSTATUS</span> <span class="p">(</span><span class="n">NTAPI</span> <span class="o">*</span><span class="n">NtQuerySystemInformationFunc</span><span class="p">)(</span><span class="n">ULONG</span><span class="p">,</span> <span class="n">PVOID</span><span class="p">,</span> <span class="n">ULONG</span><span class="p">,</span> <span class="n">PULONG</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">NtQuerySystemInformationFunc</span> <span class="n">NtQuerySystemInformation_</span> <span class="o">=</span> <span class="p">(</span><span class="n">NtQuerySystemInformationFunc</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDll</span><span class="p">,</span> <span class="s">&quot;NtQuerySystemInformation&quot;</span><span class="p">);</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hCurProcess</span> <span class="o">=</span> <span class="n">GetCurrentProcess</span><span class="p">();</span>
-</span><span class='line'>	<span class="k">do</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">NtQuerySystemInformation_</span><span class="p">)</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">break</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>		<span class="c1">// 获取系统句柄表</span>
-</span><span class='line'>		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BYTE</span><span class="o">&gt;</span> <span class="n">vecData</span><span class="p">(</span><span class="mi">512</span><span class="p">);</span>
-</span><span class='line'>		<span class="n">ULONG</span> <span class="n">bytesOfRead</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>		<span class="n">NTSTATUS</span> <span class="n">status</span><span class="p">;</span>
-</span><span class='line'>		<span class="k">do</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="n">status</span> <span class="o">=</span> <span class="n">NtQuerySystemInformation_</span><span class="p">(</span><span class="n">SystemHandleInformation</span><span class="p">,</span> <span class="n">vecData</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">vecData</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="o">&amp;</span><span class="n">bytesOfRead</span><span class="p">);</span>
-</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="n">STATUS_INFO_LENGTH_MISMATCH</span> <span class="o">==</span> <span class="n">status</span><span class="p">)</span>
-</span><span class='line'>			<span class="p">{</span>
-</span><span class='line'>				<span class="n">vecData</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">vecData</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">*</span><span class="mi">2</span><span class="p">);</span>
-</span><span class='line'>				<span class="k">continue</span><span class="p">;</span>
-</span><span class='line'>			<span class="p">}</span>
-</span><span class='line'>			<span class="k">break</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">TRUE</span><span class="p">);</span>
-</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">NT_SUCCESS</span><span class="p">(</span><span class="n">status</span><span class="p">))</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">break</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>		<span class="n">vecData</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">bytesOfRead</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>		<span class="n">PSYSTEM_HANDLE_INFORMATION</span> <span class="n">pSysHandleInfo</span> <span class="o">=</span> <span class="p">(</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">)</span><span class="n">vecData</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
-</span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">HandleCount</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-</span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hOwnProcess</span> <span class="o">=</span> <span class="n">OpenProcess</span><span class="p">(</span><span class="n">PROCESS_DUP_HANDLE</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ProcessId</span><span class="p">);</span>
-</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hOwnProcess</span><span class="p">)</span>
-</span><span class='line'>			<span class="p">{</span>
-</span><span class='line'>				<span class="k">continue</span><span class="p">;</span>
-</span><span class='line'>			<span class="p">}</span>
-</span><span class='line'>			<span class="n">HANDLE</span> <span class="n">hDuplicate</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>			<span class="c1">// 必须把Handle放入自己的进程中，否则无法获取其他进程拥有Handle的信息</span>
-</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">DuplicateHandle</span><span class="p">(</span><span class="n">hOwnProcess</span><span class="p">,</span> <span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span><span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Handle</span><span class="p">,</span> <span class="n">hCurProcess</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hDuplicate</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">DUPLICATE_SAME_ACCESS</span><span class="p">))</span>
-</span><span class='line'>			<span class="p">{</span>
-</span><span class='line'>				<span class="n">CloseHandle</span><span class="p">(</span><span class="n">hOwnProcess</span><span class="p">);</span>
-</span><span class='line'>				<span class="k">continue</span><span class="p">;</span>
-</span><span class='line'>			<span class="p">}</span>
-</span><span class='line'>			<span class="n">WalkHandleHelper</span> <span class="n">helper</span><span class="p">(</span><span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">hDuplicate</span><span class="p">);</span>
-</span><span class='line'>			<span class="n">functor</span><span class="p">(</span><span class="n">helper</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>			<span class="n">CloseHandle</span><span class="p">(</span><span class="n">hDuplicate</span><span class="p">);</span>
-</span><span class='line'>			<span class="n">CloseHandle</span><span class="p">(</span><span class="n">hOwnProcess</span><span class="p">);</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="n">FreeLibrary</span><span class="p">(</span><span class="n">hDll</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 枚举当前进程的互斥量</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">EnumCurProcessMutex</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">std</span><span class="o">::</span><span class="n">wcout</span><span class="o">&lt;&lt;</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;Find The Mutex Opened By Current Process:&quot;</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">DWORD</span> <span class="n">dwCurProcess</span> <span class="o">=</span> <span class="n">GetCurrentProcessId</span><span class="p">();</span>
-</span><span class='line'>	<span class="n">WalkHandle</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">WalkHandleHelper</span><span class="o">&amp;</span> <span class="n">helper</span><span class="p">)</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strMutant</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;Mutant&quot;</span><span class="p">));</span>
-</span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">helper</span><span class="p">.</span><span class="n">GetProcessID</span><span class="p">()</span> <span class="o">==</span> <span class="n">dwCurProcess</span> <span class="o">&amp;&amp;</span> <span class="n">helper</span><span class="p">.</span><span class="n">GetTypeName</span><span class="p">().</span><span class="n">compare</span><span class="p">(</span><span class="n">strMutant</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>		<span class="p">{</span>			
-</span><span class='line'>			<span class="n">std</span><span class="o">::</span><span class="n">wcout</span><span class="o">&lt;&lt;</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;ObjectName: &quot;</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">helper</span><span class="p">.</span><span class="n">GetObjectName</span><span class="p">().</span><span class="n">c_str</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'>		<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="p">});</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">CreateMutex</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">CreateMutex</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;TestMutex&quot;</span><span class="p">));</span>
-</span><span class='line'>	<span class="n">CreateMutex</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;Global</span><span class="se">\\</span><span class="s">TestGlobalMutex&quot;</span><span class="p">));</span>
-</span><span class='line'>	<span class="n">EnumCurProcessMutex</span><span class="p">();</span>
-</span><span class='line'>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   
