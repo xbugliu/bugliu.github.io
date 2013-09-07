@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-08-25T01:27:28+08:00</updated>
+  <updated>2013-09-08T00:00:16+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,203 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[熟悉的陌生人-this指针(1)]]></title>
+    <link href="http://towriting.com/blog/2013/09/01/this-pointer/"/>
+    <updated>2013-09-01T00:22:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/09/01/this-pointer</id>
+    <content type="html"><![CDATA[<p>this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不是你想象的样子！</p>
+
+<h2>this指针的偏移 &ndash; 某次强制转化引发的血案</h2>
+
+<p>这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例1</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class CAnimal
+</span><span class='line'>{
+</span><span class='line'>public:
+</span><span class='line'>CAnimal(){}
+</span><span class='line'>~CAnimal(){}
+</span><span class='line'>protected:
+</span><span class='line'>string m_strName; &lt;br/>
+</span><span class='line'>};&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>class CBird: public CAnimal
+</span><span class='line'>{
+</span><span class='line'>public:
+</span><span class='line'>CBird(): m_bCanFly(true)
+</span><span class='line'>{
+</span><span class='line'>m_strName = &ldquo;Bird&rdquo;;
+</span><span class='line'>}
+</span><span class='line'>~CBird(){}
+</span><span class='line'>virtual void Fly()
+</span><span class='line'>{
+</span><span class='line'>cout&lt;&lt;&ldquo;type: &rdquo;&lt;&lt;m_strName&lt;&lt;std::endl;
+</span><span class='line'>cout&lt;&lt;&ldquo;is fly: &rdquo;&lt;&lt;m_bCanFly&lt;&lt;std::endl;
+</span><span class='line'>}
+</span><span class='line'>protected:
+</span><span class='line'>bool m_bCanFly;
+</span><span class='line'>};&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>//主函数
+</span><span class='line'>int main()
+</span><span class='line'>{
+</span><span class='line'> CAnimal&lt;em> pAnimal = new CBird;
+</span><span class='line'> void&lt;/em> pCmd = (void&lt;em>)pAnimal;
+</span><span class='line'> //一些操作
+</span><span class='line'> CBird&lt;/em> pBird = (CBird&lt;em>)pCmd;&lt;br/>
+</span><span class='line'> if (pBird != nullptr)
+</span><span class='line'> {
+</span><span class='line'>   pBird->Fly();
+</span><span class='line'> }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例2</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CAnimal&lt;/em> pAnimal = new CMammal;
+</span><span class='line'>CBird&lt;em> pBird = (CBird&lt;/em>)pAnimal;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>if (pBird != nullptr)
+</span><span class='line'>{
+</span><span class='line'>  pBird->Fly();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+这样调用确是没有问题的，和第一个例子唯一的差别就是没有中间的Void*转化。
+记得当时是我们周会的时间，于是拿出来和大家讨论，惭愧的是我们十几个人，竟然没人能说出其中原因，要知道我们中也有三个工作5年左右的同事。后来我打开调试器，跟踪了一下这两段代码的汇编代码，终于发现了蛛丝马迹：
+<code>c
+CBird* pBird = (CBird*)pAnimal;
+cmp         dword ptr [pAnimal],0  
+je          main+1C1h (33F681h)  
+mov         eax,dword ptr [pAnimal]  
+sub         eax,4  
+mov         dword ptr [ebp-178h],eax  
+jmp         main+1CBh (33F68Bh)  
+mov         dword ptr [ebp-178h],0  
+mov         ecx,dword ptr [ebp-178h]  
+mov         dword ptr [pBird],ecx  
+</code>
+猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例3</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lass CAnimal
+</span><span class='line'>{
+</span><span class='line'>public:
+</span><span class='line'>CAnimal(){}
+</span><span class='line'>~CAnimal(){}
+</span><span class='line'>protected:
+</span><span class='line'>string m_strName; &lt;br/>
+</span><span class='line'>};&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>class CMammal: public CAnimal
+</span><span class='line'>{
+</span><span class='line'>public:
+</span><span class='line'>CMammal()
+</span><span class='line'>{
+</span><span class='line'>m_strName = &ldquo;Mammal&rdquo;;
+</span><span class='line'>}
+</span><span class='line'>void IsEatMeat() const
+</span><span class='line'>{
+</span><span class='line'>cout&lt;&lt;&ldquo;type: &rdquo;&lt;&lt;m_strName&lt;&lt;std::endl;
+</span><span class='line'>cout&lt;&lt;&ldquo;is eat meat: &rdquo;&lt;&lt;std::boolalpha&lt;&lt;m_bEatMeat&lt;&lt;std::endl;
+</span><span class='line'>}
+</span><span class='line'>private:
+</span><span class='line'>bool m_bEatMeat;
+</span><span class='line'>};&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>int main()
+</span><span class='line'>{
+</span><span class='line'> CAnimal&lt;em> pAnimal = new CMammal;
+</span><span class='line'> void&lt;/em> pCmd = (void&lt;em>)pAnimal;
+</span><span class='line'> CMammal&lt;/em> pMammal = (CMammal*)pCmd;&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p> if (pMammal != nullptr)
+</span><span class='line'> {
+</span><span class='line'>  pMammal->IsEatMeat();
+</span><span class='line'> }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></notextile></div>
+上面的代码运行正常，和例1的区别就是CMamal没有虚函数，而CBrid有。所以说，<strong>沿着继承链类型转化时，this指针可能会发生偏移，以确保this指针总能指向subobject</strong>。而强转中如果中间有void*这种没有类型信息的东西，会使编译器丢失这种偏移。</p>
+
+<p>待续：this指针的偏移策略</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[const 二三事]]></title>
@@ -1063,130 +1260,6 @@ auto p_bar = const_foo(); // const int*
 <p>上一篇：<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a></p>
 
 <p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html">C++11 &ndash; Auto, Decltype and return values after functions &ndash; Cprogramming.com</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C++11系列-什么是C++11]]></title>
-    <link href="http://towriting.com/blog/2013/08/01/what-is-cpp11/"/>
-    <updated>2013-08-01T20:32:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/01/what-is-cpp11</id>
-    <content type="html"><![CDATA[<h2>什么是C++0x?</h2>
-
-<p>C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9月份，C++0x正式由官方发布并命名C++11，现在很多编译器已经支持了部分C++11特性。</p>
-
-<p>C++11包括大量的新特性：主要特征像<a href="http://en.cppreference.com/w/cpp/language/lambda">lambda</a>表达式和移动语义，实用的类型推导关键字auto，更简单的容器遍历方法，和大量使模板更容易使用的改进。这一系列教程将包含所以以上特性。</p>
-
-<h2>你该关注C++11吗？</h2>
-
-<p>很明显，C++11为C++带来了大量的新特性。C++11将修复大量缺陷和降低代码拖沓，比如lambda表达式的支持将使代码更简洁。像移动语义这种特性会提高语言内核的基础效率，使你可以写出更快的代码。对模板系统的优化可以使你更容易写出泛型的代码。</p>
-
-<p>新的标准库同时也会包含新的特性，包括对多线程的支持和优化智能指针，后者将给那些还没用类似于<a href="http://www.boost.org/doc/libs/1_46_1/libs/smart_ptr/shared_ptr.htm">boost::shared_ptr</a>的人提供更简单的内存管理方法。</p>
-
-<p>我已经开始使用新的C++11特性，并且非常喜欢：新的auto关键字，对模板">>&ldquo;写法的支持，lambda表达式和新的函数定义语法。</p>
-
-<h2>C++11是如何开发出来的？</h2>
-
-<p>C++11的出现，首先要感谢C++标准委员会的辛勤工作，一群来自学术界和工业界的专家，他们的多次会晤攻克难题，终于设计出了一种跨平台，被多种编译器支持，可以生成高效易维护代码的语言。而C++11新标准，就像对灵活强大的C++的一次不可思议的扩展。</p>
-
-<h2>C++11包括什么？</h2>
-
-<h4>更易用的语言</h4>
-
-<p>使用过C++11后，我发现它提供了大量的基础方法使C++变成了一种更易使用的语言。这不是说它变成了简单的语言&mdash;这里有大量的新特性&mdash;提供了大量的方法使编程更容易。让我们看一个例子，auto关键字。在C++11中，假如编译器可以从变量的初始化中得到它的类型，那么你不必要指定类型。比如，你可以这样写：
-<code>cpp
-int x = 3;
-auto y = x;
-</code>
-编译器可以推导出y的类型是int。当然，这不是一个证明auto有用的一个闪亮的例子。当使用模板特别是STL时auto很好用。为什么这么说，想象使用一个迭代器(iterator):
-<code>cpp
-map&lt;string, string&gt; address_book;
-address_book["Alex"] = "webmaster@towriting.com";
-//add a bunch of people to address_book
-</code>
-现在你想遍历address_book中的元素，要这样做，你需要一个迭代器：
-<code>cpp
-map&lt;string, string&gt;::iterator iter = address_book.begin();
-</code>
-这是一个恐怖的长类型声明，当你已经知道这个类型的时候。这样是不是简洁多了：
-<code>cpp
-auto iter = address_book.begin();
-</code>
-代码变得更简单明了，我觉得可读性也更高了，因为模板语法使这一行其它内容变模糊了。这是我特别喜欢的一个特性，我发现它消除了许多头疼和难以追踪的编译错误，节省了时间而没有丢掉表达式的意思。</p>
-
-<h4>区间迭代（range-based for loop)</h4>
-
-<p>下面迭代器的例子是C++11提供的一种处理迭代的更好方法，有些人叫做区间迭代（基本上所有的现代语言都支持）。这个例子足够证明这种语法是多么优雅：
-```cpp
-vector<int> vec;
-vec.push_back(10);
-vec.push_back(20);</p>
-
-<p>for (int &amp;i: vec)
-{</p>
-
-<pre><code>cout&lt;&lt;i;
-</code></pre>
-
-<p>}
-<code>
-你需要做的就是给出一个变量和要迭代的区间。但是如果你想迭代一个map怎么办？你怎么设置map中值的类型？你知道vector值的类型是int。但map的值类型是pair，通过.first和.second给你提供键和值。但是用auto，你根本无需关心确切类型，你可以简单的写成：
-</code>cpp
-for (auto address_entry: address_book)
-{</p>
-
-<pre><code>cout&lt;&lt;address_entry.first&lt;&lt;" "&lt;address_entry.second&lt;&lt;endl;
-</code></pre>
-
-<p>}
-<code>
-这将打印出：
-</code>bash
-Alex <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#119;&#x65;&#98;&#109;&#97;&#115;&#116;&#x65;&#114;&#64;&#116;&#111;&#x77;&#x72;&#x69;&#116;&#x69;&#110;&#x67;&#46;&#x63;&#111;&#109;">&#x77;&#x65;&#x62;&#109;&#97;&#x73;&#x74;&#101;&#x72;&#64;&#116;&#111;&#119;&#114;&#105;&#116;&#105;&#110;&#103;&#46;&#99;&#x6f;&#x6d;</a>
-```
-这是一个不错的C++11新特性组合用法吧？</p>
-
-<h4>>>(right angle brackets)</h4>
-
-<p>我这里还有更易用的优化&mdash;在以前的C++标准中，假如你写一个含有其他模板类型的模板：
-<code>cpp
-vector&lt;vector&lt;int&gt; &gt; vector_of_int_vectors;
-</code>
-你必须在结束的两个'>&lsquo;之间添加空格。这不仅烦人，而且当你写成>>而没有空格时，你将得到困惑和误导的编译错误信息。产生这种行为的原因是C++词法分析的最大匹配原则（<a href="http://en.wikipedia.org/wiki/Maximal_munch">maximal munch rule</a>)。一个好消息是从今往后，你再也不用担心了：
-<code>cpp
-vector&lt;vector&lt;int&gt;&gt; vector_of_int_vectors;
-</code>
-对，这确实是个小东西，不过却是人工代码克服机器工具的胜利。另外，这样写就不那么丑了。</p>
-
-<h4>多线程</h4>
-
-<p>这是第一次，C++11将包含一种内存模型和对应的多线程库，这意味着你将可以编写符合标准的多线程代码。新标准将提供所有的通用线程方法，比如线程、线程局部存储和原子操作。它也提供了一系列有趣的特性：futures和promises。futures和promises的主要思想是，你可以编写代码表示，“这个对象，一个future代码还没计算完的结果"，它将可以在后台计算结果。当这个值需要的时候，你向future发请求，假如这个值准备好了，那就可以得到它，要不然继续等待。</p>
-
-<p>我将在后续的文章中深入探讨多线程。</p>
-
-<h4>还有好多其他的东西</h4>
-
-<p>C++11特性的数量是客观的。你可以阅读维基百科里的<a href="http://en.wikipedia.org/wiki/C%2B%2B0x">C++11</a>页面，而我计划在这一系列文章中深入探索这些特性，包括：</p>
-
-<ul>
-<li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
-<li><a href="/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
-<li><a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
-<li>静态表达式</li>
-<li>右值引用和移动语义</li>
-<li>nullptr和强类型的枚举</li>
-</ul>
-
-
-<h3>C++11的编译器支持</h3>
-
-<p>当然，如果无法使用再好的语言特性又有什么用，好消息是大量的编译器已经开始支持C++11。Apache基金会整理了一个列表，列出了C++11的语言特性和编译器的支持情况：<a href="http://wiki.apache.org/stdcxx/C%2B%2B0xCompilerSupport">支持C++11的编译器</a>。假如你对GCC感兴趣，这里有<a href="http://gcc.gnu.org/gcc-4.7/cxx0x_status.html">GCC4.7支持C++11</a>。</p>
-
-<p>有些编译器，比如GCC，不会默认支持这些新特性&mdash;例如，为了支持C++11特性，编译时必须指定 -std=c++0x。当然这也是很有用的，你可以在你的项目中选择编译器和语言集。</p>
-
-<p>下一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
-
-<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
 ]]></content>
   </entry>
   
