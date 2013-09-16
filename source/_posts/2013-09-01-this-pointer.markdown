@@ -10,7 +10,7 @@ description: 深入讲解每个C++程序员都知道的this指针知识,挖掘�
 this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不是你想象的样子！
 ##this指针的偏移 - 某次强制转化引发的血案
 这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：
-{% codeblock 例1%}
+{% codeblock 例1 lang:cpp%}
 class CAnimal
 {
 public:
@@ -51,7 +51,7 @@ int main()
 }
 {% endcodeblock %}
 上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：
-{% codeblock 例2%}
+{% codeblock 例2 lang:cpp%}
 CAnimal* pAnimal = new CMammal;
 CBird* pBird = (CBird*)pAnimal;
 
@@ -75,7 +75,7 @@ mov         ecx,dword ptr [ebp-178h]
 mov         dword ptr [pBird],ecx  
 ```
 猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：
-{% codeblock 例3%}
+{% codeblock 例3 lang:cpp%}
 lass CAnimal
 {
 public:
