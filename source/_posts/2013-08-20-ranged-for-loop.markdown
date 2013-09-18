@@ -146,7 +146,7 @@ int main()
 ##编译器支持
 不幸的是，区间迭代的编译器支持的不好。MSVC11以后开始支持，GCC是4.6以后支持。
 
-下一篇：静态表达式
+下一篇：[常量表达式][5]
 
 上一篇：[lambda表达式][3]
 
@@ -156,3 +156,4 @@ int main()
  [2]:/blog/2013/08/08/improved-type-inference-in-cpp11/
  [3]:/blog/2013/08/11/lambda-closures/
  [4]:http://www.cprogramming.com/c++11/c++11-ranged-for-loop.html
+ [5]:/blog/2013/09/17/constexpr/
