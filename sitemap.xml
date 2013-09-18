@@ -22,7 +22,7 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/01/what-is-cpp11/</loc>
-        <lastmod>2013-08-21T01:42:44+08:00</lastmod>
+        <lastmod>2013-09-17T22:38:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/03/unix-background-job/</loc>
@@ -60,7 +60,7 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/20/ranged-for-loop/</loc>
-        <lastmod>2013-08-21T01:50:11+08:00</lastmod>
+        <lastmod>2013-09-19T00:08:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/21/things-of-const/</loc>
@@ -76,11 +76,15 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/09/15/summary/</loc>
-        <lastmod>2013-09-17T00:34:37+08:00</lastmod>
+        <lastmod>2013-09-17T22:03:13+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://towriting.com/blog/2013/09/17/constexpr/</loc>
+        <lastmod>2013-09-19T00:14:23+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/archives/</loc>
-        <lastmod>2013-09-17T00:34:37+08:00</lastmod>
+        <lastmod>2013-09-19T00:14:23+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/about/</loc>
@@ -92,6 +96,6 @@
     </url>
     <url>
         <loc>http://towriting.com/</loc>
-        <lastmod>2013-09-17T00:34:37+08:00</lastmod>
+        <lastmod>2013-09-19T00:14:23+08:00</lastmod>
     </url>
 </urlset>
