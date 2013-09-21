@@ -89,6 +89,197 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2013/08/01/what-is-cpp11/">
+		
+			C++11系列-什么是C++11</a>
+	</h2>
+    <div class="entry-content">
+    <div class="meta">
+      <div class="date">Published on: 
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-01T20:32:00+08:00" pubdate data-updated="true">2013-08-01</time></div>
+      <div class="tags">Tags: 
+
+
+	<a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/c-plus-plus-11/'>C++11</a>
+
+
+</div>
+    </div>
+		<h2>什么是C++0x?</h2>
+
+<p>C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9月份，C++0x正式由官方发布并命名C++11，现在很多编译器已经支持了部分C++11特性。</p>
+
+<p>C++11包括大量的新特性：主要特征像<a href="http://en.cppreference.com/w/cpp/language/lambda">lambda</a>表达式和移动语义，实用的类型推导关键字auto，更简单的容器遍历方法，和大量使模板更容易使用的改进。这一系列教程将包含所以以上特性。</p>
+
+<h2>你该关注C++11吗？</h2>
+
+<p>很明显，C++11为C++带来了大量的新特性。C++11将修复大量缺陷和降低代码拖沓，比如lambda表达式的支持将使代码更简洁。像移动语义这种特性会提高语言内核的基础效率，使你可以写出更快的代码。对模板系统的优化可以使你更容易写出泛型的代码。</p>
+
+<p>新的标准库同时也会包含新的特性，包括对多线程的支持和优化智能指针，后者将给那些还没用类似于<a href="http://www.boost.org/doc/libs/1_46_1/libs/smart_ptr/shared_ptr.htm">boost::shared_ptr</a>的人提供更简单的内存管理方法。</p>
+
+<p>我已经开始使用新的C++11特性，并且非常喜欢：新的auto关键字，对模板&#8221;>>&ldquo;写法的支持，lambda表达式和新的函数定义语法。</p>
+
+<h2>C++11是如何开发出来的？</h2>
+
+<p>C++11的出现，首先要感谢C++标准委员会的辛勤工作，一群来自学术界和工业界的专家，他们的多次会晤攻克难题，终于设计出了一种跨平台，被多种编译器支持，可以生成高效易维护代码的语言。而C++11新标准，就像对灵活强大的C++的一次不可思议的扩展。</p>
+
+<h2>C++11包括什么？</h2>
+
+<h4>更易用的语言</h4>
+
+<p>使用过C++11后，我发现它提供了大量的基础方法使C++变成了一种更易使用的语言。这不是说它变成了简单的语言&mdash;这里有大量的新特性&mdash;提供了大量的方法使编程更容易。让我们看一个例子，auto关键字。在C++11中，假如编译器可以从变量的初始化中得到它的类型，那么你不必要指定类型。比如，你可以这样写：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>编译器可以推导出y的类型是int。当然，这不是一个证明auto有用的一个闪亮的例子。当使用模板特别是STL时auto很好用。为什么这么说，想象使用一个迭代器(iterator):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
+</span><span class='line'><span class="n">address_book</span><span class="p">[</span><span class="s">&quot;Alex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;webmaster@towriting.com&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//add a bunch of people to address_book</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在你想遍历address_book中的元素，要这样做，你需要一个迭代器：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一个恐怖的长类型声明，当你已经知道这个类型的时候。这样是不是简洁多了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码变得更简单明了，我觉得可读性也更高了，因为模板语法使这一行其它内容变模糊了。这是我特别喜欢的一个特性，我发现它消除了许多头疼和难以追踪的编译错误，节省了时间而没有丢掉表达式的意思。</p>
+
+<h4>区间迭代（range-based for loop)</h4>
+
+<p>下面迭代器的例子是C++11提供的一种处理迭代的更好方法，有些人叫做区间迭代（基本上所有的现代语言都支持）。这个例子足够证明这种语法是多么优雅：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="nl">i:</span> <span class="n">vec</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你需要做的就是给出一个变量和要迭代的区间。但是如果你想迭代一个map怎么办？你怎么设置map中值的类型？你知道vector值的类型是int。但map的值类型是pair，通过.first和.second给你提供键和值。但是用auto，你根本无需关心确切类型，你可以简单的写成：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">address_entry:</span> <span class="n">address_book</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">first</span><span class="o">&lt;&lt;</span><span class="s">&quot; &quot;</span><span class="o">&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">second</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这将打印出：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Alex webmaster@towriting.com
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是一个不错的C++11新特性组合用法吧？</p>
+
+<h4>>>(right angle brackets)</h4>
+
+<p>我这里还有更易用的优化&mdash;在以前的C++标准中，假如你写一个含有其他模板类型的模板：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你必须在结束的两个&#8217;>&lsquo;之间添加空格。这不仅烦人，而且当你写成>>而没有空格时，你将得到困惑和误导的编译错误信息。产生这种行为的原因是C++词法分析的最大匹配原则（<a href="http://en.wikipedia.org/wiki/Maximal_munch">maximal munch rule</a>)。一个好消息是从今往后，你再也不用担心了：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>对，这确实是个小东西，不过却是人工代码克服机器工具的胜利。另外，这样写就不那么丑了。</p>
+
+<h4>多线程</h4>
+
+<p>这是第一次，C++11将包含一种内存模型和对应的多线程库，这意味着你将可以编写符合标准的多线程代码。新标准将提供所有的通用线程方法，比如线程、线程局部存储和原子操作。它也提供了一系列有趣的特性：futures和promises。futures和promises的主要思想是，你可以编写代码表示，“这个对象，一个future代码还没计算完的结果&#8221;，它将可以在后台计算结果。当这个值需要的时候，你向future发请求，假如这个值准备好了，那就可以得到它，要不然继续等待。</p>
+
+<p>我将在后续的文章中深入探讨多线程。</p>
+
+<h4>还有好多其他的东西</h4>
+
+<p>C++11特性的数量是客观的。你可以阅读维基百科里的<a href="http://en.wikipedia.org/wiki/C%2B%2B0x">C++11</a>页面，而我计划在这一系列文章中深入探索这些特性，包括：</p>
+
+<ul>
+<li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
+<li><a href="/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
+<li><a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
+<li>常量表达式</li>
+<li>右值引用和移动语义</li>
+<li>nullptr和强类型的枚举</li>
+</ul>
+
+
+<h3>C++11的编译器支持</h3>
+
+<p>当然，如果无法使用再好的语言特性又有什么用，好消息是大量的编译器已经开始支持C++11。Apache基金会整理了一个列表，列出了C++11的语言特性和编译器的支持情况：<a href="http://wiki.apache.org/stdcxx/C%2B%2B0xCompilerSupport">支持C++11的编译器</a>。假如你对GCC感兴趣，这里有<a href="http://gcc.gnu.org/gcc-4.7/cxx0x_status.html">GCC4.7支持C++11</a>。</p>
+
+<p>有些编译器，比如GCC，不会默认支持这些新特性&mdash;例如，为了支持C++11特性，编译时必须指定 -std=c++0x。当然这也是很有用的，你可以在你的项目中选择编译器和语言集。</p>
+
+<p>下一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
+
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
+
+		
+		
+	</div>
+
+<div class="meta">
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2013/07/31/de-elevate-start-process/">
 		
 			降权启动进程</a>
@@ -753,76 +944,12 @@
 </div>
 </article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/17/begin-writing-blog/">
-		
-			开始写博客</a>
-	</h2>
-    <div class="entry-content">
-    <div class="meta">
-      <div class="date">Published on: 
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-17T22:04:00+08:00" pubdate data-updated="true">2013-07-17</time></div>
-      <div class="tags">Tags: 
-
-
-	<a class='category' href='/blog/categories/shu-xie/'>书写</a>, <a class='category' href='/blog/categories/xing-dong/'>行动</a>
-
-
-</div>
-    </div>
-		<h3>离职的意外收获</h3>
-
-<p>今年离职有一个意外收获，合适的工作很难找，找工作的空白期间，买了个域名（towriting)，开了这个个人博客，自此可以在这里记录自己的成长，乃至老去。</p>
-
-<h3>写博客的好处</h3>
-
-<p>这个好处是显而易见，人所共知的，刘未鹏很早以前就提出了一个技术人员应该写博客，书写是为了更好的思考，可以使知识融汇贯通。除了这些，世俗的讲，博客可以是姜太公钓鱼的勾，好的博客可以大大增加简历的含金量，吸引各种Headhunting；恶俗的讲，博客更可以引入Google Ads等，成为一项收入来源。</p>
-
-<h3>我为什么必须要写博客</h3>
-
-<ul>
-<li>自己生于农村，较之同侪启蒙早，当时农村文娱匮乏，酷喜读书，聊以消遣。16岁左右，正值高中，甚喜作文，高二以前，还能写有生命的作文，语言与文字能力倍受老师同学钦佩，自己竟曾立志成为中国最后一个释、儒、道集大成者。高三读《石头记》，且其它科目压力骤大，遂由《芙蓉女儿诔》推导出适应各种命题的万能作文模板，自此文章徒具形式。虽旧梦难圆，但做程序员久矣，口齿含糊，木讷呆滞，想借写博客，防止自己失语与老年痴呆。</li>
-<li>从业三年来，读书不辍，遇问题好奇追根，所以技术进步较大。因识人不多，所以自视C++水平处周围大部分人之上。然半路出家，技术似空中楼阁，学习已经进入瓶颈期。技能进步的目标模糊，但写博客无疑是朝目标走的，瓶颈期只能先如此了，同时梳理一下三年来的收获。</li>
-<li>记录下自己活着的证据。</li>
-</ul>
-
-
-<h3>给自己的要求</h3>
-
-<ul>
-<li>内容必需保证原创或翻译</li>
-<li>能保证每周一篇文章</li>
-<li>不能因为上一条的要求而使内容敷衍</li>
-</ul>
-
-
-		
-		
-	</div>
-
-<div class="meta">
-	
-</div>
-</article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/3/" class="prev">Prev</a>
     
+    
+        <a href="/blog/page/5/" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav>
