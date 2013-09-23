@@ -1,4 +1,4 @@
-$max-width: 960px;
+$max-width: 900px;
 
 *{
 	margin: 0;
@@ -93,5 +93,15 @@ a{
   &.right { float: right; margin-left: 1.5em; }
   &.center { display:block; margin: 0 auto 1.5em; }
   &.left, &.right { margin-bottom: .8em; }
+}
+
+.footnotes {
+  font-size: 13px;
+  line-height: 16px;
+  color: $color-gray03;
+
+  p {
+    margin-bottom: 6px;
+  }
 }
 

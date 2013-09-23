@@ -95,3 +95,13 @@ a{
   &.left, &.right { margin-bottom: .8em; }
 }
 
+.footnotes {
+  font-size: 13px;
+  line-height: 16px;
+  color: $color-gray02;
+
+  p {
+    margin-bottom: 6px;
+  }
+}
+
