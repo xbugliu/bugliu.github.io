@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-23T01:27:51+08:00</updated>
+  <updated>2013-09-24T01:16:46+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -18,9 +18,9 @@
     <link href="http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world/"/>
     <updated>2013-09-22T00:24:00+08:00</updated>
     <id>http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world</id>
-    <content type="html"><![CDATA[<p>Colin停在我的办公室来叫我去看他最近的项目。他拆开了他的显示器切换器（用来在两台PC之间切换单个显示器），拆开的切换器就摊放在他的桌子上。他把切换器接上了从RadioShack淘来的部件，服务程序和客户端也都用VB6开发好了，将这一切整合好就能实现当鼠移动到屏幕边缘时自动切换显示器。Colin做这个项目获得了很大的快乐并且正在变成我们团队里最强大的程序员。这发生在Arduino创建之前一段时间，那时硬件Hacking的门槛还很高。VB6正在衰退，使用它的人被认为只能维护那些烂的LOB程序。从Colin身上，我看到了好的创造者都会有的精神：享受创造的过程而不管使用的工具。</p>
+    <content type="html"><![CDATA[<p>Colin停在我的办公室来叫我去看他最近的项目。他拆开了他的显示器切换器（用来在两台PC之间切换单个显示器），拆开的切换器就摊放在他的桌子上。他把切换器接上了从RadioShack<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>淘来的部件，服务程序和客户端也都用VB6开发好了，将这一切整合好就能实现当鼠移动到屏幕边缘时自动切换显示器。Colin做这个项目获得了很大的快乐并且正在变成我们团队里最强大的程序员。这发生在Arduino<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>创建之前一段时间，那时硬件Hacking的门槛还很高。VB6正在衰退，使用它的人被认为只能维护那些烂的LOB程序。从Colin身上，我看到了好的创造者都会有的精神：享受创造的过程而不管使用的工具。</p>
 
-<p>我很确信人们开始编程好多是受到类似与Colin一样的一些事情的激发。多少人开始编程生涯是为了设计我们自己的游戏，自己的网站，自己解决一个问题的方法并执着于编写成代码以给项目生命？有多少人会在自己后面的职业生涯继续这种精神，通过项目，通过失败，通过批判，甚至通过一个LOB程序。</p>
+<p>我很确信人们开始编程好多是受到类似与Colin一样的一些事情的激发。多少人开始编程生涯是为了设计我们自己的游戏，自己的网站，自己解决一个问题的方法并执着于编写成代码以给项目生命？有多少人会在自己后面的职业生涯继续这种精神，通过项目，通过失败，通过批判，甚至通过一个LOB<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>程序。</p>
 
 <p>这些年来，程序员的第一要务是谋生而不是通过分享代码或公开博客的开放。现在有了在工作中看到出色程序员的机会，同时我们可以加入目前越来越流行的趋势：将我们自己和我们的作品与其他人做比较。在GitHub和StackOverflow之前我讨厌除了我同事之外的其他人阅读或点评我的代码，我也不喜欢阅读书籍或API文档之外的代码。现在我可以看世界上几乎任何一个程序员的代码，他们也可以看我的。必须谦虚因为世界上的牛人太多了。我能靠这点信息做什么？可以有机会学习或因不足而感到沮丧？或者相反这些代码没有自己完成度好？会留下意见同时增强了自信心吗？我看到那些用VB写的代码会乐起来吗？</p>
 
@@ -34,9 +34,29 @@
 </ol>
 
 
-<p>我想我不会成为像DHH,Pike,Stroustrup或Resig这样的大牛，但我可以获得和他们获得的同样多的乐趣。是的，你也可以成为世界上最杰出的程序员。</p>
+<p>我想我不会成为像DHH<sup id="fnref:4"><a href="#fn:4" rel="footnote">4</a></sup>,Pike<sup id="fnref:5"><a href="#fn:5" rel="footnote">5</a></sup>,Stroustrup<sup id="fnref:6"><a href="#fn:6" rel="footnote">6</a></sup>或Resig<sup id="fnref:7"><a href="#fn:7" rel="footnote">7</a></sup>这样的大牛，但我可以获得和他们获得的同样多的乐趣。是的，你也可以成为世界上最杰出的程序员。</p>
 
 <p>翻译自：<a href="http://hackerhmb.tumblr.com/post/61477929414/thebestprogrammerintheworld">The Best Programmer in the World is the One Having the Most Fun</a></p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>美国的一个电子元器件零售商<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+<li id="fn:2">
+<p>硬件hacking相关的一个网站<a href="#fnref:2" rev="footnote">&#8617;</a></p></li>
+<li id="fn:3">
+<p>line of business application指的是企业环境中的一些固定用途的程序<a href="#fnref:3" rev="footnote">&#8617;</a></p></li>
+<li id="fn:4">
+<p>david heinemeier hansson，Ruby On Rails的创建者<a href="#fnref:4" rev="footnote">&#8617;</a></p></li>
+<li id="fn:5">
+<p>Rob Pike, Go语言的主要创建者之一<a href="#fnref:5" rev="footnote">&#8617;</a></p></li>
+<li id="fn:6">
+<p>Bjarne Stroustrup,C++之父<a href="#fnref:6" rev="footnote">&#8617;</a></p></li>
+<li id="fn:7">
+<p>John Resig,jQuery库的创建者<a href="#fnref:7" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
 ]]></content>
   </entry>
   
