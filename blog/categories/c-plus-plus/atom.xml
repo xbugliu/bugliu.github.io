@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-24T01:19:07+08:00</updated>
+  <updated>2013-09-25T00:44:27+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,148 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++手爱德华]]></title>
+    <link href="http://towriting.com/blog/2013/09/23/edward-chands/"/>
+    <updated>2013-09-23T22:25:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/09/23/edward-chands</id>
+    <content type="html"><![CDATA[<p><img class="right" src="/images/posts/edward-chands/Edwardscissorhandsposter.png" title="&ldquo;&rdquo; &ldquo;我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。&rdquo;" ></p>
+
+<p>在这部电影中，可怜的家伙（Johnny Depp)想温柔的拥抱Winona Ryder但是他笨拙的剪刀手对他们俩都会造成伤害。他的脸上留下了很多伤疤。</p>
+
+<p>拥有一对剪刀手并不总是坏事。爱德华有许多才能，比如，它可以给狗剪除漂亮的发式。</p>
+
+<p>当参加完一些C++会议后，我总会有一些想法，最近参加的是Going Native 2013。去年可喜的是大多会议围绕着闪亮的C++11最新标准。但今年更多的关于实际检查。不要误会，这里有太多的漂亮的小狗发式可以展现（我是说C++代码可以简洁优雅）但是会议的主题总是关于如何避免出错及出错后的补救。</p>
+
+<h2>恐怖小窝</h2>
+
+<p>这里有太多的关于<strong>C++禁忌</strong>的讲座使我意识到这可能不是初级程序员的问题，这明显是C++语言自身的错。所以你仅仅学习了语言的基本元素后就使用它，你会遍体鳞伤的。</p>
+
+<p>C++对此有借口：向后兼容 &mdash; 特别是兼容C语言。你应该认为C作为C++的子集应该像人们不应该每天使用汇编一样，除非你是个汇编程序员。假如你对你的C++工具箱视而不见，你看到的总是裸指针、for循环等丑陋的东西。</p>
+
+<p>一个人所共知的禁忌是不要使用malloc动态分配内存，不要使用free释放内存。malloc接受一个size并返回一个void*，你必须把它转换成其它有用的类型。很难实现一个比这更糟糕的内存分配API。这有一段真的很糟的代码（但一般是运行正确的，假如不可能出现空指针解引用的话）：
+```cpp
+struct Pod {</p>
+
+<pre><code>int count;
+int * counters;
+</code></pre>
+
+<p>};</p>
+
+<p>int n = 10;
+Pod * pod = (Pod <em>) malloc (sizeof Pod);
+pod->count = n
+pod->counters = (int </em>) malloc (n * sizeof(int));
+&hellip;
+free (pod->counters);
+free (pod);
+```
+我希望人们不会写出这样的代码，但我确信现实世界的好多程序的代码中有这样的结构。</p>
+
+<p>C++通过替换malloc和free为new和delete"解决"了多余的强转和易出错的size计算。正确的C++代码应该这样：
+```cpp
+struct Pod {</p>
+
+<pre><code>int count;
+int * counters;
+</code></pre>
+
+<p>};</p>
+
+<p>int n = 10;
+Pod * pod = new Pod;
+pod->count = n;
+pod->counters = new int [n];
+&hellip;
+delete [] pod->counters;
+delete pod;
+<code>
+顺便说一下，空指针引用的问题同样被解决了，因为如果系统内存耗尽，new总是会抛出异常。但这里在第二个new的地方还是有几率发生内存泄漏，所以这是现实中正确的代码：
+</code>cpp
+class Snd { // Sophisticated New Data
+public:</p>
+
+<pre><code>Snd (int n) : _count(n), _counters(new int [n]) {}
+~Snd () { delete [] _counters; }
+</code></pre>
+
+<p>private:</p>
+
+<pre><code>int _count;
+int * _counters;
+</code></pre>
+
+<p>};</p>
+
+<p>Snd * snd = new Snd (10);
+&hellip;
+delete snd;
+```
+我们做完了吗？才没呢！这段代码不是异常安全的。</p>
+
+<p>C++的基本准则是避免裸指针、避免数组、避免delete。所以医治malloc的良药new也是不应使用的，它会返回危险的指针。</p>
+
+<p>我们都知道（满脸的伤疤可以证明）尽一切可能使用STL容器和智能指针。也应该按值传递参数。不，等一下。按值传递参数因为多余的拷贝会增加性能损耗。使用shared_ptr或shared_ptr的容器怎么样？但这会增加引用计数的滥用。这里有新的解决方案：移动语义和右值引用。</p>
+
+<p>我能举出无数类似的例子。看到规律了没？一个问题的解决方案可能会引入新的问题。不仅C子集需要避免使用。每个新的语言特性或库组建都会带来新的缺陷。当你听完Scott Meyers讲过后，你会发现一个新的特性怎么设计的这么烂（猜一下Scott Meyers论证的最新的缺陷是什么？是移动语义）。</p>
+
+<h2>C++的哲学</h2>
+
+<p>Bjarne Stroustrup一直强调向后兼容对C++来说多么重要。它是C++哲学的根基。它是决定那些代码是合法的依据。然而兼容性给语言演化代理了极大的拖累。如果自然界和C++一样是向后兼容的，人们还会有尾巴、腮、脚蹼、触角 &mdash; 在进化的过程中它们都有过作用。</p>
+
+<p>C++变成了极度复杂的语言。同一件事情有无数种实现方式，但大部分都走向错误、危险、难维护。问题是代码可以编译甚至运行。错误或者缺陷会在后来被发现，甚至是产品发布以后。</p>
+
+<p>你可能会说这是编程语言的自然特性。如果你真这样想，那要好好看看Haskell了。你的第一反应是：用这种极度严苛的语言我不知怎样实现第一件事（阶乘、斐波那契等）。这完全不同于C++。你不会意识到，运气好的话，需要十年你才能发现C++的“真谛”。能否想到，越好的C++程序员，他的代码越具有“函数性”。请教任何一个C++大神，它会回答你：避免可变的（mutation)，避免边际效应，避免继承和派生。但是你将需要严厉的准则和可以控制你同事的能力，因为C++太宽容了。</p>
+
+<p>Haskell一点也不宽容，它不会让你或者你的同事写出不安全的代码的。是的，一开始你可能因为想要用haskell实现C++几分钟可以完成的事情而抓狂。假如你走运，为Sean Parent<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>或类似严格的程序员共事，他将review你的代码，并指出你不要用C++编码了。或者你自己继续在黑暗的日子里，数着自己伤害自己的伤口个数。</p>
+
+<h2>资源管理</h2>
+
+<p>我以资源管理的例子开始这篇文章（严格说是内存管理），因为这是我的个人爱好。从90年代起我就开始写关于资源管理的东西和宣传它。不过失败的是20年后资源管理技术还是鲜为人知。Bjarne Stroustrup有责任花费一半的演讲时间给高级C++程序员讲解资源管理的知识。你也可能会责备初级程序员们没能领悟资源管理是C++编程的根基。但问题是语言并没有指出我一开始写的那段代码有什么纰漏。事实上学习正确的技术就好像学习新的语言。</p>
+
+<p>为何如此艰难？因为C++中最重要的资源管理是内存管理。事实上需要反复强调的是垃圾收集解决不了资源管理的问题：这里有文件句柄，内核对象，打开的数据库等等。这都是重要的资源，但重要性被繁复的内存管理比下去了。为什么不支持垃圾收集，不是因为找不到一种高效的实现方式，因为C++是排斥垃圾收集的。编译器和运行时总要做最坏的打算：不仅一个指针可能是另一个的别名而且内存地址可以保存成整型甚至它的低字节用作位域（所以C++只考虑保守的垃圾收集）。</p>
+
+<p>一个错误的常识是引用计数（shared pointer中使用）比垃圾收集更好。这有个<a href="http://www.cs.virginia.edu/~cs415/reading/bacon-garbage.pdf">研究</a>显示它们是异曲同工的。你应该知道delete一个shared pointer可能会引发任意时间的程序暂停，这和垃圾收集的性能损耗是一样的。这不仅仅是因为一个靠谱的引用计数算法必须处理好环（cycles），并且每次引用计数到0，对象可以达到的指针都需要遍历。用shared pointer创建的数据结构可能花费很长的时间去释放，除了极简单的情况，你无法知道什么时候shared指针要清零了。</p>
+
+<p>在单线程环境下小心的资源管理和使用shared_ptr还是很好的防御方式。但多线程下，麻烦来了。每一次增加减少计数都需要加锁！锁一般由原子变量实现，而不是互斥量。别傻了：使用原子变量消耗很大，这带给我C++的最大问题。</p>
+
+<h2>并发和并行（Concurrency and Parallelism）</h2>
+
+<p>早在8年以前，herb Sutter就发表了著名的声明：<a href="http://www.gotw.ca/publications/concurrency-ddj.htm">免费的午餐结束了</a>！并发并不是发明在2005年。Posix线程1995年就定义了。微软在Windows95引入线程，在NT中支持了多处理器。然而并发是C++11中才有的知识。</p>
+
+<p>C++11算是“白手起家”并发。它必须定义内存模型：多线程写内存时，什么时候和以什么顺序使其对其它线程可见。基于实用的考虑，C++的内存模型是从java中拷贝来的（去掉了一些有争议的数据竞争时的保证）。一句话就是，如果没有数据竞争C++程序是按次序的。</p>
+
+<p>C++11定义了关于线程创建和管理的一些元素，这些同步元素都是被dijkstra和hoare在1960年定义的，比如互斥量（mutexes）和条件变量。有人可能会争辩这些是否是同步的好组件，但这没关系因为都知道他们不是可组装的（composable)。STM（Software Transactional Memory）是可组装的抽象，但这很难在命令式语言中高效及正确的实现。标准委员会有个STM学习小组，所以STM还是有机会成为标准的一部分的。但是因为C++对边界效应不做任何控制，所以它会很难正确应用的。</p>
+
+<p>还有一些误导和混淆是尝试去提供基于任务的并行，使用的是async tasks和非组装的futures（慎重考虑后都会在C++14中不推荐使用）。线程局部变量的标准化也使基于任务的并发很难实现。锁和条件变量也是线程相关的，而不是任务相关的。未来几年标准委员会的当务之急就是这些了：基于任务的并行, communication通道代替futures , 任务取消, 可能还有longer term, data-driven 并行, 包括支持GPU。一个微软PPL和英特尔TBB的衍生可能会被加进标准库（希望不是微软的AMP）。</p>
+
+<p>预测推断所有这些可以在2015年标准化和实现。假如预测成真，我还是不相信人们会用C++实现并行编程。C++是为单线程编程设计的，支持并行编程需要革命而不是改革。四个字：数据竞争，指令型语言没有对此提供保护，可能除了D语言。</p>
+
+<p>在C++中，数据默认是线程共享的、默认是可变的；函数默认是有边界效应的。所有这些指针和引用为数据竞争提供了富饶的土壤。数据结构和函数在竞争上的先天不足使类型系统无法反射。在C++中，假如你有个对象的const引用，但不能保证另一个线程中不会修改它。更糟的是，一个const对象里面的引用默认是可变的。</p>
+
+<p>D语言至少有深度const和不可变的概念（没有线程可以修改一个不可变的数据结构）。D语言朝着并发的另一个改良是可以定义纯函数（pure functions)。在D语言中，可变对象默认不是进程共享的。这是正确的方向，虽然增加了共享对象的运行开销。更重要的想法是，线程不是一个并发编程的好的抽象，所以这种改进在轻量级的任务序列中就不那么有效了。</p>
+
+<p>但是C++对这些都不支持，并且看起来永远都支持不了。</p>
+
+<p>当然，你可能认出了这些并发和并行的特征都是函数式语言具有的，特别是不可变和纯函数。别嫌我烦：Haskell是并发编程上执牛耳者，包括GPU编程。这是为什么我在布道C++技巧数载后轻易转向了haskell。每一个认真对待并发和并行的程序员都应该好好学习haskell看一下它是如何处理这一切的。这里有一本Simon Marlow写的不错的书：Parallel and Concurrent Programming in Haskell ，读完它你或者开始在C++中使用函数式编程技术，或者认识到并发编程和指令式编程的分歧而转投Haskell。</p>
+
+<h2>结论</h2>
+
+<p>我认为C++语言和其哲学是和并发编程的需求冲突的。这种冲突导致并发编程在主流软件开发中缓慢前行。因为这过时的编程范式，微处理器、vector units和GPU的巨大能力被业界浪费了。</p>
+
+<p>翻译自：<a href="http://bartoszmilewski.com/2013/09/19/edward-chands/">Edward C++Hands</a></p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>Adobe公司的首席科学家和移动数字图像组的架构师<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++11系列-常量表达式]]></title>
@@ -170,56 +312,101 @@ private:
 <h2>this指针的偏移 &ndash; 某次强制转化引发的血案</h2>
 
 <p>这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：
-{% codeblock 例1 lang:cpp%}
-class CAnimal
-{
-public:
-CAnimal(){}
-~CAnimal(){}
-protected:
-string m_strName; <br/>
-};</p>
-
-<p>class CBird: public CAnimal
-{
-public:
-CBird(): m_bCanFly(true)
-{
-m_strName = &ldquo;Bird&rdquo;;
-}
-~CBird(){}
-virtual void Fly()
-{
-cout&lt;&lt;&ldquo;type: &rdquo;&lt;&lt;m_strName&lt;&lt;std::endl;
-cout&lt;&lt;&ldquo;is fly: &rdquo;&lt;&lt;m_bCanFly&lt;&lt;std::endl;
-}
-protected:
-bool m_bCanFly;
-};</p>
-
-<p>//主函数
-int main()
-{
- CAnimal<em> pAnimal = new CBird;
- void</em> pCmd = (void<em>)pAnimal;
- //一些操作
- CBird</em> pBird = (CBird<em>)pCmd;<br/>
- if (pBird != nullptr)
- {
-   pBird->Fly();
- }
-}
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例1</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">CBird</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CBird</span><span class="p">()</span><span class="o">:</span> <span class="n">m_bCanFly</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bird</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">~</span><span class="n">CBird</span><span class="p">(){}</span>
+</span><span class='line'><span class="k">virtual</span> <span class="kt">void</span> <span class="n">Fly</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="nl">type:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_strName</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">is</span> <span class="nl">fly:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_bCanFly</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="kt">bool</span> <span class="n">m_bCanFly</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">//主函数</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="n">CAnimal</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CBird</span><span class="p">;</span>
+</span><span class='line'> <span class="kt">void</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
+</span><span class='line'> <span class="c1">//一些操作</span>
+</span><span class='line'> <span class="n">CBird</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span><span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>   <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：
-{% codeblock 例2 lang:cpp%}
-CAnimal</em> pAnimal = new CMammal;
-CBird<em> pBird = (CBird</em>)pAnimal;</p>
-
-<p>if (pBird != nullptr)
-{
-  pBird->Fly();
-}
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例2</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">CAnimal</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
+</span><span class='line'><span class="n">CBird</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 这样调用确是没有问题的，和第一个例子唯一的差别就是没有中间的Void*转化。
 记得当时是我们周会的时间，于是拿出来和大家讨论，惭愧的是我们十几个人，竟然没人能说出其中原因，要知道我们中也有三个工作5年左右的同事。后来我打开调试器，跟踪了一下这两段代码的汇编代码，终于发现了蛛丝马迹：
 <code>c
@@ -235,44 +422,80 @@ mov         ecx,dword ptr [ebp-178h]
 mov         dword ptr [pBird],ecx  
 </code>
 猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：
-{% codeblock 例3 lang:cpp%}
-lass CAnimal
-{
-public:
-CAnimal(){}
-~CAnimal(){}
-protected:
-string m_strName; <br/>
-};</p>
-
-<p>class CMammal: public CAnimal
-{
-public:
-CMammal()
-{
-m_strName = &ldquo;Mammal&rdquo;;
-}
-void IsEatMeat() const
-{
-cout&lt;&lt;&ldquo;type: &rdquo;&lt;&lt;m_strName&lt;&lt;std::endl;
-cout&lt;&lt;&ldquo;is eat meat: &rdquo;&lt;&lt;std::boolalpha&lt;&lt;m_bEatMeat&lt;&lt;std::endl;
-}
-private:
-bool m_bEatMeat;
-};</p>
-
-<p>int main()
-{
- CAnimal<em> pAnimal = new CMammal;
- void</em> pCmd = (void<em>)pAnimal;
- CMammal</em> pMammal = (CMammal*)pCmd;</p>
-
-<p> if (pMammal != nullptr)
- {
-  pMammal->IsEatMeat();
- }
-}
-{% endcodeblock %}
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例3</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">lass</span> <span class="n">CAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
+</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">CMammal</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CMammal</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Mammal</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">IsEatMeat</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="nl">type:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_strName</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">is</span> <span class="n">eat</span> <span class="nl">meat:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_bEatMeat</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="kt">bool</span> <span class="n">m_bEatMeat</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="n">CAnimal</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
+</span><span class='line'> <span class="kt">void</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
+</span><span class='line'> <span class="n">CMammal</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pMammal</span> <span class="o">=</span> <span class="p">(</span><span class="n">CMammal</span><span class="o">*</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="k">if</span> <span class="p">(</span><span class="n">pMammal</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>  <span class="n">pMammal</span><span class="o">-&gt;</span><span class="n">IsEatMeat</span><span class="p">();</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 上面的代码运行正常，和例1的区别就是CMamal没有虚函数，而CBrid有。所以说，<strong>沿着继承链类型转化时，this指针可能会发生偏移，以确保this指针总能指向subobject</strong>。而强转中如果中间有void*这种没有类型信息的东西，会使编译器丢失这种偏移。</p>
 
 <p><strong>this指针说白了就是对象基址，角色是成员变量寻址基址，偏移的目的是为了使成员变量寻址正确</strong>，影响对像内存布局的东西都可能使this指针偏移（具体编译器可能不同）：</p>
@@ -722,408 +945,6 @@ for ( int i : v ) { cout &lt;&lt; i &lt;&lt; endl; }
 <p>上一篇：<a href="/blog/2013/08/11/lambda-closures/">lambda表达式</a></p>
 
 <p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-ranged-for-loop.html">Range-Based For Loops in C++11 &ndash; Cprogramming.com</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C++11系列-lambda函数]]></title>
-    <link href="http://towriting.com/blog/2013/08/11/lambda-closures/"/>
-    <updated>2013-08-11T22:45:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/11/lambda-closures</id>
-    <content type="html"><![CDATA[<p>{% img right /images/posts/lambda-closures/lambda.png 66 90 &lsquo;lambda&rsquo; &lsquo;C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。&rsquo;%}</p>
-
-<h2>为什么Lambda很酷</h2>
-
-<p>想象你有一个地址簿类，并且你想要提供一个可供检索的函数。你可能会提供一个简单的函数，接受一个字符串然后返回满足所有字符串的地址。有时有些用户可能希望这样。不过假如他们只是想检索域名或者检索用户名并且忽略域名结果；或者检索出现在其他列表中的所有Email地址。这里可能有许多可能的检索方式。除了类中集成所有这些搜索选项，提供一个通用的查找方法，这个方法接受一个查找规则的函数，这样不是更好些吗？让我们叫这个函数findMatchingAddresses，它接受一个函数或仿函数对象。
-```cpp</p>
-
-<h1>include <string></h1>
-
-<h1>include <vector></h1>
-
-<p>class AddressBook
-{</p>
-
-<pre><code>public:
-// 使用模板可以是我们忽略函数、仿函数和Lambda的不同
-template&lt;typename Func&gt;
-std::vector&lt;std::string&gt; findMatchingAddresses (Func func)
-{ 
-    std::vector&lt;std::string&gt; results;
-    for ( auto itr = _addresses.begin(), end = _addresses.end(); itr != end; ++itr )
-    {
-        // 调用传递到findMatchingAddresses的函数并检测是否匹配规则
-        if ( func( *itr ) )
-        {
-            results.push_back( *itr );
-        }
-    }
-    return results;
-}
-
-private:
-std::vector&lt;std::string&gt; _addresses;
-</code></pre>
-
-<p>};
-```
-任何人可以传递一个包含地址查找逻辑的函数给findMatchingAddresses。假如这个函数返回真，则得到相应的地址，地址将被返回。这种方式在以前的C++中一样支持，不过却遭遇一个致命缺陷：创建函数非常不方便。你必须先在其他地方定义好函数，你才能使用它。这就是Lambda出现的原因。</p>
-
-<h2>基本Lambda语法</h2>
-
-<p>在我们解决这个问题之前，让我们看一下真实的lambda基本语法。
-```cpp</p>
-
-<h1>include <iostream></h1>
-
-<p>using namespace std;</p>
-
-<p>int main()
-{</p>
-
-<pre><code>auto func = [] () { cout &lt;&lt; "Hello world"; };
-func(); // now call the function
-</code></pre>
-
-<p>}
-```
-好，你找到lambda了吗？它以[]开始。这个标识，叫做捕获指定器，它告诉编译器我们要创建一个lambda表达式。你将看到[](或者里面有变量）在每一个lambda函数的开始。</p>
-
-<p>接着，像其他函数一样，我们需要一个参数列表：()。返回值呢？答案是我们不需要指定。在C++11中，假如编译器可以推导lambda函数的返回值，它将帮你做这件事而不需你显式指定。在这个例子里，编译器知道函数没有返回值。我们只是有一个打印“hello world"的函数体。这一行事实上不会触发关于打印的任何事：我们仅仅是创建了一个函数在这里。基本上相当于定义了一个普通函数。</p>
-
-<p>我们在下面一行调用了这个lambda函数：func()，像调用其它普通函数一样。顺便看到，配合auto做这些事情是多么简单！你不用担心函数指针的丑陋语法。</p>
-
-<h2>在我们的例子中应用Lambda</h2>
-
-<p>让我们看看怎样将lambda应用到我们地址簿例子里，首先我们创建一个查找包含“.org"的email地址的简单函数。
-```cpp
-AddressBook global_address_book;</p>
-
-<p>vector<string> findAddressesFromOrgs ()
-{</p>
-
-<pre><code>return global_address_book.findMatchingAddresses( 
-    // we're declaring a lambda here; the [] signals the start
-    [] (const string&amp; addr) { return addr.find( ".org" ) != string::npos; } 
-);
-</code></pre>
-
-<p>}
-```</p>
-
-<!-- more -->
-
-
-<p>再一次，我们以捕获指示符[]开始，但这一次我们有一个参数：地址，并且我们检测地址中是否含有“.org"。再一次说明，lambda的函数体并没有在这里执行；它只会在函数findMatchingAddresses内，当函数变量被使用时，lambda中的代码才会执行。换句话说，findMatchingAddresses的每个循环中会调用lambda函数，并传给它一个地址作为参数，然后这个函数检测地址是否包含“.org"。</p>
-
-<h2>变量捕获</h2>
-
-<p>虽然这些简单的lambda用法也不错，但变量捕获才是成就lambda卓越的秘方。假如你想创建一个查找包含指定名字的短函数。如果可以写出这样的代码是不是非常不错？
-```cpp
-// read in the name from a user, which we want to search
-string name;
-cin>> name;
-return global_address_book.findMatchingAddresses(</p>
-
-<pre><code>// 注意lambda函数使用了变量 'name'
-[&amp;] (const string&amp; addr) { return addr.find( name ) != string::npos; } 
-</code></pre>
-
-<p>);
-```
-可以证明示例代码是合法的，并且它展现了lambda函数的价值。我们可以获取声明在lambda函数之外的变量(name)，并在lambda之内使用。当findMatchingAddresses调用我们的lambda函数，函数体会被执行，当addr.find被调用，它处理用户代码传进的name。为了使这可以运行的唯一要做的事是捕获变量。我用[&amp;]捕获指示做这件事，而不是用[]。[]是告诉编译器不捕获任何变量，而[&amp;]是告诉编译器去捕获变量。</p>
-
-<p>是不是不可思议？我们创建了一个简单的可以捕获变量的函数，并将它传给find函数，所有这些只用了几行代码。如果不用C++11实现这些，我们需要创建一个仿函数或者给AddressBook类添加一个特殊方法。用C++11，我们可以轻易实现一个简单的接口函数，但支持各种检索的功能。</p>
-
-<p>只是好玩，我们想查找email地址小于某个特殊长度的地址。我们可以再一次轻松实现：
-<code>cpp
-int min_len = 0;
-cin &gt;&gt; min_len;
-return global_address_book.find( [&amp;] (const string&amp; addr) { return addr.length() &gt;= min_len; } );
-</code>
-你将习惯于"})&ldquo;，这是lambda结束的标准语法，你开始阅读lambda相关代码或在你自己的代码中使用lambda越多，你将越多的看到这个小的代码片段。</p>
-
-<h2>Lambda和STL</h2>
-
-<p>毋庸质疑，lambda最大的一个优势是在使用STL中的算法(algorithms)库时。以前使用像for_each这样的算法是个体力活。然而现在使用for_each或其他STL算法就好像自己写普通循环一样。对比一下：
-```cpp
-vector<int> v;
-v.push_back( 1 );
-v.push_back( 2 );
-//&hellip;
-for ( auto itr = v.begin(), end = v.end(); itr != end; itr++ )
-{</p>
-
-<pre><code>cout &lt;&lt; *itr;
-</code></pre>
-
-<p>}
-<code>
-和：
-</code>cpp
-vector<int> v;
-v.push_back( 1 );
-v.push_back( 2 );
-//&hellip;
-for_each( v.begin(), v.end(), [] (int val)
-{</p>
-
-<pre><code>cout &lt;&lt; val;
-</code></pre>
-
-<p>} );
-```
-要我说后一种代码更漂亮，好在它的可读性和结构，也像个普通循环，并且可以利用上for_each可以提供的普通循环没有的一些优势，比如保证你有正确的结束条件。现在你可能会想，这会不会影响性能？意想不到的结论是for_each和普通循环有一样的性能，有时甚至更快（原因是循环展开）。</p>
-
-<p>我希望STL的例子告诉你lambda不仅仅是创建函数的一种简便方式，它创造了一种新的编码方式，当你的代码作为数据处理函数时，你可以抽象处理特殊数据结构的方式。for_each适用于List，但是如果有处理“树”的类似函数是不是很酷？所有你要做的只是写处理每个节点的代码，而无需关心遍历算法。这种一个函数管理数据，将具体的数据处理过程委托到另一个函数的分解方式很有用。使用lambda，C++允许我们这种新的编程方式。这是我们以前没有的，但for_each不是新的，只不过以前我们不想用罢了。</p>
-
-<h2>继续新的lambda语法</h2>
-
-<p>其实参数列表像返回值一样都是可选的，如果你想创建一个不带参数的函数的话。或许最短的lambda是这样的：
-<code>cpp
-[]{}
-</code>
-这是一个即没有参数又什么也不干的函数。一个稍有内容的函数：
-```cpp
-using namespace std;</p>
-
-<h1>include <iostream></h1>
-
-<p>int main()
-{</p>
-
-<pre><code>[] { cout &lt;&lt; "Hello, my Greek friends"; }();
-</code></pre>
-
-<p>}
-```
-个人来讲，我不认可省略参数列表的价值。我认为[]和()的组合结构帮助lambda函数在代码上更出色。</p>
-
-<h3>返回值</h3>
-
-<p>如果你的lambda函数没有return语句，则默认返回void。假如你有一个简单的返回语句，编译器将推导返回值的类型：
-<code>cpp
-[](){return 1;} //编译器知道这是返回一个整型
-</code>
-假如你写一个更复杂些的lambda函数，不止一个返回值，你应该指定返回类型（有些编译器，像GCC，即使你有多于一个返回值也不需要你这样做，但标准不保证这一点）。
-Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C++11可选的新返回值语法</a>将返回值放在函数的后边。事实上假如你想指定返回类型，你一定要这样做。这里有一个显式指定返回值类型的简单例子：
-<code>cpp
-[] () -&gt; int { return 1; } // 现在你告诉编译器你想要什么
-</code></p>
-
-<h3>抛异常指示（throw)</h3>
-
-<p>虽然C++标准委员会决定不赞成使用throw指示符，但throw还没被移除C++。这里有许多检测throw指示符的静态代码检测工具，像PC link。假如你使用这些工具中的一个去进行编译时异常检测，你肯定想知道你的lambda函数会抛出什么异常。这样做的主要原因可能是当你传递一个lambda函数到另一个函数中，而这个函数期望你的lambda只能抛出指定的异常。给你的lambda函数添加一个异常指示，将允许PC link这样的工具去帮你检测。如果你想这样做是可以的。这有一个无参且不抛出异常的lambda函数：
-<code>cpp
-[] () throw () { /* 你不希望抛出异常*/ }
-</code></p>
-
-<h2>Lambda函数是如何实现的？</h2>
-
-<p>变量捕获的魔法是如何运作的？其实lambda实现的方法是创建一个简略的类。这个类重载了operator()，所以表现的像个普通函数。一个lambda函数是这个类的实例。当这个类构造的时候，所有捕获的变量被传送到类中并保存为成员变量。事实上这类似于以前就支持的functor。C++11的优势是这一切都变得非常简单。你可以在任意时候使用它，而不仅仅是极少的特殊场合去写一整个的类。</p>
-
-<p>C++为性能计，实际上提供了好几种灵活的捕捉变量的方式，所有这些都是靠捕捉指示控制的[]。你已经看到了两种情况，[]中什么也没有则不捕获变量，用&amp;则变量以引用捕获。如果你创建了一个空[]的lambda函数，C++将创建一个普通的函数而不是类。这里有完整的捕获选项：</p>
-
-<pre><code>[]  不捕获任何变量
-[&amp;] 以引用方式捕获所有变量
-[=] 用值的方式捕获所有变量（可能被编译器优化为const &amp;)
-[=, &amp;foo] 以引用捕获foo, 但其余变量都靠值捕获
-[bar] 以值方式捕获bar; 不捕获其它变量
-[this] 捕获所在类的this指针
-</code></pre>
-
-<p>注意最后一个捕获选项，如果你已经指定了一个默认的捕获（=或者&amp;）那么也包含this。但是能捕获this指针的能力非常重要，这意味着写函数时你不需要区分局部变量和类属性的不同，两者都可以获取到。酷的是你不需显式指定this指针。它真的像你在写一个内联函数。
-```cpp
-class Foo
-{
-public:</p>
-
-<pre><code>Foo () : _x( 3 ) {}
-void func ()
-{
-    // a very silly, but illustrative way of printing out the value of _x
-    [this] () { cout &lt;&lt; _x; } ();
-}
-</code></pre>
-
-<p>private:</p>
-
-<pre><code>    int _x;
-</code></pre>
-
-<p>};</p>
-
-<p>int main()
-{</p>
-
-<pre><code>Foo f;
-f.func();
-</code></pre>
-
-<p>}
-```</p>
-
-<h3>捕获引用的优缺点</h3>
-
-<p>以引用捕获变量时，可以在lambda函数内修改局部变量的值。这也意味着从一个函数中返回一个lambda函数，你不能以引用捕获变量，因为引用的值在函数返回时已经无效了。</p>
-
-<h2>lambda函数的类型是什么？</h2>
-
-<p>创建lambda函数的一个原因是有些人创建了一个希望接受lambda函数的函数。我们已经看到了我们使用模板去接收lambda函数作为参数，并且使用auto去接这个lambda函数作为一个局部变量。但是你如何命名指定的lambda函数？因为像前面看到的一样，每一个lambda函数都实现为一个独立的类，所以即使是拥有相同类型和返回值的lambda函数也是不同的类型。但C++11提供了一个便捷的外敷类去存储任何类型的函数，lambda函数、仿函数和函数指针。</p>
-
-<h3>std::function</h3>
-
-<p>新的std::function是传递lambda函数的最好的方式，不管是传递参数还是返回值。它允许你在模板中指定参数列表和返回值的确切类型。这里有AddressBook的例子，这次我们使用std::function代替模板。注意我们用到了'functional'头文件。
-```cpp</p>
-
-<h1>include <functional></h1>
-
-<h1>include <vector></h1>
-
-<p>class AddressBook
-{</p>
-
-<pre><code>public:
-std::vector&lt;string&gt; findMatchingAddresses (std::function&lt;bool (const string&amp;)&gt; func)
-{ 
-    std::vector&lt;string&gt; results;
-    for ( auto itr = _addresses.begin(), end = _addresses.end(); itr != end; ++itr )
-    {
-        // 调用传递到findMatchingAddresses的函数并检测是否匹配规则
-        if ( func( *itr ) )
-        {
-            results.push_back( *itr );
-        }
-    }
-    return results;
-}
-
-private:
-std::vector&lt;string&gt; _addresses;
-</code></pre>
-
-<p>};
-```
-std::function较模板的一大优势是，使用模板你必须将整个函数放到头文件中，而std::function则不用。当你的代码变化频繁并且被好多代码文件引用时，这会非常有用。</p>
-
-<p>假如你想检测std::function是否含有一个有效的函数，把它当作boolean就可以了：
-```cpp
-std::function<int ()> func;
-// 检测是否包含函数
-if ( func )
-{</p>
-
-<pre><code>// if we did have a function, call it
-func();
-</code></pre>
-
-<p>}
-```</p>
-
-<h3>关于函数指针的提示</h3>
-
-<p>在最终的C++11标准中，假如你有一个指定空捕获列表的lambda函数，那它将像普通函数一样并可以被赋值到一个函数指针。这有一个作为指针使用空捕获列表lambda的例子：
-<code>cpp
-typedef int (*func)();
-func f = [] () -&gt; int { return 2; };
-f();
-</code>
-这样是可以的，因为lambda函数没有捕获组，那也就不需要自己的类。它可以被编译成普通函数，运行被传递给普通函数。不幸的是这个特性没有被包含到MSVC10中，它被加入到标准的时间太晚了。</p>
-
-<h2>使用Lambda实现委托</h2>
-
-<p>让我们在看一个lambda函数的例子，这次我们创建一个委托。当调用一个普通函数时，你只需要知道这个函数。而调用类的成员函数时，你需要知道两件东西：成员函数和类对象。这是func()和obj.method()的不同。要调用一个成员方法，你需要两者，仅仅将函数地址传进去是不够的，你需要一个对象去调用这个函数。</p>
-
-<p>让我们看一个例子：
-```cpp</p>
-
-<h1>include <functional></h1>
-
-<h1>include <string></h1>
-
-<p>class EmailProcessor
-{
-public:</p>
-
-<pre><code>void receiveMessage (const std::string&amp; message)
-{
-    if ( _handler_func ) 
-    {
-        _handler_func( message );
-    }
-    // other processing
-}
-void setHandlerFunc (std::function&lt;void (const std::string&amp;)&gt; handler_func)
-{
-    _handler_func = handler_func;
-}
-</code></pre>
-
-<p>private:</p>
-
-<pre><code>    std::function&lt;void (const std::string&amp;)&gt; _handler_func;
-</code></pre>
-
-<p>};
-<code>
-这是注册回调函数到类里的很典型的模式，当感兴趣的事情发生时会调用回调函数。接着我们希望另一个类负责跟踪最长的消息（为什么这么做，或许你是一个无聊的管理员）。总之我们创建了如下的类：
-</code>cpp</p>
-
-<h1>include <string></h1>
-
-<p>class MessageSizeStore
-{</p>
-
-<pre><code>MessageSizeStore () : _max_size( 0 ) {}
-void checkMessage (const std::string&amp; message ) 
-{
-    const int size = message.length();
-    if ( size &gt; _max_size )
-    {
-        _max_size = size;
-    }
-}
-int getSize ()
-{
-    return _max_size;
-}
-</code></pre>
-
-<p>private:</p>
-
-<pre><code>int _max_size;
-</code></pre>
-
-<p>};
-<code>
-如果我们想让checkMessage在消息来时被调用，我们该怎么做？我们不能只传进checkMessage自己。它是个成员方法，所以它需要一个对象。
-</code>cpp
-EmailProcessor processor;
-MessageSizeStore size_store;
-processor.setHandlerFunc( checkMessage ); // 这行不通
-<code>
-我们需要绑定setHandleFunc和size_store变量的方法。恩，听起来是lambda的拿手好戏！
-</code>cpp
-EmailProcessor processor;
-MessageSizeStore size_store;
-processor.setHandlerFunc(</p>
-
-<pre><code>    [&amp;] (const std::string&amp; message) { size_store.checkMessage( message ); } 
-</code></pre>
-
-<p>);
-```
-够酷吧，我们这里把lambda使成了胶水代码，允许我们传递普通函数到setHandleFunc，实际上调用的还是委托类的成员函数。</p>
-
-<h2>总结</h2>
-
-<p>lambda函数会不会出现在C++代码的各种地方？我觉得会。我开始使用lambda函数在更富生产力的代码中，它们出现在所有的地方：一些为精简代码、一些为支持单元测试、一些代替以前用宏实现的代码。Year，我想lambda比其它希腊字母要酷。</p>
-
-<p>下一篇：<a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
-
-<p>上一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
-
-<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-lambda-closures.html">C++11 &ndash; Lambda Closures, the Definitive Guide &ndash; Cprogramming.com</a></p>
 ]]></content>
   </entry>
   

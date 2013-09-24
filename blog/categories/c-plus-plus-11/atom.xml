@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++11 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus-11/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-24T01:19:07+08:00</updated>
+  <updated>2013-09-25T00:44:27+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -352,7 +352,7 @@ for ( int i : v ) { cout &lt;&lt; i &lt;&lt; endl; }
     <link href="http://towriting.com/blog/2013/08/11/lambda-closures/"/>
     <updated>2013-08-11T22:45:00+08:00</updated>
     <id>http://towriting.com/blog/2013/08/11/lambda-closures</id>
-    <content type="html"><![CDATA[<p>{% img right /images/posts/lambda-closures/lambda.png 66 90 &lsquo;lambda&rsquo; &lsquo;C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。&rsquo;%}</p>
+    <content type="html"><![CDATA[<p><img class="right" src="/images/posts/lambda-closures/lambda.png" width="66" height="90" title="&lsquo;lambda&rsquo; &lsquo;C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。&rsquo;" ></p>
 
 <h2>为什么Lambda很酷</h2>
 
@@ -1039,7 +1039,7 @@ for (auto address_entry: address_book)
 <code>
 这将打印出：
 </code>bash
-Alex <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#119;&#101;&#x62;&#x6d;&#x61;&#115;&#116;&#x65;&#114;&#x40;&#x74;&#x6f;&#119;&#x72;&#x69;&#x74;&#105;&#x6e;&#x67;&#46;&#x63;&#111;&#x6d;">&#119;&#x65;&#x62;&#x6d;&#x61;&#x73;&#116;&#x65;&#114;&#64;&#116;&#x6f;&#x77;&#x72;&#x69;&#x74;&#x69;&#110;&#103;&#46;&#99;&#x6f;&#x6d;</a>
+Alex <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#119;&#101;&#98;&#109;&#97;&#x73;&#x74;&#101;&#114;&#64;&#x74;&#x6f;&#119;&#114;&#105;&#x74;&#105;&#110;&#x67;&#46;&#99;&#111;&#x6d;">&#119;&#x65;&#98;&#109;&#x61;&#x73;&#116;&#101;&#114;&#64;&#116;&#111;&#119;&#x72;&#x69;&#116;&#105;&#x6e;&#x67;&#x2e;&#x63;&#111;&#x6d;</a>
 ```
 这是一个不错的C++11新特性组合用法吧？</p>
 
