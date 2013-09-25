@@ -5,7 +5,7 @@ date: 2013-09-23 22:25
 comments: true
 categories: C++
 keywords: C++,C++陷阱,C++哲学
-description: 
+description: C++的哲学决定其不适应于并发编程
 ---
 {% img right /images/posts/edward-chands/Edwardscissorhandsposter.png  "" "我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。"%}
 
@@ -113,7 +113,7 @@ D语言至少有深度const和不可变的概念（没有线程可以修改一�
 
 但是C++对这些都不支持，并且看起来永远都支持不了。
 
-当然，你可能认出了这些并发和并行的特征都是函数式语言具有的，特别是不可变和纯函数。别嫌我烦：Haskell是并发编程上执牛耳者，包括GPU编程。这是为什么我在布道C++技巧数载后轻易转向了haskell。每一个认真对待并发和并行的程序员都应该好好学习haskell看一下它是如何处理这一切的。这里有一本Simon Marlow写的不错的书：Parallel and Concurrent Programming in Haskell ，读完它你或者开始在C++中使用函数式编程技术，或者认识到并发编程和指令式编程的分歧而转投Haskell。
+当然，你可能认出了这些并发和并行的特征都是函数式语言具有的，特别是不可变和纯函数。别嫌我烦：Haskell是并发编程上执牛耳者，包括GPU编程。这是为什么我在布道C++技巧数载后轻易转向了haskell。每一个认真对待并发和并行的程序员都应该好好学习haskell看一下它是如何处理这一切的。这里有一本Simon Marlow写的不错的书：<a href="http://www.amazon.cn/gp/product/1449335942/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=1449335942&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">Parallel and Concurrent Programming in Haskell</a>，读完它你或者开始在C++中使用函数式编程技术，或者认识到并发编程和指令式编程的分歧而转投Haskell。
 
 ##结论
 我认为C++语言和其哲学是和并发编程的需求冲突的。这种冲突导致并发编程在主流软件开发中缓慢前行。因为这过时的编程范式，微处理器、vector units和GPU的巨大能力被业界浪费了。
