@@ -4,10 +4,10 @@
 
 url: http://towriting.com
 title: 书写|记下人生痕迹
-subtitle: 一个C++程序员的博客网站
+subtitle: 
 author: ToWriting
-simple_search: #http://google.com/search
-description: 记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等的技术知识; 所有文章皆为原创或翻译.
+simple_search: http://google.com/search
+description: 记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等相关技术知识; 所有文章皆为原创或翻译.
 keywords: 阅读,思考,书写,程序员,C++
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
@@ -18,7 +18,7 @@ date_format: "%Y-%m-%d"
 
 # RSS / Email (optional) subscription links (change if using something like Feedburner)
 subscribe_rss: /atom.xml
-subscribe_email:
+subscribe_email: 
 # RSS feeds can list your email address if you like
 email:
 
@@ -34,12 +34,20 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-markdown: rdiscount
+#markdown: rdiscount
 rdiscount:
   extensions:
     - autolink
     - footnotes
     - smart
+
+markdown: kramdown
+kramdown:
+  use_coderay: true
+  coderay:
+    coderay_line_numbers: nil
+    coderay_css: class
+
 pygments: false # default python pygments have been replaced by pygments.rb
 
 paginate: 5          # Posts per page on the blog index

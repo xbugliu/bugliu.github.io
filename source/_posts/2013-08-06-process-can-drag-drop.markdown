@@ -19,7 +19,8 @@ BOOL ChangeTokenIntegrity(HANDLE &hToken)
 {  
     SID_IDENTIFIER_AUTHORITY MLAuthority = SECURITY_MANDATORY_LABEL_AUTHORITY;  
     PSID pIntegritySid = NULL;  
-    if (!AllocateAndInitializeSid(&MLAuthority, 1, SECURITY_MANDATORY_MEDIUM_RID, 0, 0, 0, 0, 0, 0, 0, &pIntegritySid))  
+    if (!AllocateAndInitializeSid(&MLAuthority, 1, SECURITY_MANDATORY_MEDIUM_RID, 
+                                  0, 0, 0, 0, 0, 0, 0, &pIntegritySid))  
     {   
         return FALSE;  
     }  
@@ -27,7 +28,8 @@ BOOL ChangeTokenIntegrity(HANDLE &hToken)
     tml.Label.Attributes = SE_GROUP_INTEGRITY;  
     tml.Label.Sid = pIntegritySid;
     
-    const BOOL bRet = SetTokenInformation(hToken, TokenIntegrityLevel, &tml, (sizeof(tml) + GetLengthSid(pIntegritySid)));  
+    const BOOL bRet = SetTokenInformation(hToken, TokenIntegrityLevel, &tml, 
+                                          (sizeof(tml) + GetLengthSid(pIntegritySid)));  
     if (pIntegritySid)  
     {   
         FreeSid(pIntegritySid);  

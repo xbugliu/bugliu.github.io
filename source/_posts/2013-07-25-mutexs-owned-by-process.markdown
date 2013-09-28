@@ -73,4 +73,4 @@ typedef struct _OBJECT_TYPE_INFORMATION
 由获取的句柄的类型信息和句柄所在的进程ID，即可找到当前进程拥有的互斥量，同时我们也得到了互斥量的名字。
 
 ###完整代码如下：
-{% include_code  代码：WIN7/VS2010 cpp/get_process_mutex.cpp %}
+{% include_code  WIN7/VS2010 cpp/get_process_mutex.cpp %}

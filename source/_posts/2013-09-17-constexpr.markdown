@@ -24,6 +24,7 @@ constexpr int multiply (int x, int y)
 const int val = multiply( 10, 10 );
 ```
 除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。
+
 ```cpp
 constexpr int getDefaultArraySize (int multiplier)
 {

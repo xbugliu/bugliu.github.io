@@ -7,8 +7,9 @@ categories: C++
 keywords: C++,C++陷阱,C++哲学
 description: C++的哲学决定其不适应于并发编程
 ---
-{% img right /images/posts/edward-chands/Edwardscissorhandsposter.png  "" "我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。"%}
+{% img pull-right /images/posts/edward-chands/Edwardscissorhandsposter.png  %}
 
+> 我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。
 
 在这部电影中，可怜的家伙（Johnny Depp)想温柔的拥抱Winona Ryder但是他笨拙的剪刀手对他们俩都会造成伤害。他的脸上留下了很多伤疤。
 
