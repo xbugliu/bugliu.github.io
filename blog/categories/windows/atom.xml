@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Windows | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-25T08:45:21+08:00</updated>
+  <updated>2013-09-29T02:41:19+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -31,7 +31,8 @@ BOOL ChangeTokenIntegrity(HANDLE &amp;hToken)
 
 <pre><code>SID_IDENTIFIER_AUTHORITY MLAuthority = SECURITY_MANDATORY_LABEL_AUTHORITY;  
 PSID pIntegritySid = NULL;  
-if (!AllocateAndInitializeSid(&amp;MLAuthority, 1, SECURITY_MANDATORY_MEDIUM_RID, 0, 0, 0, 0, 0, 0, 0, &amp;pIntegritySid))  
+if (!AllocateAndInitializeSid(&amp;MLAuthority, 1, SECURITY_MANDATORY_MEDIUM_RID, 
+                              0, 0, 0, 0, 0, 0, 0, &amp;pIntegritySid))  
 {   
     return FALSE;  
 }  
@@ -39,7 +40,8 @@ TOKEN_MANDATORY_LABEL tml = {0};
 tml.Label.Attributes = SE_GROUP_INTEGRITY;  
 tml.Label.Sid = pIntegritySid;
 
-const BOOL bRet = SetTokenInformation(hToken, TokenIntegrityLevel, &amp;tml, (sizeof(tml) + GetLengthSid(pIntegritySid)));  
+const BOOL bRet = SetTokenInformation(hToken, TokenIntegrityLevel, &amp;tml, 
+                                      (sizeof(tml) + GetLengthSid(pIntegritySid)));  
 if (pIntegritySid)  
 {   
     FreeSid(pIntegritySid);  
@@ -62,7 +64,7 @@ return bRet;
     <id>http://towriting.com/blog/2013/07/31/de-elevate-start-process</id>
     <content type="html"><![CDATA[<p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>代码：WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -374,7 +376,7 @@ return bRet;
 
 <h3>完整代码如下：</h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>代码：WIN7/VS2010 (get_process_mutex.cpp)</span> <a href='/downloads/code/cpp/get_process_mutex.cpp'>download</a></figcaption>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WIN7/VS2010 (get_process_mutex.cpp)</span> <a href='/downloads/code/cpp/get_process_mutex.cpp'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -599,6 +601,12 @@ return bRet;
 <span class='line-number'>222</span>
 <span class='line-number'>223</span>
 <span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
 </span><span class='line'><span class="cp">#include &lt;functional&gt;</span>
 </span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
@@ -666,7 +674,8 @@ return bRet;
 </span><span class='line'>		<span class="p">}</span>
 </span><span class='line'>		<span class="c1">// 获取信息</span>
 </span><span class='line'>		<span class="k">const</span> <span class="n">DWORD</span> <span class="n">ObjectNameInformation</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>		<span class="n">OBJECT_INFORMATION_CLASS</span> <span class="n">infoType</span> <span class="o">=</span> <span class="n">bType</span> <span class="o">?</span> <span class="n">ObjectTypeInformation</span> <span class="o">:</span> <span class="n">OBJECT_INFORMATION_CLASS</span><span class="p">(</span><span class="n">ObjectNameInformation</span><span class="p">);</span>
+</span><span class='line'>		<span class="n">OBJECT_INFORMATION_CLASS</span> <span class="n">infoType</span> <span class="o">=</span> <span class="n">bType</span> <span class="o">?</span> <span class="n">ObjectTypeInformation</span> <span class="o">:</span>
+</span><span class='line'>                                                            <span class="n">OBJECT_INFORMATION_CLASS</span><span class="p">(</span><span class="n">ObjectNameInformation</span><span class="p">);</span>
 </span><span class='line'>		<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BYTE</span><span class="o">&gt;</span> <span class="n">objVec</span><span class="p">(</span><span class="mi">256</span><span class="p">);</span>
 </span><span class='line'>		<span class="n">ULONG</span> <span class="n">bytesOfRead</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>	
 </span><span class='line'>		<span class="n">NTSTATUS</span> <span class="n">status</span> <span class="o">=</span> <span class="n">STATUS_UNSUCCESSFUL</span><span class="p">;</span>
@@ -688,7 +697,8 @@ return bRet;
 </span><span class='line'>
 </span><span class='line'>		<span class="k">if</span> <span class="p">(</span><span class="n">bType</span><span class="p">)</span>
 </span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">const</span> <span class="n">OBJECT_TYPE_INFORMATION</span> <span class="o">*</span><span class="n">pObjType</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">OBJECT_TYPE_INFORMATION</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">objVec</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</span><span class='line'>			<span class="k">const</span> <span class="n">OBJECT_TYPE_INFORMATION</span> <span class="o">*</span><span class="n">pObjType</span> <span class="o">=</span>
+</span><span class='line'>                                                       <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">OBJECT_TYPE_INFORMATION</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">objVec</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
 </span><span class='line'>			<span class="n">strName</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">wstring</span><span class="p">(</span><span class="n">pObjType</span><span class="o">-&gt;</span><span class="n">TypeName</span><span class="p">.</span><span class="n">Buffer</span><span class="p">,</span> <span class="n">pObjType</span><span class="o">-&gt;</span><span class="n">TypeName</span><span class="p">.</span><span class="n">Length</span> <span class="o">/</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">WCHAR</span><span class="p">));</span>
 </span><span class='line'>		<span class="p">}</span>
 </span><span class='line'>		<span class="k">else</span>
@@ -707,7 +717,8 @@ return bRet;
 </span><span class='line'><span class="k">class</span> <span class="nc">WalkHandleHelper</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'>	<span class="n">WalkHandleHelper</span><span class="p">(</span><span class="k">const</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="o">&amp;</span> <span class="n">handleInfo</span><span class="p">,</span> <span class="k">const</span> <span class="n">HANDLE</span><span class="o">&amp;</span> <span class="n">handle</span><span class="p">)</span><span class="o">:</span><span class="n">m_HandleInfo</span><span class="p">(</span><span class="n">handleInfo</span><span class="p">),</span> <span class="n">m_Handle</span><span class="p">(</span><span class="n">handle</span><span class="p">){}</span>
+</span><span class='line'>	<span class="n">WalkHandleHelper</span><span class="p">(</span><span class="k">const</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="o">&amp;</span> <span class="n">handleInfo</span><span class="p">,</span> <span class="k">const</span> <span class="n">HANDLE</span><span class="o">&amp;</span> <span class="n">handle</span><span class="p">)</span>
+</span><span class='line'>        <span class="o">:</span><span class="n">m_HandleInfo</span><span class="p">(</span><span class="n">handleInfo</span><span class="p">),</span> <span class="n">m_Handle</span><span class="p">(</span><span class="n">handle</span><span class="p">){}</span>
 </span><span class='line'>	<span class="n">DWORD</span> <span class="n">GetProcessID</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_HandleInfo</span><span class="p">.</span><span class="n">ProcessId</span><span class="p">;}</span>
 </span><span class='line'>	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">GetTypeName</span><span class="p">()</span> <span class="k">const</span>
 </span><span class='line'>	<span class="p">{</span>
@@ -744,7 +755,8 @@ return bRet;
 </span><span class='line'>
 </span><span class='line'>
 </span><span class='line'>	<span class="k">typedef</span> <span class="n">NTSTATUS</span> <span class="p">(</span><span class="n">NTAPI</span> <span class="o">*</span><span class="n">NtQuerySystemInformationFunc</span><span class="p">)(</span><span class="n">ULONG</span><span class="p">,</span> <span class="n">PVOID</span><span class="p">,</span> <span class="n">ULONG</span><span class="p">,</span> <span class="n">PULONG</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">NtQuerySystemInformationFunc</span> <span class="n">NtQuerySystemInformation_</span> <span class="o">=</span> <span class="p">(</span><span class="n">NtQuerySystemInformationFunc</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDll</span><span class="p">,</span> <span class="s">&quot;NtQuerySystemInformation&quot;</span><span class="p">);</span>
+</span><span class='line'>	<span class="n">NtQuerySystemInformationFunc</span> <span class="n">NtQuerySystemInformation_</span> <span class="o">=</span> <span class="p">(</span><span class="n">NtQuerySystemInformationFunc</span><span class="p">)</span>
+</span><span class='line'>                                                                 <span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDll</span><span class="p">,</span> <span class="s">&quot;NtQuerySystemInformation&quot;</span><span class="p">);</span>
 </span><span class='line'>	<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hCurProcess</span> <span class="o">=</span> <span class="n">GetCurrentProcess</span><span class="p">();</span>
 </span><span class='line'>	<span class="k">do</span>
 </span><span class='line'>	<span class="p">{</span>
@@ -775,14 +787,16 @@ return bRet;
 </span><span class='line'>		<span class="n">PSYSTEM_HANDLE_INFORMATION</span> <span class="n">pSysHandleInfo</span> <span class="o">=</span> <span class="p">(</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">)</span><span class="n">vecData</span><span class="p">.</span><span class="n">data</span><span class="p">();</span>
 </span><span class='line'>		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">HandleCount</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
 </span><span class='line'>		<span class="p">{</span>
-</span><span class='line'>			<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hOwnProcess</span> <span class="o">=</span> <span class="n">OpenProcess</span><span class="p">(</span><span class="n">PROCESS_DUP_HANDLE</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span> <span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ProcessId</span><span class="p">);</span>
+</span><span class='line'>			<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hOwnProcess</span> <span class="o">=</span> <span class="n">OpenProcess</span><span class="p">(</span><span class="n">PROCESS_DUP_HANDLE</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span>
+</span><span class='line'>                                                               <span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ProcessId</span><span class="p">);</span>
 </span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hOwnProcess</span><span class="p">)</span>
 </span><span class='line'>			<span class="p">{</span>
 </span><span class='line'>				<span class="k">continue</span><span class="p">;</span>
 </span><span class='line'>			<span class="p">}</span>
 </span><span class='line'>			<span class="n">HANDLE</span> <span class="n">hDuplicate</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
 </span><span class='line'>			<span class="c1">// 必须把Handle放入自己的进程中，否则无法获取其他进程拥有Handle的信息</span>
-</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">DuplicateHandle</span><span class="p">(</span><span class="n">hOwnProcess</span><span class="p">,</span> <span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span><span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Handle</span><span class="p">,</span> <span class="n">hCurProcess</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hDuplicate</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">DUPLICATE_SAME_ACCESS</span><span class="p">))</span>
+</span><span class='line'>			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">DuplicateHandle</span><span class="p">(</span><span class="n">hOwnProcess</span><span class="p">,</span> <span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span><span class="n">pSysHandleInfo</span><span class="o">-&gt;</span><span class="n">Handles</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">Handle</span><span class="p">,</span> <span class="n">hCurProcess</span><span class="p">,</span>
+</span><span class='line'>                            <span class="o">&amp;</span><span class="n">hDuplicate</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">DUPLICATE_SAME_ACCESS</span><span class="p">))</span>
 </span><span class='line'>			<span class="p">{</span>
 </span><span class='line'>				<span class="n">CloseHandle</span><span class="p">(</span><span class="n">hOwnProcess</span><span class="p">);</span>
 </span><span class='line'>				<span class="k">continue</span><span class="p">;</span>

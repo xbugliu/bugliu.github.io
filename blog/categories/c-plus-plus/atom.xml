@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-25T08:45:21+08:00</updated>
+  <updated>2013-09-29T02:41:19+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -18,7 +18,9 @@
     <link href="http://towriting.com/blog/2013/09/23/edward-chands/"/>
     <updated>2013-09-23T22:25:00+08:00</updated>
     <id>http://towriting.com/blog/2013/09/23/edward-chands</id>
-    <content type="html"><![CDATA[<p><img class="right" src="/images/posts/edward-chands/Edwardscissorhandsposter.png" title="&ldquo;&rdquo; &ldquo;我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。&rdquo;" ></p>
+    <content type="html"><![CDATA[<p><img class="pull-right" src="/images/posts/edward-chands/Edwardscissorhandsposter.png" title="" ></p>
+
+<blockquote><p>我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。</p></blockquote>
 
 <p>在这部电影中，可怜的家伙（Johnny Depp)想温柔的拥抱Winona Ryder但是他笨拙的剪刀手对他们俩都会造成伤害。他的脸上留下了很多伤疤。</p>
 
@@ -179,9 +181,10 @@ constexpr int multiply (int x, int y)
 
 <p>// 将在编译时计算
 const int val = multiply( 10, 10 );
-<code>
-除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。
-</code>cpp
+```
+除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。</p>
+
+<p>```cpp
 constexpr int getDefaultArraySize (int multiplier)
 {</p>
 

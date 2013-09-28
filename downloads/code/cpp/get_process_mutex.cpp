@@ -65,7 +65,8 @@ std::wstring QueryHandleNameInfo(HANDLE handle, BOOL bType)
 		}
 		// 获取信息
 		const DWORD ObjectNameInformation = 1;
-		OBJECT_INFORMATION_CLASS infoType = bType ? ObjectTypeInformation : OBJECT_INFORMATION_CLASS(ObjectNameInformation);
+		OBJECT_INFORMATION_CLASS infoType = bType ? ObjectTypeInformation : 
+                                                            OBJECT_INFORMATION_CLASS(ObjectNameInformation);
 		std::vector<BYTE> objVec(256);
 		ULONG bytesOfRead = 0;	
 		NTSTATUS status = STATUS_UNSUCCESSFUL;
@@ -87,7 +88,8 @@ std::wstring QueryHandleNameInfo(HANDLE handle, BOOL bType)
 
 		if (bType)
 		{
-			const OBJECT_TYPE_INFORMATION *pObjType = reinterpret_cast<OBJECT_TYPE_INFORMATION*>(objVec.data());
+			const OBJECT_TYPE_INFORMATION *pObjType = 
+                                                       reinterpret_cast<OBJECT_TYPE_INFORMATION*>(objVec.data());
 			strName = std::wstring(pObjType->TypeName.Buffer, pObjType->TypeName.Length / sizeof(WCHAR));
 		}
 		else
@@ -106,7 +108,8 @@ std::wstring QueryHandleNameInfo(HANDLE handle, BOOL bType)
 class WalkHandleHelper
 {
 public:
-	WalkHandleHelper(const SYSTEM_HANDLE_TABLE_ENTRY_INFO& handleInfo, const HANDLE& handle):m_HandleInfo(handleInfo), m_Handle(handle){}
+	WalkHandleHelper(const SYSTEM_HANDLE_TABLE_ENTRY_INFO& handleInfo, const HANDLE& handle)
+        :m_HandleInfo(handleInfo), m_Handle(handle){}
 	DWORD GetProcessID() const {return m_HandleInfo.ProcessId;}
 	std::wstring GetTypeName() const
 	{
@@ -143,7 +146,8 @@ void WalkHandle(const std::function<void(const WalkHandleHelper&)> &functor)
 
 
 	typedef NTSTATUS (NTAPI *NtQuerySystemInformationFunc)(ULONG, PVOID, ULONG, PULONG);
-	NtQuerySystemInformationFunc NtQuerySystemInformation_ = (NtQuerySystemInformationFunc)GetProcAddress(hDll, "NtQuerySystemInformation");
+	NtQuerySystemInformationFunc NtQuerySystemInformation_ = (NtQuerySystemInformationFunc)
+                                                                 GetProcAddress(hDll, "NtQuerySystemInformation");
 	const HANDLE hCurProcess = GetCurrentProcess();
 	do 
 	{
@@ -174,14 +178,16 @@ void WalkHandle(const std::function<void(const WalkHandleHelper&)> &functor)
 		PSYSTEM_HANDLE_INFORMATION pSysHandleInfo = (PSYSTEM_HANDLE_INFORMATION)vecData.data();
 		for (int i=0; i<pSysHandleInfo->HandleCount; ++i)
 		{
-			const HANDLE hOwnProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, pSysHandleInfo->Handles[i].ProcessId);
+			const HANDLE hOwnProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, 
+                                                               pSysHandleInfo->Handles[i].ProcessId);
 			if (NULL == hOwnProcess)
 			{
 				continue;
 			}
 			HANDLE hDuplicate = NULL;
 			// 必须把Handle放入自己的进程中，否则无法获取其他进程拥有Handle的信息
-			if (!DuplicateHandle(hOwnProcess, (HANDLE)pSysHandleInfo->Handles[i].Handle, hCurProcess, &hDuplicate,0,0, DUPLICATE_SAME_ACCESS))
+			if (!DuplicateHandle(hOwnProcess, (HANDLE)pSysHandleInfo->Handles[i].Handle, hCurProcess, 
+                            &hDuplicate,0,0, DUPLICATE_SAME_ACCESS))
 			{
 				CloseHandle(hOwnProcess);
 				continue;
