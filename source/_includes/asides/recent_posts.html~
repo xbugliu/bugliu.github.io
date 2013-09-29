@@ -1,5 +1,5 @@
 <section>
-  <h2>æœ€è¿‘æ–‡ç« </h2>
+  <h2>×î½üÎÄÕÂ</h2>
   <ul id="recent_posts">
     {% for post in site.posts limit: site.recent_posts %}
       <li class="post">

@@ -1,4 +1,4 @@
 <section>
-  <h2>鏂囩珷鍒嗙被</h2>
+  <h2>文章分类</h2>
     <ul id="category-list">{% category_list counter:true %}</ul>
 </section>
