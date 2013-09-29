@@ -34,19 +34,13 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-#markdown: rdiscount
+markdown: rdiscount
 rdiscount:
   extensions:
     - autolink
     - footnotes
     - smart
 
-markdown: kramdown
-kramdown:
-  use_coderay: true
-  coderay:
-    coderay_line_numbers: nil
-    coderay_css: class
 
 pygments: false # default python pygments have been replaced by pygments.rb
 
@@ -59,7 +53,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html]
+default_asides: [asides/recent_posts.html, custom/asides/popular.html, custom/asides/category_list.html, custom/asides/googleadsense.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -113,4 +107,7 @@ facebook_like: false
 
 # Use BShare
 bshare: true
+
+# Google Adsense
+google_adsense: true
 
