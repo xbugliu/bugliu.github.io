@@ -1,8 +1,0 @@
-.line-numbers {
- word-break: normal;
-}
-
-.highlight {
- overflow: auto;
- word-break: normal;
-}

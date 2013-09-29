@@ -1,4 +1,0 @@
-{% if site.google_adsense %}
-
-{% endif %}
-
