@@ -118,5 +118,9 @@ constexpr需要编译器支持编译期的递归，所以也不奇怪支持const
 
 上一篇：[区间迭代][2]
 
+译者：[toWriting.com](/)；翻译自：[Constexpr - Generalized Constant Expressions in C++11][3]
+
  [1]:http://en.wikipedia.org/wiki/Memoization
  [2]:/blog/2013/08/20/ranged-for-loop/
+ [3]:http://www.cprogramming.com/c++11/c++11-compile-time-processing-with-constexpr.html
+ [4]:/blog/2013/09/30/rvalue-references-and-move-semantics/
