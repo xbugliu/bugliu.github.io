@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-30T14:01:38+08:00</updated>
+  <updated>2013-09-30T22:57:31+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -530,6 +530,8 @@
 <p>下一篇：右值引用和移动语义</p>
 
 <p>上一篇：<a href="http://towriting.com/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
+
+<p>译者：<a href="http://towriting.com/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-compile-time-processing-with-constexpr.html">Constexpr &ndash; Generalized Constant Expressions in C++11</a></p>
 ]]></content>
   </entry>
   
@@ -2996,7 +2998,7 @@ Lambda函数利用<a href="http://towriting.com/blog/2013/08/08/improved-type-in
 <li><a href="http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
 <li><a href="http://towriting.com/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
 <li><a href="http://towriting.com/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
-<li>常量表达式</li>
+<li><a href="http://towriting.com/blog/2013/09/17/constexpr/">常量表达式</a></li>
 <li>右值引用和移动语义</li>
 <li>nullptr和强类型的枚举</li>
 </ul>
