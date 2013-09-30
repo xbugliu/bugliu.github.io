@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-09-29T17:46:24+08:00</updated>
+  <updated>2013-09-30T14:01:38+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[神级程序员的神话]]></title>
+    <link href="http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer/"/>
+    <updated>2013-09-30T12:20:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer</id>
+    <content type="html"><![CDATA[<p>神级程序员<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>的神话不过就是个，神话！它是由一些可悲的原因形成的神话：</p>
+
+<ul>
+<li>给普通人设置难以实现的预期</li>
+<li>宣扬虚无的神级程序员打压团队</li>
+<li>告诉某人是神级的并使其相信这一说法</li>
+</ul>
+
+
+<p>现实总是正态分布的。大量的程序员是普通水平的，一些大牛已属异类，神级程序员只是传说中有（其实一些也很烂）。</p>
+
+<blockquote><p>落后的项目增加人手,只会导致进度更加落后</p><footer><strong>Brooks&#8217;s law</strong> <cite><a href='http://en.wikipedia.org/wiki/Brooks%27s_law'>维基百科</a></cite></footer></blockquote>
+
+
+<h2>神级程序员只是个神话</h2>
+
+<p>人们总是津津乐道神级程序员可以做10个普通开发者的工作。天方夜谭！10个孕妇不会只用一个月生出小孩，10个“神级”程序员也无法代替100个普通程序员。</p>
+
+<ul>
+<li>助理工程师 &ndash; 简单的问题复杂的解决方案</li>
+<li>工程师 &ndash; 简单的问题简单的解决方案</li>
+<li>高级工程师 &ndash; 复杂的问题简单的解决方案</li>
+<li>神级工程师 &ndash; 消灭复杂的问题于无形</li>
+</ul>
+
+
+<p>我算是神级的吗？我自信自己是一个高级程序员，也小有名气。过去的20年我参加了很多成功的项目，但我从不是坊间最聪明的人。</p>
+
+<blockquote><p>高级 + 耀眼 != 神级</p></blockquote>
+
+<p>按我的理解：</p>
+
+<blockquote><p>高级 + 思想 == 神级</p></blockquote>
+
+<p>这和有没有名气并没有任何关系。不能因为某某人写博客、书或者善于演讲就说他是个好开发。</p>
+
+<p>神级程序员关心代码行数吗？不，好的开发关注的是解决问题。他们解决问题而不是抱怨问题。</p>
+
+<h2>神级的团队是现实存在的</h2>
+
+<p>事实上，团队想法和经验的某些特质成就了神级团队，这肯定是你关心的。深思与实效的组织架构加上激情积极好学的开发者必能有所成就。假如你坚持叫某些人“大神”，他可能是团队的老师或指导者。</p>
+
+<p>John Galloway曾说过：</p>
+
+<blockquote><p>“三思而后行”+“代码追求良质”是成就好团队的良方</p></blockquote>
+
+<p>建造一只聪明个性的团队。创建<strong>神级团队</strong>。</p>
+
+<p><strong>翻译自</strong>：<a href="http://www.hanselman.com/blog/TheMythOfTheRockstarProgrammer.aspx">The Myth of the Rockstar Programmer</a></p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>神级程序员(Rockstar Programmer)是指技术能力很强、经验丰富还必须要有以一敌十的工作效能的程序员。<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++手爱德华]]></title>
@@ -2946,189 +3011,6 @@ Lambda函数利用<a href="http://towriting.com/blog/2013/08/08/improved-type-in
 <p>下一篇：<a href="http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
 
 <p>译者：<a href="http://towriting.com/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[降权启动进程]]></title>
-    <link href="http://towriting.com/blog/2013/07/31/de-elevate-start-process/"/>
-    <updated>2013-07-31T22:01:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/07/31/de-elevate-start-process</id>
-    <content type="html"><![CDATA[<p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
-
-<figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='http://towriting.com/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
-</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;UserEnv.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinBase.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinSafer.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
-</span><span class='line'><span class="n">HANDLE</span> <span class="n">CreateNormalUserToken</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">HANDLE</span> <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferComputeTokenFromLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hRestrictedToken</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">SaferCloseLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">hRestrictedToken</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
-</span><span class='line'><span class="n">BOOL</span> <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">DWORD</span> <span class="n">dwCreationFlags</span> <span class="o">=</span> <span class="n">NORMAL_PRIORITY_CLASS</span> <span class="o">|</span> <span class="n">CREATE_NEW_CONSOLE</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">LPVOID</span> <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">CreateEnvironmentBlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pEnv</span><span class="p">,</span> <span class="n">hRestToken</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">dwCreationFlags</span> <span class="o">|=</span> <span class="n">CREATE_UNICODE_ENVIRONMENT</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">PROCESS_INFORMATION</span> <span class="n">pi</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">STARTUPINFO</span> <span class="n">si</span><span class="p">;</span>    
-</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">si</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">cb</span><span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">lpDesktop</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;winsta0</span><span class="se">\\</span><span class="s">default&quot;</span><span class="p">);</span> <span class="c1">//default input desktop for the interactive window station</span>
-</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pi</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">pi</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bResult</span> <span class="o">=</span> <span class="n">CreateProcessAsUser</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">,</span>    <span class="c1">// client&#39;s access token</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// file to execute</span>
-</span><span class='line'>                      <span class="n">cmd</span><span class="p">,</span>      <span class="c1">// command line</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to process SECURITY_ATTRIBUTES</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to thread SECURITY_ATTRIBUTES</span>
-</span><span class='line'>                      <span class="n">FALSE</span><span class="p">,</span>                  <span class="c1">// handles are not inheritable</span>
-</span><span class='line'>                      <span class="n">dwCreationFlags</span><span class="p">,</span>        <span class="c1">// creation flags</span>
-</span><span class='line'>                      <span class="n">pEnv</span><span class="p">,</span>                   <span class="c1">// pointer to new environment block</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// name of current directory</span>
-</span><span class='line'>                      <span class="o">&amp;</span><span class="n">si</span><span class="p">,</span>                    <span class="c1">// pointer to STARTUPINFO structure</span>
-</span><span class='line'>                      <span class="o">&amp;</span><span class="n">pi</span>                     <span class="c1">// receives information about new process</span>
-</span><span class='line'>                      <span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">bResult</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hProcess</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">pEnv</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">DestroyEnvironmentBlock</span><span class="p">(</span><span class="n">pEnv</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>需要创建出的进程支持拖拽的看这里：<a href="http://towriting.com/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
 ]]></content>
   </entry>
   

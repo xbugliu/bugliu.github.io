@@ -108,6 +108,71 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/08/17/a-doggerel-of-seven-years-ago/">七年前作的一首打油诗</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-17T23:45:00+08:00" pubdate data-updated="true">2013-08-17</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><pre><code>令伊伤神赴荆门
+狐死首丘怀故人
+祝君安康序仲昆
+晋地荒凉伤我心
+州内琐忆感乾坤
+二更如梦仿诸君
+中北桑梓孤独魂
+漂泊天涯无定坟
+泊头火柴烟头灰
+学海无涯岸边蹲
+子为成仙广寒奔
+事虽有定人两分
+业债空乘雪霜痕
+有心插柳未生根
+成败晦朔魄空存
+</code></pre>
+
+<p>这是06年10月份，刚升大学时，写的一首藏头诗：令狐祝晋州二中漂泊学子事业有成。这是自己写来勉励自己与高中同学的，那时大家都叫我令狐。听起来很俗套，句子想必也很晦涩，大家不一定能看得懂，自己也不一一解释。不管如何，庆幸当年留下的东西，可以今天拿来回忆。</p>
+
+<p>七年过去。记得当初写完这首藏头诗，发给几个要好的同学，一个最要好的同学立刻回复：有才。可就是这个最要好的同学在三年前已离我们而去。人生无常，迟早我们都要离开这个世界，可是小小年纪，人生刚刚扬帆即草草落幕，甚是可惜。他走的那年，我们剩余的好友相聚，酒喝了一斤多，醉后抱头痛哭！</p>
+
+<p>刚上大学时，经常做这样一个梦：没好好学习，学校开除我，我要回高中再读。每到此时，都惊出一身冷汗，随即醒来，长吁一声。可见高中的学习在内心深处对我如梦魇一般，但这一点我却不自知。如果有人问我，哪段人生经历最值得珍惜，我会毫不犹豫的说高中。</p>
+
+<p>高中时候，是我们逝去的青春岁月。学业虽然很繁重，我们也很穷，没钱买什么东西，但确是自己最快乐的时光。大家住校，相互之间称呼都很亲昵，一般都是一个字，或者各种外号。每天的日子，看起来都是重复的，早上早早起床出操，然后一天学习，直至晚上10点，中间穿插着吃饭。早起的喇叭里总是放着那几首歌曲，乃至今日我一听这几首歌，脑中就浮现路灯照进宿舍，大家极不情愿的起床穿衣的情景。</p>
+
+<p>高中结时的朋友，感情是可以和发小一样的。自己庆幸自己认识了几个这样的朋友，有他们陪伴的高中岁月一度是很快乐的。大家相互扶持走过了高中，完成了那样繁重的学业。</p>
+
+<p>七年过去了，同学之间的联系渐渐稀疏，各处天南海北，有些还在国外。年少时曾经志存高远，但长大后被现实折磨的没了脾气，同学们大部分过得并不得意，但也有小部分梦想还没被磨灭。不管怎样，希望大家不要麻木，但不要疲惫的去追求什么，成功是相对的，物质的生活容易满足，内心的满足不易。</p>
+
+<p>往昔概相濡以沫，今后翼相望江湖！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/08/16/programmer-dilemma/">程序员的困境</a></h1>
     
     
@@ -744,97 +809,6 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-06T22:48:00+08:00" pubdate data-updated="true">2013-08-06</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>。</p>
-
-<p>而后的一次交谈，才知道同事的真正目的是，创建出的进程支持拖拽。我只是创建出了非管理员的进程，而是否管理员与支持拖拽并没有直接联系，决定拖拽的是<strong>User Interface Privilege Isolation</strong> (<a href="http://en.wikipedia.org/wiki/User_Interface_Privilege_Isolation">UIPI</a>)特性。</p>
-
-<p>根据UIPI，低Integrity的进程无法向高Integrity的进程发送任意消息，这导致高Integrity看起来不支持拖拽。所以要使创建的进程支持拖拽，要满足Integrity低于或等于Explorer进程的Integrity值。</p>
-
-<p>前面文章<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>中，我们通过函数CreateNormalUserToken取得了受限的Token，只要修改此Token的Integrity即可使创建的进程拥有合适的Integrity，我们实现一个修改TokenIntegrity值的函数：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">BOOL</span> <span class="n">ChangeTokenIntegrity</span><span class="p">(</span><span class="n">HANDLE</span> <span class="o">&amp;</span><span class="n">hToken</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">SID_IDENTIFIER_AUTHORITY</span> <span class="n">MLAuthority</span> <span class="o">=</span> <span class="n">SECURITY_MANDATORY_LABEL_AUTHORITY</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">PSID</span> <span class="n">pIntegritySid</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">AllocateAndInitializeSid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">MLAuthority</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SECURITY_MANDATORY_MEDIUM_RID</span><span class="p">,</span>
-</span><span class='line'>                                  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pIntegritySid</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">TOKEN_MANDATORY_LABEL</span> <span class="n">tml</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Attributes</span> <span class="o">=</span> <span class="n">SE_GROUP_INTEGRITY</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Sid</span> <span class="o">=</span> <span class="n">pIntegritySid</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bRet</span> <span class="o">=</span> <span class="n">SetTokenInformation</span><span class="p">(</span><span class="n">hToken</span><span class="p">,</span> <span class="n">TokenIntegrityLevel</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tml</span><span class="p">,</span>
-</span><span class='line'>                                          <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tml</span><span class="p">)</span> <span class="o">+</span> <span class="n">GetLengthSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)));</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">FreeSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">bRet</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面第五行AllocateAndInitializeSid函数的第三个参数，这里取值SECURITY_MANDATORY_MEDIUM_RID是因为Explorer进程的Integrity一般是Medium。当然如果有必要也可以根据获取的Explorer进程的Integrity设置这个值。</p>
-
-<p>参考：<a href="http://msdn.microsoft.com/en-us/library/bb625963.aspx">Windows Integrity Mechanism Design</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -855,7 +829,8 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
     <footer class="footer"><p>
   Copyright &copy; 2013 - ToWriting -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
-  <span class="credit">Theme by <a href="https://github.com/barmstrong/octopress-bootstrap">Armstrong</a></span>
+  <span class="credit">Theme by <a href="https://github.com/barmstrong/octopress-bootstrap">Armstrong</a></span> -
+  <span class="credit">本站内容采用<a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a>进行许可</span>
 </p>
 </footer>
     
