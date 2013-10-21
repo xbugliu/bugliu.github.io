@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>暴力禁止windows自动安装驱动 - 书写|记下人生痕迹</title>
+  <title>Openshift小技巧-热部署 - 书写|记下人生痕迹</title>
   <meta name="author" content="ToWriting">
 
           
-        <meta name="description" content="暴力禁止windows自动安装驱动">
-        <meta name="keywords" content="windows,driver,驱动">
+        <meta name="description" content="如何热部署Openshift程序">
+        <meta name="keywords" content="Openshift热部署">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://towriting.com/blog/2013/08/03/forbid-auto-install-driver">
+  <link rel="canonical" href="http://towriting.com/blog/2013/10/21/openshift-tips">
   <link href="/favicon.ico" rel="icon">
 
   <link href="/assets/bootstrap/css/spacelab.min.css" rel="stylesheet" type="text/css">
@@ -105,7 +105,7 @@
     
   <header>
     
-      <h1 class="entry-title">暴力禁止windows自动安装驱动</h1>
+      <h1 class="entry-title">Openshift小技巧-热部署</h1>
     
     
       <p class="meta">
@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-08-03T22:24:00+08:00" pubdate data-updated="true">2013-08-03</time>
+<time datetime="2013-10-21T22:24:00+08:00" pubdate data-updated="true">2013-10-21</time>
         
       </p>
     
@@ -130,48 +130,18 @@
 
   
   
-  <div class="entry-content"><p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="windows自动安装驱动" alt="windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。"></p>
+  <div class="entry-content"><p>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github的pages时没遇到的事情，用Google快速搜索下，原来要用热部署（hot deploy)实现不重启openshift程序部署文件，官方是支持的，方法很简单：</p>
 
-<p>前两天我需要手动安装一个手机的根节点驱动，这个驱动属于系统基础驱动，所以一插入手机windows就帮你装上了，这不是我想要的。当我用遍了google、yahoo、ixquick、duckduckgo、baidu、soso各种搜索引擎仍然没有找到有效的禁用windows自动安装驱动的办法后，我只好尝试暴力对抗了。</p>
+<ol>
+<li>切换到你的Openshift程序根目录</li>
+<li>创建文件hot_deploy到指定目录：</li>
+</ol>
 
-<p>很快用ProcessMonitor定位到安装驱动的进程：
-<img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver.png"></p>
 
-<p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：</p>
-
-<figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">subprocess</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">RunLoop</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">startupinfo</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTUPINFO</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">startupinfo</span><span class="o">.</span><span class="n">dwFlags</span> <span class="o">|=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTF_USESHOWWINDOW</span>
-</span><span class='line'>        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;taskkill /F /IM drvinst.exe&#39;</span><span class="p">,</span> <span class="n">startupinfo</span><span class="o">=</span><span class="n">startupinfo</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">RunLoop</span><span class="p">()</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch .openshift/markers/hot_deploy
 </span></code></pre></td></tr></table></div></figure>
 
-
-<p><strong>注意：</strong>如果破坏drvinst进程后发现系统对新插入的设备不再自动安装驱动，则设备管理器中扫描检测硬件改动即可。</p>
 </div>
 
   
@@ -196,12 +166,12 @@
   
 
 
-<time datetime="2013-08-03T22:24:00+08:00" pubdate data-updated="true">2013-08-03</time>
+<time datetime="2013-10-21T22:24:00+08:00" pubdate data-updated="true">2013-10-21</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/windows/'>windows</a>
+    <a class='category' href='/blog/categories/octopress/'>Octopress</a>, <a class='category' href='/blog/categories/openshift/'>Openshift</a>
   
 </span>
 
@@ -229,10 +199,8 @@
       
       <p class="meta">
         
-          <a class="basic-alignment pull-left" href="/blog/2013/08/03/unix-background-job/" title="Previous Post: Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务">&laquo; Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务</a>
+          <a class="basic-alignment pull-left" href="/blog/2013/09/30/the-myth-of-the-rockstar-programmer/" title="Previous Post: 神级程序员的神话">&laquo; 神级程序员的神话</a>
         
-        
-          <a class="basic-alignment pull-right" href="/blog/2013/08/04/octopress-custom-404/" title="Next Post: octopress定制公益404页面">octopress定制公益404页面 &raquo;</a>
         
       </p>
     </footer>

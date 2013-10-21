@@ -34,7 +34,7 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/04/octopress-custom-404/</loc>
-        <lastmod>2013-09-29T17:20:22+08:00</lastmod>
+        <lastmod>2013-10-21T22:32:59+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</loc>
@@ -103,8 +103,12 @@
         <lastmod>2013-09-30T13:52:53+08:00</lastmod>
     </url>
     <url>
+        <loc>http://towriting.com/blog/2013/10/21/openshift-tips/</loc>
+        <lastmod>2013-10-21T22:31:40+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://towriting.com/blog/archives/</loc>
-        <lastmod>2013-09-30T22:51:23+08:00</lastmod>
+        <lastmod>2013-10-21T22:32:59+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/about/</loc>
@@ -116,7 +120,7 @@
     </url>
     <url>
         <loc>http://towriting.com/</loc>
-        <lastmod>2013-09-30T22:51:23+08:00</lastmod>
+        <lastmod>2013-10-21T22:32:59+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/search.html</loc>
