@@ -3,7 +3,7 @@ layout: post
 title: "octopress定制公益404页面"
 date: 2013-08-04 00:10
 comments: true
-categories: octopress blog
+categories: Octopress blog
 keywords: 404,公益404,octopress,博客,blog
 description: octopress定制公益404页面
 ---
