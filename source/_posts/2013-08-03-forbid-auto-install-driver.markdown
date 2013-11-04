@@ -3,7 +3,7 @@ layout: post
 title: "暴力禁止windows自动安装驱动"
 date: 2013-08-03 22:24
 comments: true
-categories: windows python
+categories: Windows Python
 keywords: windows,driver,驱动
 description: 暴力禁止windows自动安装驱动
 ---
