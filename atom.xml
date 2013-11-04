@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-10-21T22:38:30+08:00</updated>
+  <updated>2013-11-05T00:20:11+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,298 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[从Safe bool惯用法到explicit操作符]]></title>
+    <link href="http://towriting.com/blog/2013/11/01/safe-bool-idiom/"/>
+    <updated>2013-11-01T22:52:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/11/01/safe-bool-idiom</id>
+    <content type="html"><![CDATA[<blockquote><p>C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：<a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms">More C++ Idioms</a>，虽凝聚了C++程序员的聪明才智，但都是特定时期的产物，
+相信都会被冲到C++语言演化长河的河滩上，仅供后人瞻仰（或者是C++本身）。让我们从Safe bool idiom说起。</p></blockquote>
+
+<h2>Safe bool idiom</h2>
+
+<p>什么是safe bool idiom？就是为自定义类型（class）提供检测真假的能力，而又不会带来副作用。</p>
+
+<h3>为类(Class)提供检测真假的能力</h3>
+
+<p>方法有二，第一种简单直白，提供一个返回bool类型的函数，比如下面的isValid成员函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="kt">bool</span> <span class="n">IsValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">IsValid</span><span class="p">())</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//dosomething</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是直观而不易出错的。但多多少少有些强迫症的人会说，如果能像检测内置bool类型一样检测data对象不是更好的保证了代码的语法一致性？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//dosomething</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时他又急于向人们展示，&#8221;我会使用操作符重载哦“。于是第二种方法出来了，重载bool类型转化操作符：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//dosomething</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>漂亮的外表后面的东西可能是有毒的，比如毒蘑菇、巫婆的毒苹果和传说中的红颜祸水们。软件开发也概莫能外，这个漂亮的解决方案后面有问题。</p>
+
+<h3>bool操作符的副作用</h3>
+
+<p>假使有一个简单的指针外敷类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">CPtr</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">T</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>   <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'>   <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">ptr</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">;</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">p1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>   <span class="n">p2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//天知道会怎样</span>
+</span><span class='line'>   <span class="c1">//something </span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有人不小心拿两个不同类型的类对象来比较，不幸的是编译器并没有报错，因为17行隐式调用了operator==(bool,bool)，后面的结果真真天知道。
+这可如何是好？C++社区里最不缺人才，很快有人想出解决方案：</p>
+
+<h3>Safe bool实现</h3>
+
+<p>Safe Bool正式的提出是这里：<a href="http://www.artima.com/cppsource/safebool.html">The Safe Bool Idiom</a>，方法就是写一个类型转化操作符，这个操作符返回一个可以进行 <strong>if</strong> 判断的特有类型：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Testable</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">Testable</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="k">explicit</span> <span class="n">Testable</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">operator</span> <span class="n">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="kc">true</span> <span class="o">?</span>
+</span><span class='line'>        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="n">this_type_does_not_support_comparisons</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestableOther</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">TestableOther</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="k">explicit</span> <span class="n">TestableOther</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">operator</span> <span class="n">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="kc">true</span> <span class="o">?</span>
+</span><span class='line'>        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="n">this_type_does_not_support_comparisons</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Testable</span> <span class="n">testable</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">TestableOther</span> <span class="n">testableother</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//something</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span> <span class="o">==</span> <span class="n">testableother</span><span class="p">)</span> <span class="c1">//编译错误</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面代码，利用的是bool_type是函数指针类型，所以可以进行 <strong>if</strong> 判断，且不同类的bool_type是不同的，直接比较会编译错误。
+这就是safe bool Idiom，详细的代码可以参看这里：<a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/">More C++ Idioms/Safe bool</a>。
+但我认为这个方案是顾此失彼，会引发新的问题，比如类中重载operator int操作符怎么办？</p>
+
+<h2>C++11的做法</h2>
+
+<p>C++11的基因支持safe bool，方法就是使用<a href="http://en.cppreference.com/w/cpp/language/explicit">explicit</a>修饰operator：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Testable</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Testable</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span>      <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>  <span class="c1">// 编译错误</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>explicit</strong> 在C++11以前是只能用于修饰构造函数，但在C++11中可以用来修饰操作符，上面代码中的operator bool（）加上<strong>explicit</strong>表式其无法隐式转化为bool。
+这个解决方案，干净漂亮，无副作用。</p>
+
+<h2>总结</h2>
+
+<p>C++11前后的两种Safe Bool的解决方案比较，优劣立现。站在实用的角度上，C++11出现后，C++中好多“高端技术”已经不需要学习，比如StackOver上列出的这些：<a href="http://stackoverflow.com/questions/9299101/what-c-idioms-are-deprecated-in-c11">what C++ idioms are deprecated in C++11</a>。这些东西就像毛笔字一样，可以仅供专家与爱好者把玩了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Openshift小技巧-热部署]]></title>
@@ -2774,107 +3066,6 @@ Lambda函数利用<a href="http://towriting.com/blog/2013/08/08/improved-type-in
 
 
 <p><strong>注意：</strong>如果破坏drvinst进程后发现系统对新插入的设备不再自动安装驱动，则设备管理器中扫描检测硬件改动即可。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务]]></title>
-    <link href="http://towriting.com/blog/2013/08/03/unix-background-job/"/>
-    <updated>2013-08-03T19:25:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/03/unix-background-job</id>
-    <content type="html"><![CDATA[<p>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。</p>
-
-<p>在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换到前台、查看所有后台任务和结束一个后台任务。</p>
-
-<h2>1. 执行一个后台任务</h2>
-
-<p>在命令后面添加<a href="https://en.wikipedia.org/wiki/Ampersand">&amp;</a>就可以将任务执行到后台。</p>
-
-<p>比如，当你执行一个可能耗时很长的查找命令，你可以像下面例子中一样将它执行到后台。下面的例子将查找root目录下24小时内被修改过的文件：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt &amp;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2. 通过CTRL-Z和bg命令将当前任务切换到后台</h2>
-
-<p>你也可以将一个已经运行的前台任务切换到后台：</p>
-
-<ul>
-<li>组合键 ‘CTRL+Z’ 将暂停当前任务。</li>
-<li>执行bg将任务切换到后台执行</li>
-</ul>
-
-
-<p>像下面的例子，假如你忘记将任务执行到后台，你无需结束当前任务再启动一个新的后台任务。你可以暂停当前任务然后将它切换到后台：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span><span class="o">[</span>CTRL-Z<span class="o">]</span>
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>+  Stopped                 find / -ctime -1 &gt; /tmp/changed-file-list.txt
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span><span class="nb">bg</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3. 使用jobs命令查看所有后台任务</h2>
-
-<p>你可以使用<strong>jobs</strong>命令列出所有后台任务。一个jobs命令的可能输出如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
-</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
-</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4. 通过fg命令将后台任务切换到前台</h2>
-
-<p>你可以通过<strong>fg</strong>命令将后台任务切换到前台。如果执行fg命令不带参数，则将最近的后台任务切换到前台。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">fg</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>假如你有多个后台任务，你又想将指定任务切换到前台，那你可以先执行jobs命令列出所有任务号和对应命令。下面的例子，fg %1将一号任务(download-file.sh)切换到前台。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
-</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
-</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span><span class="nb">fg</span> %1
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>5. 通过kill %结束指定的后台任务</h2>
-
-<p>假如你想杀死指定的后台任务，用<strong>kill</strong> %任务号就行了。下面是杀死2号任务的例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> %2
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
 ]]></content>
   </entry>
   

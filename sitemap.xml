@@ -30,7 +30,7 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/</loc>
-        <lastmod>2013-09-30T22:51:23+08:00</lastmod>
+        <lastmod>2013-11-04T23:30:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/08/04/octopress-custom-404/</loc>
@@ -107,8 +107,12 @@
         <lastmod>2013-10-21T22:31:40+08:00</lastmod>
     </url>
     <url>
+        <loc>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</loc>
+        <lastmod>2013-11-05T00:18:29+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://towriting.com/blog/archives/</loc>
-        <lastmod>2013-10-21T22:32:59+08:00</lastmod>
+        <lastmod>2013-11-05T00:18:29+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/about/</loc>
@@ -120,7 +124,7 @@
     </url>
     <url>
         <loc>http://towriting.com/</loc>
-        <lastmod>2013-10-21T22:32:59+08:00</lastmod>
+        <lastmod>2013-11-05T00:18:29+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/search.html</loc>
