@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "从Safe bool惯用法到explicit操作符"
+title: "从Safe bool惯用法到explicit标识符"
 date: 2013-11-01 22:52
 comments: true
 categories: C++ C++11
