@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-11-10T10:24:58+08:00</updated>
+  <updated>2013-11-10T23:43:56+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,79 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[跳槽的好处]]></title>
+    <link href="http://towriting.com/blog/2013/11/10/job-hopping/"/>
+    <updated>2013-11-10T21:39:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/11/10/job-hopping</id>
+    <content type="html"><![CDATA[<p>前两天和一个一年半多没联系过的前同事通了个电话，聊了个把小时。我对他现在的工作状态很感兴趣，因为他的工作状态就是我不离开那家公司的可能的状态。</p>
+
+<p>通过他的描述，我感觉他的状态可能与一年半前差别不大。我离开时，推荐他们使用的SVN，到现在还是没有用起来，没有版本控制就没有协作。他讲到他遇到问题会通过Baidu+CSDN找答案，我问他怎么不用Google+Stackoverflow，Stackoverflow我离开前也是向他推荐过的。他知道学，也不排斥技术，现在主要的开发工具是VC6和Delphi6，用C++但没听说过C++11。知道开源，去过SourceForge，但没听说过Github。听说但没有使用过设计模式。</p>
+
+<p>通话最后，本着交流与分享，我向他推荐了以下内容：</p>
+
+<ul>
+<li>网站：Github、Stackoverflow、Reddit\r\cpp、HackerNews</li>
+<li>书籍：代码大全、程序员修炼之道、The C++ Programming Language、深度探索对象模型、禅与摩托车维修艺术</li>
+</ul>
+
+
+<p>我与他工作年限相仿，技术起点一致，唯一不同的是，我离开了那家公司，所以<strong>有机会学到或接触更多的技术知识，这可能就是跳槽的好处</strong>。</p>
+
+<p>简单梳理一下两次跳槽期间的收获，第一次：</p>
+
+<ul>
+<li>正规的软件开发流程</li>
+<li>Bug跟踪系统</li>
+<li>静态源码检测系统</li>
+<li>自动编译系统</li>
+<li>开始正式使用设计模式</li>
+<li>GitHub</li>
+<li>第一次翻译技术文章</li>
+<li>十数本计算机书籍</li>
+<li>WBS任务分解</li>
+<li>金融知识</li>
+<li>Python自动测试</li>
+<li>心理学</li>
+</ul>
+
+
+<p>第二次（到现在2013.11)：</p>
+
+<ul>
+<li>TFS</li>
+<li>项目中大规模使用C++11</li>
+<li>Windbg</li>
+<li>GDI+</li>
+<li>UAC</li>
+<li>HackerNews</li>
+<li>Reddit</li>
+<li>罗辑思维（罗胖）</li>
+<li>IPC</li>
+<li>Octopress建立博客</li>
+<li>wordPress建站</li>
+<li>amazon云主机</li>
+<li>openshift</li>
+<li>手机驱动知识</li>
+</ul>
+
+
+<p>上面纯技术相关的点大部分和跳槽直接相关，因为新公司新气象。其他点或多或少也和跳槽沾边，槽变人变，不同的人可能会给你不同的启发，比如《罗辑思维》这个节目就是一个同事力荐的。</p>
+
+<p>讲到了我自己经历的跳槽的收获，那是不是跳槽一定是利好的？答案是否定的。我曾遇到过一个35岁左右，编程数年的人，有几年中，平均两个月换一份工作，聊天中发现其竟不知很基础的编程知识，使用C++但从没断点调试过。</p>
+
+<p>所以，我以为<strong>好奇心和追求良质<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>是提高技术广度和深度的内部原因、好的项目与工作伙伴是外部原因，而跳槽不过增加了外部原因的刺激而已</strong>。</p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>良质，《禅与摩托车维修艺术》中的说法，从现有哲学体系看，良质是唯心的。良质存乎心中，指个人感受到某样东西的好，但无法量化衡量。比如，对比两段相同功能的代码，你可能就觉得其中一段“好”，而说不出原因，这种&#8221;好&#8221;就是良质。<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[驳‘做产品必须站在用户的角度考虑’]]></title>
@@ -2966,112 +3039,6 @@ Lambda函数利用<a href="http://towriting.com/blog/2013/08/08/improved-type-in
 <p>上面第五行AllocateAndInitializeSid函数的第三个参数，这里取值SECURITY_MANDATORY_MEDIUM_RID是因为Explorer进程的Integrity一般是Medium。当然如果有必要也可以根据获取的Explorer进程的Integrity设置这个值。</p>
 
 <p>参考：<a href="http://msdn.microsoft.com/en-us/library/bb625963.aspx">Windows Integrity Mechanism Design</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[octopress定制公益404页面]]></title>
-    <link href="http://towriting.com/blog/2013/08/04/octopress-custom-404/"/>
-    <updated>2013-08-04T00:10:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/04/octopress-custom-404</id>
-    <content type="html"><![CDATA[<p>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。</p>
-
-<h2>1. 创建404页面</h2>
-
-<p>首先，需要创建自定义的404页面，最初我是这样创建的，将404错误页面创建到source目录下的error目录</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>error/404.html<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>创建一个新的目录error专门保存错误页面，有两个好处。1是存储结构清晰，2是可以在robots.txt将整个目录Disallow掉。</p>
-
-<p>但后来看到github自定义404页面的<a href="https://help.github.com/articles/custom-404-pages">说明</a>，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>404.html<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2. Robots文件隐藏404页面</h2>
-
-<p>404页面异常页面，所谓家丑不可外扬，此页面无需搜索引擎爬虫知道。编辑robots.txt文件，添加404页面的Disallow：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
-</span><span class='line'>layout: nil
-</span><span class='line'>---
-</span><span class='line'>User-agent: *
-</span><span class='line'>Disallow: /404.html
-</span><span class='line'>
-</span><span class='line'>Sitemap: <span class="o"></span>/sitemap.xml
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3. 网站地图中隐藏掉404页面</h2>
-
-<p>同样网站地图也不需要包含添加404页面。打开plugins/sitemap_generator.rb，找到EXCLUDED_FILES，然后添加404.html。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Change SITEMAP_FILE_NAME if you would like your sitemap file</span>
-</span><span class='line'><span class="c1"># to be called something else</span>
-</span><span class='line'><span class="no">SITEMAP_FILE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sitemap.xml&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Any files to exclude from being included in the sitemap.xml</span>
-</span><span class='line'><span class="no">EXCLUDED_FILES</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;atom.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;404.html&quot;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Any files that include posts, so that when a new post is added, the last</span>
-</span><span class='line'><span class="c1"># modified date of these pages should take that into account</span>
-</span><span class='line'><span class="no">PAGES_INCLUDE_POSTS</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;index.html&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4. 定制公益404页面</h2>
-
-<p>我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面(404.html)即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
-</span><span class='line'>layout: page
-</span><span class='line'>title: <span class="s2">&quot;&quot;</span>
-</span><span class='line'>header: <span class="nb">false</span>
-</span><span class='line'>date: 2013-08-04 00:08
-</span><span class='line'>comments: <span class="nb">false</span>
-</span><span class='line'>sharing: <span class="nb">false</span>
-</span><span class='line'>footer: <span class="nb">false</span>
-</span><span class='line'>---
-</span><span class='line'>&lt;center&gt;&lt;h1&gt;ToWriting.com 404!&lt;/h1&gt;&lt;/center&gt;
-</span><span class='line'>&lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js?edition=small&quot;</span> <span class="nv">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>&gt;&lt;/script&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-
 ]]></content>
   </entry>
   
