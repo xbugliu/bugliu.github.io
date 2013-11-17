@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-11-10T23:43:56+08:00</updated>
+  <updated>2013-11-17T14:34:30+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Effective Tools - 多粘贴板 && 快速搜索]]></title>
+    <link href="http://towriting.com/blog/2013/11/17/effective-tools/"/>
+    <updated>2013-11-17T13:21:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/11/17/effective-tools</id>
+    <content type="html"><![CDATA[<p>前两天买了一本<a href="http://www.amazon.cn/gp/product/B001XCWFOI/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B001XCWFOI&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《卓有成效的程序员》</a>，看过几章后才明白为什么Stackoverflow里面人们会推荐这本书：它大抵是讲工具的，目的是为了提高程序员的生产率，但工具往往是人们漠视的。</p>
+
+<p>工具的熟练使用，是人之所以成为人的一个重要条件。程序员也一样，虽然我们的可替代性很强，但一个“有成效的”程序员和一个普通的程序员的工作效率天壤之别。</p>
+
+<p>工具是懒惰的程序员面对枯燥的劳动时下意识去寻找的东西。有些工具鲜有人知，但用过的人爱不释手。分享一下另自己爱不释手、每天都用的两款工具：</p>
+
+<h3>多粘贴板 Clipx</h3>
+
+<p>这是一款我每天都会使用，但认识的人里面没人听说过的软件，软件是免费使用的，下载地址在这里：<a href="http://bluemars.org/clipx/">Clipx</a>。</p>
+
+<p>此软件的定位是代替Windows系统粘帖版功能，我们知道Windows系统的粘帖板只能保存最后一个拷贝或剪切的内容，但这对于我们程序员来说是远远不够的，我们每天有大量的Ctrl+C\Ctrl+V操作，这款软件就是为程序员而生的，Clipx可以保存多个历史剪切\复制的内容（格式不限：文本、文件、图片等），并可以快速的选择粘贴：</p>
+
+<p><img src="http://towriting.com/images/posts/effective-tools/clipx.jpg" title="" ></p>
+
+<p><strong>Linux下也有类似软件，不过感觉不太好用：Glipper。</strong></p>
+
+<h3>快速查找 光速搜索</h3>
+
+<p>光速搜索是盛大出的一款免费软件，是以前一位同时推荐自己使用的，软件的优点是极速查找文件，并且有任务栏插件，方便实用。使用光速搜索，从此不用在忍受系统龟速的文件查找，唯一的一点不足就是此软件貌似不再更新，自己在Win7 64位下使用偶现Bug.</p>
+
+<p>国外有一些类似的软件，比如大名鼎鼎的：Everything，但用来皆不如光速搜索体验好。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[跳槽的好处]]></title>
@@ -75,6 +104,8 @@
 <p>讲到了我自己经历的跳槽的收获，那是不是跳槽一定是利好的？答案是否定的。我曾遇到过一个35岁左右，编程数年的人，有几年中，平均两个月换一份工作，聊天中发现其竟不知很基础的编程知识，使用C++但从没断点调试过。</p>
 
 <p>所以，我以为<strong>好奇心和追求良质<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>是提高技术广度和深度的内部原因、好的项目与工作伙伴是外部原因，而跳槽不过增加了外部原因的刺激而已</strong>。</p>
+
+<p>注：以上是技术提高的角度看跳槽之我见。站在职业发展的角度，最好不要频繁跳槽，站在职业道德与产品责任的角度，更不要轻易跳槽。</p>
 <div class="footnotes">
 <hr/>
 <ol>
@@ -2975,70 +3006,6 @@ Lambda函数利用<a href="http://towriting.com/blog/2013/08/08/improved-type-in
 <p>上一篇：<a href="http://towriting.com/blog/2013/08/01/what-is-cpp11/">什么是C++11</a></p>
 
 <p>译者：<a href="http://towriting.com/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html">C++11 &ndash; Auto, Decltype and return values after functions &ndash; Cprogramming.com</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[创建支持拖拽的进程]]></title>
-    <link href="http://towriting.com/blog/2013/08/06/process-can-drag-drop/"/>
-    <updated>2013-08-06T22:48:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/06/process-can-drag-drop</id>
-    <content type="html"><![CDATA[<p>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：<a href="http://towriting.com/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>。</p>
-
-<p>而后的一次交谈，才知道同事的真正目的是，创建出的进程支持拖拽。我只是创建出了非管理员的进程，而是否管理员与支持拖拽并没有直接联系，决定拖拽的是<strong>User Interface Privilege Isolation</strong> (<a href="http://en.wikipedia.org/wiki/User_Interface_Privilege_Isolation">UIPI</a>)特性。</p>
-
-<p>根据UIPI，低Integrity的进程无法向高Integrity的进程发送任意消息，这导致高Integrity看起来不支持拖拽。所以要使创建的进程支持拖拽，要满足Integrity低于或等于Explorer进程的Integrity值。</p>
-
-<p>前面文章<a href="http://towriting.com/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>中，我们通过函数CreateNormalUserToken取得了受限的Token，只要修改此Token的Integrity即可使创建的进程拥有合适的Integrity，我们实现一个修改TokenIntegrity值的函数：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">BOOL</span> <span class="n">ChangeTokenIntegrity</span><span class="p">(</span><span class="n">HANDLE</span> <span class="o">&amp;</span><span class="n">hToken</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">SID_IDENTIFIER_AUTHORITY</span> <span class="n">MLAuthority</span> <span class="o">=</span> <span class="n">SECURITY_MANDATORY_LABEL_AUTHORITY</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">PSID</span> <span class="n">pIntegritySid</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">AllocateAndInitializeSid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">MLAuthority</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SECURITY_MANDATORY_MEDIUM_RID</span><span class="p">,</span>
-</span><span class='line'>                                  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pIntegritySid</span><span class="p">))</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">TOKEN_MANDATORY_LABEL</span> <span class="n">tml</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
-</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Attributes</span> <span class="o">=</span> <span class="n">SE_GROUP_INTEGRITY</span><span class="p">;</span>
-</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Sid</span> <span class="o">=</span> <span class="n">pIntegritySid</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bRet</span> <span class="o">=</span> <span class="n">SetTokenInformation</span><span class="p">(</span><span class="n">hToken</span><span class="p">,</span> <span class="n">TokenIntegrityLevel</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tml</span><span class="p">,</span>
-</span><span class='line'>                                          <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tml</span><span class="p">)</span> <span class="o">+</span> <span class="n">GetLengthSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)));</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">FreeSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">bRet</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面第五行AllocateAndInitializeSid函数的第三个参数，这里取值SECURITY_MANDATORY_MEDIUM_RID是因为Explorer进程的Integrity一般是Medium。当然如果有必要也可以根据获取的Explorer进程的Integrity设置这个值。</p>
-
-<p>参考：<a href="http://msdn.microsoft.com/en-us/library/bb625963.aspx">Windows Integrity Mechanism Design</a></p>
 ]]></content>
   </entry>
   
