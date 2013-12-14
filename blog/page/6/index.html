@@ -108,7 +108,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/08/01/what-is-cpp11/">C++11系列-什么是C++11</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C++11系列-改进的类型推导：auto、decltype和新的函数语法</a></h1>
     
     
       <p class="meta">
@@ -124,74 +124,219 @@
   
 
 
-<time datetime="2013-08-01T20:32:00+08:00" pubdate data-updated="true">2013-08-01</time>
+<time datetime="2013-08-08T00:18:00+08:00" pubdate data-updated="true">2013-08-08</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h2>什么是C++0x?</h2>
+  <div class="entry-content"><p>C++11引入了一些新的实用的类型推导能力，这意味着你可以花费更少的时间去写那些编译器已经知道的东西。当然有些时候你需要帮助编译器或者你的编程伙伴。但是C++11，你可以在一些乏味的东西上花更少的时间，而多去关注逻辑本身。</p>
 
-<p>C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9月份，C++0x正式由官方发布并命名C++11，现在很多编译器已经支持了部分C++11特性。</p>
+<h2>auto之乐</h2>
 
-<p>C++11包括大量的新特性：主要特征像<a href="http://en.cppreference.com/w/cpp/language/lambda">lambda</a>表达式和移动语义，实用的类型推导关键字auto，更简单的容器遍历方法，和大量使模板更容易使用的改进。这一系列教程将包含所以以上特性。</p>
+<p>我们先快速回顾一下auto，万一你没有读<a href="/blog/2013/08/01/what-is-cpp11/">第一篇C++11文章</a>中关于auto的部分。在C++11中，如果编译器在定义一个变量的时候可以推断出变量的类型，不用写变量的类型，你只需写auto即可。</p>
 
-<h2>你该关注C++11吗？</h2>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>很明显，C++11为C++带来了大量的新特性。C++11将修复大量缺陷和降低代码拖沓，比如lambda表达式的支持将使代码更简洁。像移动语义这种特性会提高语言内核的基础效率，使你可以写出更快的代码。对模板系统的优化可以使你更容易写出泛型的代码。</p>
 
-<p>新的标准库同时也会包含新的特性，包括对多线程的支持和优化智能指针，后者将给那些还没用类似于<a href="http://www.boost.org/doc/libs/1_46_1/libs/smart_ptr/shared_ptr.htm">boost::shared_ptr</a>的人提供更简单的内存管理方法。</p>
+<p>现在可以这样写：</p>
 
-<p>我已经开始使用新的C++11特性，并且非常喜欢：新的auto关键字，对模板&#8221;>>&ldquo;写法的支持，lambda表达式和新的函数定义语法。</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h2>C++11是如何开发出来的？</h2>
 
-<p>C++11的出现，首先要感谢C++标准委员会的辛勤工作，一群来自学术界和工业界的专家，他们的多次会晤攻克难题，终于设计出了一种跨平台，被多种编译器支持，可以生成高效易维护代码的语言。而C++11新标准，就像对灵活强大的C++的一次不可思议的扩展。</p>
+<p>这当然不是auto预期的用途！它会在模板和迭代器的配合使用中闪耀光芒：</p>
 
-<h2>C++11包括什么？</h2>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">iterator</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<h4>更易用的语言</h4>
 
-<p>使用过C++11后，我发现它提供了大量的基础方法使C++变成了一种更易使用的语言。这不是说它变成了简单的语言&mdash;这里有大量的新特性&mdash;提供了大量的方法使编程更容易。让我们看一个例子，auto关键字。在C++11中，假如编译器可以从变量的初始化中得到它的类型，那么你不必要指定类型。比如，你可以这样写：</p>
+<p>其它时候auto也会非常有用。比如，你有一些下面格式的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">BuiltType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">BuiltType</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码，我们看到这里需要两个模板参数：一个是Builder对象的类型，另一个是Builder创建出的对象的类型。糟糕的是创建出的类型无法被推导出，所以每次你必须这样调用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span><span class="o">&lt;</span><span class="n">MyObj</span><span class="o">&gt;</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是auto立即将丑陋的代码一扫无余，当Builder创建对象时不用写特殊代码了，你可以让C++帮你做：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在你仅需一个模板参数，而且这个参数可以在函数调用的时候轻松推导：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样更易调用了，并且没丢失可读性，却更清晰了。</p>
+
+<h2>decltype和新的返回值语法</h2>
+
+<p>现在你可能会说auto就这样吗，假如我想返回Builder创建的对象怎么办？我还是需要提供一个模板参数作为返回值的类型。好！这充分证明了标准委员有一群聪明的家伙，对这个问题他们早想好了一个完美的解决方案。这个方案由两部分组成：decltype和新的返回值语法。</p>
+
+<h3>新的返回值语法</h3>
+
+<p>让我们讲一下新的返回值语法，这个语法还能看到auto的另一个用处。在以前版本的C和C++中，返回值的类型必须写在函数的前面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在C++11中，你可以把返回类型放在函数声明的后面，用auto代替前面的返回类型，像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是为什么我要这样用？让我们看一个证明这个语法好处的例子。一个包含枚举的类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Person</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="k">enum</span> <span class="n">PersonType</span> <span class="p">{</span> <span class="n">ADULT</span><span class="p">,</span> <span class="n">CHILD</span><span class="p">,</span> <span class="n">SENIOR</span> <span class="p">};</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">PersonType</span> <span class="n">getPersonType</span> <span class="p">();</span>
+</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">PersonType</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们写了一个简单的类，里面有一个类型PersonType表明Person是小孩、成人和老人。不做特殊考虑，我们定义这些成员方法时会发生什么？
+第一个设置方法，很简单，你可以使用枚举类型PersonType而不会有错误：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">Person</span><span class="o">::</span><span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">_person_type</span> <span class="o">=</span> <span class="n">person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而第二个方法却是一团糟。简单的代码却编译不过：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 编译器不知道PersonType是什么，因为PersonType会在Person类之外使用</span>
+</span><span class='line'><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你必须要这样写，才能使返回值正常工作</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">Person</span><span class="o">::</span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这可能不算大问题，不过会容易出错，尤其是牵连进模板的时候。</p>
+
+<p>这就是新的返回值语法引进的原因。因为函数的返回值出现在函数的最后，而不是前面，你不需要补全类作用域。当编译器解析到返回值的时候，它已经知道返回值属于Person类，所以它也知道PersonType是什么。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PersonType</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，这确实不错，但它真的能帮助我们什么吗？我们还不能使用新的返回值语法去解决我们之前的问题，我们能吗？不能，让我们介绍新的概念：decltype。</p>
+
+<h2>decltype</h2>
+
+<p>decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量，decltype让你从一个变量（或表达式）中得到类型。我说的是什么？</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span><span class='line'><span class="n">decltype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 相当于 auto y = x;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>编译器可以推导出y的类型是int。当然，这不是一个证明auto有用的一个闪亮的例子。当使用模板特别是STL时auto很好用。为什么这么说，想象使用一个迭代器(iterator):</p>
+<p>可以对基本上任何类型使用decltype，包括函数的返回值。嗯，听起来像个熟悉的问题，假如我们这样写：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
-</span><span class='line'><span class="n">address_book</span><span class="p">[</span><span class="s">&quot;Alex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;webmaster@towriting.com&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="c1">//add a bunch of people to address_book</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>现在你想遍历address_book中的元素，要这样做，你需要一个迭代器：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这是一个恐怖的长类型声明，当你已经知道这个类型的时候。这样是不是简洁多了：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码变得更简单明了，我觉得可读性也更高了，因为模板语法使这一行其它内容变模糊了。这是我特别喜欢的一个特性，我发现它消除了许多头疼和难以追踪的编译错误，节省了时间而没有丢掉表达式的意思。</p>
-
-<h4>区间迭代（range-based for loop)</h4>
-
-<p>下面迭代器的例子是C++11提供的一种处理迭代的更好方法，有些人叫做区间迭代（基本上所有的现代语言都支持）。这个例子足够证明这种语法是多么优雅：</p>
+<p>我们将得到makeObject的返回值类型，这能让我们指定makeAndProcessObject的返回类型。我们可以整合进新的返回值语法：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -201,86 +346,96 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="nl">i:</span> <span class="n">vec</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">auto</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>你需要做的就是给出一个变量和要迭代的区间。但是如果你想迭代一个map怎么办？你怎么设置map中值的类型？你知道vector值的类型是int。但map的值类型是pair，通过.first和.second给你提供键和值。但是用auto，你根本无需关心确切类型，你可以简单的写成：</p>
+<p>这仅适用于新的返回值语法，因为旧的语法下，我们在声明函数返回值的时候无法引用函数参数，而新语法，所有的参数都是可访问的。</p>
+
+<h2>auto：引用、指针和常量</h2>
+
+<p>下面要确定的一个问题是auto如何处理引用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp; or int?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>答案是在C++11中，auto处理引用时默认是值类型，所以下面的代码bar是int。不过你可以指定&amp;作为修饰符强制它作为引用：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">address_entry:</span> <span class="n">address_book</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">first</span><span class="o">&lt;&lt;</span><span class="s">&quot; &quot;</span><span class="o">&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">second</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int</span>
+</span><span class='line'><span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>这将打印出：</p>
+<p>不过，假如你有一个指针auto则自动获取指针类型：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Alex webmaster@towriting.com
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>这是一个不错的C++11新特性组合用法吧？</p>
-
-<h4>>>(right angle brackets)</h4>
-
-<p>我这里还有更易用的优化&mdash;在以前的C++标准中，假如你写一个含有其他模板类型的模板：</p>
+<p>但是你也可以显式指定表明变量是一个指针：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">auto</span> <span class="o">*</span><span class="n">p_baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>你必须在结束的两个&#8217;>&lsquo;之间添加空格。这不仅烦人，而且当你写成>>而没有空格时，你将得到困惑和误导的编译错误信息。产生这种行为的原因是C++词法分析的最大匹配原则（<a href="http://en.wikipedia.org/wiki/Maximal_munch">maximal munch rule</a>)。一个好消息是从今往后，你再也不用担心了：</p>
+<p>当处理引用时，你一样可以标记const，如果需要的话：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int&amp;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>对，这确实是个小东西，不过却是人工代码克服机器工具的胜利。另外，这样写就不那么丑了。</p>
+<p>或者指针：</p>
 
-<h4>多线程</h4>
-
-<p>这是第一次，C++11将包含一种内存模型和对应的多线程库，这意味着你将可以编写符合标准的多线程代码。新标准将提供所有的通用线程方法，比如线程、线程局部存储和原子操作。它也提供了一系列有趣的特性：futures和promises。futures和promises的主要思想是，你可以编写代码表示，“这个对象，一个future代码还没计算完的结果&#8221;，它将可以在后台计算结果。当这个值需要的时候，你向future发请求，假如这个值准备好了，那就可以得到它，要不然继续等待。</p>
-
-<p>我将在后续的文章中深入探讨多线程。</p>
-
-<h4>还有好多其他的东西</h4>
-
-<p>C++11特性的数量是客观的。你可以阅读维基百科里的<a href="http://en.wikipedia.org/wiki/C%2B%2B0x">C++11</a>页面，而我计划在这一系列文章中深入探索这些特性，包括：</p>
-
-<ul>
-<li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
-<li><a href="/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
-<li><a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
-<li><a href="/blog/2013/09/17/constexpr/">常量表达式</a></li>
-<li>右值引用和移动语义</li>
-<li>nullptr和强类型的枚举</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="n">const_foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">const</span> <span class="k">auto</span><span class="o">*</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int*</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">const_foo</span><span class="p">();</span> <span class="c1">// const int*</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>C++11的编译器支持</h3>
+<p>所有这些都很自然，并且这遵循C++模板中类型推导的规则。</p>
 
-<p>当然，如果无法使用再好的语言特性又有什么用，好消息是大量的编译器已经开始支持C++11。Apache基金会整理了一个列表，列出了C++11的语言特性和编译器的支持情况：<a href="http://wiki.apache.org/stdcxx/C%2B%2B0xCompilerSupport">支持C++11的编译器</a>。假如你对GCC感兴趣，这里有<a href="http://gcc.gnu.org/gcc-4.7/cxx0x_status.html">GCC4.7支持C++11</a>。</p>
+<p>下一篇：<a href="/blog/2013/08/11/lambda-closures/">Lambda表达式简明教程</a></p>
 
-<p>有些编译器，比如GCC，不会默认支持这些新特性&mdash;例如，为了支持C++11特性，编译时必须指定 -std=c++0x。当然这也是很有用的，你可以在你的项目中选择编译器和语言集。</p>
+<p>上一篇：<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a></p>
 
-<p>下一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
-
-<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html">C++11 &ndash; Auto, Decltype and return values after functions &ndash; Cprogramming.com</a></p>
 </div>
   
   
@@ -293,7 +448,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h1>
     
     
       <p class="meta">
@@ -309,17 +464,22 @@
   
 
 
-<time datetime="2013-07-31T22:01:00+08:00" pubdate data-updated="true">2013-07-31</time>
+<time datetime="2013-08-06T22:48:00+08:00" pubdate data-updated="true">2013-08-06</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
+  <div class="entry-content"><p>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>。</p>
 
-<figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>而后的一次交谈，才知道同事的真正目的是，创建出的进程支持拖拽。我只是创建出了非管理员的进程，而是否管理员与支持拖拽并没有直接联系，决定拖拽的是<strong>User Interface Privilege Isolation</strong> (<a href="http://en.wikipedia.org/wiki/User_Interface_Privilege_Isolation">UIPI</a>)特性。</p>
+
+<p>根据UIPI，低Integrity的进程无法向高Integrity的进程发送任意消息，这导致高Integrity看起来不支持拖拽。所以要使创建的进程支持拖拽，要满足Integrity低于或等于Explorer进程的Integrity值。</p>
+
+<p>前面文章<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>中，我们通过函数CreateNormalUserToken取得了受限的Token，只要修改此Token的Integrity即可使创建的进程拥有合适的Integrity，我们实现一个修改TokenIntegrity值的函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -340,157 +500,33 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
-</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;UserEnv.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinBase.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinSafer.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
-</span><span class='line'><span class="n">HANDLE</span> <span class="n">CreateNormalUserToken</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">BOOL</span> <span class="n">ChangeTokenIntegrity</span><span class="p">(</span><span class="n">HANDLE</span> <span class="o">&amp;</span><span class="n">hToken</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>    <span class="n">SID_IDENTIFIER_AUTHORITY</span> <span class="n">MLAuthority</span> <span class="o">=</span> <span class="n">SECURITY_MANDATORY_LABEL_AUTHORITY</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">PSID</span> <span class="n">pIntegritySid</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">AllocateAndInitializeSid</span><span class="p">(</span><span class="o">&amp;</span><span class="n">MLAuthority</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SECURITY_MANDATORY_MEDIUM_RID</span><span class="p">,</span>
+</span><span class='line'>                                  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pIntegritySid</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">TOKEN_MANDATORY_LABEL</span> <span class="n">tml</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Attributes</span> <span class="o">=</span> <span class="n">SE_GROUP_INTEGRITY</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">tml</span><span class="p">.</span><span class="n">Label</span><span class="p">.</span><span class="n">Sid</span> <span class="o">=</span> <span class="n">pIntegritySid</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="n">HANDLE</span> <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferComputeTokenFromLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hRestrictedToken</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">SaferCloseLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">hRestrictedToken</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
-</span><span class='line'><span class="n">BOOL</span> <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">DWORD</span> <span class="n">dwCreationFlags</span> <span class="o">=</span> <span class="n">NORMAL_PRIORITY_CLASS</span> <span class="o">|</span> <span class="n">CREATE_NEW_CONSOLE</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">LPVOID</span> <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">CreateEnvironmentBlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pEnv</span><span class="p">,</span> <span class="n">hRestToken</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">))</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">dwCreationFlags</span> <span class="o">|=</span> <span class="n">CREATE_UNICODE_ENVIRONMENT</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">PROCESS_INFORMATION</span> <span class="n">pi</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">STARTUPINFO</span> <span class="n">si</span><span class="p">;</span>    
-</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">si</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">));</span>
-</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">cb</span><span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">lpDesktop</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;winsta0</span><span class="se">\\</span><span class="s">default&quot;</span><span class="p">);</span> <span class="c1">//default input desktop for the interactive window station</span>
-</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pi</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">pi</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bResult</span> <span class="o">=</span> <span class="n">CreateProcessAsUser</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">,</span>    <span class="c1">// client&#39;s access token</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// file to execute</span>
-</span><span class='line'>                      <span class="n">cmd</span><span class="p">,</span>      <span class="c1">// command line</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to process SECURITY_ATTRIBUTES</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to thread SECURITY_ATTRIBUTES</span>
-</span><span class='line'>                      <span class="n">FALSE</span><span class="p">,</span>                  <span class="c1">// handles are not inheritable</span>
-</span><span class='line'>                      <span class="n">dwCreationFlags</span><span class="p">,</span>        <span class="c1">// creation flags</span>
-</span><span class='line'>                      <span class="n">pEnv</span><span class="p">,</span>                   <span class="c1">// pointer to new environment block</span>
-</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// name of current directory</span>
-</span><span class='line'>                      <span class="o">&amp;</span><span class="n">si</span><span class="p">,</span>                    <span class="c1">// pointer to STARTUPINFO structure</span>
-</span><span class='line'>                      <span class="o">&amp;</span><span class="n">pi</span>                     <span class="c1">// receives information about new process</span>
-</span><span class='line'>                      <span class="p">);</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">bResult</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hProcess</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">pEnv</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">{</span>
-</span><span class='line'>      <span class="n">DestroyEnvironmentBlock</span><span class="p">(</span><span class="n">pEnv</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
-</span><span class='line'>  <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bRet</span> <span class="o">=</span> <span class="n">SetTokenInformation</span><span class="p">(</span><span class="n">hToken</span><span class="p">,</span> <span class="n">TokenIntegrityLevel</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tml</span><span class="p">,</span>
+</span><span class='line'>                                          <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tml</span><span class="p">)</span> <span class="o">+</span> <span class="n">GetLengthSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)));</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">pIntegritySid</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">FreeSid</span><span class="p">(</span><span class="n">pIntegritySid</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">bRet</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>需要创建出的进程支持拖拽的看这里：<a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
+<p>上面第五行AllocateAndInitializeSid函数的第三个参数，这里取值SECURITY_MANDATORY_MEDIUM_RID是因为Explorer进程的Integrity一般是Medium。当然如果有必要也可以根据获取的Explorer进程的Integrity设置这个值。</p>
+
+<p>参考：<a href="http://msdn.microsoft.com/en-us/library/bb625963.aspx">Windows Integrity Mechanism Design</a></p>
 </div>
   
   
@@ -503,7 +539,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/25/mutexs-owned-by-process/">获取进程打开的互斥量</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/08/04/octopress-custom-404/">Octopress定制公益404页面</a></h1>
     
     
       <p class="meta">
@@ -519,36 +555,59 @@
   
 
 
-<time datetime="2013-07-25T21:36:00+08:00" pubdate data-updated="true">2013-07-25</time>
+<time datetime="2013-08-04T00:10:00+08:00" pubdate data-updated="true">2013-08-04</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&#8221;拥有&#8221;的互斥量来区分这些进程。所以下面实现了获取指定进程&#8221;拥有&#8221;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
+  <div class="entry-content"><p>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。</p>
 
-<pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
-</code></pre>
+<h2>1. 创建404页面</h2>
 
-<p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：</p>
+<p>首先，需要创建自定义的404页面，最初我是这样创建的，将404错误页面创建到source目录下的error目录</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>error/404.html<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建一个新的目录error专门保存错误页面，有两个好处。1是存储结构清晰，2是可以在robots.txt将整个目录Disallow掉。</p>
+
+<p>但后来看到github自定义404页面的<a href="https://help.github.com/articles/custom-404-pages">说明</a>，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>404.html<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2. Robots文件隐藏404页面</h2>
+
+<p>404页面异常页面，所谓家丑不可外扬，此页面无需搜索引擎爬虫知道。编辑robots.txt文件，添加404页面的Disallow：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
+</span><span class='line'>layout: nil
+</span><span class='line'>---
+</span><span class='line'>User-agent: *
+</span><span class='line'>Disallow: /404.html
+</span><span class='line'>
+</span><span class='line'>Sitemap: <span class="o"></span>/sitemap.xml
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构</p>
+<h2>3. 网站地图中隐藏掉404页面</h2>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>同样网站地图也不需要包含添加404页面。打开plugins/sitemap_generator.rb，找到EXCLUDED_FILES，然后添加404.html。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -557,29 +616,96 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Change SITEMAP_FILE_NAME if you would like your sitemap file</span>
+</span><span class='line'><span class="c1"># to be called something else</span>
+</span><span class='line'><span class="no">SITEMAP_FILE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sitemap.xml&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Any files to exclude from being included in the sitemap.xml</span>
+</span><span class='line'><span class="no">EXCLUDED_FILES</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;atom.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;404.html&quot;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Any files that include posts, so that when a new post is added, the last</span>
+</span><span class='line'><span class="c1"># modified date of these pages should take that into account</span>
+</span><span class='line'><span class="no">PAGES_INCLUDE_POSTS</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;index.html&quot;</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<pre><code>2. 将句柄复制到当前进程
-</code></pre>
+<h2>4. 定制公益404页面</h2>
 
-<p>想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。</p>
+<p>我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面(404.html)即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
 
-<pre><code>3. 获取句柄的类型信息
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
+</span><span class='line'>layout: page
+</span><span class='line'>title: <span class="s2">&quot;&quot;</span>
+</span><span class='line'>header: <span class="nb">false</span>
+</span><span class='line'>date: 2013-08-04 00:08
+</span><span class='line'>comments: <span class="nb">false</span>
+</span><span class='line'>sharing: <span class="nb">false</span>
+</span><span class='line'>footer: <span class="nb">false</span>
+</span><span class='line'>---
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;ToWriting.com 404!&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js?edition=small&quot;</span> <span class="nv">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>&gt;&lt;/script&gt;
+</span></code></pre></td></tr></table></div></figure>
 
-<p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/03/forbid-auto-install-driver/">暴力禁止windows自动安装驱动</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-03T22:24:00+08:00" pubdate data-updated="true">2013-08-03</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="windows自动安装驱动" alt="windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。"></p>
+
+<p>前两天我需要手动安装一个手机的根节点驱动，这个驱动属于系统基础驱动，所以一插入手机windows就帮你装上了，这不是我想要的。当我用遍了google、yahoo、ixquick、duckduckgo、baidu、soso各种搜索引擎仍然没有找到有效的禁用windows自动安装驱动的办法后，我只好尝试暴力对抗了。</p>
+
+<p>很快用ProcessMonitor定位到安装驱动的进程：
+<img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver.png"></p>
+
+<p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：</p>
+
+<figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -593,51 +719,26 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_OBJECT_TYPE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
+</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">subprocess</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">RunLoop</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">startupinfo</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTUPINFO</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">startupinfo</span><span class="o">.</span><span class="n">dwFlags</span> <span class="o">|=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTF_USESHOWWINDOW</span>
+</span><span class='line'>        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;taskkill /F /IM drvinst.exe&#39;</span><span class="p">,</span> <span class="n">startupinfo</span><span class="o">=</span><span class="n">startupinfo</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>    <span class="n">RunLoop</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>其中第一个成员TypeName即是句柄类型的类型名</p>
-
+<p><strong>注意：</strong>如果破坏drvinst进程后发现系统对新插入的设备不再自动安装驱动，则设备管理器中扫描检测硬件改动即可。</p>
 </div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/07/25/mutexs-owned-by-process/">阅读全文 &rarr;</a>
-    </footer>
   
 
 
@@ -648,7 +749,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/20/smart-getprocaddress/">Smart GetProcAddress之实现</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/08/03/unix-background-job/">Bg,Fg,&,Ctrl-Z &#8211; 5个例子搞定Unix(linux)后台任务</a></h1>
     
     
       <p class="meta">
@@ -664,345 +765,106 @@
   
 
 
-<time datetime="2013-07-20T22:36:00+08:00" pubdate data-updated="true">2013-07-20</time>
+<time datetime="2013-08-03T19:25:00+08:00" pubdate data-updated="true">2013-08-03</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Windows下有过编程经验的朋友肯定用过这个函数：<a href="http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx">GetProcAddress</a>，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：</p>
+  <div class="entry-content"><p>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。</p>
 
-<figure class='code'><figcaption><span>DLL导出函数的头文件:dll.h</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+<p>在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换到前台、查看所有后台任务和结束一个后台任务。</p>
+
+<h2>1. 执行一个后台任务</h2>
+
+<p>在命令后面添加<a href="https://en.wikipedia.org/wiki/Ampersand">&amp;</a>就可以将任务执行到后台。</p>
+
+<p>比如，当你执行一个可能耗时很长的查找命令，你可以像下面例子中一样将它执行到后台。下面的例子将查找root目录下24小时内被修改过的文件：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt &amp;
 </span></code></pre></td></tr></table></div></figure>
 
 
+<h2>2. 通过CTRL-Z和bg命令将当前任务切换到后台</h2>
+
+<p>你也可以将一个已经运行的前台任务切换到后台：</p>
+
+<ul>
+<li>组合键 ‘CTRL+Z’ 将暂停当前任务。</li>
+<li>执行bg将任务切换到后台执行</li>
+</ul>
 
 
-<figure class='code'><figcaption><span>动态加载DLL调用上面两个函数</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>像下面的例子，假如你忘记将任务执行到后台，你无需结束当前任务再启动一个新的后台任务。你可以暂停当前任务然后将它切换到后台：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC2</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="n">FUNC1</span> <span class="n">func1</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC1</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">FUNC2</span> <span class="n">func2</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC2</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func2&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="n">func1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="n">func2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>以上是主流的代码写法，但其实稍有问题：
-1. 要定义一套函数类型，且违反DRY，枯燥乏味，影响代码美观
-2. 隐式类型转换是魔鬼，如果DLL实现变化，则调用出错，比如：</p>
-
-<figure class='code'><figcaption><span>DLL导出函数的头文件：fun2的参数变成了三个，调用非出错不可</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>好，问题来了，如何避免：</p>
-
-<figure class='code'><figcaption><span>方案1：使用模板</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt
 </span><span class='line'>
-</span><span class='line'><span class="c1">// 使用方法如下：注意1. 要引用对应头文件，2. auto（自动类型推导）关键字从VS2010开始支持</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">func1</span><span class="p">);</span>
+</span><span class='line'><span class="nv">$ </span><span class="o">[</span>CTRL-Z<span class="o">]</span>
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>+  Stopped                 find / -ctime -1 &gt; /tmp/changed-file-list.txt
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span><span class="nb">bg</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>看起来我们解决了DRY问题，也不用写繁琐的typedef了，于是我们开始Build，很快你就发现Link错误，unresolved external symbol，没注意取地址&amp;func1，已静态依赖于DLL，看来此路不通。取地址的目的是从头文件中获取函数的类型，还有什么方法可以获取函数的类型呢？</p>
+<h2>3. 使用jobs命令查看所有后台任务</h2>
 
-<figure class='code'><figcaption><span>方案2：使用decltype</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>你可以使用<strong>jobs</strong>命令列出所有后台任务。一个jobs命令的可能输出如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
+</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4. 通过fg命令将后台任务切换到前台</h2>
+
+<p>你可以通过<strong>fg</strong>命令将后台任务切换到前台。如果执行fg命令不带参数，则将最近的后台任务切换到前台。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">fg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>假如你有多个后台任务，你又想将指定任务切换到前台，那你可以先执行jobs命令列出所有任务号和对应命令。下面的例子，fg %1将一号任务(download-file.sh)切换到前台。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
+</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
 </span><span class='line'>
-</span><span class='line'><span class="c1">// 使用方法如下：</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="o">&lt;</span><span class="n">decltype</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$ </span><span class="nb">fg</span> %1
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。</p>
-</div>
-  
-  
+<h2>5. 通过kill %结束指定的后台任务</h2>
+
+<p>假如你想杀死指定的后台任务，用<strong>kill</strong> %任务号就行了。下面是杀死2号任务的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> %2
+</span></code></pre></td></tr></table></div></figure>
 
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/20/the-books-i-have-read/">我曾读过的那些书</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-20T08:13:00+08:00" pubdate data-updated="true">2013-07-20</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。</p>
-
-<h2>大学以前</h2>
-
-<p><strong>这个时期距今较久，房屋翻新书籍都已轶失，当时亦没有记录下来读书清单，所以只能模糊的回忆了：</strong></p>
-
-<ol>
-<li><p>启蒙读物  阅读时间：启蒙至小学毕业</p>
-
-<p> 此时读过的非课本书主要是一些启蒙读物、幼儿读物、作文书。能说的上名字的只有有：《小学生必读》系列杂志、《舒克和贝塔》、《旁中华书法》，《格林童话》，《上下五千年》，《成语故事》。这个时期好像没有主动买过书，父母偶尔会买一些绘画、作文书，故事书也很少买。自己读书的主要来源是班上的同学带来的课外书，和哥哥的教材。哥哥比我大四岁，他那些语文书我总是看的津津有味，一遍又一遍。</p></li>
-<li><p>白马笑西风</p></li>
-<li>鹿鼎记</li>
-<li>碧血剑</li>
-<li>雪山飞狐</li>
-<li>鸳鸯刀</li>
-<li>物理演义</li>
-<li>化学演义</li>
-<li>东周列国志</li>
-<li>情人剑</li>
-<li>方与圆 高二</li>
-<li>平凡的世界 高二</li>
-<li>胡雪岩</li>
-<li>红与黑</li>
-<li>平凡的世界</li>
-<li>红楼梦</li>
-<li>战争与和平</li>
-<li>学习的革命</li>
-<li>鲁迅文集</li>
-<li>余秋雨文集</li>
-<li>围城</li>
-</ol>
-
-
-<h2>大学期间</h2>
-
-<p><strong>这个时期读过的书籍主要来源于图书馆，人生没有几个四年，这四年本应是培养学习能力与独立思维能力的时候，不过我们大多数人都荒废了，现在后悔的发现大学四年自己并没有做什么事情，思考能力反倒比高二高三退化了，还好读书的习惯还没有完全荒废，有图书馆借书记录为证：</strong></p>
-
-<ol>
-<li>曹雪芹传  2006-9-25  2006-9-30</li>
-<li>一个真实的阮玲玉        2006-9-30   2006-10-8</li>
-<li>玄机                  2006-9-30 2006-10-12</li>
-<li>胡雪岩的经营管理         2006-9-25  2006-10-12</li>
-<li>最后一炉香     2006-9-30   2006-10-21</li>
-<li>四十一炮    2006-10-12  2006-10-21</li>
-<li>黄河东流去     205135076   2006-10-21  2006-10-31</li>
-<li>四牌楼   2006-10-31  2006-11-8</li>
-<li>人工智能    2006-10-31  2006-11-28</li>
-<li>杰克·伦敦文集    2006-11-8   2006-12-2</li>
-<li>例解日语形容词 形容动词 副词 拟声拟态词   2006-12-6   2006-12-7</li>
-<li>孙殿英历史解密全记录  2006-12-2   2006-12-17</li>
-<li>源泉  2006-12-2   2006-12-17</li>
-<li>Pride and prejudice     2006-12-7   2006-12-21</li>
-<li>日语标记规范辞典    2006-12-7   2006-12-21</li>
-<li>日语文学作品读解与翻译 2006-12-6 2006-12-21  0   社会科学库</li>
-<li>王蒙新世纪讲稿   2006-12-17  2006-12-21  0   文学借阅库</li>
-<li>新编Dreamweaver MX 2004/Flash MX 2004/Fi 2006-12-24   2007-1-8</li>
-<li>红楼梦   2006-12-21  2007-1-8</li>
-<li>黄金时代    2007-1-8    2007-1-18</li>
-<li>计算机图形学  2007-1-15   2007-3-11</li>
-<li>孙中山全传     2007-1-15   2007-3-11</li>
-<li>百年激流    2007-1-15   2007-3-11</li>
-<li>百年孤独    2007-1-18   2007-3-11</li>
-<li>赵朴初说佛 2007-1-15   2007-3-16</li>
-<li>刀子和刀子   2007-3-23 2007-3-25</li>
-<li>挪威的森林     2007-3-25   2007-4-1</li>
-<li>走十五年    2007-4-1    2007-4-10</li>
-<li>花缘  2007-4-10   2007-4-14</li>
-<li>数据库系统原理与设计 2007-4-14    2007-4-22</li>
-<li>镜花缘   2007-4-14   2007-4-30</li>
-<li>世界上最优美的散文     2007-3-23   2007-4-30</li>
-<li>桃花扇   2007-4-30   2007-5-28</li>
-<li>焚仙  2007-5-28   2007-6-2</li>
-<li>三个半年的大学   2007-6-2    2007-6-9</li>
-<li>万历五十年     2007-6-9    2007-6-10</li>
-<li>关键考点破解与试题分类精解 2007-4-21   2007-6-16</li>
-<li>全国计算机等级考试三级教程 2007-4-25   2007-6-16</li>
-<li>数据库习题解析与上机指导 2007-4-21  2007-6-16</li>
-<li>万历五十年     2007-6-10   2007-6-16</li>
-<li>一腔废话    2007-6-16   2007-7-4</li>
-<li>计算机科学技术百科全书   2007-6-19   2007-7-15</li>
-<li>三级数据库技术   2007-6-19   2007-9-5</li>
-<li>Flash MX实用编程技巧 2007-7-12    2007-9-5</li>
-<li>全国计算机等级考试教程   2007-6-19   2007-9-5</li>
-<li>共醉梅艳芳     2007-9-7    2007-9-11</li>
-<li>绝爱封箱     2007-9-11  2007-9-15</li>
-<li>全国计算机等级考试三级数据库技术考前辅导    2007-9-5    2007-9-22</li>
-<li>数据结构与算法 2007-9-5  2007-9-22</li>
-<li>忏悔录    2007-9-7   2007-9-22</li>
-<li>机械设计习题集  2007-9-5 2007-9-30</li>
-<li>梅花易数白话解 2007-10-10    2007-10-30</li>
-<li>王阳明全集  2007-9-22  2007-10-30</li>
-<li>八大山人     2007-11-25 2007-12-23</li>
-<li>雪国   2007-12-3  2007-12-23</li>
-<li>美文欣赏     2007-11-25 2007-12-23</li>
-<li>许伯建书风 2007-11-25  2007-12-23</li>
-<li>化身   2007-12-23 2008-1-17</li>
-<li>大学英语四级考试新题型应试综合指南  2007-11-25 2008-1-17</li>
-<li>Delphi 7程序设计 2008-1-17  2008-3-2</li>
-<li><ol type="a">
-<li> 2008-1-17  2008-3-2</li>
-</ol>
-</li>
-<li>失乐园    2008-3-2   2008-3-15</li>
-<li>数据库技术真题分析与实战训练  2008-3-20   2008-4-26</li>
-<li>80X86汇编语言程序设计    2008-3-15  2008-4-26</li>
-<li>数据结构复习指南与题解 2008-3-20 2008-4-26</li>
-<li>正说雍正     2008-4-26  2008-5-6</li>
-<li>面向对象程序设计 2008-5-6   2008-6-9</li>
-<li>编程珠玑     2008-4-26  2008-6-9</li>
-<li>Delphi系统开发实例精粹 2008-5-6 2008-6-9</li>
-<li>软件测试技术概论     2008-4-26  2008-6-9</li>
-<li>软件设计师应试教程  2008-7-11  2008-8-30</li>
-<li>生死疲劳     2008-8-31  2008-9-25</li>
-<li>新大纲大学英语四、六级必考词组达标突破 2008-8-30 2008-10-26</li>
-<li>复活  2008-10-6   2008-11-5</li>
-<li>Delphi 7程序设计 2008-9-7   2008-11-5</li>
-<li>戴笠全传    2008-11-5   2008-11-18</li>
-<li>黄金荣   2008-11-5   2008-11-18</li>
-<li>海边的卡夫卡  2008-11-5   2008-12-9</li>
-<li>通过阅读学词汇    2008-12-9  2009-2-24</li>
-<li>软件设计师应试教程 2009-2-24   2009-3-29</li>
-<li>加密与解密     2009-3-21   2009-5-26</li>
-<li>计算机的心智  2009-7-11   2009-8-31</li>
-<li>英文观止    2009-9-4    2009-9-25</li>
-<li>单片机及嵌入式系统  2009-9-25  2009-10-29</li>
-<li>嵌入式实时操作系统μC/OS-Ⅱ原理及应用    2009-10-10  2009-10-29</li>
-<li>单片机原理及应用    2009-9-25   2009-10-29</li>
-<li>嵌入式网络系统设计     2009-10-29  2009-11-19</li>
-<li>单片机原理与接口技术  2009-12-1   2009-12-12</li>
-<li>单片机原理与接口技术  2009-12-1   2009-12-12</li>
-<li>单片机原理及应用    2009-12-1   2009-12-12</li>
-<li>嵌入式Linux系统开发技术详解 2009-11-19   2010-1-4</li>
-<li>简明英语句法及句子写作 2009-12-12    2010-1-4</li>
-<li>白鹿原</li>
-</ol>
-
-
-<h2>毕业后到2013年</h2>
-
-<h5>宁波时</h5>
-
-<ul>
-<li>2010-10 程序员的自我修养-编译、链接</li>
-<li>2010-11 python核心编程</li>
-<li>2011-1 胡雪岩前三册</li>
-<li>2011-2 深入理解计算机系统</li>
-<li>2011-3 dive into python</li>
-<li>2011-3 万历十五年</li>
-<li>2011-4 德川家康</li>
-<li>2011-4 镰仓战神</li>
-<li>2011-5 胡雪岩等3部</li>
-<li>2011-6 亭长小武、穆斯林的葬礼</li>
-<li>2011-7 java程序设计与问题解决基础版</li>
-<li>2011-8 婴齐传</li>
-<li>2011-9 袁来如此</li>
-<li>德川家康前六册</li>
-<li>国富论</li>
-<li>C++程序设计语言</li>
-<li>浪潮之巅</li>
-</ul>
-
-
-<h5>杭州时</h5>
-
-<p>2012-3至2013-3</p>
-
-<ul>
-<li>Inside The C++ Object</li>
-<li>Effective C++</li>
-<li>More Effective C++</li>
-<li>Exceptional C++</li>
-<li>More Exceptional C++</li>
-<li>Exceptional C++ Style</li>
-<li>C++的设计与演化</li>
-<li>Imperfect C++</li>
-<li>代码大全</li>
-<li>禅与摩托车维修艺术</li>
-<li>暗时间</li>
-<li>设计模式</li>
-<li>C++代码设计与重用</li>
-<li>C++沉思录</li>
-<li>身体语言密码</li>
-<li>影响力</li>
-<li>走出软件作坊</li>
-<li>心理和脑</li>
-<li>走出软件作坊</li>
-</ul>
-
-
-<p>2013年至今</p>
-
-<ul>
-<li>别逗了，费曼先生. <a href="/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/">读后感</a></li>
-<li>学习之道</li>
-<li>自我（在读）</li>
-<li>C++标准库：自学教程与参考手册·英文版</li>
-<li>黑天鹅上册</li>
-<li>黑客与画家. <a href="/blog/2013/08/25/read-notes-hacker-and-painters/">阅读笔记</a></li>
-<li>麦田的守望者</li>
-<li>1984(在读）</li>
-<li>Ruby编程语言（在读）</li>
-<li>决策与判断（在读）</li>
-<li>C++ templates(在读）</li>
-<li>瓦尔登湖（在读）</li>
-<li>高效能程序员的修炼</li>
-<li>程序员修炼之道 13-12-1</li>
-</ul>
-
+<p>译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
 </div>
   
   

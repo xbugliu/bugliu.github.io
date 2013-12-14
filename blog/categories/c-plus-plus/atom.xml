@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-05T00:46:22+08:00</updated>
+  <updated>2013-12-15T03:00:23+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,537 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Boost.Lambda与C++11.Lambda的用法对比]]></title>
+    <link href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/"/>
+    <updated>2013-12-13T22:38:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda</id>
+    <content type="html"><![CDATA[<p>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。</p>
+
+<p>让我们通过几个例子对比C++11.Lambda来学习一下boost.Lambda的用法，详细的C++11.Lambda用法可以看这里：<a href="/blog/2013/08/11/lambda-closures/">C++11系列-Lambda表达式</a></p>
+
+<h3>1.a boost.Lambda：构造一个functor</h3>
+
+<p>boost.Lambda的使用是基于placeholder: <code>boost::Lambda::_1</code>,<code>boost::Lambda::_2</code>,<code>boost::Lambda::_3</code>可以理解为Lambda表达式的第一、第二、第三个参数。Lambda的出现利索地解决了STL算法库函数的使用不便。让我们首先看一个最简单的boost.Lambda与std::for_each结合的例子:</p>
+
+<p>```cpp
+std::vector<int> vecIn;
+vecIn.push_back(1);
+vecIn.push_back(2);
+vecIn.push_back(3);</p>
+
+<p>std::cout&lt;&lt;&ldquo;the orgin values in vecIn：&rdquo;&lt;&lt;std::endl;
+std::for_each(vecIn.begin(), vecIn.end(), std::cout&lt;&lt;boost::Lambda::_1&lt;&lt;&ldquo;,&rdquo;);
+std::cout&lt;&lt;std::endl;
+```</p>
+
+<p>上面的例子，使用std::for_each遍历vector中的元素并打印内容。boost::Lambda::_1这个占位符表示for_each遍历时传进来的第一个参数，<code>std::cout&lt;&lt;boost::Lambda::_1&lt;&lt;","</code>可以理解为临时创建出来的匿名函数，函数的定义是<code>void(int)</code>。</p>
+
+<p>让我们对比一下C++11标准的写法:</p>
+
+<h3>1.b C++11.Lambda：构造一个functor</h3>
+
+<p>```cpp
+std::vector<int> vecIn;
+vecIn.push_back(1);
+vecIn.push_back(2);
+vecIn.push_back(3);</p>
+
+<p>std::cout&lt;&lt;&ldquo;the orgin value in vecIn：&rdquo;&lt;&lt;std::endl;
+std::for_each(vecIn.begin(), vecIn.end(), <a href="const%20int%20&amp;%20val"></a>
+{
+std::cout&lt;&lt;val&lt;&lt;&ldquo;,&rdquo;;
+});
+std::cout&lt;&lt;std::endl;
+```
+一眼望去竟是boost的Lambda用法简洁。</p>
+
+<h3>2.a boost.Lambda：修改参数的内容</h3>
+
+<p>上面的例子，我们使用Lambda表达式，借助于for_each，对vector中的元素进行了访问，那我们可以修改vector的内容吗？</p>
+
+<p><code>cpp
+std::cout&lt;&lt;"the values in vecIn after Square："&lt;&lt;std::endl;
+std::for_each(vecIn.begin(), vecIn.end(), boost::Lambda::_1 *= boost::Lambda::_1);
+std::for_each(vecIn.begin(), vecIn.end(), std::cout&lt;&lt;boost::Lambda::_1&lt;&lt;",");//打印
+std::cout&lt;&lt;std::endl;
+</code>
+上面的例子，功能是对vecIn中的值求平方。占位符boost::Lambda::_1直接用引用的方式得到了传入的参数（vecIn的元素），结果直接改写进了vecIn。</p>
+
+<h3>2.b C++11.Lambda：修改参数的内容</h3>
+
+<p>修改1.b函数定义为引用即可</p>
+
+<p><code>cpp
+std::cout&lt;&lt;"the values in vecIn after Square："&lt;&lt;std::endl;
+std::for_each(vecIn.begin(), vecIn.end(), [](int &amp; val)
+{
+val *= val;
+});
+//打印：
+std::for_each(vecIn.begin(), vecIn.end(), [](const int &amp; val)
+{
+std::cout&lt;&lt;val&lt;&lt;",";
+});
+std::cout&lt;&lt;std::endl;
+</code></p>
+
+<h3>3.a boost.Lambda：变量捕获</h3>
+
+<p>boost.Lambda可以很方便的以引用的方式捕获local变量，看例子：</p>
+
+<p><code>cpp
+int sum = 0;
+std::cout&lt;&lt;"the sum of values in vecIn："&lt;&lt;std::endl;
+std::for_each(vecIn.begin(), vecIn.end(), sum += boost::Lambda::_1);
+std::cout&lt;&lt;sum&lt;&lt;std::endl;
+</code></p>
+
+<h3>3.b C++11.Lambda：变量捕获</h3>
+
+<p>C++11捕获变量，可控性更强，我们可以指定捕获方式：</p>
+
+<p><code>cpp
+int sum = 0;
+std::cout&lt;&lt;"the sum of values in vecIn："&lt;&lt;std::endl;
+std::for_each(vecIn.begin(), vecIn.end(), [&amp;sum](int &amp; val)
+{
+sum += val;
+});
+std::cout&lt;&lt;sum&lt;&lt;std::endl;
+</code></p>
+
+<h3>4.a boost.Lambda：返回值</h3>
+
+<p>有时需要匿名函数返回结果，比如作为std::find_if类似函数的Predicate函数时，这种能力boost.Lambda当然也是胜任的，整个Lambda表达式的结果，即是函数的返回值。</p>
+
+<p>```cpp
+boost::function&lt;bool(int)> IsOdd = boost::Lambda::_1 % 2 != 0;</p>
+
+<p>std::cout&lt;&lt;&ldquo;100 is Odd？ &rdquo;&lt;&lt;std::boolalpha&lt;&lt;IsOdd(100)&lt;&lt;std::endl;
+```
+上面的例子创建了一个检测参数是否是奇数的匿名函数，并保存到IsOdd对象中，然后对其进行了调用。例子同样演示了如何将一个boost.Lambda表达式存储起来，后续使用的方法。</p>
+
+<h3>4.b C++11.Lambda：返回值</h3>
+
+<p>C++11的返回值，必须使用return语句，返回值的类型有些时候也需要显示指定。
+```cpp
+std::function&lt;bool(int)> IsOdd = (std::function&lt;bool(int)>)<a href="int%20val"></a>{return val % 2 != 0;};</p>
+
+<p>std::cout&lt;&lt;&ldquo;100 is Odd？ &rdquo;&lt;&lt;std::boolalpha&lt;&lt;IsOdd(100)&lt;&lt;std::endl;
+```</p>
+
+<h3>5. 上面四个例子的运行结果</h3>
+
+<pre><code>the orgin values in vecIn：
+1,2,3,
+the values in vecIn after Square：
+1,4,9,
+the sum of values in vecIn：
+14
+100 is Odd？ false
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[那些C++牛人的博客]]></title>
+    <link href="http://towriting.com/blog/2013/12/12/cpp-blogs/"/>
+    <updated>2013-12-12T20:57:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/12/cpp-blogs</id>
+    <content type="html"><![CDATA[<p>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。</p>
+
+<h2>C++大牛的博客</h2>
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/BjarneStroustrup.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Bjarne Stroustrup的博客</strong>: <a href="http://www.stroustrup.com/">Bjarne Stroustrup&rsquo;s Homepage</a></li>
+</ul>
+
+
+<p>Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于TAMU。他的Homepage和他的书籍<a href='http://www.amazon.cn/gp/product/B003EIKI0C/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B003EIKI0C&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>The C++ Programming Language</a>一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。</p>
+
+<br/>
+
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/ScottMeyers.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Scott Meyers的博客</strong>: <a href="http://scottmeyers.blogspot.com/">The View from Aristeia</a></li>
+</ul>
+
+
+<p>Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道的名字，畅销书：<a href='http://www.amazon.cn/gp/product/B004G72P24<em>Effective C++</em>B004IP8BD6/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004G72P24<em>Effective C++</em>B004IP8BD6&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>More Effective C++</a>的作者。博客长期更新，就凭Scott Meyers这个名字，就值得一读。</p>
+
+<br/>
+
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/stan_lippman.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Stanley B.Lippman的博客</strong>: <a href="http://blogs.msdn.com/b/slippman/">Stan Lippman&rsquo;s BLog</a></li>
+</ul>
+
+
+<p>Lippman，C++第一个编译器Cfront的实现者，最大的贡献是凭借其著作<a href='http://www.amazon.cn/gp/product/B00ESUIL0O<em>C++ Primer/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ESUIL0O<em>C++ Primer&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'></a>, 在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书<a href='http://www.amazon.cn/gp/product/B006QXQXTM</em>Inside The C++ Object Model/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006QXQXTM</em>Inside The C++ Object Model&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'></a>, 让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。</p>
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/HerbSutter.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Herb Sutter的博客</strong>: <a href="http://herbsutter.com/">Sutter’s Mill: Herb Sutter on software, hardware, and concurrency</a></li>
+</ul>
+
+
+<p>Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：<a href='http://www.amazon.cn/gp/product/B008CGKUBS<em>Exceptional C++</em>B004IUISIO<em>More Exceptional C++</em>B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008CGKUBS<em>Exceptional C++</em>B004IUISIO<em>More Exceptional C++</em>B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。</p>
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/AndreiAlexandrescu.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Andrei Alexandrescu的博客</strong>: <a href="http://erdani.com/index.php/articles/">Official website of Andrei Alexandrescu</a></li>
+</ul>
+
+
+<p>Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书<a href='http://www.amazon.cn/gp/product/0201704315/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201704315&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Modern C++ Design: Generic Programming and Design Patterns Applied</a>的作者，凭借此书第一次人C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/dave_abrahams.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>David Abrahams的博客</strong>: <a href="http://daveabrahams.com/">Dave Abrahams: Home Page | Stuff I wrote, things I did, etc</a></li>
+</ul>
+
+
+<p>David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，<a href='http://www.amazon.cn/gp/product/B002WB1J0U/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B002WB1J0U&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Template Metaprogramming</a>的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/BartoszMilewski.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Bartosz Milewski的博客</strong>：<a href="http://bartoszmilewski.com/">Bartosz Milewski&rsquo;s Programming Cafe：Concurrency, Multicore, C++, Haskell</a></li>
+</ul>
+
+
+<p>Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。<a href='http://www.amazon.cn/gp/product/B009TB3ZBW/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B009TB3ZBW&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>c++ in action</a>的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/anthony_williams.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Anthony Williams的博客</strong>：<a href="http://www.justsoftwaresolutions.co.uk/blog/">Just Software Solutions</a></li>
+</ul>
+
+
+<p>Anthony Williams，英国人，一个记事起就开始写程序的人。Boost.Thread的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：<a href='http://www.amazon.cn/gp/product/1933988770/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=1933988770&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Concurrency in Action</a>，市面上第一本讲解C++11并发的权威书籍。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/AlexanderStepanov.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Alexander A. Stepanov的博客</strong>：<a href="http://www.stepanovpapers.com/">Collected Papers of Alexander A. Stepanov</a></li>
+</ul>
+
+
+<p>Alexander A. Stepanov，出生于莫斯科，STL之父，<a href='http://www.amazon.cn/gp/product/B006P7V73G/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006P7V73G&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>编程原本</a>的作者。Alexander A. Stepanov的这个博客如其名，是他个人学术论文的整理，学术价值应该是蛮高吧，不过像我这种低级程序员只能远观了。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/austern.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Matt Austern的博客</strong>: <a href="http://lafstern.org/matt/">Matt Austern&rsquo;s Home Page</a></li>
+</ul>
+
+
+<p>Matt Austern, 现任职于Google, 前C++标准委员会主席，SCG STL的最初实现者，<a href='http://www.amazon.cn/gp/product/0201309564/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201309564&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Generic Programming and the STL</a>的作者。Matt Austern的这个博客其实是个人主页，没有太多技术东西，只是一些生平和生活照片，无聊的看一下倒还行。</p>
+
+<br/>
+
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/pjp.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>P.J. Plauger的博客</strong>：<a href="http://www.stepanovpapers.com/">Collected Papers of Alexander A. Stepanov</a></li>
+</ul>
+
+
+<p>P.J. Plauger，这个名字可能不是每个人都听说过，但在Windows平台开发的同学肯定都用过他写的代码，他就是MS VC STL库的实现者。本来他的博客，只是个人主页并且上面没什么内容，不过看到他的履历里面完成了13部科幻小说的编写，拿来勉励大家吧。</p>
+
+<br/>
+
+
+<br/>
+
+
+<h2>C++高手的博客</h2>
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/akrzemi1.jpeg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Andrzej Krzemieński的博客</strong>：<a href="http://akrzemi1.wordpress.com/">Andrzej&rsquo;s C++ blog Guidelines and thoughts about C++</a></li>
+</ul>
+
+
+<p>Andrzej Krzemieński，从名字看是波兰人，近期博客更新较快，表达清晰，行文流畅，内容难度不高，有C++11内容，是像我这样的初级并且语言控的C++程序员的福音。</p>
+
+<br/>
+
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/SumantTambe.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Sumant Tambe的博客</strong>： <a href="http://cpptruths.blogspot.com/">c++ truths</a></li>
+</ul>
+
+
+<p>Sumant Tambe，印度人，美国范德堡大学的计算机博士，技术涉猎广泛，同时也是著名的<a href="http://en.wikibooks.org/wiki/More_C++_Idioms">More C++ Idioms</a>创建者。博客一直更新，内容面向中高级C++程序员，最新文章涉及C++11的“高级Idioms”，比如13年10月的一篇文章主题是：创建递归的lambda表达式。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/JeffPreshing.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Jeff Preshing的博客</strong>: <a href="http://preshing.com/">Preshing on Programming</a></li>
+</ul>
+
+
+<p>Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入前出，是C++工程控的福音。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/Joaqu.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>Joaquín M López Muñoz的博客</strong>: <a href="http://bannalia.blogspot.com/">Bannalia: trivial notes on themes diverse</a></li>
+</ul>
+
+
+<p>Joaquín M López Muñoz，西班牙人。Boost.MultiIndex的实现者。博客长期更新，内容偏向算法，文章中有大量的公式推演和曲线图表，估计大部分中国开发者对这种内容是不感冒的。计算机或数学系的研究生，并以后打算从事算法相关工作的，推荐阅读。从这个西班牙男人身上，也可以看到老牌欧洲资本主义国家，教育水平的强悍，尤其是基础学科。</p>
+
+<ul>
+<li><strong>Daniel Park的博客</strong>: <a href="http://functionalcpp.wordpress.com/">functionalcpp-Abusing the type system like never before</a></li>
+</ul>
+
+
+<p>Daniel Park，喜欢用昵称whanhee，身世不知。一个注重实干的C++狂热分子，正如其博客简介所说，不想接着讲那些被讲烂掉的函数式编程概念，要用C++来实现这些概念。博客是一个关于函数式编程概念如何用C++实现的一个系列文章，作者采用的是C++11乃至C++14的特性，所以对C++高级函数式实现思想感兴趣的不容错过。近期博客更新也较快的。</p>
+
+<ul>
+<li><strong>Agustín Bergé的博客</strong>: <a href="http://talesofcpp.fusionfenix.com/">talesofcpp</a></li>
+</ul>
+
+
+<p>Agustín Bergé，86年生阿根廷人，可能是这里面最年轻的，stackoverflow目前排名708。作者想用自己的博客探索永无边界的C++世界，尤其是那些前人未涉足的犄角旮旯，所以C++中毒颇深者可以看看。</p>
+
+<ul>
+<li><strong>Chris Kohlhoff的博客</strong>: <a href="http://blog.think-async.com/">Preshing on Programming</a></li>
+</ul>
+
+
+<p>Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。</p>
+
+<h2>中文C++名博</h2>
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/liuweipeng.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>刘未鹏的博客</strong>：<a href="http://mindhacks.cn/">MindHacks-思维改变生活</a></li>
+</ul>
+
+
+<p>刘未鹏，84年生人，现就职于微软，<a href='http://www.amazon.cn/gp/product/B008A4Y2R0<em>Imperfect C++</em>B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008A4Y2R0<em>Imperfect C++</em>B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>译者，大学时对C++有极大的学习兴趣，曾与C++之父邮件往来，记录在另一个博客<a href="http://blog.csdn.net/pongba/">C++的卢浮宫</a>上。据闻刘未鹏现忙于育儿与心理学，所以博客更新较慢，但以往博客含金量高，很值得一读。博客内容偏重于学习方法，纯技术的C++文章少些。</p>
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/chenhao.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>陈皓的博客</strong>：<a href="http://coolshell.cn/">酷壳-享受编程和技术所带来的快乐</a></li>
+</ul>
+
+
+<p>陈皓，不认为自己是牛人的牛人，现就职余阿里巴巴。<a href="http://coolshell.cn/articles/4990.html">程序员技术练级攻略</a>这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。</p>
+
+<br/>
+
+
+<br/>
+
+
+<p><img class="pull-right" src="/images/posts/cpp-blogs/chenshuo.jpg" width="120" height="150">
+* <strong>陈硕的博客</strong>：<a href="http://blog.csdn.net/solstice/">陈硕的Blog</a></p>
+
+<p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C++中的静态断言]]></title>
+    <link href="http://towriting.com/blog/2013/12/10/static-assert/"/>
+    <updated>2013-12-10T00:02:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/10/static-assert</id>
+    <content type="html"><![CDATA[<h2>什么是静态断言</h2>
+
+<p>断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，这两个宏生成DEBUG版本下的断言，另外还有assert，是C/C++提供的断言函数，效果和以上两个宏是一样的。</p>
+
+<p>那什么是静态断言？上面介绍的普通断言是运行时检测的，静态断言是编译期检测的，所以被称之为静态断言（static assert）。最早知道编译期检测是在Matthew wilson的<a href="http://www.amazon.cn/gp/product/B008A4Y2R0/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B008A4Y2R0&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《Imperfect C++》</a>中，里面称其为约束（constraints)，并抱怨C++为什么不支持如此常用的功能（C++11已有改善）。</p>
+
+<p>那使用静态断言有什么好处呢？</p>
+
+<h2>静态断言的好处</h2>
+
+<ol>
+<li>更早的报告错误，我们知道构建是早于运行的，更早的错误报告意味着开发成本的降低</li>
+<li>无法忽略的错误，对于Assert类似DEBUG下的断言，有时候被不会被执行到，即使执行到也会遭到一些开发的忽视，而静态断言的错误是无法忽视的，因为构建失败了。</li>
+<li>减少运行时开销，静态断言是编译期检测的，减少了运行时开销</li>
+</ol>
+
+
+<p>那如何使用实现静态断言？</p>
+
+<h2>使用静态断言</h2>
+
+<p>静态断言作用的对象一般是编译时已知的状态。任何可以成为模板类参数的内容都可以作为静态断言的对象。</p>
+
+<p>下面看一个静态断言的例子：
+```cpp
+template <typename D,typename B>
+struct has_base
+{</p>
+
+<pre><code> ~has_base()
+{
+    void(*p)(D*,B*) = constraints;
+}
+</code></pre>
+
+<p>private:</p>
+
+<pre><code>static void constraints(D *pd,B *pb)
+</code></pre>
+
+<p>   {</p>
+
+<pre><code>    pb = pd; 
+</code></pre>
+
+<p>   }
+};
+<code>
+这个例子最早出自Bjarne Stroustrup之手，用于检测一个类型是否是另一个类型的父类（类型相等和void*的情况没有考虑，用起来像这样子：
+</code>cpp
+class CBase {};
+class CDer: public CBase {};
+has_base&lt;CDer, CBase> a;
+has_base&lt;CBase, CDer> b; //编译错误
+```
+它的工作原理是，成员函数constraints试图把D的指针转化成B的指针，这一般只在B是D的派生类时成立。而且constraints函数永远不会被调到，所以没有运行时开销。</p>
+
+<p>在看一个例子：
+```cpp
+enum personType
+{</p>
+
+<pre><code>person_child,
+person_adult,
+person_woman,
+person_man,
+person_count    
+</code></pre>
+
+<p>};</p>
+
+<p>void ProcessPersonType(personType ptVal)
+{
+  char dummy[person_count > CHAR_MAX ? -1 : 1];
+  char cVal = ptVal;
+  // do something with cVal
+}</p>
+
+<p><code>``
+上面例子里，试图将枚举类型的值转化成cVal,但可能有溢出的问题，所以设置一个静态断言：</code>char dummy[person_count > UCHAR_MAX ? 1 : -1];<code>，原理是如果personType的最大值大于char类型的最大值，则表达式为</code>char dummy[-1]`，我们知道这是编译不过的，所以会提示我们出问题了。</p>
+
+<p>以上方式虽然可以实现静态断言的效果，但提示的信息，可能和我们断言想要报告的完全无关，所以并不是最完美的解决方案。</p>
+
+<h2>C++11中的静态断言</h2>
+
+<p>C++11中增加了static_assert支持静态断言，用法相当简单，static_asset接受两个参数，第一个为要断言的内容，第二个为显示的错误提示。
+```cpp
+template<int n>                               <br/>
+struct Factorial                                  <br/>
+{
+ static_assert(n > 1, &ldquo;n must bigger than 1&rdquo;);<br/>
+ enum{ value=n * Factorial&lt;n-1>::value }; <br/>
+};</p>
+
+<p>template&lt;>                                        <br/>
+struct Factorial<0>                                  <br/>
+{<br/>
+ enum{ value=1 };<br/>
+};<br/>
+```
+上面是计算阶乘的一个模板，我们使用static_assert检测n的值大于1，如果不满足则，编译错误，提示为："n must bigger than 1"。</p>
+
+<p>static_assert是编译器很容易实现的一个特性，一般的编译器最新版本应该都已支持。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[从Safe bool惯用法到explicit标识符]]></title>
@@ -345,615 +876,6 @@ delete snd;
 </ol>
 </div>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C++11系列-常量表达式]]></title>
-    <link href="http://towriting.com/blog/2013/09/17/constexpr/"/>
-    <updated>2013-09-17T22:39:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/09/17/constexpr</id>
-    <content type="html"><![CDATA[<p>C++11有一些这样的改善，这种改善保证写出的代码比以往任何时候的执行效率都要好。这种改善之一就是生成常量表达式，允许程序利用编译时的计算能力。假如你熟悉模板元编程，你将发现constexpr使这一切变得更加简单。假如你不知道模板元编程，也没什么。constexpr使我们很容易利用上编译时编程的优势。</p>
-
-<p>常量表达式主要是允许一些计算发生在编译时，即发生在代码编译而不是运行的时候。这是很大的优化：假如有些事情可以在编译时做，它将只做一次，而不是每次程序运行时。需要计算一个编译时已知的常量，比如特定值的sine或cosin？确实你亦可以使用库函数sin或cos，但那样你必须花费运行时的开销。使用constexpr，你可以创建一个编译时的函数，它将为你计算出你需要的数值。用户的电脑将不需要做这些工作。</p>
-
-<h3>constexpr初探</h3>
-
-<p>为了使函数获取编译时计算的能力，你必须指定constexpr关键字到这个函数。</p>
-
-<p>```cpp
-constexpr int multiply (int x, int y)
-{</p>
-
-<pre><code>return x * y;
-</code></pre>
-
-<p>}</p>
-
-<p>// 将在编译时计算
-const int val = multiply( 10, 10 );
-```
-除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。</p>
-
-<p>```cpp
-constexpr int getDefaultArraySize (int multiplier)
-{</p>
-
-<pre><code>return 10 * multiplier;
-</code></pre>
-
-<p>}</p>
-
-<p>int my_array[ getDefaultArraySize( 3 ) ];
-```</p>
-
-<h2>constexpr函数的限制</h2>
-
-<p>一个constexpr有一些必须遵循的严格要求：</p>
-
-<ul>
-<li>函数中只能有一个return语句（有极少特例）</li>
-<li>只能调用其它constexpr函数</li>
-<li>只能使用全局constexpr变量</li>
-</ul>
-
-
-<p>注意递归并不受限制。但只允许一个返回语句，那如何实现递归呢？可以使用三元运算符（?:)。例如，计算n的阶乘：
-```cpp
-constexpr int factorial (int n)
-{</p>
-
-<pre><code>return n &gt; 0 ? n * factorial( n - 1 ) : 1;
-</code></pre>
-
-<p>}
-```
-现在你可以使用factorial(2)，编译器将在编译时计算这个值，这种方式运行更巧妙的计算，与内联截然不同。你无法内联一个递归函数。</p>
-
-<p><strong>constexpr函数还有那些特点？</strong></p>
-
-<p>一个constexpr函数，只允许包含一行可执行代码。但允许包含typedefs、 using declaration &amp;&amp; directives、静态断言等。</p>
-
-<h2>constexpr和运行时</h2>
-
-<p>一个声明为constexpr的函数同样可以在运行时被调用，当这个函数的参数是非常量的：
-<code>cpp
-int n;
-cin &gt;&gt; n;
-factorial( n );
-</code>
-这意味着你不需要分别写运行时和编译时的函数。</p>
-
-<h2>编译时使用对象</h2>
-
-<p>假如你有一个Circle类：
-```cpp
-class Circle
-{</p>
-
-<pre><code>public:
-Circle (int x, int y, int radius) : _x( x ), _y( y ), _radius( radius ) {}
-double getArea () const
-{
-    return _radius * _radius * 3.1415926;
-}
-private:
-    int _x;
-    int _y;
-    int _radius;
-</code></pre>
-
-<p>};
-<code>
-你希望在编译期构造一个Circle接着算出他的面积。
-</code>cpp
-constexpr Circle c( 0, 0, 10 );
-constexpr double area = c.getArea();
-<code>
-事实证明你可以给Circle类做一些小的修改以完成这件事。首先，我们需要将构造函数声明为constexpr，接着我们需要将getarea函数声明为constexpr。将构造函数声明为constexpr则运行构造函数在编译期运行，只要这个构造函数的参数为常量，且构造函数仅仅包含成员变量的constexpr构造（所以默认构造可以看成constexpr，只要成员变量都有constexpr构造）。
-</code>cpp
-class Circle
-{</p>
-
-<pre><code>public:
-constexpr Circle (int x, int y, int radius) : _x( x ), _y( y ), _radius( radius ) {}
-constexpr double getArea () 
-{
-    return _radius * _radius * 3.1415926;
-}
-private:
-    int _x;
-    int _y;
-    int _radius;
-</code></pre>
-
-<p>};
-```</p>
-
-<h2>constexpr vs const</h2>
-
-<p>假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。</p>
-
-<h2>constexpr和浮点数</h2>
-
-<p>到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。</p>
-
-<h2>权衡constexpr</h2>
-
-<p>C++开发者早就深受修改一个头文件则引发重新编译导致编译缓慢的困扰。而constexpr可能引入增加编译时间的风险，但也有一些技术去降低这种风险。首先，因为constexpr函数相同的参数会输出相同的结果，所以它们可以被<a href="http://en.wikipedia.org/wiki/Memoization">memoized</a>，事实上GCC已经支持memoization。</p>
-
-<p>因为可以对constexpr函数memoize,所以用constexpr函数替换模板函数的地方，(编译）性能不会变得更坏，但代码会变得清晰。事实上，替换掉一部分模板实例，编译会显著加快。</p>
-
-<p>最后，标准允许编译器去限制递归函数的级数。这样可以限制深度递归的编译性能损耗。</p>
-
-<h2>编译器支持</h2>
-
-<p>constexpr需要编译器支持编译期的递归，所以也不奇怪支持constexpr的编译器并不多，就我所知只有G++4.7支持这一特性。[注：到我翻译时，intelC++13、Clang3.1也都支持了，不过Vs2013还是不支持]</p>
-
-<p>下一篇：右值引用和移动语义</p>
-
-<p>上一篇：<a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
-
-<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-compile-time-processing-with-constexpr.html">Constexpr &ndash; Generalized Constant Expressions in C++11</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[熟悉的陌生人-this指针(1)]]></title>
-    <link href="http://towriting.com/blog/2013/09/01/this-pointer/"/>
-    <updated>2013-09-01T00:22:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/09/01/this-pointer</id>
-    <content type="html"><![CDATA[<p>this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不是你想象的样子！</p>
-
-<h2>this指针的偏移 &ndash; 某次强制转化引发的血案</h2>
-
-<p>这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例1</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
-</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
-</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">CBird</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CBird</span><span class="p">()</span><span class="o">:</span> <span class="n">m_bCanFly</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Bird</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">~</span><span class="n">CBird</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">virtual</span> <span class="kt">void</span> <span class="n">Fly</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="nl">type:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_strName</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">is</span> <span class="nl">fly:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_bCanFly</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
-</span><span class='line'><span class="kt">bool</span> <span class="n">m_bCanFly</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">//主函数</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="n">CAnimal</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CBird</span><span class="p">;</span>
-</span><span class='line'> <span class="kt">void</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
-</span><span class='line'> <span class="c1">//一些操作</span>
-</span><span class='line'> <span class="n">CBird</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span><span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
-</span><span class='line'> <span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
-</span><span class='line'> <span class="p">{</span>
-</span><span class='line'>   <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例2</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">CAnimal</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
-</span><span class='line'><span class="n">CBird</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-这样调用确是没有问题的，和第一个例子唯一的差别就是没有中间的Void*转化。
-记得当时是我们周会的时间，于是拿出来和大家讨论，惭愧的是我们十几个人，竟然没人能说出其中原因，要知道我们中也有三个工作5年左右的同事。后来我打开调试器，跟踪了一下这两段代码的汇编代码，终于发现了蛛丝马迹：
-<code>c
-CBird* pBird = (CBird*)pAnimal;
-cmp         dword ptr [pAnimal],0  
-je          main+1C1h (33F681h)  
-mov         eax,dword ptr [pAnimal]  
-sub         eax,4  
-mov         dword ptr [ebp-178h],eax  
-jmp         main+1CBh (33F68Bh)  
-mov         dword ptr [ebp-178h],0  
-mov         ecx,dword ptr [ebp-178h]  
-mov         dword ptr [pBird],ecx  
-</code>
-猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>例3</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">lass</span> <span class="n">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
-</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span> <span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
-</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">class</span> <span class="nc">CMammal</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CMammal</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">Mammal</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">IsEatMeat</span><span class="p">()</span> <span class="k">const</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="nl">type:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_strName</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">is</span> <span class="n">eat</span> <span class="nl">meat:</span> <span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">m_bEatMeat</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
-</span><span class='line'><span class="kt">bool</span> <span class="n">m_bEatMeat</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="n">CAnimal</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
-</span><span class='line'> <span class="kt">void</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
-</span><span class='line'> <span class="n">CMammal</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">pMammal</span> <span class="o">=</span> <span class="p">(</span><span class="n">CMammal</span><span class="o">*</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="k">if</span> <span class="p">(</span><span class="n">pMammal</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
-</span><span class='line'> <span class="p">{</span>
-</span><span class='line'>  <span class="n">pMammal</span><span class="o">-&gt;</span><span class="n">IsEatMeat</span><span class="p">();</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-上面的代码运行正常，和例1的区别就是CMamal没有虚函数，而CBrid有。所以说，<strong>沿着继承链类型转化时，this指针可能会发生偏移，以确保this指针总能指向subobject</strong>。而强转中如果中间有void*这种没有类型信息的东西，会使编译器丢失这种偏移。</p>
-
-<p><strong>this指针说白了就是对象基址，角色是成员变量寻址基址，偏移的目的是为了使成员变量寻址正确</strong>，影响对像内存布局的东西都可能使this指针偏移（具体编译器可能不同）：</p>
-
-<ol>
-<li>虚表，子类有而派生类没有</li>
-<li>多重继承，子类与第n(n>1)个派生类</li>
-<li>虚继承</li>
-</ol>
-
-
-<p>待续：this指针的偏移策略</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[const 二三事]]></title>
-    <link href="http://towriting.com/blog/2013/08/21/things-of-const/"/>
-    <updated>2013-08-21T23:36:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/21/things-of-const</id>
-    <content type="html"><![CDATA[<p>相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ritchie讨论提出了Readonly机制，最初的Readonly机制简单的就是想利用操作系统的能力，提供一种可以使变量是只读的能力。Readonly通过被加进C语言的决议，并命名为const，但可能是标准委员会的官僚导致这项决议迟迟没有执行。后来Bjarne Stroustrup就自己把const加入进C++中（当时还不叫C++），并逐渐演变成现在的样子。</p>
-
-<p>窃以为尽一切可能的使用const是任何一个合格的C++程序员应该遵守的事情，就像开车要系安全带一样。但好像人们并不喜欢用const，在我有限的C++编程生涯中，我接触到的有意识的会尽量用const的，除了我好像只有一人。不喜欢用const的结果同样可能会和开车不系安全带是一样的，希望你不会出事！</p>
-
-<h2>const的作用</h2>
-
-<ul>
-<li>避免魔数</li>
-</ul>
-
-
-<p><code>cpp
-const int max_path = 260;
-char [max_path];
-</code>
-使用自解释的变量名声明const变量，代替魔数，会增加代码的可维护性，勿以善小而不为呀！</p>
-
-<ul>
-<li><p>内存优化 对于POD类型的变量，const往往能将其优化到只读内存存储</p></li>
-<li><p>降低API的复杂度</p></li>
-</ul>
-
-
-<p>比如有下面这样一个类
-```cpp
-class Array
-{
-  public:</p>
-
-<pre><code>int getCount() const;
-</code></pre>
-
-<p>  private:</p>
-
-<pre><code>//etc
-</code></pre>
-
-<p>};
-```
-将成员函数getCount指定为const（const不能修饰非成员函数和static成员函数），可以使调用它的客户端代码相信Array的对象是没有变化的，函数的调用不会产生副作用。</p>
-
-<p>或者：
-```cpp
-int getMaxValue(const std::vector<int>&amp; srcVec);</p>
-
-<p>void fun()
-{</p>
-
-<pre><code>std::vector&lt;int&gt; vec;
-vec.push_back(1);
-vec.push_back(2);
-vec.push_back(3);
-
-int maxVal = getMaxValue(vec);    
-
-//继续使用vec
-auto size = vec.size();
-</code></pre>
-
-<p>}
-```
-参数使用const修饰，可以逻辑上保证参数不会被调用的函数修改，一样是降低复杂度</p>
-
-<ul>
-<li>防止错误的发生</li>
-</ul>
-
-
-<p>看下面的例子：
-```cpp
-int getMaxVal()
-{</p>
-
-<pre><code>const int maxVal = getMaxVal();
-int maxCacheVal = 0;
-if (NeedFetchCache())
-{
-    //etc
-    maxVal = getCacheMaxVal();//拼写错误，本来该是maxCacheVal
-}
-
-return max(maxCacheVal, maxVal);
-</code></pre>
-
-<p>}
-```</p>
-
-<p>如果不用const，例子里拼写错误导致的bug只能留待自测、QA或用户来发现了，如果maxVal是const，那编译器不会让你通过的，这样const帮助我们将这种错误绞杀于萌芽。</p>
-
-<h2>两种const</h2>
-
-<ul>
-<li>物理const</li>
-</ul>
-
-
-<p>物理const是Bjarne Stroustrup最初想要实现的Readonly。目的是把POD类型的变量存储进只读存储区，比如：
-<code>cpp
- const int i = 200;
-</code>
-i将被优化进只读内存，效果相当于C语言中的宏。</p>
-
-<ul>
-<li>逻辑const</li>
-</ul>
-
-
-<p>逻辑const，一般修饰成员函数，表明调用函数不用引起对象逻辑上的变化：
-```cpp
-class Array
-{
-  public:</p>
-
-<pre><code>size_t size() const
-{
-    ++m_calledCount;//无法修改
-    return m_size;    
-}
-</code></pre>
-
-<p>  private:</p>
-
-<pre><code>size_t m_size;
-int m_calledCount;
-</code></pre>
-
-<p>};
-```
-上面例子中的size()函数修饰为const，则表明调用它的过程中，对象一般是不能变化的，所以无法改变成员变量的值。</p>
-
-<p>逻辑const也指修饰非POD类型的变量，主要帮助编译器做语法检测：
-<code>cpp
-const std::string str1 = "towriting.com";
-auto size = str1.size();
-str1.push_back("!"); //无法调用非const成员函数
-</code>
-const的对象只能调用const版的成员函数。例子中的str1调用了非const函数push_back会引起编译错误，因为const对象不应该改变对象的“值"。</p>
-
-<h2>鲜为人知的特性</h2>
-
-<ul>
-<li>内部链接</li>
-</ul>
-
-
-<p>大家知道全局变量的定义必须是唯一的，但const修饰的变量具有内部链接的属性，比如有两个编译单元文件test_const_one.cpp和test_const_ohter.cpp分别定义了全局变量g_var：
-```cpp
-//test_const_one.cpp</p>
-
-<p>const int g_var = 1;
-int main()
-{
-  //something
-}</p>
-
-<p>//test_const_other.cpp
-const int g_var = 2;
-int testconst
-{
-  //something
-}</p>
-
-<p><code>
-但编译是没有问题的，因为g_var只在本编译单元可见
-</code>cpp
-towriting.com@debian:~/workspace/snippets/cpp$g++ test_const_one.cpp test_const_other.cpp
-```</p>
-
-<ul>
-<li>影响虚函数的覆盖</li>
-</ul>
-
-
-<p>比如有两个类，CSuperButton继承CButton，并且子类“重写”了基类的GetWidth()函数：
-```cpp
-class CButton
-{
-  public:
-   virtual int GetWidth() const {return 100;}
-};</p>
-
-<p>class CSuperButton: public CButton
-{
-  public:
-   virtual int GetWidth() {return 0;}
-};</p>
-
-<p>int main()
-{
-  CButton *pBtn = new CSuperButton();
-  std::cout&lt;&lt;pBtn->GetWidth()&lt;&lt;std::endl;
-  return 0;
-}
-```</p>
-
-<p>如果这是一道面试题，问输出的结果是多少时，我相性不少人会答错。不卖关子，结果是100，因为子类的GetWidth没有用const修饰而基类使用了const，所以无法覆盖。</p>
-
-<ul>
-<li>影响函数的重载</li>
-</ul>
-
-
-<p>影响函数的重载有两种，一种是通过const修饰成员函数，比如：</p>
-
-<p><code>cpp
-class CIntArray
-{
-public:
-  int&amp; At(int index);
-  const int&amp; At(int index) const;
-};
-</code>
-CIntArray原本提供了一个非const的At函数用于获取内容，并且可以通过引用的返回值修改对象。但同时也要提供一个const版的At供const对象使用（如果返回成员变量，返回值也要用const）。</p>
-
-<p>另一种影响重载的是，通过修饰参数，比如：
-<code>cpp
-void doSomething(int i);
-void doSomething(const int&amp; i);
-</code></p>
-
-<ul>
-<li>&ldquo;浅"const</li>
-</ul>
-
-
-<p>我们前面讲了成员const函数无法修改成员变量，但指针的成员变量为什么好像会被修改？
-```cpp
-class CObj
-{
-public:
-  void doSomething() const
-  {</p>
-
-<pre><code> *m_pointer = 1;
-</code></pre>
-
-<p>  }
-private:
-  int *m_pointer;
-};
-```
-上面的代码编译是没有问题的，const的成员函数doSomething好像"修改"了成员变量的值。指针的成员变量有什么特殊的吗，为什么可以这样？原因很简单，doSomething并没有修改m_pointer的值，m_pointer是指针，只是修改了指针指向的内容而已。</p>
 ]]></content>
   </entry>
   

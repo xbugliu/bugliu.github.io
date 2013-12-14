@@ -116,7 +116,7 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/11/10/job-hopping/</loc>
-        <lastmod>2013-11-10T23:58:17+08:00</lastmod>
+        <lastmod>2013-12-06T21:07:54+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/11/17/effective-tools/</loc>
@@ -127,8 +127,28 @@
         <lastmod>2013-12-05T00:44:58+08:00</lastmod>
     </url>
     <url>
+        <loc>http://towriting.com/blog/2013/12/08/from-smog/</loc>
+        <lastmod>2013-12-08T20:28:36+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://towriting.com/blog/2013/12/10/static-assert/</loc>
+        <lastmod>2013-12-14T00:33:06+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/</loc>
+        <lastmod>2013-12-14T00:33:30+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://towriting.com/blog/2013/12/12/cpp-blogs/</loc>
+        <lastmod>2013-12-15T02:58:01+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</loc>
+        <lastmod>2013-12-14T00:22:38+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://towriting.com/blog/archives/</loc>
-        <lastmod>2013-12-05T00:44:58+08:00</lastmod>
+        <lastmod>2013-12-15T02:58:01+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/about/</loc>
@@ -140,7 +160,7 @@
     </url>
     <url>
         <loc>http://towriting.com/</loc>
-        <lastmod>2013-12-05T00:44:58+08:00</lastmod>
+        <lastmod>2013-12-15T02:58:01+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/search.html</loc>

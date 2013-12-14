@@ -108,7 +108,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/08/20/ranged-for-loop/">C++11系列-区间迭代</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/09/17/constexpr/">C++11系列-常量表达式</a></h1>
     
     
       <p class="meta">
@@ -124,18 +124,20 @@
   
 
 
-<time datetime="2013-08-20T22:50:00+08:00" pubdate data-updated="true">2013-08-20</time>
+<time datetime="2013-09-17T22:39:00+08:00" pubdate data-updated="true">2013-09-17</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。</p>
+  <div class="entry-content"><p>C++11有一些这样的改善，这种改善保证写出的代码比以往任何时候的执行效率都要好。这种改善之一就是生成常量表达式，允许程序利用编译时的计算能力。假如你熟悉模板元编程，你将发现constexpr使这一切变得更加简单。假如你不知道模板元编程，也没什么。constexpr使我们很容易利用上编译时编程的优势。</p>
 
-<h2>区间迭代的基本语法</h2>
+<p>常量表达式主要是允许一些计算发生在编译时，即发生在代码编译而不是运行的时候。这是很大的优化：假如有些事情可以在编译时做，它将只做一次，而不是每次程序运行时。需要计算一个编译时已知的常量，比如特定值的sine或cosin？确实你亦可以使用库函数sin或cos，但那样你必须花费运行时的开销。使用constexpr，你可以创建一个编译时的函数，它将为你计算出你需要的数值。用户的电脑将不需要做这些工作。</p>
 
-<p>近来，基本上所有现代编程语言都有一种对一个区间写for循环的便捷方式。最终，C++也有了相同的概念；你可以给循环提供一个容器，它帮你迭代。前面我们已经在<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a>中看到了一些简单的例子。让我们回忆一下区间迭代的样子：</p>
+<h3>constexpr初探</h3>
+
+<p>为了使函数获取编译时计算的能力，你必须指定constexpr关键字到这个函数。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -144,36 +146,81 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">10</span> <span class="p">);</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">:</span> <span class="n">vec</span> <span class="p">)</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">multiply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 将在编译时计算</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>上面代码打印一个名叫vec的vector的内容，用i去捕获vector里面的值，直至vector的最后。你也可以用auto代替类型便利的迭代复杂的数据结构。例如，迭代一个map:</p>
+<p>除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="n">address_entry</span> <span class="o">:</span> <span class="n">address_book</span> <span class="p">)</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">getDefaultArraySize</span> <span class="p">(</span><span class="kt">int</span> <span class="n">multiplier</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>            <span class="n">cout</span>  <span class="o">&lt;&lt;</span> <span class="n">address_entry</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; &lt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">address_entry</span><span class="p">.</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;&gt;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">my_array</span><span class="p">[</span> <span class="n">getDefaultArraySize</span><span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>constexpr函数的限制</h2>
+
+<p>一个constexpr有一些必须遵循的严格要求：</p>
+
+<ul>
+<li>函数中只能有一个return语句（有极少特例）</li>
+<li>只能调用其它constexpr函数</li>
+<li>只能使用全局constexpr变量</li>
+</ul>
+
+
+<p>注意递归并不受限制。但只允许一个返回语句，那如何实现递归呢？可以使用三元运算符（?:)。例如，计算n的阶乘：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">factorial</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>修改vector的值</h2>
+<p>现在你可以使用factorial(2)，编译器将在编译时计算这个值，这种方式运行更巧妙的计算，与内联截然不同。你无法内联一个递归函数。</p>
 
-<p>假如你想修改你正在迭代的容器的值，或者你想避免拷贝大对象，你可以用引用的变量遍历。比如，下面的迭代对一个整形vector中每个元素的值加1。</p>
+<p><strong>constexpr函数还有那些特点？</strong></p>
+
+<p>一个constexpr函数，只允许包含一行可执行代码。但允许包含typedefs、 using declaration &amp;&amp; directives、静态断言等。</p>
+
+<h2>constexpr和运行时</h2>
+
+<p>一个声明为constexpr的函数同样可以在运行时被调用，当这个函数的参数是非常量的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span><span class='line'><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
+</span><span class='line'><span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这意味着你不需要分别写运行时和编译时的函数。</p>
+
+<h2>编译时使用对象</h2>
+
+<p>假如你有一个Circle类：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -188,39 +235,231 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">2</span> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span> <span class="o">:</span> <span class="n">vec</span> <span class="p">)</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Circle</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">i</span><span class="o">++</span><span class="p">;</span> <span class="c1">// increments the value in the vector</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">:</span> <span class="n">vec</span> <span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="c1">// show that the values are updated</span>
-</span><span class='line'>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="kt">double</span> <span class="n">getArea</span> <span class="p">()</span> <span class="k">const</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_radius</span> <span class="o">*</span> <span class="n">_radius</span> <span class="o">*</span> <span class="mf">3.1415926</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">_y</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">_radius</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>区间意味着什么？</h2>
-
-<p>Strings,arrays,和所有的STL容器可以被新的区间迭代方式迭代。但是如果你想让你自己的数据结构使用这个新语法怎么办？</p>
-
-<p>为了使这个数据结构可迭代，它必须类似于STL迭代器。</p>
-
-<ul>
-<li>这个数据结构必须要有begin和end方法，成员方法和独立函数都行，这两个方法分别返回开始和结束的迭代器</li>
-<li>迭代器支持*操作符、!=操作符、++方法（前缀形式，成员函数和独立函数都行）</li>
-</ul>
-
-
-<p>就这些！实现这五个函数，你就可以有一个支持区间迭代的数据结构。因为begin、end可以是非成员函数，你甚至可以适配现有数据结构而不用实现STL风格的迭代器。所有你要做的是创建你自己的支持*、前缀++和!=的迭代器，并且定义好自己的begin、end。</p>
-
-<p>区间迭代如此NICE。所以我怀疑大部分还不支持STL迭代模型的容器都会想添加某种适配方式以支持区间迭代。这里有一个小程序演示创建一个支持区间迭代的迭代器。这个例子里，我创建了一个固定Size是100的IntVector，并且可以被一个叫做Iter的类迭代。</p>
+<p>你希望在编译期构造一个Circle接着算出他的面积。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="n">Circle</span> <span class="n">c</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
+</span><span class='line'><span class="n">constexpr</span> <span class="kt">double</span> <span class="n">area</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">getArea</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>事实证明你可以给Circle类做一些小的修改以完成这件事。首先，我们需要将构造函数声明为constexpr，接着我们需要将getarea函数声明为constexpr。将构造函数声明为constexpr则运行构造函数在编译期运行，只要这个构造函数的参数为常量，且构造函数仅仅包含成员变量的constexpr构造（所以默认构造可以看成constexpr，只要成员变量都有constexpr构造）。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Circle</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">constexpr</span> <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">constexpr</span> <span class="kt">double</span> <span class="n">getArea</span> <span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">_radius</span> <span class="o">*</span> <span class="n">_radius</span> <span class="o">*</span> <span class="mf">3.1415926</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">_y</span><span class="p">;</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">_radius</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>constexpr vs const</h2>
+
+<p>假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。</p>
+
+<h2>constexpr和浮点数</h2>
+
+<p>到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。</p>
+
+<h2>权衡constexpr</h2>
+
+<p>C++开发者早就深受修改一个头文件则引发重新编译导致编译缓慢的困扰。而constexpr可能引入增加编译时间的风险，但也有一些技术去降低这种风险。首先，因为constexpr函数相同的参数会输出相同的结果，所以它们可以被<a href="http://en.wikipedia.org/wiki/Memoization">memoized</a>，事实上GCC已经支持memoization。</p>
+
+<p>因为可以对constexpr函数memoize,所以用constexpr函数替换模板函数的地方，(编译）性能不会变得更坏，但代码会变得清晰。事实上，替换掉一部分模板实例，编译会显著加快。</p>
+
+<p>最后，标准允许编译器去限制递归函数的级数。这样可以限制深度递归的编译性能损耗。</p>
+
+<h2>编译器支持</h2>
+
+<p>constexpr需要编译器支持编译期的递归，所以也不奇怪支持constexpr的编译器并不多，就我所知只有G++4.7支持这一特性。[注：到我翻译时，intelC++13、Clang3.1也都支持了，不过Vs2013还是不支持]</p>
+
+<p>下一篇：右值引用和移动语义</p>
+
+<p>上一篇：<a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
+
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-compile-time-processing-with-constexpr.html">Constexpr &ndash; Generalized Constant Expressions in C++11</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/15/summary/">癸巳年上半年总结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-15T22:35:00+08:00" pubdate data-updated="true">2013-09-15</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>How Time Flies!</p></blockquote>
+
+<p>标题中年份用的是农历，春节后回杭州，元宵后办理完交接离开同花顺，到二月廿八入职TX，从那时算起到今天亦有半年多了。</p>
+
+<h3>关于健康</h3>
+
+<p>先从李开复罹癌说起（希望他可以康复），不管名气再大，总归是人，自然规律，生老病死无法逃避。不过李的生病，又掀起了一股，IT从业者是癌症高发人群的讨论，一些网站还列出了预防癌症的n条方法。李的生病对我的触动也很大，因为媒体上曝光李的压力很大，经常凌晨2、3点睡觉，而我最近睡的也比较晚差多不也1点半左右。无法好好休息，确实是对健康的透支，李是台湾省人，又有在国外生活经历，经济条件又好，想必规律性的深度体检是有的，所以可以及早发现。而我们大多数人，可能小病就是扛着，每年一次的体检也是马马虎虎，也没有什么健康意识。从今往后睡眠一定要保证，自己力争12点半之前入睡。说句题外话，如今中国近万人确诊癌症，而李不过是其中之一，如果李不是名人，又有谁重视，印象中李的出名是因其反复跳槽被媒体炒作，估计也是他为后来搞风投作势，话说微软与李同一级别的华人并不少，乃至现在有个叫做陆奇的华人，现在被国外媒体认定为鲍尔默接班人之一，级别在李之上多矣，为何李如此出名？</p>
+
+<h3>工作的事</h3>
+
+<p>这一段时间确实工作时间很长，8月份休息了三天，9月份的周六目前也都在加班。至于加班的原因，我个人概括的如下：</p>
+
+<ol>
+<li>产品设计需求不明确，不细化，变更频仍</li>
+<li>上一条导致，我们无法预估时间，但产品发布的时间是死的，往往也不够</li>
+<li>开发时间少，且团队代码不够规范，所以代码质量低下，bug很多</li>
+</ol>
+
+
+<p>话说入职TX后，最不适应的就是，产品设计不够详细，纰漏多，文档少，变化快。团队也发现了这个问题，也在慢慢改，不过自己也接受并努力去习惯这种节奏。有时，一个很大的需求只有短短几句话，确实会让人升起一股卷铺盖走人的冲动，但现实是残酷的，无法逃避的，就像《麦田的守望者》的主人公一样，逃避不了的，自己也要力争达到《麦》中那句名言：一个成熟男人的标志是他愿意为一项事业卑微地活着。所以如果是产品设计问题，要沟通，引导他们完成设计。</p>
+
+<p>目前团队的项目是，Android手机PC端（windows）的管理软件。自己刚进入时，主要做一些辅助项目的开发，比如守护进程和第三方合作插件。自己在开发这些软件的时候，感觉在Windows系统编程方面经验太少，多亏我的导师给我指出了一些方向、技术点和强大的stackoverflow.com，才是我顺利完成了工作，这部分不熟悉的内容主要包括：win7下进程Token、各种内核对象、管道的使用等等。</p>
+
+<p>目前团队使用的开发环境主要是VS2010，这还算对我胃口的，因为支持C++11，要说这半年自己技术上的进步，只能说是C++11常用用法的熟练使用，因为lambda的方便性，感觉STL中的算法焕发了第二春，现在我已经很少用for循环了
+可惜vs2010不支持ranged for loop。</p>
+
+<h3>融入团队</h3>
+
+<p>融入团队，目的是为了更好的合作，终极目的是为了创造更好的产品。</p>
+
+<p>要融入的内容包括：</p>
+
+<ol>
+<li>和大部分人建立融洽的关系</li>
+<li>熟悉团队的开发流程、规范、潜规则</li>
+<li>影响团队，改造团队的坏习惯，促进团队良性发展</li>
+</ol>
+
+
+<p>以上三点，是难度递增的。第一是“和大部分人建立融洽的关系”。人分三种：第一种人是，热心的帮助你，主动跟你建立融洽关系；第二种人是, 你需要感化，帮助他，影响他从而建立融洽关系； 第三人是：价值观、习惯与自己差异较大，且对人有成见，此种很难建立融洽关系的。</p>
+
+<p>一般前两种占据90%以上，第三种很少，很圆滑会来事的人可以去攻克第三种，像我这种木讷的人，就懒得管第三种了，平时保持距离，但切记不要影响工作，切记融入团队的终极目标是创造好的产品。</p>
+
+<p>第一点，自己目前完成度一般，有客观的原因，比如很长一段时间都是做独立项目，且团队活动很少。主观上，做程序员久了，感觉交际能力下降，在同花顺时，总能结合场景说一些灵机一闪的幽默言语，所以同事间相当融洽。目前工作之间的交流还算融洽，但相信这一点随着时间的推移会越来越好的。</p>
+
+<p>第二点是，熟悉团队的开发流程，规范，潜规则。目前的开发流程可以归结为：快速迭代，持续优化。所以编码时的质量是不高的，比如前几天与一同事一块儿开发一个需求，看他写的类中有大量的public函数，但这些函数外面并不会调用，还有一些很该写成const的函数没写，提醒他，他答曰：迭代太快，一开始考虑不全。其实这些是团队的开发习惯，编码规范问题，大家都这样，所以一直糊里糊涂的写着。代码是用TFS管理的，会建立一些分支，这些都熟悉了。代码上的潜规则也会有一些，都是出了问题后，才发现并修补掉的，比如看起来八杆子打不着的函数有依赖关系等等，这个只能遇到一个记录一个。</p>
+
+<p>第三点是，影响团队，去陋改良。这一点，自己是很热心的，比如，会和大家分享一些C++的编码规范技巧等等，推广一下Python，推进一些高级工具的使用等等。效果有一些，但一个团队的习惯，是一个复杂的历史问题，有其合理的地方，平时只会在小的地方改良，或者经历惨痛的教训后，才会主动改革。</p>
+
+<h3>梦想实现财务自由</h3>
+
+<p>前一段时间，确实很累，让我梦想有一天可以实现财务自由，可以做一个自由职业者。于是做了一个尝试，做了两个Niche站，一个中文一个英文，目前还没有收入，现在的心态是，不求收益，但至少我体验了一把建站的思路。建这种站，是一个持久的活动，但假使这两个站有收益，也是杯水车薪，但不排除有经验后，自己可以做出相对成功的niche站。</p>
+
+<p>niche站看来短期内，不是实现自己财务自由的途径。</p>
+
+<p>自己两年来定投了两支基金，其中一直亏损严重，但上周业绩比较漂亮，每天能给我带来3、5百的收益，假如一直这样多好。现实是残酷的，现实是没有假如的。定投基金的心态一定要是：不贪不惧，争取跑过余额宝就可以了。</p>
+
+<p>实现财务自由之路还需继续探索了，有理想是不可耻的，但切记不可在公司上班期间，利用工作资源时间践行自己的理想，自己与公司是有契约的，要有契约精神。</p>
+
+<h3>技术路上的进退</h3>
+
+<p>技术路上的进步，说起来还是C++了，进步的程度，只能说是更娴熟了（C++谁人敢说精通呢？）。具体而言，主要是C++11的熟练使用，STL的熟练使用。据我观察与阅读其他人代码，可以基本推断自己C++水平是相对较好的。比如C++11语法只有1个人在用，在数十万的代码中搜索不到几个STL中的常用算法函数（for_each、remove_if等），代码中也有很多明显的违反《effictive C++》的内容。但圈子小，并不是每个人都C++感兴趣，国外一些C++牛人的博客上介绍的主题，自己闻所未闻，C++14/C++1y, C++还有很多可以探索的领域。但不知自己在C++上的投入是不是不归路，今年换工作的面试中，就遇到好多人的诘问：C++有什么好学的？C++学那么好有什么用？</p>
+
+<p>但除了C++，自己又找不到特别感兴趣的方向。今天看《高效能程序员的修炼》，里面提到不要为了学习而学习，不要学习以后可能会用到的东西，要学自己感兴趣的东西。这些观点，放到我身上就是矛盾的，我感兴趣的是C++，但有些东西以后并不一定能够用得到。</p>
+
+<p>其他技术上的进步，主要是一些零碎的技术知识。最近一年，在也没学过大块新的知识了。近来也断续听到这种说法，读书成瘾，为学而学。感觉自己以前有这种倾向，感觉自己像知识的冰箱，存储了好多原料，却不会用这些做出一桌丰盛的菜来。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/01/this-pointer/">熟悉的陌生人-this指针(1)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-01T00:22:00+08:00" pubdate data-updated="true">2013-09-01</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不是你想象的样子！</p>
+
+<h2>this指针的偏移 &ndash; 某次强制转化引发的血案</h2>
+
+<p>这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：</p>
+
+<figure class='code'><figcaption><span>例1</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -258,398 +497,97 @@
 <span class='line-number'>36</span>
 <span class='line-number'>37</span>
 <span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">IntVector</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Iter</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">Iter</span> <span class="p">(</span><span class="k">const</span> <span class="n">IntVector</span><span class="o">*</span> <span class="n">p_vec</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span>
-</span><span class='line'>        <span class="o">:</span> <span class="n">_pos</span><span class="p">(</span> <span class="n">pos</span> <span class="p">)</span>
-</span><span class='line'>        <span class="p">,</span> <span class="n">_p_vec</span><span class="p">(</span> <span class="n">p_vec</span> <span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// 这三个方法组成支持区间迭代的迭代器的基础</span>
-</span><span class='line'>    <span class="kt">bool</span>
-</span><span class='line'>    <span class="k">operator</span><span class="o">!=</span> <span class="p">(</span><span class="k">const</span> <span class="n">Iter</span><span class="o">&amp;</span> <span class="n">other</span><span class="p">)</span> <span class="k">const</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">_pos</span> <span class="o">!=</span> <span class="n">other</span><span class="p">.</span><span class="n">_pos</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">int</span> <span class="k">operator</span><span class="o">*</span> <span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">const</span> <span class="n">Iter</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span> <span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="o">++</span><span class="n">_pos</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
-</span><span class='line'>    <span class="kt">int</span> <span class="n">_pos</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">const</span> <span class="n">IntVector</span> <span class="o">*</span><span class="n">_p_vec</span><span class="p">;</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span>    
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">IntVector</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">CBird</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">IntVector</span> <span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">int</span> <span class="n">get</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span><span class="p">)</span> <span class="k">const</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">_data</span><span class="p">[</span> <span class="n">col</span> <span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="n">Iter</span> <span class="n">begin</span> <span class="p">()</span> <span class="k">const</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">Iter</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">Iter</span> <span class="n">end</span> <span class="p">()</span> <span class="k">const</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">Iter</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="mi">100</span> <span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kt">void</span> <span class="n">set</span> <span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">_data</span><span class="p">[</span> <span class="n">index</span> <span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">_data</span><span class="p">[</span> <span class="mi">100</span> <span class="p">];</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span>
-</span><span class='line'><span class="n">Iter</span><span class="o">::</span><span class="k">operator</span><span class="o">*</span> <span class="p">()</span> <span class="k">const</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CBird</span><span class="p">()</span><span class="o">:</span> <span class="n">m_bCanFly</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>     <span class="k">return</span> <span class="n">_p_vec</span><span class="o">-&gt;</span><span class="n">get</span><span class="p">(</span> <span class="n">_pos</span> <span class="p">);</span>
+</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="s">&quot;Bird&quot;</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">~</span><span class="n">CBird</span><span class="p">(){}</span>
+</span><span class='line'><span class="k">virtual</span> <span class="kt">void</span> <span class="n">Fly</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;type: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_strName</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;is fly: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_bCanFly</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="kt">bool</span> <span class="n">m_bCanFly</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
 </span><span class='line'>
-</span><span class='line'>
+</span><span class='line'><span class="c1">//主函数</span>
 </span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">IntVector</span> <span class="n">v</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">v</span><span class="p">.</span><span class="n">set</span><span class="p">(</span> <span class="n">i</span> <span class="p">,</span> <span class="n">i</span> <span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">:</span> <span class="n">v</span> <span class="p">)</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'> <span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CBird</span><span class="p">;</span>
+</span><span class='line'> <span class="kt">void</span><span class="o">*</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
+</span><span class='line'> <span class="c1">//一些操作</span>
+</span><span class='line'> <span class="n">CBird</span><span class="o">*</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">*</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>   <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
+</span><span class='line'> <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>注意这段代码中区间迭代时，不允许以引用修改IntVector中的元素。这是为了不使代码变长而影响代码的主要结构，所以并没添加返回引用类型的函数。</p>
-
-<h2>区间迭代提升性能？</h2>
-
-<p>在我使用GCC4.6的有限的测试中，我并没看到区间迭代相对于标准STL迭代的性能提升，但好像可以和STL中的for_each拥有同样的性能。</p>
-
-<h2>编译器支持</h2>
-
-<p>不幸的是，区间迭代的编译器支持的不好。MSVC11以后开始支持，GCC是4.6以后支持。</p>
-
-<p>下一篇：<a href="/blog/2013/09/17/constexpr/">常量表达式</a></p>
-
-<p>上一篇：<a href="/blog/2013/08/11/lambda-closures/">lambda表达式</a></p>
-
-<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-ranged-for-loop.html">Range-Based For Loops in C++11 &ndash; Cprogramming.com</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/17/a-doggerel-of-seven-years-ago/">七年前作的一首打油诗</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-17T23:45:00+08:00" pubdate data-updated="true">2013-08-17</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>令伊伤神赴荆门
-狐死首丘怀故人
-祝君安康序仲昆
-晋地荒凉伤我心
-州内琐忆感乾坤
-二更如梦仿诸君
-中北桑梓孤独魂
-漂泊天涯无定坟
-泊头火柴烟头灰
-学海无涯岸边蹲
-子为成仙广寒奔
-事虽有定人两分
-业债空乘雪霜痕
-有心插柳未生根
-成败晦朔魄空存
-</code></pre>
-
-<p>这是06年10月份，刚升大学时，写的一首藏头诗：令狐祝晋州二中漂泊学子事业有成。这是自己写来勉励自己与高中同学的，那时大家都叫我令狐。听起来很俗套，句子想必也很晦涩，大家不一定能看得懂，自己也不一一解释。不管如何，庆幸当年留下的东西，可以今天拿来回忆。</p>
-
-<p>七年过去。记得当初写完这首藏头诗，发给几个要好的同学，一个最要好的同学立刻回复：有才。可就是这个最要好的同学在三年前已离我们而去。人生无常，迟早我们都要离开这个世界，可是小小年纪，人生刚刚扬帆即草草落幕，甚是可惜。他走的那年，我们剩余的好友相聚，酒喝了一斤多，醉后抱头痛哭！</p>
-
-<p>刚上大学时，经常做这样一个梦：没好好学习，学校开除我，我要回高中再读。每到此时，都惊出一身冷汗，随即醒来，长吁一声。可见高中的学习在内心深处对我如梦魇一般，但这一点我却不自知。如果有人问我，哪段人生经历最值得珍惜，我会毫不犹豫的说高中。</p>
-
-<p>高中时候，是我们逝去的青春岁月。学业虽然很繁重，我们也很穷，没钱买什么东西，但确是自己最快乐的时光。大家住校，相互之间称呼都很亲昵，一般都是一个字，或者各种外号。每天的日子，看起来都是重复的，早上早早起床出操，然后一天学习，直至晚上10点，中间穿插着吃饭。早起的喇叭里总是放着那几首歌曲，乃至今日我一听这几首歌，脑中就浮现路灯照进宿舍，大家极不情愿的起床穿衣的情景。</p>
-
-<p>高中结时的朋友，感情是可以和发小一样的。自己庆幸自己认识了几个这样的朋友，有他们陪伴的高中岁月一度是很快乐的。大家相互扶持走过了高中，完成了那样繁重的学业。</p>
-
-<p>七年过去了，同学之间的联系渐渐稀疏，各处天南海北，有些还在国外。年少时曾经志存高远，但长大后被现实折磨的没了脾气，同学们大部分过得并不得意，但也有小部分梦想还没被磨灭。不管怎样，希望大家不要麻木，但不要疲惫的去追求什么，成功是相对的，物质的生活容易满足，内心的满足不易。</p>
-
-<p>往昔概相濡以沫，今后翼相望江湖！</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/16/programmer-dilemma/">程序员的困境</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-16T21:34:00+08:00" pubdate data-updated="true">2013-08-16</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近面试了数十个应聘内核开发职位的求职者。这些求职者都来自于芯片或嵌入式操作系统领域出名的非常好的大公司。他们大都声称他们在内核开发领域有至少十年经验。他们的简历看起来闪闪发光，充满着相关项目经验，各种时髦的技术词和奖项&hellip;</p>
-
-<p>但是他们大部分无法回答一个基础的问题：<strong>当你调用标准的malloc函数时，内核里面发生了什么</strong>？</p>
-
-<p>不要吃惊。当我让一位求职者写一个基于glib哈希函数的简单LRU缓存框架时，他首先说他从没用过glib，这是我预料之中的。我把glib手册给他并给他详细讲解了接口，接着一个多小时以后他只写出了几行糟糕的代码。</p>
-
-<p>我不知道这种情况在其他国家是否一样，但是在中国，特别是北京，这就是事实。工作在知名外企数年的&#8221;高级&#8221;程序员无法解决简单基础的问题。</p>
-
-<h2>为什么会这样</h2>
-
-<p>我越想越相信导致这种现象的不仅是他们自己的原因更要归咎于他们就职的公司。这些公司会给他们大量的数年不会有重要修改的稳定的代码。有技术含量的东西都被封装进了这些代码，所以他们只能因循守旧，不再创新。假如你恰巧在这样的代码上工作了很长的时间而没有接触外面的世界，总有一天你会发现自己会处在一个悲哀的境地：在团队或公司内他们叫你&#8221;<strong>专家</strong>&ldquo;，但不幸的是在市场上你难以找到一份不错的工作。</p>
-
-<p>这就叫做<strong>专家陷阱</strong>。日复一日，我们程序员的梦想就是成为团队/公司的专家；然而这一天到来时我们围困了自己。我们在现有代码上钻的越深，我们陷得越深。我们渐渐丧失了从头写一个完整项目的能力，因为现存的代码如此稳固。更糟的是，假如我们的主要工作仅是维护现存的代码，在此之上进行微小的开发，不久之后，不管曾经阅读和学习过多少代码，我们会发现我们无法再写代码&mdash;即使应届生都可以胜任的简单问题。这就是程序员的困境：我们以代码为生，但供养我们的大公司却慢慢摧毁我们谋生的能力。</p>
-
-<h2>如何摆脱这种困境</h2>
-
-<h3>针对个人</h3>
-
-<p>首先，<strong>做你自己的项目</strong>。你需要不断&#8221;磨快你的刀&#8221;。假如你的工作无法对此提供帮助，那你就挑选自己感兴趣的问题并且用自己的时间攻克它。这样做，你肯定会学到新东西。假如你发布自己的项目，比如在Github上，你可能会有机会认识把你拉出当前位置的人。</p>
-
-<p><strong>不要在一个团队里呆的时间超过两年</strong>。强制自己去其它岗位，即使是在同一公司统一组织你也可能会面临新的挑战和技术。试着每18个月进行一些面试。你不一定要换你的工作，但是你要看一下市场上需要什么而自己如何适应需求。</p>
-
-<h3>针对团队/公司</h3>
-
-<p><strong>给你的员工压力与挑战</strong>。轮换岗位，让&#8221;专家&#8221;有机会去拓展技能。开启新的项目，给战士们提供战场。</p>
-
-<p><strong>定期举办&#8221;编程马拉松&#8221;</strong>。这将建立一种改革与创新的文化。人们会被杰出者激励 &mdash; &ldquo;太酷了，这个家伙竟然可以在24小时内写出如何优美的框架，我要努力了&#8221;。</p>
-
-<p>译者：<a href="/">toWriting.com</a>翻译自：<a href="https://medium.com/i-m-h-o/231d7499a75">Programmer’s dilemma</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/">人生本应丰富多彩：《别逗了,费曼先生》读后感</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-12T23:49:00+08:00" pubdate data-updated="true">2013-08-12</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>知道这本书的时间应该不超过一年，至少是在经常逛stackoverflow以后，那至少是2011年以后的事了。stackoverflow中列出的<a href="http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read">每个程序员都应该读的书</a>里面，有几本书看起来和编程风牛马不相及，其中之一就是这本<a href="http://www.amazon.cn/gp/product/B009QVEA8M/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B009QVEA8M&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《别逗了，费曼先生》</a>。</p>
-
-<p>书不厚，买来20天断续读完，坦白的说没有达到读之前的预期。因为stackoverflow推荐书单上，自己读过的其它书籍，读后或是能切身感觉到促进自己技能的，比如《代码大全》、《设计模式》；或是震撼自己认知的，比如《禅与摩托车维修艺术》。产生预期差异的原因是本不应抱着世俗的心去读它，本书不会直接提高编程技能。费曼是个顶尖的拿过诺贝尔的理论物理学家，但他同时也是一个爱搞怪、特例独行、有小毛病的正常人。他写这本书可能仅为博大家一乐，或者炫耀自己多彩的人生。要脱去费曼物理学家的皮，像亚马逊一条置顶书评说的：“It shows that even our greatest scientists can be just regular guys like you and me“。</p>
-
-<h2>人生就应如费曼这样，而不是把时光都浪费在做自己不喜欢的事情上：</h2>
-
-<h2>多彩的童年</h2>
-
-<p>费曼小时候做的好多事，相信我们中国的孩子也都做过：喜欢瞎捣鼓，修个收音机、搞个小发明什么的。修收音机还貌似都到达收费的水平。回想自己上小时候也喜欢修东西，修过电视、电子表、单放机等等，不过&#8221;修&#8221;坏许多东西，为此遭受不少父亲的呵斥。费曼小时候当过”童工“，为了偷懒搞了好多发明，接电话机，削土豆机等等，想象一群大人围在一个矮自己好几头的小鬼，看他一本正经的演示自己的发明就想笑。</p>
-
-<h2>世俗学习生涯</h2>
-
-<p>很早就开始读一些数学物理的教材，所以费曼考的上MIT。刚上大学时，也会像一个普通美国大学新生参加兄弟会，并且接受“残酷”的考验。本科毕业时，他去了几次贝尔实验室，可能想留下工作，不过好像贝尔的家伙没看上他，所以他失望的去了一家搞镀塑料的公司。时间不长他就去了普林斯顿读研究生。他讨厌并无法逃避一些交际，他也会为修学分而选择自己不在行的人物学科。</p>
-
-<h2>搞怪的人生不枯燥</h2>
-
-<p>喜欢开密码锁，并乐此不疲，是许多读过《别逗了》的人对费曼的印象。他喜欢开锁，并找机会去做，并让别人大吃一惊，为此别人很讨厌他，不让他靠近自己的锁。在MIT时，他也发扬了一把MIT的hack精神，藏了宿舍的门，并且没人相信是他做的。他用杯子戏弄服务员一节是我最喜欢的。书中充满了费曼搞怪的经历，人生如此才有趣。</p>
-
-<h2>人生要成就</h2>
-
-<p>这本书没讲费曼是如何牛起来的，只说他研究生毕业，想为国报效就去了军方，后来有机会参加了曼哈顿计划，他讲自己可能是第一个近距离用肉眼看原子弹爆炸的人。这些足以在历史上留下一笔了，而吾等草根大众，只会淹没于历史长河中，百年后，一抔黄土而已。后来他获得诺奖，但他讨厌别人半夜打电话告诉他，骂别人为什么不等天亮在告诉他，面对成就那是怎样的淡定。</p>
-
-<h2>人生应有一不以此谋生的工作</h2>
-
-<p>费曼有一些特殊的爱好，比如开锁，画画与打鼓。打鼓是他一生的最爱。一些美国的科学家最后会喜欢上一种乐器，比如爱因斯坦喜欢小提琴，但拉的很难听。但费曼的鼓打的很不懒，上的了台面，参加过巴西国家级狂欢节、参加过国际级比赛。一个不以谋生的爱好给人带来的快乐，是持久与强烈的。</p>
-
-<h2>真性情</h2>
-
-<p>费曼从不掩饰自己的喜好，比如漂亮女孩，歌舞表演等等，他喜欢去拉斯维加斯。有一段时间他像个普通人一样（他就是个普通人）混迹酒吧，他向人讨教追求女孩的方法，学成之后屡试不爽。</p>
-
-<h2>爱并不一定要浪漫</h2>
-
-<p>他的第一任妻子阿莲重病时，他被军方召集制造原子弹无法照顾她，甚至没能见她最后一面，对阿莲的生理上的死亡，他没有特别的难过。数月之后，他走过一家百货商店的橱窗，里面挂着女士的服装，他想到其中一件阿莲或许喜欢，那一刻他万分悲戚：十年生死两茫茫，不思量，自难忘！</p>
-
-<h2>行万里路说万家言</h2>
-
-<p>他去日本后，喜欢上了日本精致的生活，他在日本的时光很惬意（但原子的制造他参加了），他想深入了解这个民族，他住在日本人住的酒店里，日语水平也到了可以打出租车出去溜达的地步，但日语这种语气意义丰富的语言，最终令他望而却步。但他葡萄牙语说的很棒，他经常去巴西，喜欢巴西，喜欢狂欢节。他承认巴西的学生不笨，但像中国学生一样，巴西学生也读死书，不知举一反三，对此费曼很无奈。有一次费曼参加一次巴西的学术会议，巴西国内的专家都蹩脚的英语做发言，只有他一个人说葡萄牙语，这令他很差异，如果他来到中国看到举国四六级后会作何感想。</p>
-
-<h2>勇于说“不”</h2>
-
-<p>造原子弹时，军方限制了书信自由，费曼反抗的冲动大于写信，写出好多古怪的信件与军方周旋；看不惯军方的形式主义，执意要回自己的一元专利费；自己去做讲座，宁愿不要费用，也不向邀请方提供发票；他宁愿不要费用也不想遵守政府例行的公文材料&hellip;</p>
-
-<h2>好奇人不老</h2>
-
-<p>除了费曼的搞怪，给人留下强烈印象的是费曼的好奇心：观察草履虫，研究蚂蚁的觅食轨迹、追问油漆合成色、破译玛雅数学、研究读心术、搞清楚梦到底有没有颜色、经历幻觉&hellip;人要有一颗好奇心，要不断的去发现尝试试验新的东西，要不漫长的一生有什么意思？没有好奇心，人只是会行走的尸体罢了。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/11/lambda-closures/">C++11系列-lambda函数</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-11T22:45:00+08:00" pubdate data-updated="true">2013-08-11</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img class="pull-left" src="/images/posts/lambda-closures/lambda.png" width="66" height="90" title="'lambda'" >
-C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。</p>
-
-<h2>为什么Lambda很酷</h2>
-
-<p>想象你有一个地址簿类，并且你想要提供一个可供检索的函数。你可能会提供一个简单的函数，接受一个字符串然后返回满足所有字符串的地址。有时有些用户可能希望这样。不过假如他们只是想检索域名或者检索用户名并且忽略域名结果；或者检索出现在其他列表中的所有Email地址。这里可能有许多可能的检索方式。除了类中集成所有这些搜索选项，提供一个通用的查找方法，这个方法接受一个查找规则的函数，这样不是更好些吗？让我们叫这个函数findMatchingAddresses，它接受一个函数或仿函数对象。</p>
+<p>上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：</p>
+
+<figure class='code'><figcaption><span>例2</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
+</span><span class='line'><span class="n">CBird</span><span class="o">*</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样调用确是没有问题的，和第一个例子唯一的差别就是没有中间的Void*转化。
+记得当时是我们周会的时间，于是拿出来和大家讨论，惭愧的是我们十几个人，竟然没人能说出其中原因，要知道我们中也有三个工作5年左右的同事。后来我打开调试器，跟踪了一下这两段代码的汇编代码，终于发现了蛛丝马迹：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">CBird</span><span class="o">*</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
+</span><span class='line'><span class="n">cmp</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">pAnimal</span><span class="p">],</span><span class="mi">0</span>
+</span><span class='line'><span class="n">je</span>          <span class="n">main</span><span class="o">+</span><span class="mi">1</span><span class="n">C1h</span> <span class="p">(</span><span class="mf">33F</span><span class="mi">681</span><span class="n">h</span><span class="p">)</span>
+</span><span class='line'><span class="n">mov</span>         <span class="n">eax</span><span class="p">,</span><span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">pAnimal</span><span class="p">]</span>
+</span><span class='line'><span class="n">sub</span>         <span class="n">eax</span><span class="p">,</span><span class="mi">4</span>
+</span><span class='line'><span class="n">mov</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mi">178</span><span class="n">h</span><span class="p">],</span><span class="n">eax</span>
+</span><span class='line'><span class="n">jmp</span>         <span class="n">main</span><span class="o">+</span><span class="mi">1</span><span class="n">CBh</span> <span class="p">(</span><span class="mf">33F</span><span class="mi">68</span><span class="n">Bh</span><span class="p">)</span>
+</span><span class='line'><span class="n">mov</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mi">178</span><span class="n">h</span><span class="p">],</span><span class="mi">0</span>
+</span><span class='line'><span class="n">mov</span>         <span class="n">ecx</span><span class="p">,</span><span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mi">178</span><span class="n">h</span><span class="p">]</span>
+</span><span class='line'><span class="n">mov</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">pBird</span><span class="p">],</span><span class="n">ecx</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：</p>
+
+<figure class='code'><figcaption><span>例3</span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -674,98 +612,542 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
 <span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;string&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;vector&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">AddressBook</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">lass</span> <span class="n">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
-</span><span class='line'>    <span class="c1">// 使用模板可以是我们忽略函数、仿函数和Lambda的不同</span>
-</span><span class='line'>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Func</span><span class="o">&gt;</span>
-</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findMatchingAddresses</span> <span class="p">(</span><span class="n">Func</span> <span class="n">func</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">results</span><span class="p">;</span>
-</span><span class='line'>        <span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">_addresses</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">end</span> <span class="o">=</span> <span class="n">_addresses</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">itr</span> <span class="p">)</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="c1">// 调用传递到findMatchingAddresses的函数并检测是否匹配规则</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span> <span class="n">func</span><span class="p">(</span> <span class="o">*</span><span class="n">itr</span> <span class="p">)</span> <span class="p">)</span>
-</span><span class='line'>            <span class="p">{</span>
-</span><span class='line'>                <span class="n">results</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="o">*</span><span class="n">itr</span> <span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">_addresses</span><span class="p">;</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
+</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span>    
 </span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>任何人可以传递一个包含地址查找逻辑的函数给findMatchingAddresses。假如这个函数返回真，则得到相应的地址，地址将被返回。这种方式在以前的C++中一样支持，不过却遭遇一个致命缺陷：创建函数非常不方便。你必须先在其他地方定义好函数，你才能使用它。这就是Lambda出现的原因。</p>
-
-<h2>基本Lambda语法</h2>
-
-<p>在我们解决这个问题之前，让我们看一下真实的lambda基本语法。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">CMammal</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="n">CMammal</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="s">&quot;Mammal&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">IsEatMeat</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;type: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_strName</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;is eat meat: &quot;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&lt;&lt;</span><span class="n">m_bEatMeat</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="kt">bool</span> <span class="n">m_bEatMeat</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">auto</span> <span class="n">func</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Hello world&quot;</span><span class="p">;</span> <span class="p">};</span>
-</span><span class='line'>    <span class="n">func</span><span class="p">();</span> <span class="c1">// now call the function</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>好，你找到lambda了吗？它以[]开始。这个标识，叫做捕获指定器，它告诉编译器我们要创建一个lambda表达式。你将看到[](或者里面有变量）在每一个lambda函数的开始。</p>
-
-<p>接着，像其他函数一样，我们需要一个参数列表：()。返回值呢？答案是我们不需要指定。在C++11中，假如编译器可以推导lambda函数的返回值，它将帮你做这件事而不需你显式指定。在这个例子里，编译器知道函数没有返回值。我们只是有一个打印“hello world&#8221;的函数体。这一行事实上不会触发关于打印的任何事：我们仅仅是创建了一个函数在这里。基本上相当于定义了一个普通函数。</p>
-
-<p>我们在下面一行调用了这个lambda函数：func()，像调用其它普通函数一样。顺便看到，配合auto做这些事情是多么简单！你不用担心函数指针的丑陋语法。</p>
-
-<h2>在我们的例子中应用Lambda</h2>
-
-<p>让我们看看怎样将lambda应用到我们地址簿例子里，首先我们创建一个查找包含“.org&#8221;的email地址的简单函数。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">AddressBook</span> <span class="n">global_address_book</span><span class="p">;</span>
+</span><span class='line'> <span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
+</span><span class='line'> <span class="kt">void</span><span class="o">*</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
+</span><span class='line'> <span class="n">CMammal</span><span class="o">*</span> <span class="n">pMammal</span> <span class="o">=</span> <span class="p">(</span><span class="n">CMammal</span><span class="o">*</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findAddressesFromOrgs</span> <span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">global_address_book</span><span class="p">.</span><span class="n">findMatchingAddresses</span><span class="p">(</span>
-</span><span class='line'>        <span class="c1">// we&#39;re declaring a lambda here; the [] signals the start</span>
-</span><span class='line'>        <span class="p">[]</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">addr</span><span class="p">.</span><span class="n">find</span><span class="p">(</span> <span class="s">&quot;.org&quot;</span> <span class="p">)</span> <span class="o">!=</span> <span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">;</span> <span class="p">}</span>
-</span><span class='line'>    <span class="p">);</span>
+</span><span class='line'> <span class="k">if</span> <span class="p">(</span><span class="n">pMammal</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
+</span><span class='line'> <span class="p">{</span>
+</span><span class='line'>  <span class="n">pMammal</span><span class="o">-&gt;</span><span class="n">IsEatMeat</span><span class="p">();</span>
+</span><span class='line'> <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>上面的代码运行正常，和例1的区别就是CMamal没有虚函数，而CBrid有。所以说，<strong>沿着继承链类型转化时，this指针可能会发生偏移，以确保this指针总能指向subobject</strong>。而强转中如果中间有void*这种没有类型信息的东西，会使编译器丢失这种偏移。</p>
+
+<p><strong>this指针说白了就是对象基址，角色是成员变量寻址基址，偏移的目的是为了使成员变量寻址正确</strong>，影响对像内存布局的东西都可能使this指针偏移（具体编译器可能不同）：</p>
+
+<ol>
+<li>虚表，子类有而派生类没有</li>
+<li>多重继承，子类与第n(n>1)个派生类</li>
+<li>虚继承</li>
+</ol>
+
+
+<p>待续：this指针的偏移策略</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/25/read-notes-hacker-and-painters/">《黑客与画家》阅读笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-25T01:00:00+08:00" pubdate data-updated="true">2013-08-25</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>整理下自己前段时间阅读<a href="http://www.amazon.cn/gp/product/B004WHZGZQ/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B004WHZGZQ&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《黑客与画家》</a>后记下的精彩观点：</p>
+
+<ul>
+<li>要读懂这本书，必须理解什么是黑客。<strong>hack指漂亮的解决方法，而hacker是指使用hack解决问题的人。hack还指求解问题过程中产生的精神愉悦与享受。</strong></li>
+<li>hacker vs cracker</li>
+<li>革新其实和异端是同一件事情</li>
+<li><strong>平庸的智力是不可忍受的</strong></li>
+<li>那些对自己没信心的人会通过虐待他们眼中的下等人来凸显自己的身份。</li>
+<li>最受欢迎的人并不欺负书呆子，因为他不需要靠踩在书呆子身上来垫高自己。</li>
+<li>学校的真实目的是把儿童都关在同一个地方，以方便大人白天可以腾出手来把事情做完。</li>
+<li>你告诉一个人他的脚是坏的，并不能阻止他去怀疑自己穿错了鞋子。</li>
+<li>当工作的专业化程度越来越高，我们就需要更长时间的训练。</li>
+<li>坏人使用毒品，是为了建立他们之间的社交纽带</li>
+<li>这样的考核（代码量）容易实施，而容易实施的考核总是被优先考虑</li>
+<li>黑客搞懂计算机理论的必要性与画家搞懂颜料化学成分的必要性差不多</li>
+<li>编程语言的必须要具有动态扩展的特性，他是去帮助你去思考如何编程而不是表达已想好的程序。</li>
+<li>在那里（大公司），<strong>程序员被当成技工</strong>，职责就是将产品经理的“构想”翻译成代码。</li>
+<li>你很难依靠软件与大公司展开竞争，可以展开的领域是无人涉足的领域。</li>
+<li><strong>换位思考并不意味着自我牺牲</strong></li>
+<li>判断一个人是否具有换位思考的能力有一个好办法，就是看他怎样<strong>向没有技术背景的人解释技术问题</strong>。</li>
+<li>激怒他人的言论是有些人会相信的言论。</li>
+<li>我们对任何被禁止的事情总是充满好奇心</li>
+<li>如果你可以“远远的”思维跳跃，想出别人一听到就脑袋轰隆一声的想法，那你“小小的”思维跳跃就不再困难，而小小的思维跳跃被人称为创新。</li>
+<li>在思想自由和言论自由之间划一条界线</li>
+<li>讨论一个观点可能产生许多观点，而不讨论则什么也没有</li>
+<li>流行的思想与流行的服饰传播的途径大致相同，第一批人有精英意识，想把自己与普通人区分开来，而第二批人接受流行，不是想要与众不同，而是害怕与众不同。</li>
+<li>公民自由真的是国家富强的原因，而不是结果吗？</li>
+<li>版本这个概念不适合互联网软件</li>
+<li>将一个构思束之高阁，不仅意味着延迟它的实现，还意味着延迟有在实现过程中激发的构思。</li>
+<li>如果你出错了，没有人会提醒你，<strong>唯一的代码保护机制就是你的羞耻心</strong>，你不想被同事当成傻瓜，就足矣。</li>
+<li>价格歧视，针对不同用户制定不同的价格。</li>
+<li>边际成本，指下一单产品的生产成本</li>
+<li>有钱的客户倾向于更贵的选择，及时便宜的选择更符合他们的需要，他们也不会购买。</li>
+<li><strong>金钱不等于财富</strong></li>
+<li>金钱是专业化的副产品</li>
+<li>大多数的生意的目的是为了创造财富，做出人们真正需要的东西</li>
+<li><strong>目前存在的最大的手工艺人群体就是程序员</strong></li>
+<li>要致富，你需要两样东西，可测量性和可放大性</li>
+<li>（有些人）致富的方法不是创造财富，而是以统治者的强权进行搜刮掠夺。</li>
+<li>当更快的致富方式出现后，贪污才逐渐不流行了。</li>
+<li>富人和穷人之间生活差异的鸿沟正在缩小，品牌是这种差距的遗留物</li>
+<li>你要避免的是绝对贫穷，而不是相对贫穷。</li>
+<li>如果解决方法是丑陋的，那肯定还有简单的解决方法</li>
+<li><strong>优秀作品的秘诀</strong>就是：非常严格的品味，再加上实现这种品味的能力</li>
+<li>技术的变化速度是很快的。但是，编程语言不一样，与其说是技术，还不如说是<strong>程序员的思考模式</strong>。</li>
+<li><strong>认为所有语言都一样的看法是自欺欺人</strong>。</li>
+<li>优秀函数库的作用将超过语言本身</li>
+<li>编程时提高代码运行速度的关键是使用好的性能分析器，而不是其他方法</li>
+<li>随着互联网的兴起，程序的瓶颈不是计算机的运算速度，而是I/O</li>
+<li>人们有时候会想要自己并不真正需要的东西</li>
+<li>任何一个领域的最佳作品都不可能由对用户言听计从的人做出来的</li>
+</ul>
 
 </div>
   
   
-    <footer>
-      <a rel="full-article" href="/blog/2013/08/11/lambda-closures/">阅读全文 &rarr;</a>
-    </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/21/things-of-const/">Const 二三事</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-21T23:36:00+08:00" pubdate data-updated="true">2013-08-21</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ritchie讨论提出了Readonly机制，最初的Readonly机制简单的就是想利用操作系统的能力，提供一种可以使变量是只读的能力。Readonly通过被加进C语言的决议，并命名为const，但可能是标准委员会的官僚导致这项决议迟迟没有执行。后来Bjarne Stroustrup就自己把const加入进C++中（当时还不叫C++），并逐渐演变成现在的样子。</p>
+
+<p>窃以为尽一切可能的使用const是任何一个合格的C++程序员应该遵守的事情，就像开车要系安全带一样。但好像人们并不喜欢用const，在我有限的C++编程生涯中，我接触到的有意识的会尽量用const的，除了我好像只有一人。不喜欢用const的结果同样可能会和开车不系安全带是一样的，希望你不会出事！</p>
+
+<h2>const的作用</h2>
+
+<ul>
+<li>避免魔数</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">max_path</span> <span class="o">=</span> <span class="mi">260</span><span class="p">;</span>
+</span><span class='line'><span class="kt">char</span> <span class="p">[</span><span class="n">max_path</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用自解释的变量名声明const变量，代替魔数，会增加代码的可维护性，勿以善小而不为呀！</p>
+
+<ul>
+<li><p>内存优化 对于POD类型的变量，const往往能将其优化到只读内存存储</p></li>
+<li><p>降低API的复杂度</p></li>
+</ul>
+
+
+<p>比如有下面这样一个类</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Array</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="c1">//etc</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+将成员函数getCount指定为const（const不能修饰非成员函数和static成员函数），可以使调用它的客户端代码相信Array的对象是没有变化的，函数的调用不会产生副作用。</p>
+
+<p>或者：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">getMaxValue</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">srcVec</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="n">fun</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getMaxValue</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//继续使用vec</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">size</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参数使用const修饰，可以逻辑上保证参数不会被调用的函数修改，一样是降低复杂度</p>
+
+<ul>
+<li>防止错误的发生</li>
+</ul>
+
+
+<p>看下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">getMaxVal</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">const</span> <span class="kt">int</span> <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getMaxVal</span><span class="p">();</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">maxCacheVal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">NeedFetchCache</span><span class="p">())</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">//etc</span>
+</span><span class='line'>        <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getCacheMaxVal</span><span class="p">();</span><span class="c1">//拼写错误，本来该是maxCacheVal</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">maxCacheVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果不用const，例子里拼写错误导致的bug只能留待自测、QA或用户来发现了，如果maxVal是const，那编译器不会让你通过的，这样const帮助我们将这种错误绞杀于萌芽。</p>
+
+<h2>两种const</h2>
+
+<ul>
+<li>物理const</li>
+</ul>
+
+
+<p>物理const是Bjarne Stroustrup最初想要实现的Readonly。目的是把POD类型的变量存储进只读存储区，比如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'> <span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>i将被优化进只读内存，效果相当于C语言中的宏。</p>
+
+<ul>
+<li>逻辑const</li>
+</ul>
+
+
+<p>逻辑const，一般修饰成员函数，表明调用函数不用引起对象逻辑上的变化：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Array</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="o">++</span><span class="n">m_calledCount</span><span class="p">;</span><span class="c1">//无法修改</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">m_size</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">size_t</span> <span class="n">m_size</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">m_calledCount</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面例子中的size()函数修饰为const，则表明调用它的过程中，对象一般是不能变化的，所以无法改变成员变量的值。</p>
+
+<p>逻辑const也指修饰非POD类型的变量，主要帮助编译器做语法检测：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str1</span> <span class="o">=</span> <span class="s">&quot;towriting.com&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">size</span> <span class="o">=</span> <span class="n">str1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+</span><span class='line'><span class="n">str1</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&quot;!&quot;</span><span class="p">);</span> <span class="c1">//无法调用非const成员函数</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>const的对象只能调用const版的成员函数。例子中的str1调用了非const函数push_back会引起编译错误，因为const对象不应该改变对象的“值&#8221;。</p>
+
+<h2>鲜为人知的特性</h2>
+
+<ul>
+<li>内部链接</li>
+</ul>
+
+
+<p>大家知道全局变量的定义必须是唯一的，但const修饰的变量具有内部链接的属性，比如有两个编译单元文件test_const_one.cpp和test_const_ohter.cpp分别定义了全局变量g_var：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">//test_const_one.cpp</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">g_var</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//something</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//test_const_other.cpp</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">g_var</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">testconst</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="c1">//something</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但编译是没有问题的，因为g_var只在本编译单元可见</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">towriting</span><span class="p">.</span><span class="n">com</span><span class="err">@</span><span class="nl">debian:</span><span class="o">~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">snippets</span><span class="o">/</span><span class="n">cpp</span><span class="err">$</span><span class="n">g</span><span class="o">++</span> <span class="n">test_const_one</span><span class="p">.</span><span class="n">cpp</span> <span class="n">test_const_other</span><span class="p">.</span><span class="n">cpp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<ul>
+<li>影响虚函数的覆盖</li>
+</ul>
+
+
+<p>比如有两个类，CSuperButton继承CButton，并且子类“重写”了基类的GetWidth()函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CButton</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>   <span class="k">virtual</span> <span class="kt">int</span> <span class="n">GetWidth</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="mi">100</span><span class="p">;}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">CSuperButton</span><span class="o">:</span> <span class="k">public</span> <span class="n">CButton</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>   <span class="k">virtual</span> <span class="kt">int</span> <span class="n">GetWidth</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="mi">0</span><span class="p">;}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CButton</span> <span class="o">*</span><span class="n">pBtn</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSuperButton</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">pBtn</span><span class="o">-&gt;</span><span class="n">GetWidth</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果这是一道面试题，问输出的结果是多少时，我相性不少人会答错。不卖关子，结果是100，因为子类的GetWidth没有用const修饰而基类使用了const，所以无法覆盖。</p>
+
+<ul>
+<li>影响函数的重载</li>
+</ul>
+
+
+<p>影响函数的重载有两种，一种是通过const修饰成员函数，比如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CIntArray</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="kt">int</span><span class="o">&amp;</span> <span class="n">At</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">At</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>CIntArray原本提供了一个非const的At函数用于获取内容，并且可以通过引用的返回值修改对象。但同时也要提供一个const版的At供const对象使用（如果返回成员变量，返回值也要用const）。</p>
+
+<p>另一种影响重载的是，通过修饰参数，比如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">doSomething</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">doSomething</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>&ldquo;浅&#8221;const</li>
+</ul>
+
+
+<p>我们前面讲了成员const函数无法修改成员变量，但指针的成员变量为什么好像会被修改？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CObj</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="kt">void</span> <span class="n">doSomething</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>     <span class="o">*</span><span class="n">m_pointer</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="o">*</span><span class="n">m_pointer</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码编译是没有问题的，const的成员函数doSomething好像&#8221;修改&#8221;了成员变量的值。指针的成员变量有什么特殊的吗，为什么可以这样？原因很简单，doSomething并没有修改m_pointer的值，m_pointer是指针，只是修改了指针指向的内容而已。</p>
+</div>
+  
   
 
 
