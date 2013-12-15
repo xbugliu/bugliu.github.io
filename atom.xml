@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-15T03:00:23+08:00</updated>
+  <updated>2013-12-15T11:32:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -225,9 +225,6 @@ the sum of values in vecIn：
 <br/>
 
 
-<br/>
-
-
 <p><img class="pull-right" src="http://towriting.com/images/posts/cpp-blogs/ScottMeyers.jpg" width="120" height="150"></p>
 
 <ul>
@@ -264,6 +261,9 @@ the sum of values in vecIn：
 
 <p>Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：<a href='http://www.amazon.cn/gp/product/B008CGKUBS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008CGKUBS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++</a>, <a href='http://www.amazon.cn/gp/product/B004IUISIO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004IUISIO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>More Exceptional C++</a>, <a href='http://www.amazon.cn/gp/product/B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。</p>
 
+<br/>
+
+
 <p><img class="pull-right" src="http://towriting.com/images/posts/cpp-blogs/AndreiAlexandrescu.jpg" width="120" height="150"></p>
 
 <ul>
@@ -271,7 +271,10 @@ the sum of values in vecIn：
 </ul>
 
 
-<p>Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书<a href='http://www.amazon.cn/gp/product/0201704315/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201704315&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Modern C++ Design: Generic Programming and Design Patterns Applied</a>的作者，凭借此书第一次人C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。</p>
+<p>Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书<a href='http://www.amazon.cn/gp/product/0201704315/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201704315&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Modern C++ Design: Generic Programming and Design Patterns Applied</a>的作者，凭借此书使C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。</p>
+
+<br/>
+
 
 <br/>
 
@@ -294,6 +297,9 @@ the sum of values in vecIn：
 <br/>
 
 
+<br/>
+
+
 <p><img class="pull-right" src="http://towriting.com/images/posts/cpp-blogs/BartoszMilewski.jpg" width="120" height="150"></p>
 
 <ul>
@@ -303,8 +309,7 @@ the sum of values in vecIn：
 
 <p>Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。<a href='http://www.amazon.cn/gp/product/B009TB3ZBW/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B009TB3ZBW&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>c++ in action</a>的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。</p>
 
-<br/>
-
+<p>不才曾翻译过他的文章：<a href="http://towriting.com/blog/2013/09/23/edward-chands/">C++手爱德华</a></p>
 
 <br/>
 
@@ -414,7 +419,7 @@ the sum of values in vecIn：
 </ul>
 
 
-<p>Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入前出，是C++工程控的福音。</p>
+<p>Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入浅出，是C++工程控的福音。</p>
 
 <br/>
 
@@ -481,8 +486,12 @@ the sum of values in vecIn：
 <br/>
 
 
-<p><img class="pull-right" src="http://towriting.com/images/posts/cpp-blogs/chenshuo.jpg" width="120" height="150">
-* <strong>陈硕的博客</strong>：<a href="http://blog.csdn.net/solstice/">陈硕的Blog</a></p>
+<p><img class="pull-right" src="http://towriting.com/images/posts/cpp-blogs/chenshuo.jpg" width="120" height="150"></p>
+
+<ul>
+<li><strong>陈硕的博客</strong>：<a href="http://blog.csdn.net/solstice/">陈硕的Blog</a></li>
+</ul>
+
 
 <p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
 ]]></content>
