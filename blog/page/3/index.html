@@ -108,6 +108,325 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/11/01/safe-bool-idiom/">从Safe Bool惯用法到explicit标识符</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-01T22:52:00+08:00" pubdate data-updated="true">2013-11-01</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：<a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms">More C++ Idioms</a>，虽凝聚了C++程序员的聪明才智，但都是特定时期的产物，
+相信都会被冲到C++语言演化长河的河滩上，仅供后人瞻仰（或者是C++本身）。让我们从Safe bool idiom说起。</p></blockquote>
+
+<h2>Safe bool idiom</h2>
+
+<p>什么是safe bool idiom？就是为自定义类型（class）提供检测真假的能力，而又不会带来副作用。</p>
+
+<h3>为类(Class)提供检测真假的能力</h3>
+
+<p>方法有二，第一种简单直白，提供一个返回bool类型的函数，比如下面的isValid成员函数：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="kt">bool</span> <span class="n">IsValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">IsValid</span><span class="p">())</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//dosomething</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这是直观而不易出错的。但多多少少有些强迫症的人会说，如果能像检测内置bool类型一样检测data对象不是更好的保证了代码的语法一致性？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//dosomething</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同时他又急于向人们展示，&#8221;我会使用操作符重载哦“。于是第二种方法出来了，重载bool类型转化操作符：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CData</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'> <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//dosomething</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>漂亮的外表后面的东西可能是有毒的，比如毒蘑菇、巫婆的毒苹果和传说中的红颜祸水们。软件开发也概莫能外，这个漂亮的解决方案后面有问题。</p>
+
+<h3>bool操作符的副作用</h3>
+
+<p>假使有一个简单的指针外敷类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">CPtr</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">T</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>   <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'>   <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">ptr</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">;</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">p1</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>   <span class="n">p2</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>   <span class="c1">//天知道会怎样</span>
+</span><span class='line'>   <span class="c1">//something </span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有人不小心拿两个不同类型的类对象来比较，不幸的是编译器并没有报错，因为17行隐式调用了operator==(bool,bool)，后面的结果真真天知道。
+这可如何是好？C++社区里最不缺人才，很快有人想出解决方案：</p>
+
+<h3>Safe bool实现</h3>
+
+<p>Safe Bool正式的提出是这里：<a href="http://www.artima.com/cppsource/safebool.html">The Safe Bool Idiom</a>，方法就是写一个类型转化操作符，这个操作符返回一个可以进行 <strong>if</strong> 判断的特有类型：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Testable</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">Testable</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="k">explicit</span> <span class="n">Testable</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">operator</span> <span class="n">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="kc">true</span> <span class="o">?</span>
+</span><span class='line'>        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="n">this_type_does_not_support_comparisons</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestableOther</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">TestableOther</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="n">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="k">explicit</span> <span class="n">TestableOther</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="kc">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">operator</span> <span class="n">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="kc">true</span> <span class="o">?</span>
+</span><span class='line'>        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="n">this_type_does_not_support_comparisons</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Testable</span> <span class="n">testable</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">TestableOther</span> <span class="n">testableother</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="c1">//something</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span> <span class="o">==</span> <span class="n">testableother</span><span class="p">)</span> <span class="c1">//编译错误</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面代码，利用的是bool_type是函数指针类型，所以可以进行 <strong>if</strong> 判断，且不同类的bool_type是不同的，直接比较会编译错误。
+这就是safe bool Idiom，详细的代码可以参看这里：<a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/">More C++ Idioms/Safe bool</a>。
+但我认为这个方案是顾此失彼，会引发新的问题，比如类中重载operator int操作符怎么办？</p>
+
+<h2>C++11的做法</h2>
+
+<p>C++11的基因支持safe bool，方法就是使用<a href="http://en.cppreference.com/w/cpp/language/explicit">explicit</a>修饰operator：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Testable</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">explicit</span> <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">Testable</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span>      <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>  <span class="c1">// 编译错误</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>explicit</strong> 在C++11以前是只能用于修饰构造函数，但在C++11中可以用来修饰操作符，上面代码中的operator bool（）加上<strong>explicit</strong>表式其无法隐式转化为bool。
+这个解决方案，干净漂亮，无副作用。</p>
+
+<h2>总结</h2>
+
+<p>C++11前后的两种Safe Bool的解决方案比较，优劣立现。站在实用的角度上，C++11出现后，C++中好多“高端技术”已经不需要学习，比如StackOver上列出的这些：<a href="http://stackoverflow.com/questions/9299101/what-c-idioms-are-deprecated-in-c11">what C++ idioms are deprecated in C++11</a>。这些东西就像毛笔字一样，可以仅供专家与爱好者把玩了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/10/21/openshift-tips/">Openshift小技巧-热部署</a></h1>
     
     
@@ -510,76 +829,6 @@
 </ol>
 </div>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/21/office-stuff/">讲一讲程序员的办公用品</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-21T16:12:00+08:00" pubdate data-updated="true">2013-09-21</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>高性能、舒适、充足的办公用品可以提高办公效率</p></blockquote>
-
-<p>讲一讲这四年来我所在过的公司都给我们程序员提供过怎样的装配，这些装备主要包括：计算机、椅子、文具、打印机、水果点心等。</p>
-
-<h2>第一份工作时</h2>
-
-<p>刚毕业时经朋友介绍去的宁波一家医疗器械公司，公司规模百来人，产值2、3亿，要说效益还是不错的。公司不是纯粹的软件公司，所以不会在配置电脑、椅子上等方面针对程序员做特殊的考虑。对于电脑等办公用品，在新人入职时，会首先考虑分配旧的（离职员工用过的），如果没有旧的，会申购新的，而有些老旧的电脑基本属于奔四的水平，使用年限在5年以上。而我就不幸的分配到这样一台组装机，金河田的机箱螺丝都没了，P4/512M，键鼠是PS/2的，这台电脑的硬盘磁头老旧，运转的时候会“嘎嘎”的响，对面的同事老是嘲笑我的电脑不行了。这样一台电脑，可以想象运行通常的软件是很吃力的，VC6编辑代码也会经常卡，每次调试时按F5都要好长时间才可以反应过来。那时刚毕业，学习阶段，觉得也没什么资格要求什么，所以一直坚持了8、9个月后，找了一个机会向主管提出了自己电脑影响工作。主管让我去搬一台仓库闲置的工控机先用着，所以用了一段时间的工控机，工控机的性能比开始那台老旧机器好一些，不过声音极大，一开机整个办公室“嗡嗡”的响，每次下班时关机，对面的同事又嘲笑我，“整个世界一下子安静了”。</p>
-
-<p>这个声音火车般的”工控机“用过大概2个月的时间后终于退出了历史的舞台。那时主管让我替公司采购一台品牌机，用于设备的配套机器，要求性能要好，所以我就采购了当时性能还算主流偏上的DELL商用机，I52400/4G，价格是7000多元。可是，机器买回来后发现PCI插槽不够用，退又退不掉，所以主管就让我用这台机器了，使用了新电脑后应该也是我技术提升最快、工作效率最高的时期，往后在同花顺的日子，我还一直怀念这台机器。</p>
-
-<p>到我离职前2个月，老板娘发现了我们办公室那台闲置的金河田老电脑，让我搬给新入职的一位财务姑娘。现在想来但这台电脑节省的钱，不知能不能抵消使用此电脑的低效办公的损失？</p>
-
-<p>那时年轻，椅子什么的从来没在意过，记得自己用的座椅相对还不错的，估计300左右，而其他人有的坐的都是大几十的普通家用椅，整个公司没有一条人体工学椅，但奇怪的是那时从来没有腰酸过，但一个老程序员已经腰肌劳损了，厉害时走路都很明显。</p>
-
-<p>至于其他办公用品，比如本子、笔、插板、灯具等等是有的，不过拿的时候需要签字，记得我离职前后，好像有些东西需要主管审批了。</p>
-
-<p>至于水果什么的，是来到杭州后，才发现可以有的。</p>
-
-<h2>第二份工作</h2>
-
-<p>同花顺的开发一般会配两台电脑，一台可以连接互联网，查找资料，另一台，只能连接SVN服务器，用于开发。电脑的配置策略也和在宁波时一样，优先选用仓库中剩余的机器，自己又不幸的被分配到配置较差的机器。那是一台P4的组装器，做内网开发机用，内存2G，其实应付一般的操作也还行，但主要是我们的项目代码是百万级的，所以VC6打开工程，或者调试时也是很卡的。而那台外网的机器，运行Win7还算跑的流畅。</p>
-
-<p>当时配的椅子却是新的，比周围人的椅子要好些，但价格也不会超过500。来到杭州后，工作强度瞬间增加很多，所以坐在椅子上的时间也变得长了很多，所以这个椅子坐了大概1个多周，自己就腰酸背疼了，还是后来又花100多元买了个靠垫才缓解了这种疼痛。</p>
-
-<p>同花顺每天中午是有水果供应的，这里的工作氛围也很融洽，中午有时吃着水果同时聊着天，心情愉悦后，办公效率自然就上去了。</p>
-
-<p>不能提倡浪费，但在一些小的办公用品上，感觉这里有点节俭过了头。平时打印东西总是正面打了打反面，打印纸也经常没有，没有也只能去找，可打印纸的管理者竟然是负责公司日常事务的领导。我没有去要过，但听同事说过，要打印纸，这个领导要问你几个问题：直属领导是谁，打印纸做什么用，用几张，原来的为什么用的这么快？几个问题下来，再训上几句，半个小时可能就过去了。半个小时的薪水都可以买好多斤白纸了，很难想象上市公司的董事为何可以这样胡子眉毛一把抓。</p>
-
-<h2>现在</h2>
-
-<p>自己现在进入了互联网公司，互联网公司讲求“快&#8221;,快就需要高效的工作。公司这么多年做过来，知道好的办公环境是员工高效工作的保证，所以我们的开发电脑配置都是主流的，自己现在的机器是I7/8G，椅子也是较好的人体工学椅。关于椅子还有一个小趣事，刚来这边时，瞅了一眼椅子，感觉很单薄，觉得很普通的椅子，骨架上面简单套着一个网状的坐垫和靠背。后来在一次培训时，听一位讲师讲到公司给我们每个人配备4K多元的椅子，是为了让我们可以舒服高效的工作。公司给我们配置了好的办公环境，我们自然没有理由不全力工作。</p>
-
-<h2>总结</h2>
-
-<p>说了一大堆儿话，不过是想说，有些人算不清楚，小的投入可以有大产出。切莫捡了芝麻，丢了西瓜。自己以后一定要小心类似的思维陷阱。</p>
 </div>
   
   

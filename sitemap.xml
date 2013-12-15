@@ -140,15 +140,21 @@
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/12/12/cpp-blogs/</loc>
-        <lastmod>2013-12-15T11:23:58+08:00</lastmod>
+        <lastmod>2013-12-15T11:41:08+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</loc>
         <lastmod>2013-12-14T00:22:38+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/
+        </loc>
+        <lastmod>2013-12-15T22:34:44+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://towriting.com/blog/archives/</loc>
-        <lastmod>2013-12-15T11:23:58+08:00</lastmod>
+        <lastmod>2013-12-15T22:34:44+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/about/</loc>
@@ -160,7 +166,7 @@
     </url>
     <url>
         <loc>http://towriting.com/</loc>
-        <lastmod>2013-12-15T11:23:58+08:00</lastmod>
+        <lastmod>2013-12-15T22:34:44+08:00</lastmod>
     </url>
     <url>
         <loc>http://towriting.com/search.html</loc>
