@@ -20,7 +20,6 @@ Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们
 
 <br/>
 <br/>
-<br/>
 
 {% img pull-right /images/posts/cpp-blogs/ScottMeyers.jpg 120 150%}
 
@@ -45,17 +44,17 @@ Lippman，C++第一个编译器Cfront的实现者，最大的贡献是凭借其�
 * **Herb Sutter的博客**: [Sutter’s Mill: Herb Sutter on software, hardware, and concurrency][3]
 
 Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：{% aproduct B008CGKUBS*Exceptional C++*B004IUISIO*More Exceptional C++*B00114BFTO*Exceptional C++ Style%}, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。
-
+<br/>
 
 {% img pull-right /images/posts/cpp-blogs/AndreiAlexandrescu.jpg 120 150%}
 
 * **Andrei Alexandrescu的博客**: [Official website of Andrei Alexandrescu][18]
 
-Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% aproduct 0201704315*Modern C++ Design: Generic Programming and Design Patterns Applied %}的作者，凭借此书第一次人C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。
+Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% aproduct 0201704315*Modern C++ Design: Generic Programming and Design Patterns Applied %}的作者，凭借此书使C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。
 
 <br/>
 <br/>
-
+<br/>
 {% img pull-right /images/posts/cpp-blogs/dave_abrahams.jpg 120 150%}
 
 * **David Abrahams的博客**: [Dave Abrahams: Home Page | Stuff I wrote, things I did, etc][4]
@@ -63,7 +62,7 @@ Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% apr
 David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，{% aproduct B002WB1J0U*C++ Template Metaprogramming%}的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。
 <br/>
 <br/>
-
+<br/>
 
 {% img pull-right /images/posts/cpp-blogs/BartoszMilewski.jpg 120 150%}
 
@@ -71,8 +70,9 @@ David Abrahams，美国人，C++标准委员会成员，将exception-safety加�
 
 Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。{% aproduct B009TB3ZBW*c++ in action%}的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。
 
+不才曾翻译过他的文章：[C++手爱德华][28]
 <br/>
-<br/>
+
 
 {% img pull-right /images/posts/cpp-blogs/anthony_williams.jpg 120 150%}
 
@@ -138,7 +138,7 @@ Sumant Tambe，印度人，美国范德堡大学的计算机博士，技术涉�
 
 * **Jeff Preshing的博客**: [Preshing on Programming][11]
 
-Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入前出，是C++工程控的福音。
+Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入浅出，是C++工程控的福音。
 <br/>
 <br/>
 
@@ -182,6 +182,7 @@ Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内
 <br/>
 
 {% img pull-right /images/posts/cpp-blogs/chenshuo.jpg 120 150%}
+
 * **陈硕的博客**：[陈硕的Blog][21]
 
 陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作{% aproduct B00AYS2KL0*Linux多线程服务端编程:使用muduo C++网络库%}一本，译注若干。
@@ -215,3 +216,4 @@ Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内
 [25]: http://daveabrahams.techarcana.net/
 [26]: http://blog.csdn.net/pongba/
 [27]: http://en.wikibooks.org/wiki/More_C++_Idioms
+[28]: /blog/2013/09/23/edward-chands/
