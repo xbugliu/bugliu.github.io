@@ -16,7 +16,7 @@ description: 那些C++牛人的个人博客
 
 * **Bjarne Stroustrup的博客**: [Bjarne Stroustrup's Homepage][10]
 
-Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于TAMU。他的Homepage和他的书籍{% aproduct B003EIKI0C*The C++ Programming Language%}一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。
+Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于[TAMU][29]。他的Homepage和他的书籍{% aproduct B003EIKI0C*The C++ Programming Language%}一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。
 
 <br/>
 <br/>
@@ -35,7 +35,7 @@ Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道�
 
 * **Stanley B.Lippman的博客**: [Stan Lippman's BLog][17]
 
-Lippman，C++第一个编译器Cfront的实现者，最大的贡献是凭借其著作{% aproduct B00ESUIL0O*C++ Primer%}在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书{% aproduct B006QXQXTM*Inside The C++ Object Model%}让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。
+Lippman，C++第一个编译器[Cfront][30]的实现者，最大的贡献是凭借其著作{% aproduct B00ESUIL0O*C++ Primer%}在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书{% aproduct B006QXQXTM*Inside The C++ Object Model%}让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。
 
 
 
@@ -78,7 +78,7 @@ Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于�
 
 * **Anthony Williams的博客**：[Just Software Solutions][12]
 
-Anthony Williams，英国人，一个记事起就开始写程序的人。Boost.Thread的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：{% aproduct 1933988770*C++ Concurrency in Action%}，市面上第一本讲解C++11并发的权威书籍。
+Anthony Williams，英国人，一个记事起就开始写程序的人。[Boost.Thread][31]的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：{% aproduct 1933988770*C++ Concurrency in Action%}，市面上第一本讲解C++11并发的权威书籍。
 
 <br/>
 <br/>
@@ -177,7 +177,7 @@ Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内
 
 * **陈皓的博客**：[酷壳-享受编程和技术所带来的快乐][23]
 
-陈皓，不认为自己是牛人的牛人，现就职余阿里巴巴。[程序员技术练级攻略][24]这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。
+陈皓，不认为自己是牛人的牛人，现就职于阿里巴巴。[程序员技术练级攻略][24]这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。
 <br/>
 <br/>
 
@@ -217,3 +217,6 @@ Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内
 [26]: http://blog.csdn.net/pongba/
 [27]: http://en.wikibooks.org/wiki/More_C++_Idioms
 [28]: /blog/2013/09/23/edward-chands/
+[29]: http://en.wikipedia.org/wiki/Texas_A%26M_University
+[30]: http://en.wikipedia.org/wiki/Cfront
+[31]: http://www.boost.org/doc/libs/1_55_0/doc/html/thread.html
