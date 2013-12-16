@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-15T23:07:36+08:00</updated>
+  <updated>2013-12-17T01:29:36+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[我为什么从同花顺离职]]></title>
+    <link href="http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/"/>
+    <updated>2013-12-16T23:42:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job</id>
+    <content type="html"><![CDATA[<p>  最近知乎上很流行的一个问题是<a href="http://www.zhihu.com/topic/19909711">为什么从 X 离职</a>，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。</p>
+
+<p>  首先，照例发自肺腑的感谢一下同花顺，同花顺的日子是我C++进步最快的一段时间，在这里我接触到了正规的开发流程，并且遇到了一个很棒的团队，那时的日子每天都很开心。</p>
+
+<hr />
+
+<p>  切入正题，我为什么离开同花顺：</p>
+
+<h3>待遇认知的分歧</h3>
+
+<p>　员工离职的理由千万条，但薪水待遇肯定是大部分人选择离开的最重要的原因，不过大部分人不肯承认罢了。离职的导火索就是公司的年终奖，入职Offer上明确写明是3-6个月，可实际发到手的一月左右。我表明了自己的不满，公司领导以程序员不是钟点工，薪水是靠产品的收益决定的来“开导”我。这种观点不错，但是却是站在创业者的角度看的。自己作为一个打工者，站在打工者的角度上讲，程序员的待遇在市场经济条件下，是由供求关系决定的，并上下浮动于程序员个体的能力和工作产出。何况公司远没到揭不开锅的程度，你可以不按约定给我应有的Money，但不能忽悠我。</p>
+
+<h3>人为什么要工作？</h3>
+
+<p>　马斯洛总结了人的<a href="http://en.wikipedia.org/wiki/Maslow's_hierarchy_of_needs">五种需求</a>。</p>
+
+<p>　刚毕业时囊空如洗，一头扎进工作中，完全是为了实现人的第一种需求-生理（存）需求。自己前两年的工作确实是为了实现生存需求，但当工作两三年，衣食无虞，现在仍然工作的原因好像是上一阶段的惯性。有些人可能为了实现“昂贵”的生理需求（车房等）而工作一辈子，但对我而言这种动力不足以使我能持续激情的工作。</p>
+
+<p>　顺着马斯洛的需求金子塔往上看，塔顶是自我实现的需求，这是人的最高级的需求。</p>
+
+<p>　是否可以提高自己的能力，是我衡量一份工作是否适合自己的重要指标。以前从没有在内心中将自我能力的提高作为工作的一个直接原因，觉得能力提高（自我实现需求）不过是为了能挣更多钱（生理需求），觉得后者才是工作的直接原因。看来我错了，自我能力的提高属于自我实现的需求，完全是促使我们工作的高级原因。而可贵的是，高级的需求好像兼容低级的需求，就是你在实现了自我实现的需求后，生理需求自然可以满足了。并且生理需求容易满足，自我实现需求难以满足，而自我实现的满足可以给人带来持久且真正的满足。在我看来，工作中的自我实现包括两点：自我能力提高和我（们）创造了有价值的东西。</p>
+
+<p>  而同花顺，据观察感知是无法满足我这两种需求的，尤其第二种，我的判断是错误的吗？</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[你们是勤劳还是懒惰的程序员？]]></title>
@@ -245,7 +276,7 @@ the sum of values in vecIn：
 </ul>
 
 
-<p>Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于TAMU。他的Homepage和他的书籍<a href='http://www.amazon.cn/gp/product/B003EIKI0C/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B003EIKI0C&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>The C++ Programming Language</a>一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。</p>
+<p>Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于<a href="http://en.wikipedia.org/wiki/Texas_A%26M_University">TAMU</a>。他的Homepage和他的书籍<a href='http://www.amazon.cn/gp/product/B003EIKI0C/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B003EIKI0C&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>The C++ Programming Language</a>一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。</p>
 
 <br/>
 
@@ -278,7 +309,7 @@ the sum of values in vecIn：
 </ul>
 
 
-<p>Lippman，C++第一个编译器Cfront的实现者，最大的贡献是凭借其著作<a href='http://www.amazon.cn/gp/product/B00ESUIL0O/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ESUIL0O&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Primer</a>在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书<a href='http://www.amazon.cn/gp/product/B006QXQXTM/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006QXQXTM&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Inside The C++ Object Model</a>让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。</p>
+<p>Lippman，C++第一个编译器<a href="http://en.wikipedia.org/wiki/Cfront">Cfront</a>的实现者，最大的贡献是凭借其著作<a href='http://www.amazon.cn/gp/product/B00ESUIL0O/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ESUIL0O&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Primer</a>在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书<a href='http://www.amazon.cn/gp/product/B006QXQXTM/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006QXQXTM&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Inside The C++ Object Model</a>让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。</p>
 
 <p><img class="pull-right" src="http://towriting.com/images/posts/cpp-blogs/HerbSutter.jpg" width="120" height="150"></p>
 
@@ -349,7 +380,7 @@ the sum of values in vecIn：
 </ul>
 
 
-<p>Anthony Williams，英国人，一个记事起就开始写程序的人。Boost.Thread的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：<a href='http://www.amazon.cn/gp/product/1933988770/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=1933988770&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Concurrency in Action</a>，市面上第一本讲解C++11并发的权威书籍。</p>
+<p>Anthony Williams，英国人，一个记事起就开始写程序的人。<a href="http://www.boost.org/doc/libs/1_55_0/doc/html/thread.html">Boost.Thread</a>的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：<a href='http://www.amazon.cn/gp/product/1933988770/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=1933988770&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Concurrency in Action</a>，市面上第一本讲解C++11并发的权威书籍。</p>
 
 <br/>
 
@@ -506,7 +537,7 @@ the sum of values in vecIn：
 </ul>
 
 
-<p>陈皓，不认为自己是牛人的牛人，现就职余阿里巴巴。<a href="http://coolshell.cn/articles/4990.html">程序员技术练级攻略</a>这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。</p>
+<p>陈皓，不认为自己是牛人的牛人，现就职于阿里巴巴。<a href="http://coolshell.cn/articles/4990.html">程序员技术练级攻略</a>这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。</p>
 
 <br/>
 
@@ -2181,67 +2212,6 @@ the sum of values in vecIn：
 
 
 <p>待续：this指针的偏移策略</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[《黑客与画家》阅读笔记]]></title>
-    <link href="http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/"/>
-    <updated>2013-08-25T01:00:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters</id>
-    <content type="html"><![CDATA[<p>整理下自己前段时间阅读<a href="http://www.amazon.cn/gp/product/B004WHZGZQ/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B004WHZGZQ&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《黑客与画家》</a>后记下的精彩观点：</p>
-
-<ul>
-<li>要读懂这本书，必须理解什么是黑客。<strong>hack指漂亮的解决方法，而hacker是指使用hack解决问题的人。hack还指求解问题过程中产生的精神愉悦与享受。</strong></li>
-<li>hacker vs cracker</li>
-<li>革新其实和异端是同一件事情</li>
-<li><strong>平庸的智力是不可忍受的</strong></li>
-<li>那些对自己没信心的人会通过虐待他们眼中的下等人来凸显自己的身份。</li>
-<li>最受欢迎的人并不欺负书呆子，因为他不需要靠踩在书呆子身上来垫高自己。</li>
-<li>学校的真实目的是把儿童都关在同一个地方，以方便大人白天可以腾出手来把事情做完。</li>
-<li>你告诉一个人他的脚是坏的，并不能阻止他去怀疑自己穿错了鞋子。</li>
-<li>当工作的专业化程度越来越高，我们就需要更长时间的训练。</li>
-<li>坏人使用毒品，是为了建立他们之间的社交纽带</li>
-<li>这样的考核（代码量）容易实施，而容易实施的考核总是被优先考虑</li>
-<li>黑客搞懂计算机理论的必要性与画家搞懂颜料化学成分的必要性差不多</li>
-<li>编程语言的必须要具有动态扩展的特性，他是去帮助你去思考如何编程而不是表达已想好的程序。</li>
-<li>在那里（大公司），<strong>程序员被当成技工</strong>，职责就是将产品经理的“构想”翻译成代码。</li>
-<li>你很难依靠软件与大公司展开竞争，可以展开的领域是无人涉足的领域。</li>
-<li><strong>换位思考并不意味着自我牺牲</strong></li>
-<li>判断一个人是否具有换位思考的能力有一个好办法，就是看他怎样<strong>向没有技术背景的人解释技术问题</strong>。</li>
-<li>激怒他人的言论是有些人会相信的言论。</li>
-<li>我们对任何被禁止的事情总是充满好奇心</li>
-<li>如果你可以“远远的”思维跳跃，想出别人一听到就脑袋轰隆一声的想法，那你“小小的”思维跳跃就不再困难，而小小的思维跳跃被人称为创新。</li>
-<li>在思想自由和言论自由之间划一条界线</li>
-<li>讨论一个观点可能产生许多观点，而不讨论则什么也没有</li>
-<li>流行的思想与流行的服饰传播的途径大致相同，第一批人有精英意识，想把自己与普通人区分开来，而第二批人接受流行，不是想要与众不同，而是害怕与众不同。</li>
-<li>公民自由真的是国家富强的原因，而不是结果吗？</li>
-<li>版本这个概念不适合互联网软件</li>
-<li>将一个构思束之高阁，不仅意味着延迟它的实现，还意味着延迟有在实现过程中激发的构思。</li>
-<li>如果你出错了，没有人会提醒你，<strong>唯一的代码保护机制就是你的羞耻心</strong>，你不想被同事当成傻瓜，就足矣。</li>
-<li>价格歧视，针对不同用户制定不同的价格。</li>
-<li>边际成本，指下一单产品的生产成本</li>
-<li>有钱的客户倾向于更贵的选择，及时便宜的选择更符合他们的需要，他们也不会购买。</li>
-<li><strong>金钱不等于财富</strong></li>
-<li>金钱是专业化的副产品</li>
-<li>大多数的生意的目的是为了创造财富，做出人们真正需要的东西</li>
-<li><strong>目前存在的最大的手工艺人群体就是程序员</strong></li>
-<li>要致富，你需要两样东西，可测量性和可放大性</li>
-<li>（有些人）致富的方法不是创造财富，而是以统治者的强权进行搜刮掠夺。</li>
-<li>当更快的致富方式出现后，贪污才逐渐不流行了。</li>
-<li>富人和穷人之间生活差异的鸿沟正在缩小，品牌是这种差距的遗留物</li>
-<li>你要避免的是绝对贫穷，而不是相对贫穷。</li>
-<li>如果解决方法是丑陋的，那肯定还有简单的解决方法</li>
-<li><strong>优秀作品的秘诀</strong>就是：非常严格的品味，再加上实现这种品味的能力</li>
-<li>技术的变化速度是很快的。但是，编程语言不一样，与其说是技术，还不如说是<strong>程序员的思考模式</strong>。</li>
-<li><strong>认为所有语言都一样的看法是自欺欺人</strong>。</li>
-<li>优秀函数库的作用将超过语言本身</li>
-<li>编程时提高代码运行速度的关键是使用好的性能分析器，而不是其他方法</li>
-<li>随着互联网的兴起，程序的瓶颈不是计算机的运算速度，而是I/O</li>
-<li>人们有时候会想要自己并不真正需要的东西</li>
-<li>任何一个领域的最佳作品都不可能由对用户言听计从的人做出来的</li>
-</ul>
-
 ]]></content>
   </entry>
   
