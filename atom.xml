@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-17T01:29:36+08:00</updated>
+  <updated>2013-12-18T00:16:34+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,169 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
+    <link href="http://towriting.com/blog/2013/12/17/ini-muti-thread/"/>
+    <updated>2013-12-17T23:28:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/17/ini-muti-thread</id>
+    <content type="html"><![CDATA[<p>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms725501(v=vs.85).aspx">WritePrivateProfileString</a>的文档中并没有提到。
+据<a href="http://mfctips.com/tag/getprivateprofilestring/">这篇文章</a>介绍:</p>
+
+<h2>WritePrivateProfileString:</h2>
+
+<ul>
+<li>WritePrivateProfileString内部使用NtCreateFile访问文件，共享方式设置为：FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE。使用NtLockFile，FailImmediately设置为False，ExlusiveLock设置为True来锁定文件。</li>
+<li>这意味着WritePrivateProfileString是非线程安全的，是进程安全的（非远程机器）。</li>
+</ul>
+
+
+<p>我们目前的软件有大量的并发操作INI的行为，没出现过什么问题只能说是幸运了（亦或是不幸）。同事并不太相信以上结论，让我们用事实证明，写一段并发操作INI的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
+</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;vector&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;string&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;process.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;cassert&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">GetIniName</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strIniName</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">strIniName</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">MAX_PATH</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">strIniName</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">GetModuleFileName</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">TCHAR</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">strIniName</span><span class="p">.</span><span class="n">data</span><span class="p">()),</span> <span class="n">strIniName</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
+</span><span class='line'>  <span class="n">strIniName</span> <span class="o">+=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;.ini&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">strIniName</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="n">WriteIniInThread</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">pText</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">const</span> <span class="n">TCHAR</span> <span class="o">*</span><span class="n">pSec</span> <span class="o">=</span> <span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span><span class="p">)</span><span class="n">pText</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">assert</span><span class="p">(</span><span class="n">pSec</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strVal</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strIni</span> <span class="o">=</span> <span class="n">GetIniName</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">strVal</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_wstring</span><span class="p">(</span><span class="n">_Longlong</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+</span><span class='line'>      <span class="n">WritePrivateProfileString</span><span class="p">(</span><span class="n">pSec</span><span class="p">,</span> <span class="n">strVal</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">strVal</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">strIni</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">wstring</span><span class="o">&gt;</span> <span class="n">threadTexts</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">HANDLE</span><span class="o">&gt;</span> <span class="n">threadHandles</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">60</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strText</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;Thread&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">strText</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_wstring</span><span class="p">(</span><span class="n">_Longlong</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+</span><span class='line'>      <span class="n">threadTexts</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">strText</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">threadHandles</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">HANDLE</span><span class="p">(</span><span class="n">_beginthread</span><span class="p">(</span><span class="n">WriteIniInThread</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">threadTexts</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">())));</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">WaitForMultipleObjects</span><span class="p">(</span><span class="n">threadHandles</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">threadHandles</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">INFINITE</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码很简单，开60个线程同时往一个INI文件里写东西，让我们对比一下多线程操作INI和非多线程操作的结果，左侧是不使用多线程操作的结果（只贴出前50行）：</p>
+
+<p><img class="pull-left" src="http://towriting.com/images/posts/ini-muti-thread/result.png"></p>
+
+<p><img class="pull-left" src="http://towriting.com/images/posts/ini-muti-thread/error_result.png"></p>
+
+<p></br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br></p>
+
+<p>结果一目了然。（多线程同时操作INI时，每次的结果可能都不一样的）。</p>
+
+<hr />
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[我为什么从同花顺离职]]></title>
@@ -1980,238 +2143,6 @@ the sum of values in vecIn：
 <p>但除了C++，自己又找不到特别感兴趣的方向。今天看《高效能程序员的修炼》，里面提到不要为了学习而学习，不要学习以后可能会用到的东西，要学自己感兴趣的东西。这些观点，放到我身上就是矛盾的，我感兴趣的是C++，但有些东西以后并不一定能够用得到。</p>
 
 <p>其他技术上的进步，主要是一些零碎的技术知识。最近一年，在也没学过大块新的知识了。近来也断续听到这种说法，读书成瘾，为学而学。感觉自己以前有这种倾向，感觉自己像知识的冰箱，存储了好多原料，却不会用这些做出一桌丰盛的菜来。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[熟悉的陌生人-this指针(1)]]></title>
-    <link href="http://towriting.com/blog/2013/09/01/this-pointer/"/>
-    <updated>2013-09-01T00:22:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/09/01/this-pointer</id>
-    <content type="html"><![CDATA[<p>this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不是你想象的样子！</p>
-
-<h2>this指针的偏移 &ndash; 某次强制转化引发的血案</h2>
-
-<p>这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：</p>
-
-<figure class='code'><figcaption><span>例1</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
-</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span>    
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">CBird</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CBird</span><span class="p">()</span><span class="o">:</span> <span class="n">m_bCanFly</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="s">&quot;Bird&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="o">~</span><span class="n">CBird</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">virtual</span> <span class="kt">void</span> <span class="n">Fly</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;type: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_strName</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;is fly: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_bCanFly</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
-</span><span class='line'><span class="kt">bool</span> <span class="n">m_bCanFly</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//主函数</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CBird</span><span class="p">;</span>
-</span><span class='line'> <span class="kt">void</span><span class="o">*</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
-</span><span class='line'> <span class="c1">//一些操作</span>
-</span><span class='line'> <span class="n">CBird</span><span class="o">*</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">*</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span>
-</span><span class='line'> <span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
-</span><span class='line'> <span class="p">{</span>
-</span><span class='line'>   <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：</p>
-
-<figure class='code'><figcaption><span>例2</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
-</span><span class='line'><span class="n">CBird</span><span class="o">*</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">pBird</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">pBird</span><span class="o">-&gt;</span><span class="n">Fly</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样调用确是没有问题的，和第一个例子唯一的差别就是没有中间的Void*转化。
-记得当时是我们周会的时间，于是拿出来和大家讨论，惭愧的是我们十几个人，竟然没人能说出其中原因，要知道我们中也有三个工作5年左右的同事。后来我打开调试器，跟踪了一下这两段代码的汇编代码，终于发现了蛛丝马迹：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="n">CBird</span><span class="o">*</span> <span class="n">pBird</span> <span class="o">=</span> <span class="p">(</span><span class="n">CBird</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
-</span><span class='line'><span class="n">cmp</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">pAnimal</span><span class="p">],</span><span class="mi">0</span>
-</span><span class='line'><span class="n">je</span>          <span class="n">main</span><span class="o">+</span><span class="mi">1</span><span class="n">C1h</span> <span class="p">(</span><span class="mf">33F</span><span class="mi">681</span><span class="n">h</span><span class="p">)</span>
-</span><span class='line'><span class="n">mov</span>         <span class="n">eax</span><span class="p">,</span><span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">pAnimal</span><span class="p">]</span>
-</span><span class='line'><span class="n">sub</span>         <span class="n">eax</span><span class="p">,</span><span class="mi">4</span>
-</span><span class='line'><span class="n">mov</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mi">178</span><span class="n">h</span><span class="p">],</span><span class="n">eax</span>
-</span><span class='line'><span class="n">jmp</span>         <span class="n">main</span><span class="o">+</span><span class="mi">1</span><span class="n">CBh</span> <span class="p">(</span><span class="mf">33F</span><span class="mi">68</span><span class="n">Bh</span><span class="p">)</span>
-</span><span class='line'><span class="n">mov</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mi">178</span><span class="n">h</span><span class="p">],</span><span class="mi">0</span>
-</span><span class='line'><span class="n">mov</span>         <span class="n">ecx</span><span class="p">,</span><span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">ebp</span><span class="o">-</span><span class="mi">178</span><span class="n">h</span><span class="p">]</span>
-</span><span class='line'><span class="n">mov</span>         <span class="n">dword</span> <span class="n">ptr</span> <span class="p">[</span><span class="n">pBird</span><span class="p">],</span><span class="n">ecx</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：</p>
-
-<figure class='code'><figcaption><span>例3</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">lass</span> <span class="n">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
-</span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span>    
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">CMammal</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CMammal</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="s">&quot;Mammal&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">IsEatMeat</span><span class="p">()</span> <span class="k">const</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;type: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_strName</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;is eat meat: &quot;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&lt;&lt;</span><span class="n">m_bEatMeat</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
-</span><span class='line'><span class="kt">bool</span> <span class="n">m_bEatMeat</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
-</span><span class='line'> <span class="kt">void</span><span class="o">*</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
-</span><span class='line'> <span class="n">CMammal</span><span class="o">*</span> <span class="n">pMammal</span> <span class="o">=</span> <span class="p">(</span><span class="n">CMammal</span><span class="o">*</span><span class="p">)</span><span class="n">pCmd</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'> <span class="k">if</span> <span class="p">(</span><span class="n">pMammal</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span>
-</span><span class='line'> <span class="p">{</span>
-</span><span class='line'>  <span class="n">pMammal</span><span class="o">-&gt;</span><span class="n">IsEatMeat</span><span class="p">();</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的代码运行正常，和例1的区别就是CMamal没有虚函数，而CBrid有。所以说，<strong>沿着继承链类型转化时，this指针可能会发生偏移，以确保this指针总能指向subobject</strong>。而强转中如果中间有void*这种没有类型信息的东西，会使编译器丢失这种偏移。</p>
-
-<p><strong>this指针说白了就是对象基址，角色是成员变量寻址基址，偏移的目的是为了使成员变量寻址正确</strong>，影响对像内存布局的东西都可能使this指针偏移（具体编译器可能不同）：</p>
-
-<ol>
-<li>虚表，子类有而派生类没有</li>
-<li>多重继承，子类与第n(n>1)个派生类</li>
-<li>虚继承</li>
-</ol>
-
-
-<p>待续：this指针的偏移策略</p>
 ]]></content>
   </entry>
   

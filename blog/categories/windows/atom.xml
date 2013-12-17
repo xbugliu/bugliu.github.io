@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Windows | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-17T01:29:36+08:00</updated>
+  <updated>2013-12-18T00:16:34+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
+    <link href="http://towriting.com/blog/2013/12/17/ini-muti-thread/"/>
+    <updated>2013-12-17T23:28:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/17/ini-muti-thread</id>
+    <content type="html"><![CDATA[<p>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms725501(v=vs.85).aspx">WritePrivateProfileString</a>的文档中并没有提到。
+据<a href="http://mfctips.com/tag/getprivateprofilestring/">这篇文章</a>介绍:</p>
+
+<h2>WritePrivateProfileString:</h2>
+
+<ul>
+<li>WritePrivateProfileString内部使用NtCreateFile访问文件，共享方式设置为：FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE。使用NtLockFile，FailImmediately设置为False，ExlusiveLock设置为True来锁定文件。</li>
+<li>这意味着WritePrivateProfileString是非线程安全的，是进程安全的（非远程机器）。</li>
+</ul>
+
+
+<p>我们目前的软件有大量的并发操作INI的行为，没出现过什么问题只能说是幸运了（亦或是不幸）。同事并不太相信以上结论，让我们用事实证明，写一段并发操作INI的代码：</p>
+
+<p>```cpp</p>
+
+<h1>include &ldquo;stdafx.h&rdquo;</h1>
+
+<h1>include &lt;Windows.h></h1>
+
+<h1>include <vector></h1>
+
+<h1>include <string></h1>
+
+<h1>include &lt;process.h></h1>
+
+<h1>include <cassert></h1>
+
+<p>std::wstring GetIniName()
+{</p>
+
+<pre><code>std::wstring strIniName;
+strIniName.resize(MAX_PATH);
+strIniName.resize(GetModuleFileName(NULL, const_cast&lt;TCHAR*&gt;(strIniName.data()), strIniName.size()));
+strIniName += _T(".ini");
+return strIniName;
+</code></pre>
+
+<p>}</p>
+
+<p>void WriteIniInThread(void* pText)
+{</p>
+
+<pre><code>const TCHAR *pSec = (TCHAR*)pText;
+assert(pSec);
+
+std::wstring strVal;
+std::wstring strIni = GetIniName();
+for (int i=0; i&lt;1000; ++i)
+{
+    strVal = std::to_wstring(_Longlong(i));
+    WritePrivateProfileString(pSec, strVal.data(), strVal.data(), strIni.data());
+}
+</code></pre>
+
+<p>}</p>
+
+<p>int <em>tmain(int argc, </em>TCHAR* argv[])
+{</p>
+
+<pre><code>std::vector&lt;std::wstring&gt; threadTexts;
+std::vector&lt;HANDLE&gt; threadHandles;
+for (int i = 0; i&lt;60; ++i)
+{
+    std::wstring strText = _T("Thread");
+    strText += std::to_wstring(_Longlong(i));
+    threadTexts.push_back(strText);
+    threadHandles.push_back(HANDLE(_beginthread(WriteIniInThread, 0, (void*)threadTexts[i].data())));
+}
+
+WaitForMultipleObjects(threadHandles.size(), threadHandles.data(), TRUE, INFINITE);
+return 0;
+</code></pre>
+
+<p>}</p>
+
+<p>```
+代码很简单，开60个线程同时往一个INI文件里写东西，让我们对比一下多线程操作INI和非多线程操作的结果，左侧是不使用多线程操作的结果（只贴出前50行）：</p>
+
+<p><img class="pull-left" src="/images/posts/ini-muti-thread/result.png"></p>
+
+<p><img class="pull-left" src="/images/posts/ini-muti-thread/error_result.png"></p>
+
+<p></br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br></p>
+
+<p>结果一目了然。（多线程同时操作INI时，每次的结果可能都不一样的）。</p>
+
+<hr />
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[创建支持拖拽的进程]]></title>
@@ -885,104 +1016,6 @@ return bRet;
 </span><span class='line'>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Smart GetProcAddress之实现]]></title>
-    <link href="http://towriting.com/blog/2013/07/20/smart-getprocaddress/"/>
-    <updated>2013-07-20T22:36:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/07/20/smart-getprocaddress</id>
-    <content type="html"><![CDATA[<p>Windows下有过编程经验的朋友肯定用过这个函数：<a href="http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx">GetProcAddress</a>，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：</p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>DLL导出函数的头文件:dll.h</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>动态加载DLL调用上面两个函数</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">FUNC2</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="n">FUNC1</span> <span class="n">func1</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC1</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">T</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">func1</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="n">FUNC2</span> <span class="n">func2</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC2</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">T</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">func2</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;);</span>
-</span><span class='line'><span class="n">func1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="n">func2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>以上是主流的代码写法，但其实稍有问题：
-1. 要定义一套函数类型，且违反DRY，枯燥乏味，影响代码美观
-2. 隐式类型转换是魔鬼，如果DLL实现变化，则调用出错，比如：
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>DLL导出函数的头文件：fun2的参数变成了三个，调用非出错不可</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="n">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>好，问题来了，如何避免：
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>方案1：使用模板</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// 使用方法如下：注意1. 要引用对应头文件，2. auto（自动类型推导）关键字从VS2010开始支持</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">func1</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;),</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">func1</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-看起来我们解决了DRY问题，也不用写繁琐的typedef了，于是我们开始Build，很快你就发现Link错误，unresolved external symbol，没注意取地址&amp;func1，已静态依赖于DLL，看来此路不通。取地址的目的是从头文件中获取函数的类型，还有什么方法可以获取函数的类型呢？
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>方案2：使用decltype</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="c1">// 使用方法如下：</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">decltype</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">func1</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;));</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。</p>
 ]]></content>
   </entry>
   
