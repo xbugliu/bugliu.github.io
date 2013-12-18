@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-18T00:16:34+08:00</updated>
+  <updated>2013-12-18T23:51:03+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,260 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[《C++标准库第二版 上册》笔记]]></title>
+    <link href="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/"/>
+    <updated>2013-12-18T23:27:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1</id>
+    <content type="html"><![CDATA[<p>p63 a pair&lt;> using a type that has only a nonconstant copy constructor will no longer compile.</p>
+
+<p>p64 std::piecewise_construct is passed as the first argument is class Foo forced to use a constructor that takes the elements of the tuple rather than a tuple as a whole.</p>
+
+<p>p65 The make_pair() function template enables you to create a value pair without writing the types explicitly.</p>
+
+<p>p67 pair used in functions that return two values.</p>
+
+<p>p68 tuples extend the concept of pairs to an arbitrary number.we can access elements with the get&lt;>() function template.</p>
+
+<p>p70 A tuple type can be a reference. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+</span><span class='line'><span class="n">tuple</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&amp;&gt;</span> <span class="n">t</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For element access, you must know the index of element at complier time.It is also a complier error if you pass a invalid index.
+Make_tuple can create tuple without special the type of element.
+By using references with make_tuple(), you can extract values of a tuple back to some other variables. e.g.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">);</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+</span><span class='line'><span class="n">make_tuple</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>p72 std::tie() creates a tuple of references. the use of std::ignore allows ignoring tuple elements while parsing with tie()</p>
+
+<p>p75 You can initialize a two-element tuple with a pair.Also, you can assign a pair to a two-element tuple.</p>
+
+<p>p76 Tow types of smart pointer:</p>
+
+<ul>
+<li>shared_ptr. Multiple smart pointer can refer to the same object.</li>
+<li>unique_ptr. only one smart pointer can refer to this object at a time.</li>
+</ul>
+
+
+<p>p77 shared_ptr. you can define other ways to clean up object.</p>
+
+<p>p78 shared_ptr can&rsquo;t assign a new ordinary pointer. but can use reset function to reset the pointer.</p>
+
+<p>p79 assigning a nullptr to a shared_ptr would delete the ownship.</p>
+
+<p>p80 Smart pointer, when use new[] to create an array of object, you must define your own deleter.</p>
+
+<p>p85 weak_ptr allows sharing but not owning an object.</p>
+
+<p>p90 You should always directly initialize a smart pointer the moment you create the object with its associated resource.</p>
+
+<p>p95 Aliasing constructor,The constructor taking another shared_pointer and an additional raw pointer.</p>
+
+<p>p96 shared pointers are not thread safe.</p>
+
+<p>p101 You can&rsquo;t copy or assgin a unique pointer if you use the ordinary copy semantics, but can use move semantics.</p>
+
+<p>p102 assgining nullptr is also possible, which has the same effect as calling reset().</p>
+
+<p>p103 The Reason that no std::move is necessary in the return statement of source() is than according to the language rules of c++11, the compiler will try a move automaticallly.</p>
+
+<p>p105 The c++ stl provides a partial spartial specialization of class unique_ptr for array: std::unique_ptr<code>&lt;std::string[]&gt;</code></p>
+
+<p>p110 unique_ptr not necessarily defined as T*</p>
+
+<p>p115 The new concept of numeric limits has two advantages: first, it offers more type safety. second, it enables a programmer to write templates that evaluate these limits.</p>
+
+<p>p119 all members of numeric_limits are declared as constexpr.</p>
+
+<p>p121 you can query for any arbitrary type whether or not it has numeric limits defined.</p>
+
+<p>p125 Type Traits:</p>
+
+<ul>
+<li>Type Predicates</li>
+<li>Type Relations</li>
+<li>Type Modifiers</li>
+</ul>
+
+
+<p>p130 A reference to a constant type is not constant</p>
+
+<p>p136 Note that swap provides an exception specification</p>
+
+<p>p158 Not that time_t usually is just the number of seconds since the UNXI epoch. bu this is not guaranteed.</p>
+
+<p>p166 The marjor advantage of iterators is that they offer a small but common interface for any arbitrary container type.</p>
+
+<p>p166 The concept of STL is base on a separation of data and operations. The data is managed by container classes, and the operations are defined by configurable algorithms. iterators are the glue between these two components.</p>
+
+<p>p167 There are three general kinds of containers:</p>
+
+<ul>
+<li>Sequence contains are ordered collections in which every element has a certain postion.</li>
+<li>Associative containers are sorted collections in which the postion of an element depends on its value due to a certain sorting criterion: set multiset map multimap.</li>
+<li>Unorderd containers. neither the order of insertion nor the value of the inserted element has an influence on the postion of the element, and the position might change over the lifetime of the container: unordered_set,undered_multiset,undered_map,undered_multimap.</li>
+</ul>
+
+
+<p>p170 size() is provided for any container class execept singly linked lists(class forward_list)</p>
+
+<p>p170 deque rhymes with &ldquo;check&rdquo;</p>
+
+<p>p171 the push_front is not provided for vectors, because it would have a bad runtime for vectors, but is is possible to insert an element at the beginning of a vector.</p>
+
+<p>p171 using array. with a safer and more convenient interface.</p>
+
+<p>p176 forward_list is in principle just a limited list.</p>
+
+<p>p177 The major advantage of associative containers is that finding an element with a specific value is rather fast.</p>
+
+<p>p177 you can consider a set as a special kind of map, in which the value is identical to the key. in fact, all these are implemented by using the same basic implementation of a binary tree.</p>
+
+<p>p180 C++11 guarantees that newly inserted elements are inserted at the end of equivalent elements that multisets and multimaps already contain.</p>
+
+<p>p180 unordered containers are typically implemented as a hash table. the goal is that each element has its own position so that you have fast access to each element.</p>
+
+<p>p185 associative array: an array whose index is not an integer value.</p>
+
+<p>p188 an iterator is an object that can iterate over elements. iterators share the same interface but have different types.</p>
+
+<p>p189 every container defines two iterator types:</p>
+
+<ul>
+<li>container::iterator is provided to iterator over elements in read/write mode</li>
+<li>container::const_iterator is provided to iterator over elements in read mode</li>
+</ul>
+
+
+<p>p199 To write generic code you should not use special operations for random-access iterators.</p>
+
+<p>p199 Algorithms are not member functions of the container classer but instead are global functions that operator wich iterators. this concept reduces the amount of code and increases the power and the flexibility of the library.</p>
+
+<p>p208 Multiple Ranges, make sure that the second and additional ranges have at least as many elements as the first range.</p>
+
+<p>p209 associative and unordered containers cannot be used as a destination for overwriting algorithms.</p>
+
+<p>p210 Interator Adapters</p>
+
+<p>p210 Insert Interators solve the problem of algorithms that write to destination that does not have enough room.</p>
+
+<p>p212 general insertor call insert()</p>
+
+<p>p213 <code>istream_iterator&lt;string&gt;()</code> calls the default constructor of iterators that creates a so-called end-of-stream iterator.</p>
+
+<p>p214 reverse iterators rbegin()\rend()</p>
+
+<p>p220 distance if iterator were random-access, you could with &ldquo;&ndash;&rdquo;</p>
+
+<p>p221 to make agorithms as flexible as possible there are good reason not requrie that interator know their container.</p>
+
+<p>p223 a container might have member functions that provide much better performance that algorithms</p>
+
+<p>p226 predicates must stateless</p>
+
+<p>p232 Lambda no default constructor and no assignment operator.</p>
+
+<p>p235 function object are functions with states</p>
+
+<ul>
+<li>fnctction object has its own type</li>
+<li>function object may faster than ordinary functions.</li>
+</ul>
+
+
+<p>p241 Binder to combine predefined function objects with other values or use special cases.</p>
+
+<p>p248 it&rsquo;s turns out that exception specifications could cause performance penalties, so they were replaced by noexcept with c++11.</p>
+
+<p>p249 if you need a transaction-safe container, you should use a list.</p>
+
+<p>p254 container&rsquo;s operators are not safe in the sense that they check for every possible error.</p>
+
+<p>p257 since c++11 you can use move constructor</p>
+
+<p>p258 Move Sytax: The contents of the container on the right-hand side are undefined afterwared:</p>
+
+<p>p258 forware_list not provided size()</p>
+
+<p>p260 all containers except vectors and deques guarantee that iterators an references to elements remianing valid if other elemenets are deleteed.</p>
+
+<p>p262 array&lt;> default initialized.</p>
+
+<p>p267 array you must not pass an iterator as the address of the first element.</p>
+
+<p>p271 vectors： capacity(), which returns the number of elements a vector could contain in its actual memory.</p>
+
+<p>p271 If the only reason for initialization is to reserve memory, you should use reserve()</p>
+
+<p>p271 it is not possible to call reserve for vectors to shrink the capacity.</p>
+
+<p>p282 For vector<bool> the return type of subscript operator is an auxiliary class.</p>
+
+<p>p283 Deque is typically implemented as a bunch of individual blocks.</p>
+
+<p>p284 Deque provide no support to control the capacity and the momnet of reallocation.Howerer reallocation may perform better than for vectors because according to their typical internal structure, deques don&rsquo;t have to copy all elemenets on reallocation.</p>
+
+<p>p284 Blocks of memory might get freed when they are no longer used(implementation specific)</p>
+
+<p>p286 You could say that lists are transaction safe.</p>
+
+<p>p301 The design goal to have &ldquo;zero space or time overhead relative to a hand-written C-stype single linked list.</p>
+
+<p>p303 forward_list provide no support size(), but you can use std::distance(list.begin(),list.end())</p>
+
+<p>p315 you cant change set&rsquo;s value from interator</p>
+
+<p>p316 not that the sorting criterion is also used to check for equivalence of two elements in the same container.</p>
+
+<p>p338 std::for_each(coll.begin(), coll.end(), [] (decltype(coll)::value_type &amp;elem) {}
+p342 piecewise_construct emplace.</p>
+
+<p>p345 [] is slower than the insert()</p>
+
+<p>p366 unorder container</p>
+
+<p>p366 unorder containers are optimized for fast searching of elements</p>
+
+<p>p386 using the noninvasive approach is simple, you need only objects that are able to iterate over the elements of an array by using the STL iterator interface.</p>
+
+<p>p386 Any Thing that behaves like an iterator is an iterator.</p>
+
+<p>p437 forward iterators, it is guaranteed that for two forward iterators that refor to the same elemnet, operator == yields true and that they will refer to the same value after both are incremented.</p>
+
+<p>p442 to be able to change container and iterator types, you should use advance</p>
+
+<p>p460 for insert iterator, a bad hint might even be worse than no hint.</p>
+
+<p>p471 writing user-defined iterators</p>
+
+<p>p476 each function object has its own type</p>
+
+<p>p479 by default, function objects are passed by value rather than by reference.</p>
+
+<p>p483 for_each can return a value</p>
+
+<p>p485 a predicate should always be stateless. you should declare operator() as const. but lambda not exist this problem.</p>
+
+<p>p494 bind also could bind data member.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
@@ -2069,80 +2323,6 @@ the sum of values in vecIn：
 <p>上一篇：<a href="http://towriting.com/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
 
 <p>译者：<a href="http://towriting.com/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-compile-time-processing-with-constexpr.html">Constexpr &ndash; Generalized Constant Expressions in C++11</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[癸巳年上半年总结]]></title>
-    <link href="http://towriting.com/blog/2013/09/15/summary/"/>
-    <updated>2013-09-15T22:35:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/09/15/summary</id>
-    <content type="html"><![CDATA[<blockquote><p>How Time Flies!</p></blockquote>
-
-<p>标题中年份用的是农历，春节后回杭州，元宵后办理完交接离开同花顺，到二月廿八入职TX，从那时算起到今天亦有半年多了。</p>
-
-<h3>关于健康</h3>
-
-<p>先从李开复罹癌说起（希望他可以康复），不管名气再大，总归是人，自然规律，生老病死无法逃避。不过李的生病，又掀起了一股，IT从业者是癌症高发人群的讨论，一些网站还列出了预防癌症的n条方法。李的生病对我的触动也很大，因为媒体上曝光李的压力很大，经常凌晨2、3点睡觉，而我最近睡的也比较晚差多不也1点半左右。无法好好休息，确实是对健康的透支，李是台湾省人，又有在国外生活经历，经济条件又好，想必规律性的深度体检是有的，所以可以及早发现。而我们大多数人，可能小病就是扛着，每年一次的体检也是马马虎虎，也没有什么健康意识。从今往后睡眠一定要保证，自己力争12点半之前入睡。说句题外话，如今中国近万人确诊癌症，而李不过是其中之一，如果李不是名人，又有谁重视，印象中李的出名是因其反复跳槽被媒体炒作，估计也是他为后来搞风投作势，话说微软与李同一级别的华人并不少，乃至现在有个叫做陆奇的华人，现在被国外媒体认定为鲍尔默接班人之一，级别在李之上多矣，为何李如此出名？</p>
-
-<h3>工作的事</h3>
-
-<p>这一段时间确实工作时间很长，8月份休息了三天，9月份的周六目前也都在加班。至于加班的原因，我个人概括的如下：</p>
-
-<ol>
-<li>产品设计需求不明确，不细化，变更频仍</li>
-<li>上一条导致，我们无法预估时间，但产品发布的时间是死的，往往也不够</li>
-<li>开发时间少，且团队代码不够规范，所以代码质量低下，bug很多</li>
-</ol>
-
-
-<p>话说入职TX后，最不适应的就是，产品设计不够详细，纰漏多，文档少，变化快。团队也发现了这个问题，也在慢慢改，不过自己也接受并努力去习惯这种节奏。有时，一个很大的需求只有短短几句话，确实会让人升起一股卷铺盖走人的冲动，但现实是残酷的，无法逃避的，就像《麦田的守望者》的主人公一样，逃避不了的，自己也要力争达到《麦》中那句名言：一个成熟男人的标志是他愿意为一项事业卑微地活着。所以如果是产品设计问题，要沟通，引导他们完成设计。</p>
-
-<p>目前团队的项目是，Android手机PC端（windows）的管理软件。自己刚进入时，主要做一些辅助项目的开发，比如守护进程和第三方合作插件。自己在开发这些软件的时候，感觉在Windows系统编程方面经验太少，多亏我的导师给我指出了一些方向、技术点和强大的stackoverflow.com，才是我顺利完成了工作，这部分不熟悉的内容主要包括：win7下进程Token、各种内核对象、管道的使用等等。</p>
-
-<p>目前团队使用的开发环境主要是VS2010，这还算对我胃口的，因为支持C++11，要说这半年自己技术上的进步，只能说是C++11常用用法的熟练使用，因为lambda的方便性，感觉STL中的算法焕发了第二春，现在我已经很少用for循环了
-可惜vs2010不支持ranged for loop。</p>
-
-<h3>融入团队</h3>
-
-<p>融入团队，目的是为了更好的合作，终极目的是为了创造更好的产品。</p>
-
-<p>要融入的内容包括：</p>
-
-<ol>
-<li>和大部分人建立融洽的关系</li>
-<li>熟悉团队的开发流程、规范、潜规则</li>
-<li>影响团队，改造团队的坏习惯，促进团队良性发展</li>
-</ol>
-
-
-<p>以上三点，是难度递增的。第一是“和大部分人建立融洽的关系”。人分三种：第一种人是，热心的帮助你，主动跟你建立融洽关系；第二种人是, 你需要感化，帮助他，影响他从而建立融洽关系； 第三人是：价值观、习惯与自己差异较大，且对人有成见，此种很难建立融洽关系的。</p>
-
-<p>一般前两种占据90%以上，第三种很少，很圆滑会来事的人可以去攻克第三种，像我这种木讷的人，就懒得管第三种了，平时保持距离，但切记不要影响工作，切记融入团队的终极目标是创造好的产品。</p>
-
-<p>第一点，自己目前完成度一般，有客观的原因，比如很长一段时间都是做独立项目，且团队活动很少。主观上，做程序员久了，感觉交际能力下降，在同花顺时，总能结合场景说一些灵机一闪的幽默言语，所以同事间相当融洽。目前工作之间的交流还算融洽，但相信这一点随着时间的推移会越来越好的。</p>
-
-<p>第二点是，熟悉团队的开发流程，规范，潜规则。目前的开发流程可以归结为：快速迭代，持续优化。所以编码时的质量是不高的，比如前几天与一同事一块儿开发一个需求，看他写的类中有大量的public函数，但这些函数外面并不会调用，还有一些很该写成const的函数没写，提醒他，他答曰：迭代太快，一开始考虑不全。其实这些是团队的开发习惯，编码规范问题，大家都这样，所以一直糊里糊涂的写着。代码是用TFS管理的，会建立一些分支，这些都熟悉了。代码上的潜规则也会有一些，都是出了问题后，才发现并修补掉的，比如看起来八杆子打不着的函数有依赖关系等等，这个只能遇到一个记录一个。</p>
-
-<p>第三点是，影响团队，去陋改良。这一点，自己是很热心的，比如，会和大家分享一些C++的编码规范技巧等等，推广一下Python，推进一些高级工具的使用等等。效果有一些，但一个团队的习惯，是一个复杂的历史问题，有其合理的地方，平时只会在小的地方改良，或者经历惨痛的教训后，才会主动改革。</p>
-
-<h3>梦想实现财务自由</h3>
-
-<p>前一段时间，确实很累，让我梦想有一天可以实现财务自由，可以做一个自由职业者。于是做了一个尝试，做了两个Niche站，一个中文一个英文，目前还没有收入，现在的心态是，不求收益，但至少我体验了一把建站的思路。建这种站，是一个持久的活动，但假使这两个站有收益，也是杯水车薪，但不排除有经验后，自己可以做出相对成功的niche站。</p>
-
-<p>niche站看来短期内，不是实现自己财务自由的途径。</p>
-
-<p>自己两年来定投了两支基金，其中一直亏损严重，但上周业绩比较漂亮，每天能给我带来3、5百的收益，假如一直这样多好。现实是残酷的，现实是没有假如的。定投基金的心态一定要是：不贪不惧，争取跑过余额宝就可以了。</p>
-
-<p>实现财务自由之路还需继续探索了，有理想是不可耻的，但切记不可在公司上班期间，利用工作资源时间践行自己的理想，自己与公司是有契约的，要有契约精神。</p>
-
-<h3>技术路上的进退</h3>
-
-<p>技术路上的进步，说起来还是C++了，进步的程度，只能说是更娴熟了（C++谁人敢说精通呢？）。具体而言，主要是C++11的熟练使用，STL的熟练使用。据我观察与阅读其他人代码，可以基本推断自己C++水平是相对较好的。比如C++11语法只有1个人在用，在数十万的代码中搜索不到几个STL中的常用算法函数（for_each、remove_if等），代码中也有很多明显的违反《effictive C++》的内容。但圈子小，并不是每个人都C++感兴趣，国外一些C++牛人的博客上介绍的主题，自己闻所未闻，C++14/C++1y, C++还有很多可以探索的领域。但不知自己在C++上的投入是不是不归路，今年换工作的面试中，就遇到好多人的诘问：C++有什么好学的？C++学那么好有什么用？</p>
-
-<p>但除了C++，自己又找不到特别感兴趣的方向。今天看《高效能程序员的修炼》，里面提到不要为了学习而学习，不要学习以后可能会用到的东西，要学自己感兴趣的东西。这些观点，放到我身上就是矛盾的，我感兴趣的是C++，但有些东西以后并不一定能够用得到。</p>
-
-<p>其他技术上的进步，主要是一些零碎的技术知识。最近一年，在也没学过大块新的知识了。近来也断续听到这种说法，读书成瘾，为学而学。感觉自己以前有这种倾向，感觉自己像知识的冰箱，存储了好多原料，却不会用这些做出一桌丰盛的菜来。</p>
 ]]></content>
   </entry>
   
