@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2013-12-18T23:51:03+08:00</updated>
+  <updated>2013-12-26T23:43:00+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为什么要学Ruby]]></title>
+    <link href="http://towriting.com/blog/2013/12/26/learn-ruby/"/>
+    <updated>2013-12-26T21:15:00+08:00</updated>
+    <id>http://towriting.com/blog/2013/12/26/learn-ruby</id>
+    <content type="html"><![CDATA[<p>  最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不会装系统的。而和这些不懂电脑的同学大谈各种计算机知识、编程语言的特点，是我一大爱好：脚本语言是一种易学的语言，要不然为何叫”脚本“，是因为用脚都可以学会；脚本语言里面有三P：Python，Php, Perl，都是极好的，当然还有一个Ruby，不过是日本人发明的，你如果不爱国的话，倒可以学一学&hellip;</p>
+
+<p>  最早的关于Ruby的记忆，就是和同学的这些对话了。毕业后，狂补C++的知识，不惜一切的想要提高C++的技术水平，听闻C++程序员必须要辅修一门脚本语言，于是Perl，Python，Ruby三门语言在我脑中角逐，最后Python胜出，于是啃了两三本Python的书籍，断断续续写了一些脚本，逢人就推荐Python，&#8221;life is short, use Python!&ldquo;, Python是个极佳的工具语言，Python的学习反向促进了对C++的领悟，Lambda的概念是从Python中学到的，当然后来自己又追逐Lambda的源头Haskell，就不多说了。</p>
+
+<p>  而自己为什么又要开始学Ruby了呢？不爱国了吗？当然开玩笑了，互联网的世界那里有国别之分，而且我们谋生用的技术那些是国产呢？</p>
+
+<p>  从Ruby很火可以推断Ruby应该是个不错的语言，除却这个原因和学习本身就是一个快乐的过程外，以下是自己主观上想要学习Ruby的原因：</p>
+
+<h3>C++学习之痒</h3>
+
+<p>当然C++现在处于并且将长期处于自己技术方向的中心。都说C++语法都让人着迷，然自己好像陷入C++的汪洋大海中了，看到这些<a href="http://towriting.com/blog/2013/12/12/cpp-blogs/">大牛的博文</a>，始觉自己对C++了解的太少了。短暂的休息是为了下一次冲锋，C++的深入，先放一放。</p>
+
+<h3>美丽新世界</h3>
+
+<p><a href="http://en.wikipedia.org/wiki/Andy_Hunt_(author)">Andrew Hunt</a>的经典名著<a href='http://www.amazon.cn/gp/product/B004GV08CY/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004GV08CY&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>程序员修炼之道</a>中提到，程序员每年要学习一门语言。一些教授所言的“语言不重要，所有语言都是相通的“这种观点经不起推敲。人为什么要学习外语，无外乎两种原因：了解语言背后的思维习惯和掌握语言背后的信息价值。编程语言和自然语言一样的，学习一门新的编程语言，可以接触到新的思维习惯和语言先天的优势（语法糖、框架、库、社区等）。</p>
+
+<h3>劳动是必需品</h3>
+
+<p>中学时，记得关于共产主义的描述有一条是：<code>劳动已不仅是谋生的手段，而且成了生活的第一需要</code>，设想一下，到那时休5做2，想要加班都会被领导批评，要层层审批才能通过。那时的劳动定是快乐的，可这种乌托邦的社会，你我未必可以赶的上，我们如何爱上我们的工作？</p>
+
+<p><code>Ruby, 让你爱上你的工作</code>。这是某些人打出的Ruby的口号，我特别想证明这个口号是对的，或是错的。</p>
+
+<h3>现实的考量</h3>
+
+<p>Ruby在国内算是小众的语言，但如果要转Ruby的话，能否找到工作，刚才在Indeed上搜索Ruby:948条,Python:4,474条;Haskell:7条；机会确实不太多，再看Ruby的趋势，左侧全球的Ruby热度减退，但右侧国内Ruby热度13年井喷，所以不久以后Ruby还是可以学以致工作的。</p>
+
+<script type="text/javascript" src="http://towriting.com//www.google.com/trends/embed.js?hl=en-US&q=/m/06ff5&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=400&h=330"></script>
+
+
+
+
+<script type="text/javascript" src="http://towriting.com//www.google.com/trends/embed.js?hl=en-US&q=Ruby&geo=CN&cmpt=geo&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=350&h=330"></script>
+
+
+<h3>为了自由</h3>
+
+<p>当然并没有人强暴我的心理或肉体，我指的自由是，可以做一个自由职业者。这当然这是3、5年后的目标，而靠C++实现这个目标貌似不容易，如今是Web与APP的天下了，ROR，貌似是一个适宜自由职业者开发web产品的框架。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[《C++标准库第二版 上册》笔记]]></title>
@@ -2130,199 +2175,6 @@ the sum of values in vecIn：
 <h2>总结</h2>
 
 <p>说了一大堆儿话，不过是想说，有些人算不清楚，小的投入可以有大产出。切莫捡了芝麻，丢了西瓜。自己以后一定要小心类似的思维陷阱。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C++11系列-常量表达式]]></title>
-    <link href="http://towriting.com/blog/2013/09/17/constexpr/"/>
-    <updated>2013-09-17T22:39:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/09/17/constexpr</id>
-    <content type="html"><![CDATA[<p>C++11有一些这样的改善，这种改善保证写出的代码比以往任何时候的执行效率都要好。这种改善之一就是生成常量表达式，允许程序利用编译时的计算能力。假如你熟悉模板元编程，你将发现constexpr使这一切变得更加简单。假如你不知道模板元编程，也没什么。constexpr使我们很容易利用上编译时编程的优势。</p>
-
-<p>常量表达式主要是允许一些计算发生在编译时，即发生在代码编译而不是运行的时候。这是很大的优化：假如有些事情可以在编译时做，它将只做一次，而不是每次程序运行时。需要计算一个编译时已知的常量，比如特定值的sine或cosin？确实你亦可以使用库函数sin或cos，但那样你必须花费运行时的开销。使用constexpr，你可以创建一个编译时的函数，它将为你计算出你需要的数值。用户的电脑将不需要做这些工作。</p>
-
-<h3>constexpr初探</h3>
-
-<p>为了使函数获取编译时计算的能力，你必须指定constexpr关键字到这个函数。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">multiply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 将在编译时计算</span>
-</span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">multiply</span><span class="p">(</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">getDefaultArraySize</span> <span class="p">(</span><span class="kt">int</span> <span class="n">multiplier</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">my_array</span><span class="p">[</span> <span class="n">getDefaultArraySize</span><span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">];</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>constexpr函数的限制</h2>
-
-<p>一个constexpr有一些必须遵循的严格要求：</p>
-
-<ul>
-<li>函数中只能有一个return语句（有极少特例）</li>
-<li>只能调用其它constexpr函数</li>
-<li>只能使用全局constexpr变量</li>
-</ul>
-
-
-<p>注意递归并不受限制。但只允许一个返回语句，那如何实现递归呢？可以使用三元运算符（?:)。例如，计算n的阶乘：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">factorial</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在你可以使用factorial(2)，编译器将在编译时计算这个值，这种方式运行更巧妙的计算，与内联截然不同。你无法内联一个递归函数。</p>
-
-<p><strong>constexpr函数还有那些特点？</strong></p>
-
-<p>一个constexpr函数，只允许包含一行可执行代码。但允许包含typedefs、 using declaration &amp;&amp; directives、静态断言等。</p>
-
-<h2>constexpr和运行时</h2>
-
-<p>一个声明为constexpr的函数同样可以在运行时被调用，当这个函数的参数是非常量的：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-</span><span class='line'><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
-</span><span class='line'><span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这意味着你不需要分别写运行时和编译时的函数。</p>
-
-<h2>编译时使用对象</h2>
-
-<p>假如你有一个Circle类：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Circle</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
-</span><span class='line'>    <span class="kt">double</span> <span class="n">getArea</span> <span class="p">()</span> <span class="k">const</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">_radius</span> <span class="o">*</span> <span class="n">_radius</span> <span class="o">*</span> <span class="mf">3.1415926</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">_y</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">_radius</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你希望在编译期构造一个Circle接着算出他的面积。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="n">Circle</span> <span class="n">c</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
-</span><span class='line'><span class="n">constexpr</span> <span class="kt">double</span> <span class="n">area</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">getArea</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>事实证明你可以给Circle类做一些小的修改以完成这件事。首先，我们需要将构造函数声明为constexpr，接着我们需要将getarea函数声明为constexpr。将构造函数声明为constexpr则运行构造函数在编译期运行，只要这个构造函数的参数为常量，且构造函数仅仅包含成员变量的constexpr构造（所以默认构造可以看成constexpr，只要成员变量都有constexpr构造）。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Circle</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">constexpr</span> <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
-</span><span class='line'>    <span class="n">constexpr</span> <span class="kt">double</span> <span class="n">getArea</span> <span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">_radius</span> <span class="o">*</span> <span class="n">_radius</span> <span class="o">*</span> <span class="mf">3.1415926</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">_y</span><span class="p">;</span>
-</span><span class='line'>        <span class="kt">int</span> <span class="n">_radius</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>constexpr vs const</h2>
-
-<p>假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。</p>
-
-<h2>constexpr和浮点数</h2>
-
-<p>到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。</p>
-
-<h2>权衡constexpr</h2>
-
-<p>C++开发者早就深受修改一个头文件则引发重新编译导致编译缓慢的困扰。而constexpr可能引入增加编译时间的风险，但也有一些技术去降低这种风险。首先，因为constexpr函数相同的参数会输出相同的结果，所以它们可以被<a href="http://en.wikipedia.org/wiki/Memoization">memoized</a>，事实上GCC已经支持memoization。</p>
-
-<p>因为可以对constexpr函数memoize,所以用constexpr函数替换模板函数的地方，(编译）性能不会变得更坏，但代码会变得清晰。事实上，替换掉一部分模板实例，编译会显著加快。</p>
-
-<p>最后，标准允许编译器去限制递归函数的级数。这样可以限制深度递归的编译性能损耗。</p>
-
-<h2>编译器支持</h2>
-
-<p>constexpr需要编译器支持编译期的递归，所以也不奇怪支持constexpr的编译器并不多，就我所知只有G++4.7支持这一特性。[注：到我翻译时，intelC++13、Clang3.1也都支持了，不过Vs2013还是不支持]</p>
-
-<p>下一篇：右值引用和移动语义</p>
-
-<p>上一篇：<a href="http://towriting.com/blog/2013/08/20/ranged-for-loop/">区间迭代</a></p>
-
-<p>译者：<a href="http://towriting.com/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-compile-time-processing-with-constexpr.html">Constexpr &ndash; Generalized Constant Expressions in C++11</a></p>
 ]]></content>
   </entry>
   
