@@ -196,6 +196,7 @@ description: 整理我这些年来读过的书籍
 * 瓦尔登湖（在读）
 * 高效能程序员的修炼
 * 程序员修炼之道 13-12-1
+* Ruby元编程（在读）
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
 [2]: /blog/2013/08/25/read-notes-hacker-and-painters/
