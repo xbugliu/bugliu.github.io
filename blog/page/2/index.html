@@ -108,6 +108,64 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/12/16/why-i-quit-ths-job/">我为什么从同花顺离职</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-16T23:42:00+08:00" pubdate data-updated="true">2013-12-16</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>  最近知乎上很流行的一个问题是<a href="http://www.zhihu.com/topic/19909711">为什么从 X 离职</a>，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。</p>
+
+<p>  首先，照例发自肺腑的感谢一下同花顺，同花顺的日子是我C++进步最快的一段时间，在这里我接触到了正规的开发流程，并且遇到了一个很棒的团队，那时的日子每天都很开心。</p>
+
+<hr />
+
+<p>  切入正题，我为什么离开同花顺：</p>
+
+<h3>待遇认知的分歧</h3>
+
+<p>　员工离职的理由千万条，但薪水待遇肯定是大部分人选择离开的最重要的原因，不过大部分人不肯承认罢了。离职的导火索就是公司的年终奖，入职Offer上明确写明是3-6个月，可实际发到手的一月左右。我表明了自己的不满，公司领导以程序员不是钟点工，薪水是靠产品的收益决定的来“开导”我。这种观点不错，但是却是站在创业者的角度看的。自己作为一个打工者，站在打工者的角度上讲，程序员的待遇在市场经济条件下，是由供求关系决定的，并上下浮动于程序员个体的能力和工作产出。何况公司远没到揭不开锅的程度，你可以不按约定给我应有的Money，但不能忽悠我。</p>
+
+<h3>人为什么要工作？</h3>
+
+<p>　马斯洛总结了人的<a href="http://en.wikipedia.org/wiki/Maslow's_hierarchy_of_needs">五种需求</a>。</p>
+
+<p>　刚毕业时囊空如洗，一头扎进工作中，完全是为了实现人的第一种需求-生理（存）需求。自己前两年的工作确实是为了实现生存需求，但当工作两三年，衣食无虞，现在仍然工作的原因好像是上一阶段的惯性。有些人可能为了实现“昂贵”的生理需求（车房等）而工作一辈子，但对我而言这种动力不足以使我能持续激情的工作。</p>
+
+<p>　顺着马斯洛的需求金子塔往上看，塔顶是自我实现的需求，这是人的最高级的需求。</p>
+
+<p>　是否可以提高自己的能力，是我衡量一份工作是否适合自己的重要指标。以前从没有在内心中将自我能力的提高作为工作的一个直接原因，觉得能力提高（自我实现需求）不过是为了能挣更多钱（生理需求），觉得后者才是工作的直接原因。看来我错了，自我能力的提高属于自我实现的需求，完全是促使我们工作的高级原因。而可贵的是，高级的需求好像兼容低级的需求，就是你在实现了自我实现的需求后，生理需求自然可以满足了。并且生理需求容易满足，自我实现需求难以满足，而自我实现的满足可以给人带来持久且真正的满足。在我看来，工作中的自我实现包括两点：自我能力提高和我（们）创造了有价值的东西。</p>
+
+<p>  而同花顺，据观察感知是无法满足我这两种需求的，尤其第二种，我的判断是错误的吗？</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/">你们是勤劳还是懒惰的程序员？</a></h1>
     
     
@@ -781,187 +839,6 @@ the sum of values in vecIn：
 <li>我的存在是低概率事件的重大结果，而我经常忘记这一点。</li>
 </ul>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/10/static-assert/">C++中的静态断言</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-10T00:02:00+08:00" pubdate data-updated="true">2013-12-10</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>什么是静态断言</h2>
-
-<p>断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，这两个宏生成DEBUG版本下的断言，另外还有assert，是C/C++提供的断言函数，效果和以上两个宏是一样的。</p>
-
-<p>那什么是静态断言？上面介绍的普通断言是运行时检测的，静态断言是编译期检测的，所以被称之为静态断言（static assert）。最早知道编译期检测是在Matthew wilson的<a href="http://www.amazon.cn/gp/product/B008A4Y2R0/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B008A4Y2R0&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《Imperfect C++》</a>中，里面称其为约束（constraints)，并抱怨C++为什么不支持如此常用的功能（C++11已有改善）。</p>
-
-<p>那使用静态断言有什么好处呢？</p>
-
-<h2>静态断言的好处</h2>
-
-<ol>
-<li>更早的报告错误，我们知道构建是早于运行的，更早的错误报告意味着开发成本的降低</li>
-<li>无法忽略的错误，对于Assert类似DEBUG下的断言，有时候被不会被执行到，即使执行到也会遭到一些开发的忽视，而静态断言的错误是无法忽视的，因为构建失败了。</li>
-<li>减少运行时开销，静态断言是编译期检测的，减少了运行时开销</li>
-</ol>
-
-
-<p>那如何使用实现静态断言？</p>
-
-<h2>使用静态断言</h2>
-
-<p>静态断言作用的对象一般是编译时已知的状态。任何可以成为模板类参数的内容都可以作为静态断言的对象。</p>
-
-<p>下面看一个静态断言的例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span><span class="k">typename</span> <span class="n">B</span><span class="o">&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">has_base</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>     <span class="o">~</span><span class="n">has_base</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)(</span><span class="n">D</span><span class="o">*</span><span class="p">,</span><span class="n">B</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
-</span><span class='line'>    <span class="k">static</span> <span class="kt">void</span> <span class="n">constraints</span><span class="p">(</span><span class="n">D</span> <span class="o">*</span><span class="n">pd</span><span class="p">,</span><span class="n">B</span> <span class="o">*</span><span class="n">pb</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">{</span>
-</span><span class='line'>        <span class="n">pb</span> <span class="o">=</span> <span class="n">pd</span><span class="p">;</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个例子最早出自Bjarne Stroustrup之手，用于检测一个类型是否是另一个类型的父类（类型相等和void*的情况没有考虑，用起来像这样子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CBase</span> <span class="p">{};</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">CDer</span><span class="o">:</span> <span class="k">public</span> <span class="n">CBase</span> <span class="p">{};</span>
-</span><span class='line'><span class="n">has_base</span><span class="o">&lt;</span><span class="n">CDer</span><span class="p">,</span> <span class="n">CBase</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">;</span>
-</span><span class='line'><span class="n">has_base</span><span class="o">&lt;</span><span class="n">CBase</span><span class="p">,</span> <span class="n">CDer</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span> <span class="c1">//编译错误</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>它的工作原理是，成员函数constraints试图把D的指针转化成B的指针，这一般只在B是D的派生类时成立。而且constraints函数永远不会被调到，所以没有运行时开销。</p>
-
-<p>在看一个例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">enum</span> <span class="n">personType</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">person_child</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_adult</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_woman</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_man</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_count</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="kt">void</span> <span class="n">ProcessPersonType</span><span class="p">(</span><span class="n">personType</span> <span class="n">ptVal</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">char</span> <span class="n">dummy</span><span class="p">[</span><span class="n">person_count</span> <span class="o">&gt;</span> <span class="n">CHAR_MAX</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>  <span class="kt">char</span> <span class="n">cVal</span> <span class="o">=</span> <span class="n">ptVal</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">// do something with cVal</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面例子里，试图将枚举类型的值转化成cVal,但可能有溢出的问题，所以设置一个静态断言：<code>char dummy[person_count &gt; UCHAR_MAX ? 1 : -1];</code>，原理是如果personType的最大值大于char类型的最大值，则表达式为<code>char dummy[-1]</code>，我们知道这是编译不过的，所以会提示我们出问题了。</p>
-
-<p>以上方式虽然可以实现静态断言的效果，但提示的信息，可能和我们断言想要报告的完全无关，所以并不是最完美的解决方案。</p>
-
-<h2>C++11中的静态断言</h2>
-
-<p>C++11中增加了static_assert支持静态断言，用法相当简单，static_asset接受两个参数，第一个为要断言的内容，第二个为显示的错误提示。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">n</span><span class="o">&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">Factorial</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="n">static_assert</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;n must bigger than 1&quot;</span><span class="p">);</span>
-</span><span class='line'> <span class="k">enum</span><span class="p">{</span> <span class="n">value</span><span class="o">=</span><span class="n">n</span> <span class="o">*</span> <span class="n">Factorial</span><span class="o">&lt;</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;::</span><span class="n">value</span> <span class="p">};</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">Factorial</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="k">enum</span><span class="p">{</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="p">};</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面是计算阶乘的一个模板，我们使用static_assert检测n的值大于1，如果不满足则，编译错误，提示为：&#8221;n must bigger than 1&#8221;。</p>
-
-<p>static_assert是编译器很容易实现的一个特性，一般的编译器最新版本应该都已支持。</p>
 </div>
   
   
