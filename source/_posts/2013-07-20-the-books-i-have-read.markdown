@@ -178,6 +178,7 @@ description: 整理我这些年来读过的书籍
 * 走出软件作坊
 * 心理和脑
 * 走出软件作坊
+* 程序员的思维修炼:开发认知潜能的九堂课
 
 
 2013年至今
@@ -197,6 +198,12 @@ description: 整理我这些年来读过的书籍
 * 高效能程序员的修炼
 * 程序员修炼之道 13-12-1
 * Ruby元编程（在读）
+
+2014年
+
+* 看见
+* 白夜行
+* 三体1
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
 [2]: /blog/2013/08/25/read-notes-hacker-and-painters/
