@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: blog | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: Blog | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-02-23T23:55:47+08:00</updated>
+  <updated>2014-04-10T00:01:13+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
