@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>从杭州雾霾谈起 - 书写|记下人生痕迹</title>
+  <title>谁在用C++ STL？ - 书写|记下人生痕迹</title>
   <meta name="author" content="ToWriting">
 
           
-        <meta name="description" content="从杭州雾霾谈起">
-        <meta name="keywords" content="杭州雾霾">
+        <meta name="description" content="大家都知道STL，但为什么很少见人用它呢">
+        <meta name="keywords" content="C++,STL">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://towriting.com/blog/2013/12/08/from-smog">
+  <link rel="canonical" href="http://towriting.com/blog/2014/04/18/who-use-stl">
   <link href="/favicon.ico" rel="icon">
 
   <link href="/assets/bootstrap/css/spacelab.min.css" rel="stylesheet" type="text/css">
@@ -105,7 +105,7 @@
     
   <header>
     
-      <h1 class="entry-title">从杭州雾霾谈起</h1>
+      <h1 class="entry-title">谁在用C++ STL？</h1>
     
     
       <p class="meta">
@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-12-08T14:07:00+08:00" pubdate data-updated="true">2013-12-08</time>
+<time datetime="2014-04-18T23:39:00+08:00" pubdate data-updated="true">2014-04-18</time>
         
       </p>
     
@@ -130,29 +130,66 @@
 
   
   
-  <div class="entry-content"><p>昨天，在简书上翻看了几篇文章，其中首页竟有两篇是谈论要每天写点东西的。其中有一个想法很好，是教人如何养成写东西的习惯的：每天抽出一刻钟以上的时间写点什么并坚持半个月，从此你可能就会有写东西的习惯。</p>
+  <div class="entry-content"><p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
 
-<p>道理很简单，知易行难，但自己还是想试一试，因为自己最初创建这个博客时，给自己定下了每周一篇文章的目标，到目前虽没有严格达标，但产出还是不少的，半年来也有30篇。这样一看，较往年比今年自己确实留下了一些东西，也有了一点成就感。</p>
+<p>大家知道STL中三大法宝：容器、迭代器和算法。我所经历的公司/团队STL的使用情况：</p>
 
-<p>但这30篇文章中，技术相关的主要来自翻译，深感自己很难写出高质量、低雷同的原创技术文章，而如今要践行每日一篇的诺言，只能先从非技术写起了，从哪里开始呢？讲一讲近期热议的雾霾吧，终于扯上题目了。</p>
+<hr />
 
-<p>前天做了一个梦，梦中自己游历到台湾，游玩之余不忘社会责任感，遂至一献血站献血，粗大的针头插入自己的臂膀，自己咬紧牙关挺下来，血抽完了。然而噩耗传来，护士失望的告诉我：“您的血液不合格”。我问她怎么回事，她没回答，而是劝我赶紧去医院进行专业检查。</p>
+<table border="1">
+<tr><th>序号</th><th>团队规模</th><th>项目规模</th><th>容器</th><th>迭代器</th><th>高级迭代器</th><th>算法</th><th>高级算法</th><th>funtional</th></tr>
+<tr><th>1</th><td>5人以下,平均2年经验</td><td>10万以下</td><td>基本没有</td><td>基本没有</td><td>基本没有</td><td>基本没有</td><td>无</td><td>无</td></tr>
+<tr><th>2</th><td>10人,平均2年经验</td><td>100万</td><td>较多</td><td>较多</td><td>较少</td><td>较少</td><td>极少</td><td>几无</td></tr>
+<tr><th>3</th><td>10人,平均4年经验</td><td>100万</td><td>较多</td><td>较多</td><td>较少</td><td>极少</td><td>较少</td><td>有</td></tr>
+</table>
 
-<p>梦至此，我恍然大悟，一定是极恶的病，所以我痛哭流涕，感觉自己人生完了，哭极梦醒，但胳膊还隐隐作痛，醒来回想，长舒一口气。</p>
 
-<p>天明上班，与同事言及此事，感梦中潜意识中的生病来自上下班途中遭遇的雾霾。从12月起，每日晚归回家途中，路上皆蒙蒙的雾霾。前年还笑留在北京的同学，生活环境困厄，想不到自己生活的杭州竟亦至此。杭州从此和，“江南好，最忆是杭州&#8221;这种词句渐行渐远了。</p>
+<p>（注：表中迭代器是指通过begin和end获取interator，而高级迭代器指back_inserter等迭代器生成器和内置迭代器;算法指sort,foreach, 高级算法指算法带if的形式）</p>
 
-<p>想梦中自己的遭遇，很可能会是雾霾这种东西给我们这些生活在大城市的人下的慢性随机毒药，说不准若干年后谁会中招。尘肺此类职业病，患者还有责任人可寻，而一旦遭遇雾霾的荼毒而遭病，谁来买单？</p>
+<hr />
 
-<p>小时候，印象中，北方的春天，沙尘暴总会来几次，每次都是几天的时间。那时黄沙遮天，阴风呜号，灶台碗里都沾满了沙土。但人们照常上班，上学，人们感觉到的最多的只是不便。确实这种沙尘暴相对还是“自然的”，沙尘中纯粹是沙尘，最多夹杂这一些颗粒垃圾，没有太多化学的物质。</p>
+<p><strong>看来，STL并不受大家欢迎，至少在我所呆过的团队里是这样的，为何如此？</strong></p>
 
-<p>家乡的沙尘暴这几年少了，不过环境并没有好转，村与村之间有好多建材工厂，路上也全是粉尘，空气中也有浓度很高的粉尘悬浮物，路两边本来绿色的庄稼叶子上也全是白色的粉尘，村里院子里都没法子晾衣服，会越晾越脏的。当时也是为了逃避这种环境，所以来到南方工作。想不到现在，杭州也这样了&hellip;</p>
+<h3>洪水猛兽 （守旧）</h3>
 
-<h2>雾霾的好处</h2>
+<p>容器（最简单的vector）几乎是大部分C++程序员最开始接触的STL组件，我也不例外。那是10年自己刚毕业那会儿，在一家公司实习，实现一个简单的图像显示和处理的Demo程序。里面图像数据最初是存储在原始的数组（char [])中。那一阵子在狂啃《C++ Primer》，里面提到C++程序员不应该使用这些原生的数组，应该用vector代替，于是自己将程序中的char []替换成了vector<char>。而后发现一些图像算法执行慢了好多，遂请教mentor，mentor是名校的doctor，不编程久已，他并没用过STL，但提出不要用STL，不要追时髦、偷懒，老老实实的写“C”代码就好了。</p>
 
-<p>一切事务皆有两面性，从某种角度讲，雾霾的突然显现有其好处。因为雾霾可能是工业污染和汽车尾气排放长期的一个结果。城市中，空气质量一直很差，对人体的危害上可能每天都差不多一样，看不到雾霾也不能说明空气好，看到雾霾也不能说明空气更坏了。只不过雾霾的出现，将这种危害明面化了，使我们和各级部门不得不重视。换句话说，如果没有雾霾，可能不会有人重视与治理，但空气可能一样的差，不过公众的肉眼看不出而已。</p>
+<p>舔着第一次用STL的伤口，念着mentor的教诲，在这家公司的第一年里自己后来好像就不再关注和使用STL。同期的C++ Programmer共四人，一个工作1年，另两个更久些，那时我们在“不赶时髦”上很团结，大家愉快的使用着VC6，且都不使用STL。</p>
 
-<p>雾霾的好处，就像前一段时间郭美美事件一样，从某种角度看，是好事！</p>
+<p>这就是某些老式小型软件公司一些C++程序员对待STL的态度：排斥守旧，其中缘由高校的计算机教育脱不了干系。</p>
+
+<p>当然有个人和特殊业务场景也会排斥STL：<a href="http://www.zhihu.com/question/20201972">为何某些公司不容许使用C++ STL</a>。</p>
+
+<h3>玄之又玄 （畏惧）</h3>
+
+<p>C++本来有有很多不易掌握的细节。而STL同样如此，简单强大，但有微妙的陷阱。就拿Effective STL来说，条款1：慎重的选择容器类型中，就有大量自己不曾掌握模棱两可的点：</p>
+
+<ul>
+<li>string的swap会导致迭代器失效</li>
+<li>容器的内部可能有引用计数</li>
+<li>插入、删除操作的回滚能力</li>
+</ul>
+
+
+<p>当然有些细节无需掌握，但就我接触到的C++程序员大都使用STL的最简单用法: 使用vector和map存储一些数据，而对稍微高级点的STL用法麻木无知或畏惧使用：</p>
+
+<ol>
+<li>各种容器的区别，如何使用容器兼容C接口</li>
+<li>for_each等函数存在的意义，如何写出函数式风格的代码</li>
+<li>类的成员函数和同名全局函数的区别，比如set::find与std::find，map::remove与std::remove等等</li>
+<li>xxx_if函数的使用，如何写predicate</li>
+<li>function&lt;>, bind函数的使用</li>
+<li>一些惯用法，比如erase-remove</li>
+</ol>
+
+
+<p>以上是我认为一个合格的C++开发应掌握的STL技巧。而掌握这些技巧，却是需要一段时间的练习，是否这一原因导致了一部分人对STL的无爱？因为即使不掌握这些技巧，功能是同样可以完成的。</p>
+
+<h3>曲高和寡 （风气)</h3>
+
+<p>语言的出现提高了人们交流的效率，设计模式的出现提高了软件人员的交流效率，但前提是交流的双方都懂才行。STL同样如此，我之蜜糖彼之砒霜，在一个不了解STL的团队中大量使用STL尤其是一些稍微“高级另类”的用法，难免遭人排斥。而且别人很难看懂你写的代码，指责你的代码难于维护，这并不是谁的错，这是一个道不同不幸与某的问题。</p>
+
+<p>在一个不用、不了解STL的团队，喜爱STL之人会克制使用STL！</p>
 </div>
 
   
@@ -177,12 +214,12 @@
   
 
 
-<time datetime="2013-12-08T14:07:00+08:00" pubdate data-updated="true">2013-12-08</time>
+<time datetime="2014-04-18T23:39:00+08:00" pubdate data-updated="true">2014-04-18</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ren-sheng-gui-ji/'>人生轨迹</a>, <a class='category' href='/blog/categories/ji-lu/'>记录</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
   
 </span>
 
@@ -210,10 +247,8 @@
       
       <p class="meta">
         
-          <a class="basic-alignment pull-left" href="/blog/2013/12/03/beyond-clean-code/" title="Previous Post: 整洁代码之上">&laquo; 整洁代码之上</a>
+          <a class="basic-alignment pull-left" href="/blog/2014/04/08/tencent-anniversary/" title="Previous Post: 入职一周年记">&laquo; 入职一周年记</a>
         
-        
-          <a class="basic-alignment pull-right" href="/blog/2013/12/10/static-assert/" title="Next Post: C++中的静态断言">C++中的静态断言 &raquo;</a>
         
       </p>
     </footer>
