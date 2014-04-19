@@ -206,7 +206,10 @@ description: 整理我这些年来读过的书籍
 * 三体1
 * 人生元编程[阅读体会][3]
 * 射雕英雄传
+* Effective STL[读后感][4]
+* windows并发编程指南
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
 [2]: /blog/2013/08/25/read-notes-hacker-and-painters/
 [3]: /blog/2014/02/23/mac-shuo-review/
+[4]: /blog/2014/04/18/who-use-stl/
