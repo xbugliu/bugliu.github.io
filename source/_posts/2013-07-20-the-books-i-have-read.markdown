@@ -181,7 +181,7 @@ description: 整理我这些年来读过的书籍
 * 程序员的思维修炼:开发认知潜能的九堂课
 
 
-2013年至今
+2013年
 
 * 别逗了，费曼先生. [读后感][1]
 * 学习之道
@@ -190,7 +190,7 @@ description: 整理我这些年来读过的书籍
 * 黑天鹅上册
 * 黑客与画家. [阅读笔记][2]
 * 麦田的守望者
-* 1984(在读）
+* 1984(14年4月读完）
 * Ruby编程语言（在读）
 * 决策与判断（在读）
 * C++ templates(在读）
@@ -205,11 +205,13 @@ description: 整理我这些年来读过的书籍
 * 白夜行
 * 三体1
 * 人生元编程[阅读体会][3]
-* 射雕英雄传
-* Effective STL[读后感][4]
-* windows并发编程指南
+* 3月-射雕英雄传
+* 4月-Effective STL[读后感][4]
+* 4月-windows并发编程指南
+* 4月-苏东坡传 [review][5]
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
 [2]: /blog/2013/08/25/read-notes-hacker-and-painters/
 [3]: /blog/2014/02/23/mac-shuo-review/
 [4]: /blog/2014/04/18/who-use-stl/
+[5]: /blog/2014/04/27/the-gay-genius-review/
