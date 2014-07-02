@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 阅读 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/yue-du/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[读《苏东坡传》]]></title>
     <link href="http://towriting.com/blog/2014/04/27/the-gay-genius-review/"/>
-    <updated>2014-04-27T21:52:00+08:00</updated>
+    <updated>2014-04-27T21:52:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/27/the-gay-genius-review</id>
     <content type="html"><![CDATA[<p>昨天在kindle上读完了<a href='http://www.amazon.cn/gp/product/B00D7X84MS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00D7X84MS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>苏东坡传</a>，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。</p>
 
@@ -48,7 +48,7 @@
   <entry>
     <title type="html"><![CDATA[《黑天鹅—如何应对不可知的未来》读书笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/"/>
-    <updated>2013-12-11T23:57:00+08:00</updated>
+    <updated>2013-12-11T23:57:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan</id>
     <content type="html"><![CDATA[<p><a href="http://www.amazon.cn/gp/product/B005U9CO3W/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B005U9CO3W&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《黑天鹅—如何应对不可知的未来》</a>上册的阅读笔记：</p>
 
@@ -113,7 +113,7 @@
   <entry>
     <title type="html"><![CDATA[《黑客与画家》阅读笔记]]></title>
     <link href="http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/"/>
-    <updated>2013-08-25T01:00:00+08:00</updated>
+    <updated>2013-08-25T01:00:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters</id>
     <content type="html"><![CDATA[<p>整理下自己前段时间阅读<a href="http://www.amazon.cn/gp/product/B004WHZGZQ/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B004WHZGZQ&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《黑客与画家》</a>后记下的精彩观点：</p>
 
@@ -174,7 +174,7 @@
   <entry>
     <title type="html"><![CDATA[人生本应丰富多彩：《别逗了,费曼先生》读后感]]></title>
     <link href="http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/"/>
-    <updated>2013-08-12T23:49:00+08:00</updated>
+    <updated>2013-08-12T23:49:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman</id>
     <content type="html"><![CDATA[<p>知道这本书的时间应该不超过一年，至少是在经常逛stackoverflow以后，那至少是2011年以后的事了。stackoverflow中列出的<a href="http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read">每个程序员都应该读的书</a>里面，有几本书看起来和编程风牛马不相及，其中之一就是这本<a href="http://www.amazon.cn/gp/product/B009QVEA8M/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B009QVEA8M&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《别逗了，费曼先生》</a>。</p>
 
@@ -227,7 +227,7 @@
   <entry>
     <title type="html"><![CDATA[我曾读过的那些书]]></title>
     <link href="http://towriting.com/blog/2013/07/20/the-books-i-have-read/"/>
-    <updated>2013-07-20T08:13:00+08:00</updated>
+    <updated>2013-07-20T08:13:00+00:00</updated>
     <id>http://towriting.com/blog/2013/07/20/the-books-i-have-read</id>
     <content type="html"><![CDATA[<p>在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。</p>
 
@@ -451,6 +451,8 @@
 <li>4月-Effective STL<a href="/blog/2014/04/18/who-use-stl/">读后感</a></li>
 <li>4月-windows并发编程指南</li>
 <li>4月-苏东坡传 <a href="/blog/2014/04/27/the-gay-genius-review/">review</a></li>
+<li>5月-拆掉思维里的墙</li>
+<li>6月-历史深处的忧虑</li>
 </ul>
 
 ]]></content>

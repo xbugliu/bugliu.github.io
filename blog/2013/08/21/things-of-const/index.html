@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-08-21T23:36:00+08:00" pubdate data-updated="true">2013-08-21</time>
+<time datetime="2013-08-21T23:36:00+00:00" pubdate data-updated="true">2013-08-21</time>
         
       </p>
     
@@ -167,9 +167,9 @@
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Array</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="nl">public:</span>
 </span><span class='line'>    <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>  <span class="nl">private:</span>
 </span><span class='line'>    <span class="c1">//etc</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -194,9 +194,9 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">getMaxValue</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">srcVec</span><span class="p">);</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="nf">getMaxValue</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">srcVec</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">void</span> <span class="n">fun</span><span class="p">()</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">fun</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
@@ -233,7 +233,7 @@
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">getMaxVal</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="nf">getMaxVal</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">const</span> <span class="kt">int</span> <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getMaxVal</span><span class="p">();</span>
 </span><span class='line'>    <span class="kt">int</span> <span class="n">maxCacheVal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -288,14 +288,14 @@
 <span class='line-number'>12</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Array</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">size_t</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span>
+</span><span class='line'>  <span class="nl">public:</span>
+</span><span class='line'>    <span class="kt">size_t</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="o">++</span><span class="n">m_calledCount</span><span class="p">;</span><span class="c1">//无法修改</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">m_size</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="k">private</span><span class="o">:</span>
-</span><span class='line'>    <span class="n">size_t</span> <span class="n">m_size</span><span class="p">;</span>
+</span><span class='line'>  <span class="nl">private:</span>
+</span><span class='line'>    <span class="kt">size_t</span> <span class="n">m_size</span><span class="p">;</span>
 </span><span class='line'>    <span class="kt">int</span> <span class="n">m_calledCount</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -342,7 +342,7 @@
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">//test_const_one.cpp</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">const</span> <span class="kt">int</span> <span class="n">g_var</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="c1">//something</span>
 </span><span class='line'><span class="p">}</span>
@@ -359,7 +359,7 @@
 <p>但编译是没有问题的，因为g_var只在本编译单元可见</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">towriting</span><span class="p">.</span><span class="n">com</span><span class="err">@</span><span class="nl">debian:</span><span class="o">~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">snippets</span><span class="o">/</span><span class="n">cpp</span><span class="err">$</span><span class="n">g</span><span class="o">++</span> <span class="n">test_const_one</span><span class="p">.</span><span class="n">cpp</span> <span class="n">test_const_other</span><span class="p">.</span><span class="n">cpp</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">towriting</span><span class="p">.</span><span class="n">com</span><span class="err">@</span><span class="n">debian</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">snippets</span><span class="o">/</span><span class="n">cpp</span><span class="err">$</span><span class="n">g</span><span class="o">++</span> <span class="n">test_const_one</span><span class="p">.</span><span class="n">cpp</span> <span class="n">test_const_other</span><span class="p">.</span><span class="n">cpp</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -392,17 +392,17 @@
 <span class='line-number'>18</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CButton</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="nl">public:</span>
 </span><span class='line'>   <span class="k">virtual</span> <span class="kt">int</span> <span class="n">GetWidth</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="mi">100</span><span class="p">;}</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">CSuperButton</span><span class="o">:</span> <span class="k">public</span> <span class="n">CButton</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>  <span class="nl">public:</span>
 </span><span class='line'>   <span class="k">virtual</span> <span class="kt">int</span> <span class="n">GetWidth</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="mi">0</span><span class="p">;}</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="n">CButton</span> <span class="o">*</span><span class="n">pBtn</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSuperButton</span><span class="p">();</span>
 </span><span class='line'>  <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">pBtn</span><span class="o">-&gt;</span><span class="n">GetWidth</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -428,7 +428,7 @@
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CIntArray</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'>  <span class="kt">int</span><span class="o">&amp;</span> <span class="n">At</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
 </span><span class='line'>  <span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">At</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
@@ -441,8 +441,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">doSomething</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">doSomething</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">);</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="nf">doSomething</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">doSomething</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -465,12 +465,12 @@
 <span class='line-number'>10</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CObj</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'>  <span class="kt">void</span> <span class="n">doSomething</span><span class="p">()</span> <span class="k">const</span>
 </span><span class='line'>  <span class="p">{</span>
 </span><span class='line'>     <span class="o">*</span><span class="n">m_pointer</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 </span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'>  <span class="kt">int</span> <span class="o">*</span><span class="n">m_pointer</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -501,12 +501,12 @@
   
 
 
-<time datetime="2013-08-21T23:36:00+08:00" pubdate data-updated="true">2013-08-21</time>
+<time datetime="2013-08-21T23:36:00+00:00" pubdate data-updated="true">2013-08-21</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>
   
 </span>
 
@@ -576,6 +576,10 @@ var duoshuoQuery = {short_name:"towriting"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
       </li>
     
@@ -591,15 +595,11 @@ var duoshuoQuery = {short_name:"towriting"};
         <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>Blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>C++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>C++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (1)</a></li><li><a href='/blog/categories/octopress'>Octopress (2)</a></li><li><a href='/blog/categories/openshift'>Openshift (1)</a></li><li><a href='/blog/categories/python'>Python (1)</a></li><li><a href='/blog/categories/ruby'>Ruby (1)</a></li><li><a href='/blog/categories/windows'>Windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

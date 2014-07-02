@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: C++ | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: c++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[谁在用C++ STL？]]></title>
     <link href="http://towriting.com/blog/2014/04/18/who-use-stl/"/>
-    <updated>2014-04-18T23:39:00+08:00</updated>
+    <updated>2014-04-18T23:39:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/18/who-use-stl</id>
     <content type="html"><![CDATA[<p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
 
@@ -84,7 +84,7 @@
   <entry>
     <title type="html"><![CDATA[《C++标准库第二版 上册》笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/"/>
-    <updated>2013-12-18T23:27:00+08:00</updated>
+    <updated>2013-12-18T23:27:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1</id>
     <content type="html"><![CDATA[<p>p63 a pair&lt;> using a type that has only a nonconstant copy constructor will no longer compile.</p>
 
@@ -332,7 +332,7 @@ p342 piecewise_construct emplace.</p>
   <entry>
     <title type="html"><![CDATA[Boost.Lambda与C++11.Lambda的用法对比]]></title>
     <link href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/"/>
-    <updated>2013-12-13T22:38:00+08:00</updated>
+    <updated>2013-12-13T22:38:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda</id>
     <content type="html"><![CDATA[<p>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。</p>
 
@@ -465,7 +465,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[那些C++牛人的博客]]></title>
     <link href="http://towriting.com/blog/2013/12/12/cpp-blogs/"/>
-    <updated>2013-12-12T20:57:00+08:00</updated>
+    <updated>2013-12-12T20:57:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/12/cpp-blogs</id>
     <content type="html"><![CDATA[<p>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。</p>
 
@@ -761,7 +761,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[C++中的静态断言]]></title>
     <link href="http://towriting.com/blog/2013/12/10/static-assert/"/>
-    <updated>2013-12-10T00:02:00+08:00</updated>
+    <updated>2013-12-10T00:02:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/10/static-assert</id>
     <content type="html"><![CDATA[<h2>什么是静态断言</h2>
 

@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-07-31T22:01:00+08:00" pubdate data-updated="true">2013-07-31</time>
+<time datetime="2013-07-31T22:01:00+00:00" pubdate data-updated="true">2013-07-31</time>
         
       </p>
     
@@ -133,7 +133,7 @@
   <div class="entry-content"><p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
 
 <figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -226,7 +226,7 @@
 </span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
-</span><span class='line'><span class="n">HANDLE</span> <span class="n">CreateNormalUserToken</span><span class="p">()</span>
+</span><span class='line'><span class="n">HANDLE</span> <span class="nf">CreateNormalUserToken</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
 </span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
@@ -244,7 +244,7 @@
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
-</span><span class='line'><span class="n">BOOL</span> <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
+</span><span class='line'><span class="n">BOOL</span> <span class="nf">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
 </span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
@@ -295,7 +295,7 @@
 </span><span class='line'>  <span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
 </span><span class='line'>  <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
@@ -329,12 +329,12 @@
   
 
 
-<time datetime="2013-07-31T22:01:00+08:00" pubdate data-updated="true">2013-07-31</time>
+<time datetime="2013-07-31T22:01:00+00:00" pubdate data-updated="true">2013-07-31</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/windows/'>Windows</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>, <a class='category' href='/blog/categories/windows/'>windows</a>
   
 </span>
 
@@ -404,6 +404,10 @@ var duoshuoQuery = {short_name:"towriting"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
       </li>
     
@@ -419,15 +423,11 @@ var duoshuoQuery = {short_name:"towriting"};
         <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>Blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>C++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>C++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (1)</a></li><li><a href='/blog/categories/octopress'>Octopress (2)</a></li><li><a href='/blog/categories/openshift'>Openshift (1)</a></li><li><a href='/blog/categories/python'>Python (1)</a></li><li><a href='/blog/categories/ruby'>Ruby (1)</a></li><li><a href='/blog/categories/windows'>Windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

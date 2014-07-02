@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: C++11 | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: c++11 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus-11/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Boost.Lambda与C++11.Lambda的用法对比]]></title>
     <link href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/"/>
-    <updated>2013-12-13T22:38:00+08:00</updated>
+    <updated>2013-12-13T22:38:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda</id>
     <content type="html"><![CDATA[<p>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。</p>
 
@@ -149,7 +149,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[从Safe bool惯用法到explicit标识符]]></title>
     <link href="http://towriting.com/blog/2013/11/01/safe-bool-idiom/"/>
-    <updated>2013-11-01T22:52:00+08:00</updated>
+    <updated>2013-11-01T22:52:00+00:00</updated>
     <id>http://towriting.com/blog/2013/11/01/safe-bool-idiom</id>
     <content type="html"><![CDATA[<blockquote><p>C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：<a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms">More C++ Idioms</a>，虽凝聚了C++程序员的聪明才智，但都是特定时期的产物，
 相信都会被冲到C++语言演化长河的河滩上，仅供后人瞻仰（或者是C++本身）。让我们从Safe bool idiom说起。</p></blockquote>
@@ -340,7 +340,7 @@ struct Testable
   <entry>
     <title type="html"><![CDATA[C++11系列-常量表达式]]></title>
     <link href="http://towriting.com/blog/2013/09/17/constexpr/"/>
-    <updated>2013-09-17T22:39:00+08:00</updated>
+    <updated>2013-09-17T22:39:00+00:00</updated>
     <id>http://towriting.com/blog/2013/09/17/constexpr</id>
     <content type="html"><![CDATA[<p>C++11有一些这样的改善，这种改善保证写出的代码比以往任何时候的执行效率都要好。这种改善之一就是生成常量表达式，允许程序利用编译时的计算能力。假如你熟悉模板元编程，你将发现constexpr使这一切变得更加简单。假如你不知道模板元编程，也没什么。constexpr使我们很容易利用上编译时编程的优势。</p>
 
@@ -490,7 +490,7 @@ private:
   <entry>
     <title type="html"><![CDATA[C++11系列-区间迭代]]></title>
     <link href="http://towriting.com/blog/2013/08/20/ranged-for-loop/"/>
-    <updated>2013-08-20T22:50:00+08:00</updated>
+    <updated>2013-08-20T22:50:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/20/ranged-for-loop</id>
     <content type="html"><![CDATA[<p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。</p>
 
@@ -677,7 +677,7 @@ for ( int i : v ) { cout &lt;&lt; i &lt;&lt; endl; }
   <entry>
     <title type="html"><![CDATA[C++11系列-lambda函数]]></title>
     <link href="http://towriting.com/blog/2013/08/11/lambda-closures/"/>
-    <updated>2013-08-11T22:45:00+08:00</updated>
+    <updated>2013-08-11T22:45:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/11/lambda-closures</id>
     <content type="html"><![CDATA[<p><img class="pull-left" src="/images/posts/lambda-closures/lambda.png" width="66" height="90" title="&lsquo;lambda&rsquo;" >
 C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。</p>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Windows | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: windows | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
     <link href="http://towriting.com/blog/2013/12/17/ini-muti-thread/"/>
-    <updated>2013-12-17T23:28:00+08:00</updated>
+    <updated>2013-12-17T23:28:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/17/ini-muti-thread</id>
     <content type="html"><![CDATA[<p>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms725501(v=vs.85).aspx">WritePrivateProfileString</a>的文档中并没有提到。
 据<a href="http://mfctips.com/tag/getprivateprofilestring/">这篇文章</a>介绍:</p>
@@ -147,7 +147,7 @@ return 0;
   <entry>
     <title type="html"><![CDATA[创建支持拖拽的进程]]></title>
     <link href="http://towriting.com/blog/2013/08/06/process-can-drag-drop/"/>
-    <updated>2013-08-06T22:48:00+08:00</updated>
+    <updated>2013-08-06T22:48:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/06/process-can-drag-drop</id>
     <content type="html"><![CDATA[<p>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>。</p>
 
@@ -191,7 +191,7 @@ return bRet;
   <entry>
     <title type="html"><![CDATA[暴力禁止windows自动安装驱动]]></title>
     <link href="http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/"/>
-    <updated>2013-08-03T22:24:00+08:00</updated>
+    <updated>2013-08-03T22:24:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver</id>
     <content type="html"><![CDATA[<p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="&lsquo;windows自动安装驱动&rsquo; &lsquo;windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。&rsquo;" ></p>
 
@@ -202,7 +202,7 @@ return bRet;
 
 <p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：
 <div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -238,12 +238,12 @@ return bRet;
   <entry>
     <title type="html"><![CDATA[降权启动进程]]></title>
     <link href="http://towriting.com/blog/2013/07/31/de-elevate-start-process/"/>
-    <updated>2013-07-31T22:01:00+08:00</updated>
+    <updated>2013-07-31T22:01:00+00:00</updated>
     <id>http://towriting.com/blog/2013/07/31/de-elevate-start-process</id>
     <content type="html"><![CDATA[<p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -336,7 +336,7 @@ return bRet;
 </span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
-</span><span class='line'><span class="n">HANDLE</span> <span class="n">CreateNormalUserToken</span><span class="p">()</span>
+</span><span class='line'><span class="n">HANDLE</span> <span class="nf">CreateNormalUserToken</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>	<span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
 </span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
@@ -354,7 +354,7 @@ return bRet;
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
-</span><span class='line'><span class="n">BOOL</span> <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
+</span><span class='line'><span class="n">BOOL</span> <span class="nf">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>	<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
 </span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
@@ -405,7 +405,7 @@ return bRet;
 </span><span class='line'>	<span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>	<span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
 </span><span class='line'>	<span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
@@ -420,7 +420,7 @@ return bRet;
   <entry>
     <title type="html"><![CDATA[获取进程打开的互斥量]]></title>
     <link href="http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/"/>
-    <updated>2013-07-25T21:36:00+08:00</updated>
+    <updated>2013-07-25T21:36:00+00:00</updated>
     <id>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process</id>
     <content type="html"><![CDATA[<p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程"拥有"的互斥量来区分这些进程。所以下面实现了获取指定进程"拥有"哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
 
@@ -428,7 +428,7 @@ return bRet;
 </code></pre>
 
 <p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -447,7 +447,7 @@ return bRet;
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -482,7 +482,7 @@ return bRet;
 </code></pre>
 
 <p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -555,7 +555,7 @@ return bRet;
 <h3>完整代码如下：</h3>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WIN7/VS2010 (get_process_mutex.cpp)</span> <a href='/downloads/code/cpp/get_process_mutex.cpp'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -894,7 +894,7 @@ return bRet;
 </span><span class='line'><span class="c1">// 遍历句柄辅助类</span>
 </span><span class='line'><span class="k">class</span> <span class="nc">WalkHandleHelper</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'>	<span class="n">WalkHandleHelper</span><span class="p">(</span><span class="k">const</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="o">&amp;</span> <span class="n">handleInfo</span><span class="p">,</span> <span class="k">const</span> <span class="n">HANDLE</span><span class="o">&amp;</span> <span class="n">handle</span><span class="p">)</span>
 </span><span class='line'>        <span class="o">:</span><span class="n">m_HandleInfo</span><span class="p">(</span><span class="n">handleInfo</span><span class="p">),</span> <span class="n">m_Handle</span><span class="p">(</span><span class="n">handle</span><span class="p">){}</span>
 </span><span class='line'>	<span class="n">DWORD</span> <span class="n">GetProcessID</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="n">m_HandleInfo</span><span class="p">.</span><span class="n">ProcessId</span><span class="p">;}</span>
@@ -907,13 +907,13 @@ return bRet;
 </span><span class='line'>		<span class="k">return</span> <span class="n">QueryHandleNameInfo</span><span class="p">(</span><span class="n">m_Handle</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">);</span>
 </span><span class='line'>	<span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'>	<span class="k">const</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="o">&amp;</span> <span class="n">m_HandleInfo</span><span class="p">;</span>
 </span><span class='line'>	<span class="k">const</span> <span class="n">HANDLE</span><span class="o">&amp;</span> <span class="n">m_Handle</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// 枚举系统的句柄</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">WalkHandle</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="k">const</span> <span class="n">WalkHandleHelper</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">functor</span><span class="p">)</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">WalkHandle</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="k">const</span> <span class="n">WalkHandleHelper</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">functor</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>	<span class="k">const</span> <span class="n">HMODULE</span> <span class="n">hDll</span> <span class="o">=</span> <span class="n">LoadLibrary</span><span class="p">(</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;ntdll.dll&quot;</span><span class="p">));</span>
 </span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">hDll</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
@@ -992,7 +992,7 @@ return bRet;
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// 枚举当前进程的互斥量</span>
-</span><span class='line'><span class="kt">void</span> <span class="n">EnumCurProcessMutex</span><span class="p">()</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">EnumCurProcessMutex</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>	<span class="n">std</span><span class="o">::</span><span class="n">wcout</span><span class="o">&lt;&lt;</span><span class="n">_T</span><span class="p">(</span><span class="s">&quot;Find The Mutex Opened By Current Process:&quot;</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span><span class='line'>	<span class="k">const</span> <span class="n">DWORD</span> <span class="n">dwCurProcess</span> <span class="o">=</span> <span class="n">GetCurrentProcessId</span><span class="p">();</span>
@@ -1007,7 +1007,7 @@ return bRet;
 </span><span class='line'>	<span class="p">});</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>	<span class="n">CreateMutex</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
 </span><span class='line'>	<span class="n">CreateMutex</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;TestMutex&quot;</span><span class="p">));</span>

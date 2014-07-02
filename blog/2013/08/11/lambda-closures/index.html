@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-08-11T22:45:00+08:00" pubdate data-updated="true">2013-08-11</time>
+<time datetime="2013-08-11T22:45:00+00:00" pubdate data-updated="true">2013-08-11</time>
         
       </p>
     
@@ -167,7 +167,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">AddressBook</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">public:</span>
 </span><span class='line'>    <span class="c1">// 使用模板可以是我们忽略函数、仿函数和Lambda的不同</span>
 </span><span class='line'>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Func</span><span class="o">&gt;</span>
 </span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findMatchingAddresses</span> <span class="p">(</span><span class="n">Func</span> <span class="n">func</span><span class="p">)</span>
@@ -184,7 +184,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class='line'>        <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">private:</span>
 </span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">_addresses</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -209,7 +209,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class='line'>
 </span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">auto</span> <span class="n">func</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Hello world&quot;</span><span class="p">;</span> <span class="p">};</span>
 </span><span class='line'>    <span class="n">func</span><span class="p">();</span> <span class="c1">// now call the function</span>
@@ -360,7 +360,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 </span><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="p">[]</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Hello, my Greek friends&quot;</span><span class="p">;</span> <span class="p">}();</span>
 </span><span class='line'><span class="p">}</span>
@@ -432,7 +432,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Foo</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'>    <span class="n">Foo</span> <span class="p">()</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">{}</span>
 </span><span class='line'>    <span class="kt">void</span> <span class="n">func</span> <span class="p">()</span>
 </span><span class='line'>    <span class="p">{</span>
@@ -440,11 +440,11 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class='line'>        <span class="p">[</span><span class="k">this</span><span class="p">]</span> <span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">_x</span><span class="p">;</span> <span class="p">}</span> <span class="p">();</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="n">Foo</span> <span class="n">f</span><span class="p">;</span>
 </span><span class='line'>    <span class="n">f</span><span class="p">.</span><span class="n">func</span><span class="p">();</span>
@@ -492,7 +492,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">AddressBook</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">public:</span>
 </span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findMatchingAddresses</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">func</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">results</span><span class="p">;</span>
@@ -507,7 +507,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class='line'>        <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">private:</span>
 </span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">_addresses</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -541,7 +541,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)();</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)();</span>
 </span><span class='line'><span class="n">func</span> <span class="n">f</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span> <span class="p">};</span>
 </span><span class='line'><span class="n">f</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -582,7 +582,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">EmailProcessor</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'>    <span class="kt">void</span> <span class="n">receiveMessage</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">message</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="k">if</span> <span class="p">(</span> <span class="n">_handler_func</span> <span class="p">)</span>
@@ -596,7 +596,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class='line'>        <span class="n">_handler_func</span> <span class="o">=</span> <span class="n">handler_func</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'>        <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">_handler_func</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -643,7 +643,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class='line'>        <span class="k">return</span> <span class="n">_max_size</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'>    <span class="kt">int</span> <span class="n">_max_size</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -710,12 +710,12 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
   
 
 
-<time datetime="2013-08-11T22:45:00+08:00" pubdate data-updated="true">2013-08-11</time>
+<time datetime="2013-08-11T22:45:00+00:00" pubdate data-updated="true">2013-08-11</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/c-plus-plus-11/'>C++11</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>, <a class='category' href='/blog/categories/c-plus-plus-11/'>c++11</a>
   
 </span>
 
@@ -785,6 +785,10 @@ var duoshuoQuery = {short_name:"towriting"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
       </li>
     
@@ -800,15 +804,11 @@ var duoshuoQuery = {short_name:"towriting"};
         <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>Blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>C++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>C++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (1)</a></li><li><a href='/blog/categories/octopress'>Octopress (2)</a></li><li><a href='/blog/categories/openshift'>Openshift (1)</a></li><li><a href='/blog/categories/python'>Python (1)</a></li><li><a href='/blog/categories/ruby'>Ruby (1)</a></li><li><a href='/blog/categories/windows'>Windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

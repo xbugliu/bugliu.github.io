@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-09-01T00:22:00+08:00" pubdate data-updated="true">2013-09-01</time>
+<time datetime="2013-09-01T00:22:00+00:00" pubdate data-updated="true">2013-09-01</time>
         
       </p>
     
@@ -137,7 +137,7 @@
 <p>这是一个真实的案例，发生在12年6月份，让我用简单的例子还原一下现场。假设有一组派生关系的类CBrid继承于CAnimal，我们构造一个CBrid对象并赋值到CAnimal指针，然后由于某些原因需要把这个基类CAnimal指针强制转化成void*(真实情况是Windows下的LPARAM），然后再强制转化回CBrid指针：</p>
 
 <figure class='code'><figcaption><span>例1</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -177,17 +177,17 @@
 <span class='line-number'>38</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
 </span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="nl">protected:</span>
 </span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span>    
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">CBird</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="n">CBird</span><span class="p">()</span><span class="o">:</span> <span class="n">m_bCanFly</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+</span><span class='line'><span class="nl">public:</span>
+</span><span class='line'><span class="n">CBird</span><span class="p">()</span><span class="o">:</span> <span class="n">m_bCanFly</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="s">&quot;Bird&quot;</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -197,12 +197,12 @@
 </span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;type: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_strName</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;is fly: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_bCanFly</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="nl">protected:</span>
 </span><span class='line'><span class="kt">bool</span> <span class="n">m_bCanFly</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">//主函数</span>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'> <span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CBird</span><span class="p">;</span>
 </span><span class='line'> <span class="kt">void</span><span class="o">*</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
@@ -219,7 +219,7 @@
 <p>上面代码36行，pBrid要飞，但没飞起来，在我的开发环境下，程序挂在了这一行。那天是一个刚毕业很聪明的小伙子发现的这个问题，他还尝试过这样调用：</p>
 
 <figure class='code'><figcaption><span>例2</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -265,7 +265,7 @@
 <p>猫腻就在第5行，编译器先取基类指针pAnimal的值然后减了4，赋值给了派生类指针pBird，看到这里我才隐隐约约感觉是虚表的问题，CBird有一个虚函数，而基类CAnimal没有。当时我还没看《深度探索C++对象模型》，相信看过这本书的人一眼就能看出端倪，接着我验证一下我的猜想：</p>
 
 <figure class='code'><figcaption><span>例3</span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -304,17 +304,17 @@
 <span class='line-number'>37</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">lass</span> <span class="n">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'><span class="n">CAnimal</span><span class="p">(){}</span>
 </span><span class='line'><span class="o">~</span><span class="n">CAnimal</span><span class="p">(){}</span>
-</span><span class='line'><span class="k">protected</span><span class="o">:</span>
+</span><span class='line'><span class="nl">protected:</span>
 </span><span class='line'><span class="n">string</span> <span class="n">m_strName</span><span class="p">;</span>    
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'>
 </span><span class='line'><span class="k">class</span> <span class="nc">CMammal</span><span class="o">:</span> <span class="k">public</span> <span class="n">CAnimal</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'><span class="nl">public:</span>
 </span><span class='line'><span class="n">CMammal</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'><span class="n">m_strName</span> <span class="o">=</span> <span class="s">&quot;Mammal&quot;</span><span class="p">;</span>
@@ -324,11 +324,11 @@
 </span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;type: &quot;</span><span class="o">&lt;&lt;</span><span class="n">m_strName</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span><span class='line'><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;is eat meat: &quot;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&lt;&lt;</span><span class="n">m_bEatMeat</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'><span class="kt">bool</span> <span class="n">m_bEatMeat</span><span class="p">;</span>
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'> <span class="n">CAnimal</span><span class="o">*</span> <span class="n">pAnimal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CMammal</span><span class="p">;</span>
 </span><span class='line'> <span class="kt">void</span><span class="o">*</span> <span class="n">pCmd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pAnimal</span><span class="p">;</span>
@@ -378,12 +378,12 @@
   
 
 
-<time datetime="2013-09-01T00:22:00+08:00" pubdate data-updated="true">2013-09-01</time>
+<time datetime="2013-09-01T00:22:00+00:00" pubdate data-updated="true">2013-09-01</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>
   
 </span>
 
@@ -453,6 +453,10 @@ var duoshuoQuery = {short_name:"towriting"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
       </li>
     
@@ -468,15 +472,11 @@ var duoshuoQuery = {short_name:"towriting"};
         <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>Blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>C++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>C++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (1)</a></li><li><a href='/blog/categories/octopress'>Octopress (2)</a></li><li><a href='/blog/categories/openshift'>Openshift (1)</a></li><li><a href='/blog/categories/python'>Python (1)</a></li><li><a href='/blog/categories/ruby'>Ruby (1)</a></li><li><a href='/blog/categories/windows'>Windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-08-03T19:25:00+08:00" pubdate data-updated="true">2013-08-03</time>
+<time datetime="2013-08-03T19:25:00+00:00" pubdate data-updated="true">2013-08-03</time>
         
       </p>
     
@@ -141,7 +141,7 @@
 <p>比如，当你执行一个可能耗时很长的查找命令，你可以像下面例子中一样将它执行到后台。下面的例子将查找root目录下24小时内被修改过的文件：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt &amp;
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt <span class="p">&amp;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -181,8 +181,8 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
-</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
 </span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
 </span></code></pre></td></tr></table></div></figure>
 
@@ -205,8 +205,8 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
-</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh &amp;
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution &amp;
+</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
+</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
 </span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
 </span><span class='line'>
 </span><span class='line'><span class="nv">$ </span><span class="nb">fg</span> %1
@@ -247,7 +247,7 @@
   
 
 
-<time datetime="2013-08-03T19:25:00+08:00" pubdate data-updated="true">2013-08-03</time>
+<time datetime="2013-08-03T19:25:00+00:00" pubdate data-updated="true">2013-08-03</time>
         
 
 <span class="categories">
@@ -322,6 +322,10 @@ var duoshuoQuery = {short_name:"towriting"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
       </li>
     
@@ -337,15 +341,11 @@ var duoshuoQuery = {short_name:"towriting"};
         <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>Blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>C++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>C++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (1)</a></li><li><a href='/blog/categories/octopress'>Octopress (2)</a></li><li><a href='/blog/categories/openshift'>Openshift (1)</a></li><li><a href='/blog/categories/python'>Python (1)</a></li><li><a href='/blog/categories/ruby'>Ruby (1)</a></li><li><a href='/blog/categories/windows'>Windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

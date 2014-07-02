@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Python | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: python | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[暴力禁止windows自动安装驱动]]></title>
     <link href="http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/"/>
-    <updated>2013-08-03T22:24:00+08:00</updated>
+    <updated>2013-08-03T22:24:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver</id>
     <content type="html"><![CDATA[<p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="&lsquo;windows自动安装驱动&rsquo; &lsquo;windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。&rsquo;" ></p>
 
@@ -27,7 +27,7 @@
 
 <p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：
 <div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>

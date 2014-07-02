@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Octopress | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: octopress | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Openshift小技巧-热部署]]></title>
     <link href="http://towriting.com/blog/2013/10/21/openshift-tips/"/>
-    <updated>2013-10-21T22:24:00+08:00</updated>
+    <updated>2013-10-21T22:24:00+00:00</updated>
     <id>http://towriting.com/blog/2013/10/21/openshift-tips</id>
     <content type="html"><![CDATA[<p>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github的pages时没遇到的事情，用Google快速搜索下，原来要用热部署（hot deploy)实现不重启openshift程序部署文件，官方是支持的，方法很简单：</p>
 
@@ -35,7 +35,7 @@ touch .openshift/markers/hot_deploy
   <entry>
     <title type="html"><![CDATA[octopress定制公益404页面]]></title>
     <link href="http://towriting.com/blog/2013/08/04/octopress-custom-404/"/>
-    <updated>2013-08-04T00:10:00+08:00</updated>
+    <updated>2013-08-04T00:10:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/04/octopress-custom-404</id>
     <content type="html"><![CDATA[<p>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。</p>
 

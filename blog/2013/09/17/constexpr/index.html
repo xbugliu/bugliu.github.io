@@ -121,7 +121,7 @@
   
 
 
-<time datetime="2013-09-17T22:39:00+08:00" pubdate data-updated="true">2013-09-17</time>
+<time datetime="2013-09-17T22:39:00+00:00" pubdate data-updated="true">2013-09-17</time>
         
       </p>
     
@@ -145,7 +145,7 @@
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">multiply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="nf">multiply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -163,7 +163,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">getDefaultArraySize</span> <span class="p">(</span><span class="kt">int</span> <span class="n">multiplier</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="nf">getDefaultArraySize</span> <span class="p">(</span><span class="kt">int</span> <span class="n">multiplier</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -189,7 +189,7 @@
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="n">factorial</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="kt">int</span> <span class="nf">factorial</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
@@ -236,13 +236,13 @@
 <span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Circle</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">public:</span>
 </span><span class='line'>    <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
 </span><span class='line'>    <span class="kt">double</span> <span class="n">getArea</span> <span class="p">()</span> <span class="k">const</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">_radius</span> <span class="o">*</span> <span class="n">_radius</span> <span class="o">*</span> <span class="mf">3.1415926</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">private:</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_y</span><span class="p">;</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_radius</span><span class="p">;</span>
@@ -254,7 +254,7 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="n">Circle</span> <span class="n">c</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">constexpr</span> <span class="n">Circle</span> <span class="nf">c</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
 </span><span class='line'><span class="n">constexpr</span> <span class="kt">double</span> <span class="n">area</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">getArea</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -276,13 +276,13 @@
 <span class='line-number'>13</span>
 </pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Circle</span>
 </span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">public:</span>
 </span><span class='line'>    <span class="n">constexpr</span> <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
 </span><span class='line'>    <span class="n">constexpr</span> <span class="kt">double</span> <span class="n">getArea</span> <span class="p">()</span>
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">_radius</span> <span class="o">*</span> <span class="n">_radius</span> <span class="o">*</span> <span class="mf">3.1415926</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="nl">private:</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_x</span><span class="p">;</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_y</span><span class="p">;</span>
 </span><span class='line'>        <span class="kt">int</span> <span class="n">_radius</span><span class="p">;</span>
@@ -339,12 +339,12 @@
   
 
 
-<time datetime="2013-09-17T22:39:00+08:00" pubdate data-updated="true">2013-09-17</time>
+<time datetime="2013-09-17T22:39:00+00:00" pubdate data-updated="true">2013-09-17</time>
         
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/c-plus-plus-11/'>C++11</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>, <a class='category' href='/blog/categories/c-plus-plus-11/'>c++11</a>
   
 </span>
 
@@ -414,6 +414,10 @@ var duoshuoQuery = {short_name:"towriting"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
       </li>
     
@@ -429,15 +433,11 @@ var duoshuoQuery = {short_name:"towriting"};
         <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>Blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>C++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>C++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (1)</a></li><li><a href='/blog/categories/octopress'>Octopress (2)</a></li><li><a href='/blog/categories/openshift'>Openshift (1)</a></li><li><a href='/blog/categories/python'>Python (1)</a></li><li><a href='/blog/categories/ruby'>Ruby (1)</a></li><li><a href='/blog/categories/windows'>Windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

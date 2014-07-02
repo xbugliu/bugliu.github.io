@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux下开启TRIM - 书写|记下人生痕迹</title>
+  <meta name="author" content="ToWriting">
+
+          
+        <meta name="description" content="linux ssd trim">
+        <meta name="keywords" content="linux trim,ssd trim">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://towriting.com/blog/2014/06/28/archlinux-trim">
+  <link href="/favicon.ico" rel="icon">
+
+  <link href="/assets/bootstrap/css/spacelab.min.css" rel="stylesheet" type="text/css">
+  <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+  <link href="/assets/bootstrap/css/custom.css" rel="stylesheet" type="text/css">
+  <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/screen.css" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/github.css" rel="stylesheet" type="text/css">
+  
+  <link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-42601840-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    data-spy="scroll">
+
+  <div class="container">
+    <header class="jumbotron subhead" id="overview">
+      
+<div class="subscribe">
+  <table>
+    <tr>
+      <td><span>订阅: &nbsp;</span></td>
+      
+      
+      <td><a href="/atom.xml" class="btn"><i class="icon-cog"></i> By RSS</a></td>
+      
+      
+    </tr>
+  </table>
+</div>
+
+<h1 class="title">ToWriting</h1>
+
+
+      <div class="navbar">
+  <div class="navbar-inner">
+    <div class="container" style="width: auto;">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <div class="nav-collapse">
+                <ul class="nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog/archives">Archives</a></li>
+          <li><a href="/about">About</a></li>
+        </ul>
+
+        
+          <form action="http://google.com/search" method="get" class="navbar-search pull-left">
+            <fieldset role="search">
+              <input type="hidden" name="q" value="site:towriting.com" />
+              <input type="text" name="q" results="0" placeholder="Search" class="search-query span2" />
+            </fieldset>
+          </form>
+        
+        
+      </div><!-- /.nav-collapse -->
+    </div>
+  </div><!-- /navbar-inner -->
+</div>
+
+    </header>
+    <div id="main">
+      <div id="content">
+        <div class="row">
+  
+  <div class="span8">
+    
+  <header>
+    
+      <h1 class="entry-title">Linux下开启TRIM</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-28T21:55:12+00:00" pubdate data-updated="true">2014-06-28</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
+
+<p>首先要检测SSD是否支持TRIM:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&quot;TRIM supported&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果支持则会出现：&#8221;Data Set Management TRIM supported&#8221;</p>
+
+<p>如果SSD支持TRIM, 则可以开启TRIM了, 这里介绍常用的两种方法。</p>
+
+<h3>方法1：修改<a href="http://en.wikipedia.org/wiki/Fstab">fstab</a>, 添加discard属性</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo vim /etc/fstab
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是我机器上fstab的配置</p>
+
+<blockquote><p>UUID=27dd31b4-8aa4-4043-b921-540a312c056c       /               ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 1</p>
+
+<p>UUID=42f79958-0776-4b2f-8aa3-db827bf257b6       /home           ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 2</p></blockquote>
+
+<h3>方法2：使用fstrim定期执行trim任务</h3>
+
+<p>以我用的archlinux为例，首先安装并运行<a href="http://en.wikipedia.org/wiki/Cron">cron</a>服务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pacman -S cronie
+</span><span class='line'>sudo systemctl start cronie
+</span><span class='line'>sudo systemctl <span class="nb">enable </span>cronie
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后创建一个任务配置:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/cron.daily/trim
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>并将下面的内容拷贝到里面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;*** $(date -R) ***&quot;</span> &gt;&gt; <span class="nv">$LOG</span>
+</span><span class='line'>fstrim -v / &gt;&gt; <span class="nv">$LOG</span>
+</span><span class='line'>fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：</p>
+
+<ol>
+<li><p><a href="http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html">http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html</a></p></li>
+<li><p><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives">https://wiki.archlinux.org/index.php/Solid_State_Drives</a></p></li>
+</ol>
+
+</div>
+
+  
+
+
+    <footer>
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ToWriting</span></span>
+
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-28T21:55:12+00:00" pubdate data-updated="true">2014-06-28</time>
+        
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+      </p>
+      
+        <div class="sharing">
+  <br/>
+  
+  
+  
+  
+  
+  <!-- Baidu Button BEGIN -->
+	<script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=0&amp;pos=left&amp;uid=6821503" ></script>
+	<script type="text/javascript" id="bdshell_js"></script>
+	<script type="text/javascript">
+	document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+	</script>
+  <!-- Baidu Button END -->
+  
+
+</div>
+
+      
+      <p class="meta">
+        
+          <a class="basic-alignment pull-left" href="/blog/2014/05/03/dock-project-experience/" title="Previous Post: Dock项目个人总结">&laquo; Dock项目个人总结</a>
+        
+        
+      </p>
+    </footer>
+    
+    
+
+    
+    <section id="comment">
+      <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"towriting"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</div>
+    </section>
+    
+
+  </div>
+
+  
+    
+  <div class="span4 sidebar">
+    <div class="well">
+      
+        <section>
+  <h2>最近文章</h2>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/27/the-gay-genius-review/">读《苏东坡传》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/18/who-use-stl/">谁在用C++ STL？</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h2>文章分类</h2>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (10)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+</section>
+<section>
+  <h2>每日必读</h2>
+   <ul>
+    <li>
+    <a href="http://news.ycombinator.com/">Hacker News</a>
+    </li>
+    <li>
+    <a href="http://www.reddit.com/r/programming/">/r/programming</a>
+    </li>
+   </ul>
+  <h2>关注博客</h2>
+  <ul>
+    <li>
+      <a href="http://coolshell.cn/">酷壳</a>
+    </li>
+    <li>
+      <a href="http://mindhacks.cn/">Mind Hacks</a>
+    </li>
+  </ul>
+  <h2>友情链接</h2>
+  <ul>
+    <li>
+      <a href="http://bestcbooks.com">计算机书籍控</a>
+    </li>
+  </ul>
+</section>
+
+      
+    </div>
+  </div>
+
+
+  
+</div>
+
+
+      </div>
+    </div>
+    <footer class="footer"><p>
+  Copyright &copy; 2014 - ToWriting -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
+  <span class="credit">Theme by <a href="https://github.com/barmstrong/octopress-bootstrap">Armstrong</a></span> -
+  <span class="credit">本站内容采用<a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a>进行许可</span>
+</p>
+</footer>
+    
+
+
+
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+  </div>
+</body>
+</html>

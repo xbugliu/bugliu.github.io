@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 程序人生 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/cheng-xu-ren-sheng/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Dock项目个人总结]]></title>
     <link href="http://towriting.com/blog/2014/05/03/dock-project-experience/"/>
-    <updated>2014-05-03T22:55:00+08:00</updated>
+    <updated>2014-05-03T22:55:00+00:00</updated>
     <id>http://towriting.com/blog/2014/05/03/dock-project-experience</id>
     <content type="html"><![CDATA[<p>Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必须也要做。关于应用宝Dock的具体进度、功能与界面不做介绍，现在从开发的角度讲一讲Dock项目两个月来的一点体会。</p>
 
@@ -53,7 +53,7 @@
   <entry>
     <title type="html"><![CDATA[入职一周年记]]></title>
     <link href="http://towriting.com/blog/2014/04/08/tencent-anniversary/"/>
-    <updated>2014-04-08T23:38:00+08:00</updated>
+    <updated>2014-04-08T23:38:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/08/tencent-anniversary</id>
     <content type="html"><![CDATA[<p>现在是2014年4月8日，23点45分，一刻钟后，今天将永不存在。一个小时前，才离开公司，相信现在公司还有同事在吧。今早收到了系统发来的祝贺入职周年的邮件，这一天真的来了，回头看自己竟然咬牙坚持下来了。</p>
 
@@ -108,7 +108,7 @@
   <entry>
     <title type="html"><![CDATA[我为什么从同花顺离职]]></title>
     <link href="http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/"/>
-    <updated>2013-12-16T23:42:00+08:00</updated>
+    <updated>2013-12-16T23:42:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job</id>
     <content type="html"><![CDATA[<p>  最近知乎上很流行的一个问题是<a href="http://www.zhihu.com/topic/19909711">为什么从 X 离职</a>，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。</p>
 
@@ -139,7 +139,7 @@
   <entry>
     <title type="html"><![CDATA[你们是勤劳还是懒惰的程序员？]]></title>
     <link href="http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/"/>
-    <updated>2013-12-15T17:17:00+08:00</updated>
+    <updated>2013-12-15T17:17:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy</id>
     <content type="html"><![CDATA[<p><img class="pull-right" src="/images/posts/working-hard/work-smart-not-hard.jpg">
 当人们从事体力劳动时，很容易判断他们的努力程度。你可以看到肢体运动和汗水。并且可以看到他们的劳动成果：高楼拔地，稻谷归仓&hellip;。承认和褒奖辛勤的劳作是人的一种本能，是体力运动迷人的一个原因。然而当管理创造性技术员工时，褒扬辛勤劳作的本能就有问题了。高效的员工有时候看起来并没有非常努力的工作。</p>
@@ -167,7 +167,7 @@
   <entry>
     <title type="html"><![CDATA[整洁代码之上]]></title>
     <link href="http://towriting.com/blog/2013/12/03/beyond-clean-code/"/>
-    <updated>2013-12-03T23:09:00+08:00</updated>
+    <updated>2013-12-03T23:09:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/03/beyond-clean-code</id>
     <content type="html"><![CDATA[<h2>什么是整洁代码（What Is Clean Code）</h2>
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Openshift | 书写|记下人生痕迹]]></title>
+  <title><![CDATA[Category: openshift | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/openshift/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Openshift小技巧-热部署]]></title>
     <link href="http://towriting.com/blog/2013/10/21/openshift-tips/"/>
-    <updated>2013-10-21T22:24:00+08:00</updated>
+    <updated>2013-10-21T22:24:00+00:00</updated>
     <id>http://towriting.com/blog/2013/10/21/openshift-tips</id>
     <content type="html"><![CDATA[<p>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github的pages时没遇到的事情，用Google快速搜索下，原来要用热部署（hot deploy)实现不重启openshift程序部署文件，官方是支持的，方法很简单：</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-05-04T00:13:44+08:00</updated>
+  <updated>2014-07-02T23:15:42+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -14,9 +14,85 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Linux下开启TRIM]]></title>
+    <link href="http://towriting.com/blog/2014/06/28/archlinux-trim/"/>
+    <updated>2014-06-28T21:55:12+00:00</updated>
+    <id>http://towriting.com/blog/2014/06/28/archlinux-trim</id>
+    <content type="html"><![CDATA[<p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
+
+<p>首先要检测SSD是否支持TRIM:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&quot;TRIM supported&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果支持则会出现：&#8221;Data Set Management TRIM supported&#8221;</p>
+
+<p>如果SSD支持TRIM, 则可以开启TRIM了, 这里介绍常用的两种方法。</p>
+
+<h3>方法1：修改<a href="http://en.wikipedia.org/wiki/Fstab">fstab</a>, 添加discard属性</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo vim /etc/fstab
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是我机器上fstab的配置</p>
+
+<blockquote><p>UUID=27dd31b4-8aa4-4043-b921-540a312c056c       /               ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 1</p>
+
+<p>UUID=42f79958-0776-4b2f-8aa3-db827bf257b6       /home           ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 2</p></blockquote>
+
+<h3>方法2：使用fstrim定期执行trim任务</h3>
+
+<p>以我用的archlinux为例，首先安装并运行<a href="http://en.wikipedia.org/wiki/Cron">cron</a>服务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pacman -S cronie
+</span><span class='line'>sudo systemctl start cronie
+</span><span class='line'>sudo systemctl <span class="nb">enable </span>cronie
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后创建一个任务配置:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/cron.daily/trim
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>并将下面的内容拷贝到里面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;*** $(date -R) ***&quot;</span> &gt;&gt; <span class="nv">$LOG</span>
+</span><span class='line'>fstrim -v / &gt;&gt; <span class="nv">$LOG</span>
+</span><span class='line'>fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：</p>
+
+<ol>
+<li><p><a href="http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html">http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html</a></p></li>
+<li><p><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives">https://wiki.archlinux.org/index.php/Solid_State_Drives</a></p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Dock项目个人总结]]></title>
     <link href="http://towriting.com/blog/2014/05/03/dock-project-experience/"/>
-    <updated>2014-05-03T22:55:00+08:00</updated>
+    <updated>2014-05-03T22:55:00+00:00</updated>
     <id>http://towriting.com/blog/2014/05/03/dock-project-experience</id>
     <content type="html"><![CDATA[<p>Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必须也要做。关于应用宝Dock的具体进度、功能与界面不做介绍，现在从开发的角度讲一讲Dock项目两个月来的一点体会。</p>
 
@@ -53,7 +129,7 @@
   <entry>
     <title type="html"><![CDATA[读《苏东坡传》]]></title>
     <link href="http://towriting.com/blog/2014/04/27/the-gay-genius-review/"/>
-    <updated>2014-04-27T21:52:00+08:00</updated>
+    <updated>2014-04-27T21:52:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/27/the-gay-genius-review</id>
     <content type="html"><![CDATA[<p>昨天在kindle上读完了<a href='http://www.amazon.cn/gp/product/B00D7X84MS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00D7X84MS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>苏东坡传</a>，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。</p>
 
@@ -85,7 +161,7 @@
   <entry>
     <title type="html"><![CDATA[谁在用C++ STL？]]></title>
     <link href="http://towriting.com/blog/2014/04/18/who-use-stl/"/>
-    <updated>2014-04-18T23:39:00+08:00</updated>
+    <updated>2014-04-18T23:39:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/18/who-use-stl</id>
     <content type="html"><![CDATA[<p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
 
@@ -153,7 +229,7 @@
   <entry>
     <title type="html"><![CDATA[入职一周年记]]></title>
     <link href="http://towriting.com/blog/2014/04/08/tencent-anniversary/"/>
-    <updated>2014-04-08T23:38:00+08:00</updated>
+    <updated>2014-04-08T23:38:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/08/tencent-anniversary</id>
     <content type="html"><![CDATA[<p>现在是2014年4月8日，23点45分，一刻钟后，今天将永不存在。一个小时前，才离开公司，相信现在公司还有同事在吧。今早收到了系统发来的祝贺入职周年的邮件，这一天真的来了，回头看自己竟然咬牙坚持下来了。</p>
 
@@ -208,7 +284,7 @@
   <entry>
     <title type="html"><![CDATA[读：人生元编程]]></title>
     <link href="http://towriting.com/blog/2014/02/23/mac-shuo-review/"/>
-    <updated>2014-02-23T22:52:00+08:00</updated>
+    <updated>2014-02-23T22:52:00+00:00</updated>
     <id>http://towriting.com/blog/2014/02/23/mac-shuo-review</id>
     <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00ID5UV30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ID5UV30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>人生元编程</a>这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，自称Mac君。去年就断断续续的跟过Mac君在其<a href="http://macshuo.com/">博客</a>上帖的文章，印象最深的是其能将IT界大佬的故事娓娓道来，颇有吴军之风，更兼Mac君是根正苗红的程序员，所以文章读来倍感亲切，处处体现了其对程序员个体的勉励。</p>
 
@@ -234,7 +310,7 @@
   <entry>
     <title type="html"><![CDATA[春节杂记]]></title>
     <link href="http://towriting.com/blog/2014/02/20/spring/"/>
-    <updated>2014-02-20T22:00:00+08:00</updated>
+    <updated>2014-02-20T22:00:00+00:00</updated>
     <id>http://towriting.com/blog/2014/02/20/spring</id>
     <content type="html"><![CDATA[<p>今天正月二十一，按我们老家旧时的习俗，二月二&#8221;龙抬头&#8221;以后，才算过完年。今年过年在家里待了12天，算来不短，一年的忙碌终换来了多出的几日闲暇。年前被评为优秀员工算是出乎自己意料的一件春节期间的乐事。但在家中的这一小段时光，却没什么值得记录的，在村里依旧是整天玩一种叫做牌九的赌博游戏，自己很乏味，但儿时的伙伴热衷于此，只能舍乐陪他们了。然后其它的无非是，会会旧时朋友同学，一年中平日难得交流，且行业迥异，话题颇少，只能以酒代话，醉醺醺的归家了。</p>
 
@@ -251,7 +327,7 @@
   <entry>
     <title type="html"><![CDATA[2013年（下半年）个人总结]]></title>
     <link href="http://towriting.com/blog/2014/01/01/2013-review/"/>
-    <updated>2014-01-01T21:55:00+08:00</updated>
+    <updated>2014-01-01T21:55:00+00:00</updated>
     <id>http://towriting.com/blog/2014/01/01/2013-review</id>
     <content type="html"><![CDATA[<blockquote><p>人没有进步，和死鱼有什么区别！</p></blockquote>
 
@@ -310,7 +386,7 @@
   <entry>
     <title type="html"><![CDATA[为什么要学Ruby]]></title>
     <link href="http://towriting.com/blog/2013/12/26/learn-ruby/"/>
-    <updated>2013-12-26T21:15:00+08:00</updated>
+    <updated>2013-12-26T21:15:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/26/learn-ruby</id>
     <content type="html"><![CDATA[<p>  最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不会装系统的。而和这些不懂电脑的同学大谈各种计算机知识、编程语言的特点，是我一大爱好：脚本语言是一种易学的语言，要不然为何叫”脚本“，是因为用脚都可以学会；脚本语言里面有三P：Python，Php, Perl，都是极好的，当然还有一个Ruby，不过是日本人发明的，你如果不爱国的话，倒可以学一学&hellip;</p>
 
@@ -338,12 +414,12 @@
 
 <p>Ruby在国内算是小众的语言，但如果要转Ruby的话，能否找到工作，刚才在Indeed上搜索Ruby:948条,Python:4,474条;Haskell:7条；机会确实不太多，再看Ruby的趋势，左侧全球的Ruby热度减退，但右侧国内Ruby热度13年井喷，所以不久以后Ruby还是可以学以致工作的。</p>
 
-<script type="text/javascript" src="http://towriting.com//www.google.com/trends/embed.js?hl=en-US&q=/m/06ff5&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=400&h=330"></script>
+<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=/m/06ff5&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=400&h=330"></script>
 
 
 
 
-<script type="text/javascript" src="http://towriting.com//www.google.com/trends/embed.js?hl=en-US&q=Ruby&geo=CN&cmpt=geo&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=350&h=330"></script>
+<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=Ruby&geo=CN&cmpt=geo&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=350&h=330"></script>
 
 
 <h3>为了自由</h3>
@@ -355,7 +431,7 @@
   <entry>
     <title type="html"><![CDATA[《C++标准库第二版 上册》笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/"/>
-    <updated>2013-12-18T23:27:00+08:00</updated>
+    <updated>2013-12-18T23:27:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1</id>
     <content type="html"><![CDATA[<p>p63 a pair&lt;> using a type that has only a nonconstant copy constructor will no longer compile.</p>
 
@@ -609,7 +685,7 @@ p342 piecewise_construct emplace.</p>
   <entry>
     <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
     <link href="http://towriting.com/blog/2013/12/17/ini-muti-thread/"/>
-    <updated>2013-12-17T23:28:00+08:00</updated>
+    <updated>2013-12-17T23:28:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/17/ini-muti-thread</id>
     <content type="html"><![CDATA[<p>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms725501(v=vs.85).aspx">WritePrivateProfileString</a>的文档中并没有提到。
 据<a href="http://mfctips.com/tag/getprivateprofilestring/">这篇文章</a>介绍:</p>
@@ -772,7 +848,7 @@ p342 piecewise_construct emplace.</p>
   <entry>
     <title type="html"><![CDATA[我为什么从同花顺离职]]></title>
     <link href="http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/"/>
-    <updated>2013-12-16T23:42:00+08:00</updated>
+    <updated>2013-12-16T23:42:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job</id>
     <content type="html"><![CDATA[<p>  最近知乎上很流行的一个问题是<a href="http://www.zhihu.com/topic/19909711">为什么从 X 离职</a>，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。</p>
 
@@ -803,7 +879,7 @@ p342 piecewise_construct emplace.</p>
   <entry>
     <title type="html"><![CDATA[你们是勤劳还是懒惰的程序员？]]></title>
     <link href="http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/"/>
-    <updated>2013-12-15T17:17:00+08:00</updated>
+    <updated>2013-12-15T17:17:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy</id>
     <content type="html"><![CDATA[<p><img class="pull-right" src="http://towriting.com/images/posts/working-hard/work-smart-not-hard.jpg">
 当人们从事体力劳动时，很容易判断他们的努力程度。你可以看到肢体运动和汗水。并且可以看到他们的劳动成果：高楼拔地，稻谷归仓&hellip;。承认和褒奖辛勤的劳作是人的一种本能，是体力运动迷人的一个原因。然而当管理创造性技术员工时，褒扬辛勤劳作的本能就有问题了。高效的员工有时候看起来并没有非常努力的工作。</p>
@@ -831,7 +907,7 @@ p342 piecewise_construct emplace.</p>
   <entry>
     <title type="html"><![CDATA[Boost.Lambda与C++11.Lambda的用法对比]]></title>
     <link href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/"/>
-    <updated>2013-12-13T22:38:00+08:00</updated>
+    <updated>2013-12-13T22:38:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda</id>
     <content type="html"><![CDATA[<p>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。</p>
 
@@ -1019,7 +1095,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[那些C++牛人的博客]]></title>
     <link href="http://towriting.com/blog/2013/12/12/cpp-blogs/"/>
-    <updated>2013-12-12T20:57:00+08:00</updated>
+    <updated>2013-12-12T20:57:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/12/cpp-blogs</id>
     <content type="html"><![CDATA[<p>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。</p>
 
@@ -1315,7 +1391,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[《黑天鹅—如何应对不可知的未来》读书笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/"/>
-    <updated>2013-12-11T23:57:00+08:00</updated>
+    <updated>2013-12-11T23:57:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan</id>
     <content type="html"><![CDATA[<p><a href="http://www.amazon.cn/gp/product/B005U9CO3W/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B005U9CO3W&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《黑天鹅—如何应对不可知的未来》</a>上册的阅读笔记：</p>
 
@@ -1380,7 +1456,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[C++中的静态断言]]></title>
     <link href="http://towriting.com/blog/2013/12/10/static-assert/"/>
-    <updated>2013-12-10T00:02:00+08:00</updated>
+    <updated>2013-12-10T00:02:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/10/static-assert</id>
     <content type="html"><![CDATA[<h2>什么是静态断言</h2>
 
@@ -1427,7 +1503,7 @@ the sum of values in vecIn：
 </span><span class='line'>    <span class="p">{</span>
 </span><span class='line'>        <span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)(</span><span class="n">D</span><span class="o">*</span><span class="p">,</span><span class="n">B</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">;</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'><span class="nl">private:</span>
 </span><span class='line'>    <span class="k">static</span> <span class="kt">void</span> <span class="n">constraints</span><span class="p">(</span><span class="n">D</span> <span class="o">*</span><span class="n">pd</span><span class="p">,</span><span class="n">B</span> <span class="o">*</span><span class="n">pb</span><span class="p">)</span>
 </span><span class='line'>   <span class="p">{</span>
 </span><span class='line'>        <span class="n">pb</span> <span class="o">=</span> <span class="n">pd</span><span class="p">;</span>
@@ -1479,7 +1555,7 @@ the sum of values in vecIn：
 </span><span class='line'><span class="p">};</span>
 </span><span class='line'>
 </span><span class='line'>
-</span><span class='line'><span class="kt">void</span> <span class="n">ProcessPersonType</span><span class="p">(</span><span class="n">personType</span> <span class="n">ptVal</span><span class="p">)</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">ProcessPersonType</span><span class="p">(</span><span class="n">personType</span> <span class="n">ptVal</span><span class="p">)</span>
 </span><span class='line'><span class="p">{</span>
 </span><span class='line'>  <span class="kt">char</span> <span class="n">dummy</span><span class="p">[</span><span class="n">person_count</span> <span class="o">&gt;</span> <span class="n">CHAR_MAX</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">];</span>
 </span><span class='line'>  <span class="kt">char</span> <span class="n">cVal</span> <span class="o">=</span> <span class="n">ptVal</span><span class="p">;</span>
@@ -1534,7 +1610,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[从杭州雾霾谈起]]></title>
     <link href="http://towriting.com/blog/2013/12/08/from-smog/"/>
-    <updated>2013-12-08T14:07:00+08:00</updated>
+    <updated>2013-12-08T14:07:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/08/from-smog</id>
     <content type="html"><![CDATA[<p>昨天，在简书上翻看了几篇文章，其中首页竟有两篇是谈论要每天写点东西的。其中有一个想法很好，是教人如何养成写东西的习惯的：每天抽出一刻钟以上的时间写点什么并坚持半个月，从此你可能就会有写东西的习惯。</p>
 
@@ -1565,7 +1641,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[整洁代码之上]]></title>
     <link href="http://towriting.com/blog/2013/12/03/beyond-clean-code/"/>
-    <updated>2013-12-03T23:09:00+08:00</updated>
+    <updated>2013-12-03T23:09:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/03/beyond-clean-code</id>
     <content type="html"><![CDATA[<h2>什么是整洁代码（What Is Clean Code）</h2>
 
@@ -1673,7 +1749,7 @@ the sum of values in vecIn：
   <entry>
     <title type="html"><![CDATA[Effective Tools - 多粘贴板 && 快速搜索]]></title>
     <link href="http://towriting.com/blog/2013/11/17/effective-tools/"/>
-    <updated>2013-11-17T13:21:00+08:00</updated>
+    <updated>2013-11-17T13:21:00+00:00</updated>
     <id>http://towriting.com/blog/2013/11/17/effective-tools</id>
     <content type="html"><![CDATA[<p>前两天买了一本<a href="http://www.amazon.cn/gp/product/B001XCWFOI/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B001XCWFOI&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《卓有成效的程序员》</a>，看过几章后才明白为什么Stackoverflow里面人们会推荐这本书：它大抵是讲工具的，目的是为了提高程序员的生产率，但工具往往是人们漠视的。</p>
 
@@ -1696,82 +1772,6 @@ the sum of values in vecIn：
 <p>光速搜索是盛大出的一款免费软件，是以前一位同时推荐自己使用的，软件的优点是极速查找文件，并且有任务栏插件，方便实用。使用光速搜索，从此不用在忍受系统龟速的文件查找，唯一的一点不足就是此软件貌似不再更新，自己在Win7 64位下使用偶现Bug.</p>
 
 <p>国外有一些类似的软件，比如大名鼎鼎的：Everything，但用来皆不如光速搜索体验好。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[跳槽的好处]]></title>
-    <link href="http://towriting.com/blog/2013/11/10/job-hopping/"/>
-    <updated>2013-11-10T21:39:00+08:00</updated>
-    <id>http://towriting.com/blog/2013/11/10/job-hopping</id>
-    <content type="html"><![CDATA[<p>前两天和一个一年半多没联系过的前同事通了个电话，聊了个把小时。我对他现在的工作状态很感兴趣，因为他的工作状态就是我不离开那家公司的可能的状态。</p>
-
-<p>通过他的描述，我感觉他的状态可能与一年半前差别不大。我离开时，推荐他们使用的SVN，到现在还是没有用起来，没有版本控制就没有协作。他讲到他遇到问题会通过Baidu+CSDN找答案，我问他怎么不用Google+Stackoverflow，Stackoverflow我离开前也是向他推荐过的。他知道学，也不排斥技术，现在主要的开发工具是VC6和Delphi6，用C++但没听说过C++11。知道开源，去过SourceForge，但没听说过Github。听说但没有使用过设计模式。</p>
-
-<p>通话最后，本着交流与分享，我向他推荐了以下内容：</p>
-
-<ul>
-<li>网站：Github、Stackoverflow、Reddit\r\cpp、HackerNews</li>
-<li>书籍：代码大全、程序员修炼之道、The C++ Programming Language、深度探索对象模型、禅与摩托车维修艺术</li>
-</ul>
-
-
-<p>我与他工作年限相仿，技术起点一致，唯一不同的是，我离开了那家公司，所以<strong>有机会学到或接触更多的技术知识，这可能就是跳槽的好处</strong>。</p>
-
-<p>简单梳理一下两次跳槽期间的收获，第一次：
-<img class="pull-right" src="http://towriting.com/images/posts/job-hopping/brid.jpg" title="'良禽择木而栖'" ></p>
-
-<ul>
-<li>正规的软件开发流程</li>
-<li>Bug跟踪系统</li>
-<li>静态源码检测系统</li>
-<li>自动编译系统</li>
-<li>开始正式使用设计模式</li>
-<li>GitHub</li>
-<li>第一次翻译技术文章</li>
-<li>十数本计算机书籍</li>
-<li>WBS任务分解</li>
-<li>金融知识</li>
-<li>Python自动测试</li>
-<li>心理学</li>
-</ul>
-
-
-<p>第二次（到现在2013.11)：</p>
-
-<ul>
-<li>TFS</li>
-<li>项目中大规模使用C++11</li>
-<li>Windbg</li>
-<li>GDI+</li>
-<li>UAC</li>
-<li>HackerNews</li>
-<li>Reddit</li>
-<li>罗辑思维（罗胖）</li>
-<li>IPC</li>
-<li>Octopress建立博客</li>
-<li>wordPress建站</li>
-<li>amazon云主机</li>
-<li>openshift</li>
-<li>手机驱动知识</li>
-</ul>
-
-
-<p>上面纯技术相关的点大部分和跳槽直接相关，因为新公司新气象。其他点或多或少也和跳槽沾边，槽变人变，不同的人可能会给你不同的启发，比如《罗辑思维》这个节目就是一个同事力荐的。</p>
-
-<p>讲到了我自己经历的跳槽的收获，那是不是跳槽一定是利好的？答案是否定的。我曾遇到过一个35岁左右，编程数年的人，有几年中，平均两个月换一份工作，聊天中发现其竟不知很基础的编程知识，使用C++但从没断点调试过。</p>
-
-<p>所以，我以为<strong>好奇心和追求良质<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>是提高技术广度和深度的内部原因、好的项目与工作伙伴是外部原因，而跳槽不过增加了外部原因的刺激而已</strong>。</p>
-
-<p>注：以上是技术提高的角度看跳槽之我见。站在职业发展的角度，最好不要频繁跳槽，站在职业道德与产品责任的角度，更不要轻易跳槽。</p>
-<div class="footnotes">
-<hr/>
-<ol>
-<li id="fn:1">
-<p>良质，《禅与摩托车维修艺术》中的说法，从现有哲学体系看，良质是唯心的。良质存乎心中，指个人感受到某样东西的好，但无法量化衡量。比如，对比两段相同功能的代码，你可能就觉得其中一段“好”，而说不出原因，这种&#8221;好&#8221;就是良质。<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
-</ol>
-</div>
-
 ]]></content>
   </entry>
   
