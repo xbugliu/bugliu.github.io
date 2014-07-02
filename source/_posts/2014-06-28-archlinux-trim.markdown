@@ -4,6 +4,8 @@ title: "Linux下开启TRIM"
 date: 2014-06-28 21:55:12 +0000
 comments: true
 categories: Linux
+keywords: linux trim,ssd trim
+description: linux ssd trim
 ---
 
 新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。
