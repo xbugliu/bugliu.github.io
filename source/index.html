@@ -3,9 +3,6 @@ layout: default
 sidebar: false
 ---
 
-{% if site.sidebar_posn == "left" %}
-  {% include sidebar.html %}
-{% endif %}
 <div class="blog-index">
   {% assign index = true %}
   {% for post in paginator.posts %}
@@ -24,6 +21,10 @@ sidebar: false
     {% endif %}
   </div>
 </div>
-{% if site.sidebar_posn != "left" %}
-  {% include sidebar.html %}
-{% endif %}
+<aside class="sidebar">
+  {% if site.blog_index_asides.size %}
+    {% include_array blog_index_asides %}
+  {% else %}
+    {% include_array default_asides %}
+  {% endif %}
+</aside>
