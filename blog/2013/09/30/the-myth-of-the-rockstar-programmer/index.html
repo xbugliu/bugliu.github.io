@@ -20,16 +20,17 @@
   
   <link rel="canonical" href="http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer">
   <link href="/favicon.ico" rel="icon">
-
-  <link href="/assets/bootstrap/css/spacelab.min.css" rel="stylesheet" type="text/css">
-  <link href="/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
-  <link href="/assets/bootstrap/css/custom.css" rel="stylesheet" type="text/css">
-  <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
-  <link href="/stylesheets/screen.css" rel="stylesheet" type="text/css">
-  <link href="/stylesheets/github.css" rel="stylesheet" type="text/css">
-  
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
-  
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -46,67 +47,39 @@
 
 </head>
 
-<body    data-spy="scroll">
-
-  <div class="container">
-    <header class="jumbotron subhead" id="overview">
-      
-<div class="subscribe">
-  <table>
-    <tr>
-      <td><span>订阅: &nbsp;</span></td>
-      
-      
-      <td><a href="/atom.xml" class="btn"><i class="icon-cog"></i> By RSS</a></td>
-      
-      
-    </tr>
-  </table>
-</div>
-
-<h1 class="title">ToWriting</h1>
-
-
-      <div class="navbar">
-  <div class="navbar-inner">
-    <div class="container" style="width: auto;">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <div class="nav-collapse">
-                <ul class="nav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/blog/archives">Archives</a></li>
-          <li><a href="/about">About</a></li>
-        </ul>
-
-        
-          <form action="http://google.com/search" method="get" class="navbar-search pull-left">
-            <fieldset role="search">
-              <input type="hidden" name="q" value="site:towriting.com" />
-              <input type="text" name="q" results="0" placeholder="Search" class="search-query span2" />
-            </fieldset>
-          </form>
-        
-        
-      </div><!-- /.nav-collapse -->
-    </div>
-  </div><!-- /navbar-inner -->
-</div>
-
-    </header>
-    <div id="main">
-      <div id="content">
-        <div class="row">
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
-  <div class="span8">
-    
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:towriting.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
   <header>
+  
     
       <h1 class="entry-title">神级程序员的神话</h1>
     
+  
     
       <p class="meta">
         
@@ -128,9 +101,7 @@
   </header>
 
 
-  
-  
-  <div class="entry-content"><p>神级程序员<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>的神话不过就是个，神话！它是由一些可悲的原因形成的神话：</p>
+<div class="entry-content"><p>神级程序员<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>的神话不过就是个，神话！它是由一些可悲的原因形成的神话：</p>
 
 <ul>
 <li>给普通人设置难以实现的预期</li>
@@ -189,17 +160,15 @@
 
 </div>
 
-  
 
-
-    <footer>
-      <p class="meta">
-        
+  <footer>
+    <p class="meta">
+      
   
 
 <span class="byline author vcard">Posted by <span class="fn">ToWriting</span></span>
 
-        
+      
 
 
 
@@ -212,7 +181,7 @@
 
 
 <time datetime="2013-09-30T12:20:00+00:00" pubdate data-updated="true">2013-09-30</time>
-        
+      
 
 <span class="categories">
   
@@ -221,9 +190,9 @@
 </span>
 
 
-      </p>
-      
-        <div class="sharing">
+    </p>
+    
+      <div class="sharing">
   <br/>
   
   
@@ -241,20 +210,20 @@
 
 </div>
 
+    
+    <p class="meta">
       
-      <p class="meta">
-        
-          <a class="basic-alignment pull-left" href="/blog/2013/09/23/edward-chands/" title="Previous Post: C++手爱德华">&laquo; C++手爱德华</a>
-        
-        
-          <a class="basic-alignment pull-right" href="/blog/2013/10/21/openshift-tips/" title="Next Post: Openshift小技巧-热部署">Openshift小技巧-热部署 &raquo;</a>
-        
-      </p>
-    </footer>
-    
-    
+        <a class="basic-alignment left" href="/blog/2013/09/23/edward-chands/" title="Previous Post: C++手爱德华">&laquo; C++手爱德华</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/10/21/openshift-tips/" title="Next Post: Openshift小技巧-热部署">Openshift小技巧-热部署 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
-    
+
+
     <section id="comment">
       <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
 	<div class="ds-thread"></div>
@@ -272,17 +241,14 @@ var duoshuoQuery = {short_name:"towriting"};
 <!-- Duoshuo Comment END -->
 </div>
     </section>
-    
 
-  </div>
 
+</div>
+
+<aside class="sidebar">
   
-    
-  <div class="span4 sidebar">
-    <div class="well">
-      
-        <section>
-  <h2>最近文章</h2>
+    <section>
+  <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -338,37 +304,31 @@ var duoshuoQuery = {short_name:"towriting"};
   </ul>
 </section>
 
-      
-    </div>
-  </div>
-
-
   
-</div>
+</aside>
 
 
-      </div>
     </div>
-    <footer class="footer"><p>
-  Copyright &copy; 2014 - ToWriting -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> -
-  <span class="credit">Theme by <a href="https://github.com/barmstrong/octopress-bootstrap">Armstrong</a></span> -
-  <span class="credit">本站内容采用<a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a>进行许可</span>
-</p>
-</footer>
-    
-
-
-
-
-
-
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-
-
-
   </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - ToWriting <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
+</p>
+
+<p>
+  <span class="credit">本站内容采用<a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a>进行许可</span>
+</p></footer>
+  
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

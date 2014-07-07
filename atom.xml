@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-07-02T23:15:42+00:00</updated>
+  <updated>2014-07-07T23:28:50+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -14,10 +14,13 @@
 
   
   <entry>
+    
     <title type="html"><![CDATA[Linux下开启TRIM]]></title>
     <link href="http://towriting.com/blog/2014/06/28/archlinux-trim/"/>
+    
     <updated>2014-06-28T21:55:12+00:00</updated>
     <id>http://towriting.com/blog/2014/06/28/archlinux-trim</id>
+    
     <content type="html"><![CDATA[<p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
 
 <p>首先要检测SSD是否支持TRIM:</p>
@@ -87,13 +90,17 @@
 </ol>
 
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[Dock项目个人总结]]></title>
     <link href="http://towriting.com/blog/2014/05/03/dock-project-experience/"/>
+    
     <updated>2014-05-03T22:55:00+00:00</updated>
     <id>http://towriting.com/blog/2014/05/03/dock-project-experience</id>
+    
     <content type="html"><![CDATA[<p>Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必须也要做。关于应用宝Dock的具体进度、功能与界面不做介绍，现在从开发的角度讲一讲Dock项目两个月来的一点体会。</p>
 
 <p>自己的角色：负责逻辑部分接口和整体框架的设计，及相关功能开发。</p>
@@ -124,13 +131,17 @@
 
 <p>线程滥用当然指逻辑部分。从进入应用宝团队初期，就发现代码中线程滥用，好似每天不开几个线程吃不下饭一般。所以最初Dock的逻辑代码的主框架考虑到了这点，以使后面添加具体业务时无需创建线程。但后期，需求的演变和功能的要求迫使不得不又增加了几个线程，其实有些线程是非必须的。而这些不必要的线程，往往会滋生一批Bug。</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[读《苏东坡传》]]></title>
     <link href="http://towriting.com/blog/2014/04/27/the-gay-genius-review/"/>
+    
     <updated>2014-04-27T21:52:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/27/the-gay-genius-review</id>
+    
     <content type="html"><![CDATA[<p>昨天在kindle上读完了<a href='http://www.amazon.cn/gp/product/B00D7X84MS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00D7X84MS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>苏东坡传</a>，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。</p>
 
 <p>苏东坡留下了大量的文字，百姓也口口相传着他的轶事，细心严谨的林语堂以此推敲出苏东坡的一生。苏东坡漫长的一生虽坎坷精彩，但也不过如其词云：<strong>大江东去浪淘尽千古风流人物</strong>，读完苏东坡的一生，印象最深的却是如下两个细节：</p>
@@ -156,13 +167,17 @@
 
 <p>须臾的人生，意义何在，聪明如苏东坡都想不通，你我又怎能明了！</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[谁在用C++ STL？]]></title>
     <link href="http://towriting.com/blog/2014/04/18/who-use-stl/"/>
+    
     <updated>2014-04-18T23:39:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/18/who-use-stl</id>
+    
     <content type="html"><![CDATA[<p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
 
 <p>大家知道STL中三大法宝：容器、迭代器和算法。我所经历的公司/团队STL的使用情况：</p>
@@ -224,13 +239,17 @@
 
 <p>在一个不用、不了解STL的团队，喜爱STL之人会克制使用STL！</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[入职一周年记]]></title>
     <link href="http://towriting.com/blog/2014/04/08/tencent-anniversary/"/>
+    
     <updated>2014-04-08T23:38:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/08/tencent-anniversary</id>
+    
     <content type="html"><![CDATA[<p>现在是2014年4月8日，23点45分，一刻钟后，今天将永不存在。一个小时前，才离开公司，相信现在公司还有同事在吧。今早收到了系统发来的祝贺入职周年的邮件，这一天真的来了，回头看自己竟然咬牙坚持下来了。</p>
 
 <h3>背靠大树好乘凉？</h3>
@@ -279,13 +298,17 @@
 
 <p>故事的结尾是，沃兹漂亮的完成了任务。但天才不世出，现实世界真实的结局可能并不如此。</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[读：人生元编程]]></title>
     <link href="http://towriting.com/blog/2014/02/23/mac-shuo-review/"/>
+    
     <updated>2014-02-23T22:52:00+00:00</updated>
     <id>http://towriting.com/blog/2014/02/23/mac-shuo-review</id>
+    
     <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00ID5UV30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ID5UV30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>人生元编程</a>这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，自称Mac君。去年就断断续续的跟过Mac君在其<a href="http://macshuo.com/">博客</a>上帖的文章，印象最深的是其能将IT界大佬的故事娓娓道来，颇有吴军之风，更兼Mac君是根正苗红的程序员，所以文章读来倍感亲切，处处体现了其对程序员个体的勉励。</p>
 
 <p>但《人生元编程》书读来的快感并不比直接从Mac君博客上扒拉文章高多少，且大篇幅的Mac技巧、系统配置的内容，有充页数之嫌，直接会被我等俗气的Windows程序员pass。但一本书能找到哪怕一处能启发自己的点足矣，何况此书还是有很多地方还是闪耀着智慧的光泽的：</p>
@@ -305,13 +328,17 @@
 </ul>
 
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[春节杂记]]></title>
     <link href="http://towriting.com/blog/2014/02/20/spring/"/>
+    
     <updated>2014-02-20T22:00:00+00:00</updated>
     <id>http://towriting.com/blog/2014/02/20/spring</id>
+    
     <content type="html"><![CDATA[<p>今天正月二十一，按我们老家旧时的习俗，二月二&#8221;龙抬头&#8221;以后，才算过完年。今年过年在家里待了12天，算来不短，一年的忙碌终换来了多出的几日闲暇。年前被评为优秀员工算是出乎自己意料的一件春节期间的乐事。但在家中的这一小段时光，却没什么值得记录的，在村里依旧是整天玩一种叫做牌九的赌博游戏，自己很乏味，但儿时的伙伴热衷于此，只能舍乐陪他们了。然后其它的无非是，会会旧时朋友同学，一年中平日难得交流，且行业迥异，话题颇少，只能以酒代话，醉醺醺的归家了。</p>
 
 <p>这个春节，和往年一样，主要任务是见一见常年不联系的人们，然后散了，依旧联系很少。今年越发感觉自己和每个人的关系都远了：父母、亲戚、儿时伙伴、高中同学。与父母交流最多的就是母亲总会问我：想吃什么、多吃点等等。至亲叔伯姑姑一大堆，但自己常年在外，甚少联系，感觉越来越不亲了，如今奶奶年事已高，等她走后，想必这些至亲会愈发疏远了，包括儿时躺一个被窝的堂弟，现在每月除了给我要点Q币外，没什么聊的了。儿时伙伴，都没怎么上过大学，大多早已成家，现在有些在家中打工，有些在外面做生意，这些年我在外面，能想像到他们的生活，但他们可能不知道我到底怎么过的，儿时的伙伴，一生的朋友，彼此很亲，但话题也越来越少了。高中同学，大都在外打拼，都很艰辛，不过几个要好的，也会是一辈子的哥们。</p>
@@ -322,13 +349,17 @@
 
 <p>还有一事想起，今年群发短信明显减少，收到的短信也算是“私人定制”的，还意外的收到了苟哥一条酸溜溜的祝福。同事们会在微信群里发红包。当然更要好的同学会通话联系，我远在非洲的高中好友，总会在佳节想起我。</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[2013年（下半年）个人总结]]></title>
     <link href="http://towriting.com/blog/2014/01/01/2013-review/"/>
+    
     <updated>2014-01-01T21:55:00+00:00</updated>
     <id>http://towriting.com/blog/2014/01/01/2013-review</id>
+    
     <content type="html"><![CDATA[<blockquote><p>人没有进步，和死鱼有什么区别！</p></blockquote>
 
 <p>今天是西元2014年的第一天，最近一周内，网上随意浏览时各种关于个人或者行业的年度总结不时映入眼帘。当然行业大佬、业界明星的总结与底层的程序员是不可能相同的，无论从视角、信息含量、高度等维度来比较。前者会高屋建瓴的描绘行业发展态势、自己（公司）为何做出某个举动、某个举动的结果、未来行业的走向等等；而后者更多的关注于：今年学习了哪些技术、换了几份工作、攒了多少钱等等。所以程序员的个人总结，仅仅是个人总结。</p>
@@ -381,13 +412,17 @@
 </ul>
 
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[为什么要学Ruby]]></title>
     <link href="http://towriting.com/blog/2013/12/26/learn-ruby/"/>
+    
     <updated>2013-12-26T21:15:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/26/learn-ruby</id>
+    
     <content type="html"><![CDATA[<p>  最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不会装系统的。而和这些不懂电脑的同学大谈各种计算机知识、编程语言的特点，是我一大爱好：脚本语言是一种易学的语言，要不然为何叫”脚本“，是因为用脚都可以学会；脚本语言里面有三P：Python，Php, Perl，都是极好的，当然还有一个Ruby，不过是日本人发明的，你如果不爱国的话，倒可以学一学&hellip;</p>
 
 <p>  最早的关于Ruby的记忆，就是和同学的这些对话了。毕业后，狂补C++的知识，不惜一切的想要提高C++的技术水平，听闻C++程序员必须要辅修一门脚本语言，于是Perl，Python，Ruby三门语言在我脑中角逐，最后Python胜出，于是啃了两三本Python的书籍，断断续续写了一些脚本，逢人就推荐Python，&#8221;life is short, use Python!&ldquo;, Python是个极佳的工具语言，Python的学习反向促进了对C++的领悟，Lambda的概念是从Python中学到的，当然后来自己又追逐Lambda的源头Haskell，就不多说了。</p>
@@ -426,13 +461,17 @@
 
 <p>当然并没有人强暴我的心理或肉体，我指的自由是，可以做一个自由职业者。这当然这是3、5年后的目标，而靠C++实现这个目标貌似不容易，如今是Web与APP的天下了，ROR，貌似是一个适宜自由职业者开发web产品的框架。</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[《C++标准库第二版 上册》笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/"/>
+    
     <updated>2013-12-18T23:27:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1</id>
+    
     <content type="html"><![CDATA[<p>p63 a pair&lt;> using a type that has only a nonconstant copy constructor will no longer compile.</p>
 
 <p>p64 std::piecewise_construct is passed as the first argument is class Foo forced to use a constructor that takes the elements of the tuple rather than a tuple as a whole.</p>
@@ -680,13 +719,17 @@ p342 piecewise_construct emplace.</p>
 
 <p>p494 bind also could bind data member.</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
     <link href="http://towriting.com/blog/2013/12/17/ini-muti-thread/"/>
+    
     <updated>2013-12-17T23:28:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/17/ini-muti-thread</id>
+    
     <content type="html"><![CDATA[<p>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms725501(v=vs.85).aspx">WritePrivateProfileString</a>的文档中并没有提到。
 据<a href="http://mfctips.com/tag/getprivateprofilestring/">这篇文章</a>介绍:</p>
 
@@ -843,13 +886,17 @@ p342 piecewise_construct emplace.</p>
 
 <hr />
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[我为什么从同花顺离职]]></title>
     <link href="http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/"/>
+    
     <updated>2013-12-16T23:42:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job</id>
+    
     <content type="html"><![CDATA[<p>  最近知乎上很流行的一个问题是<a href="http://www.zhihu.com/topic/19909711">为什么从 X 离职</a>，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。</p>
 
 <p>  首先，照例发自肺腑的感谢一下同花顺，同花顺的日子是我C++进步最快的一段时间，在这里我接触到了正规的开发流程，并且遇到了一个很棒的团队，那时的日子每天都很开心。</p>
@@ -874,13 +921,17 @@ p342 piecewise_construct emplace.</p>
 
 <p>  而同花顺，据观察感知是无法满足我这两种需求的，尤其第二种，我的判断是错误的吗？</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[你们是勤劳还是懒惰的程序员？]]></title>
     <link href="http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/"/>
+    
     <updated>2013-12-15T17:17:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy</id>
+    
     <content type="html"><![CDATA[<p><img class="pull-right" src="http://towriting.com/images/posts/working-hard/work-smart-not-hard.jpg">
 当人们从事体力劳动时，很容易判断他们的努力程度。你可以看到肢体运动和汗水。并且可以看到他们的劳动成果：高楼拔地，稻谷归仓&hellip;。承认和褒奖辛勤的劳作是人的一种本能，是体力运动迷人的一个原因。然而当管理创造性技术员工时，褒扬辛勤劳作的本能就有问题了。高效的员工有时候看起来并没有非常努力的工作。</p>
 
@@ -902,13 +953,17 @@ p342 piecewise_construct emplace.</p>
 
 <p>由Towriting.com翻译自：<a href="http://mikehadlow.blogspot.com/2013/12/are-your-programmers-working-hard-or.html">Code rant: Are Your Programmers Working Hard, Or Are They Lazy?</a></p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[Boost.Lambda与C++11.Lambda的用法对比]]></title>
     <link href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/"/>
+    
     <updated>2013-12-13T22:38:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda</id>
+    
     <content type="html"><![CDATA[<p>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。</p>
 
 <p>让我们通过几个例子对比C++11.Lambda来学习一下boost.Lambda的用法，详细的C++11.Lambda用法可以看这里：<a href="http://towriting.com/blog/2013/08/11/lambda-closures/">C++11系列-Lambda表达式</a></p>
@@ -1090,13 +1145,17 @@ the sum of values in vecIn：
 100 is Odd？ false
 </code></pre>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[那些C++牛人的博客]]></title>
     <link href="http://towriting.com/blog/2013/12/12/cpp-blogs/"/>
+    
     <updated>2013-12-12T20:57:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/12/cpp-blogs</id>
+    
     <content type="html"><![CDATA[<p>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。</p>
 
 <h2>C++大牛的博客</h2>
@@ -1386,13 +1445,17 @@ the sum of values in vecIn：
 
 <p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[《黑天鹅—如何应对不可知的未来》读书笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/"/>
+    
     <updated>2013-12-11T23:57:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan</id>
+    
     <content type="html"><![CDATA[<p><a href="http://www.amazon.cn/gp/product/B005U9CO3W/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B005U9CO3W&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《黑天鹅—如何应对不可知的未来》</a>上册的阅读笔记：</p>
 
 <ul>
@@ -1451,13 +1514,17 @@ the sum of values in vecIn：
 </ul>
 
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[C++中的静态断言]]></title>
     <link href="http://towriting.com/blog/2013/12/10/static-assert/"/>
+    
     <updated>2013-12-10T00:02:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/10/static-assert</id>
+    
     <content type="html"><![CDATA[<h2>什么是静态断言</h2>
 
 <p>断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，这两个宏生成DEBUG版本下的断言，另外还有assert，是C/C++提供的断言函数，效果和以上两个宏是一样的。</p>
@@ -1605,13 +1672,17 @@ the sum of values in vecIn：
 
 <p>static_assert是编译器很容易实现的一个特性，一般的编译器最新版本应该都已支持。</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[从杭州雾霾谈起]]></title>
     <link href="http://towriting.com/blog/2013/12/08/from-smog/"/>
+    
     <updated>2013-12-08T14:07:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/08/from-smog</id>
+    
     <content type="html"><![CDATA[<p>昨天，在简书上翻看了几篇文章，其中首页竟有两篇是谈论要每天写点东西的。其中有一个想法很好，是教人如何养成写东西的习惯的：每天抽出一刻钟以上的时间写点什么并坚持半个月，从此你可能就会有写东西的习惯。</p>
 
 <p>道理很简单，知易行难，但自己还是想试一试，因为自己最初创建这个博客时，给自己定下了每周一篇文章的目标，到目前虽没有严格达标，但产出还是不少的，半年来也有30篇。这样一看，较往年比今年自己确实留下了一些东西，也有了一点成就感。</p>
@@ -1636,13 +1707,17 @@ the sum of values in vecIn：
 
 <p>雾霾的好处，就像前一段时间郭美美事件一样，从某种角度看，是好事！</p>
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[整洁代码之上]]></title>
     <link href="http://towriting.com/blog/2013/12/03/beyond-clean-code/"/>
+    
     <updated>2013-12-03T23:09:00+00:00</updated>
     <id>http://towriting.com/blog/2013/12/03/beyond-clean-code</id>
+    
     <content type="html"><![CDATA[<h2>什么是整洁代码（What Is Clean Code）</h2>
 
 <p>当你拿这个问题问不同的人，或采用不同的语气，你可能会得到不同的答案。但通常无外乎这些评判标准：</p>
@@ -1744,13 +1819,17 @@ the sum of values in vecIn：
 </div>
 
 ]]></content>
+    
   </entry>
   
   <entry>
+    
     <title type="html"><![CDATA[Effective Tools - 多粘贴板 && 快速搜索]]></title>
     <link href="http://towriting.com/blog/2013/11/17/effective-tools/"/>
+    
     <updated>2013-11-17T13:21:00+00:00</updated>
     <id>http://towriting.com/blog/2013/11/17/effective-tools</id>
+    
     <content type="html"><![CDATA[<p>前两天买了一本<a href="http://www.amazon.cn/gp/product/B001XCWFOI/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B001XCWFOI&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《卓有成效的程序员》</a>，看过几章后才明白为什么Stackoverflow里面人们会推荐这本书：它大抵是讲工具的，目的是为了提高程序员的生产率，但工具往往是人们漠视的。</p>
 
 <p>工具的熟练使用，是人之所以成为人的一个重要条件。程序员也一样，虽然我们的可替代性很强，但一个“有成效的”程序员和一个普通的程序员的工作效率天壤之别。</p>
@@ -1773,6 +1852,7 @@ the sum of values in vecIn：
 
 <p>国外有一些类似的软件，比如大名鼎鼎的：Everything，但用来皆不如光速搜索体验好。</p>
 ]]></content>
+    
   </entry>
   
 </feed>
