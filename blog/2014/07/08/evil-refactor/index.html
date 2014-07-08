@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Linux下开启TRIM - 书写|记下人生痕迹</title>
+  <title>大部分项目不宜重构 - 书写|记下人生痕迹</title>
   <meta name="author" content="ToWriting">
 
           
-        <meta name="description" content="linux ssd trim">
-        <meta name="keywords" content="linux trim,ssd trim">
+        <meta name="description" content="大部分项目不宜重构">
+        <meta name="keywords" content="重构,项目管理,代码整洁">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://towriting.com/blog/2014/06/28/archlinux-trim">
+  <link rel="canonical" href="http://towriting.com/blog/2014/07/08/evil-refactor">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
@@ -77,7 +77,7 @@
   <header>
   
     
-      <h1 class="entry-title">Linux下开启TRIM</h1>
+      <h1 class="entry-title">大部分项目不宜重构</h1>
     
   
     
@@ -94,81 +94,14 @@
   
 
 
-<time datetime="2014-06-28T21:55:12+00:00" pubdate data-updated="true">2014-06-28</time>
+<time datetime="2014-07-08T00:26:25+00:00" pubdate data-updated="true">2014-07-08</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
-
-<p>首先要检测SSD是否支持TRIM:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&quot;TRIM supported&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果支持则会出现：&#8221;Data Set Management TRIM supported&#8221;</p>
-
-<p>如果SSD支持TRIM, 则可以开启TRIM了, 这里介绍常用的两种方法。</p>
-
-<h3>方法1：修改<a href="http://en.wikipedia.org/wiki/Fstab">fstab</a>, 添加discard属性</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo vim /etc/fstab
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是我机器上fstab的配置</p>
-
-<blockquote><p>UUID=27dd31b4-8aa4-4043-b921-540a312c056c       /               ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 1</p>
-
-<p>UUID=42f79958-0776-4b2f-8aa3-db827bf257b6       /home           ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 2</p></blockquote>
-
-<h3>方法2：使用fstrim定期执行trim任务</h3>
-
-<p>以我用的archlinux为例，首先安装并运行<a href="http://en.wikipedia.org/wiki/Cron">cron</a>服务：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pacman -S cronie
-</span><span class='line'>sudo systemctl start cronie
-</span><span class='line'>sudo systemctl <span class="nb">enable </span>cronie
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后创建一个任务配置:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/cron.daily/trim
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>并将下面的内容拷贝到里面：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
-</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;*** $(date -R) ***&quot;</span> &gt;&gt; <span class="nv">$LOG</span>
-</span><span class='line'>fstrim -v / &gt;&gt; <span class="nv">$LOG</span>
-</span><span class='line'>fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>参考：</p>
-
-<ol>
-<li><p><a href="http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html">http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html</a></p></li>
-<li><p><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives">https://wiki.archlinux.org/index.php/Solid_State_Drives</a></p></li>
-</ol>
-
+<div class="entry-content">
 </div>
 
 
@@ -191,12 +124,12 @@
   
 
 
-<time datetime="2014-06-28T21:55:12+00:00" pubdate data-updated="true">2014-06-28</time>
+<time datetime="2014-07-08T00:26:25+00:00" pubdate data-updated="true">2014-07-08</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>linux</a>
+    <a class='category' href='/blog/categories/cheng-xu-ren-sheng/'>程序人生</a>
   
 </span>
 
@@ -224,10 +157,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/05/03/dock-project-experience/" title="Previous Post: Dock项目个人总结">&laquo; Dock项目个人总结</a>
+        <a class="basic-alignment left" href="/blog/2014/06/28/archlinux-trim/" title="Previous Post: Linux下开启TRIM">&laquo; Linux下开启TRIM</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/07/08/evil-refactor/" title="Next Post: 大部分项目不宜重构">大部分项目不宜重构 &raquo;</a>
       
     </p>
   </footer>
