@@ -211,6 +211,9 @@ description: 整理我这些年来读过的书籍
 * 4月-苏东坡传 [review][5]
 * 5月-拆掉思维里的墙
 * 6月-历史深处的忧虑
+* 6月-我们仨（杨绛）
+* 7月-寻找家园（高尔泰）
+
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
