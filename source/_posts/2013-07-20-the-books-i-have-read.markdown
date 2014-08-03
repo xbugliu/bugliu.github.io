@@ -212,7 +212,7 @@ description: 整理我这些年来读过的书籍
 * 5月-拆掉思维里的墙
 * 6月-历史深处的忧虑
 * 6月-我们仨（杨绛）
-* 7月-寻找家园（高尔泰）
+* 7月-寻找家园（高尔泰）[review][5]
 
 
 
@@ -221,3 +221,4 @@ description: 整理我这些年来读过的书籍
 [3]: /blog/2014/02/23/mac-shuo-review/
 [4]: /blog/2014/04/18/who-use-stl/
 [5]: /blog/2014/04/27/the-gay-genius-review/
+[6]: /blog/2014/07/21/review-xzjy/
