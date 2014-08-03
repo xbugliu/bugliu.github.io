@@ -80,6 +80,143 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/12/03/beyond-clean-code/">整洁代码之上</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T23:09:00+00:00" pubdate data-updated="true">2013-12-03</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是整洁代码（What Is Clean Code）</h2>
+
+<p>当你拿这个问题问不同的人，或采用不同的语气，你可能会得到不同的答案。但通常无外乎这些评判标准：</p>
+
+<ul>
+<li>自解释的命名</li>
+<li>一致的代码风格</li>
+<li>合适的抽象</li>
+<li>可读性良好</li>
+<li>清晰的代码流程</li>
+<li>良好的架构</li>
+<li>复杂任务使用库实现</li>
+<li>使用工业级的解决方案</li>
+<li>没有安全漏洞</li>
+<li>函数短小</li>
+<li>函数复杂度小</li>
+</ul>
+
+
+<p>不一而足，当然你也有自己评判整洁代码的标尺&hellip;</p>
+
+<h2>如何写出整洁的代码(How To Write Clean Code)</h2>
+
+<p>这是经久不衰的热议话题。我认为下面这幅画可以精辟地诠释如何写出整洁的代码：</p>
+
+<p><img src="/images/posts/beyond-clean-code/towriting.png" title="" ></p>
+
+<p>当然这有一点无厘头，但这是真的。大部分程序员没有写出整洁代码的时间。就此我们无可奈何！</p>
+
+<h2>切换视角（Change The Premise)</h2>
+
+<p>我打算在这说点可能稍具争议、离经叛道的想法：</p>
+
+<blockquote><p>这里只有两种代码。一种具有商业价值，另一种没有！</p></blockquote>
+
+<p>在工业界，我们看中的是“漂亮”的代码，我们看好的是可读性好、行为正确的代码。但因为某些原因，我们从来没有谈论过代码必须要有商用价值。再整洁的代码没有商业价值也是“贱货”。</p>
+
+<p>所以，我们把“具有商业价值”整合进整洁代码的评判标尺，我们得到四种代码：</p>
+
+<table border="1">
+<tr><th></th><th>良好的商业价值</th><th>贫乏的商业价值</th></tr>
+<tr><th>整洁代码</th><td>出色的代码</td><td>坏代码</td></tr>
+<tr><th>丑陋代码</th><td>良好的代码</td><td>垃圾代码</td></tr>
+</table>
+
+
+<p>很明显使代码具有商业价值比使其“整洁”更划算。专注于“整洁”最多可以得到“坏代码”，而专注于&#8221;商业价值&#8221;，则最差得到“良好的代码”..</p>
+
+<p>所以，怎样才能专注于商业价值呢？</p>
+
+<h2>DIRTI方法（The DIRTI Method)</h2>
+
+<p>我靠写DIRTI<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>的代码来使代码专注于商业价值:</p>
+
+<ol>
+<li><strong>Develop</strong> &ndash; 为解决某个（商业）问题而快速开发（Develop)出哪怕很烂的代码。不要担心代码格式、抽象及其他任何问题。就是要完成它。</li>
+<li><strong>Isolate</strong> &ndash; 分离（Isolate)上一步实现的功能，整理出抽象模块。这些将成为重构的点。</li>
+<li><strong>Refactor</strong> &ndash; 重构(Refactor)这些模块，开始整理代码。</li>
+<li><strong>Test</strong> &ndash; 当这些模块整理合理后，开始写测试(Test)用例（单元测试）。</li>
+<li><strong>Integrate</strong> &ndash; 一旦这些模块通过测试就可以把它们集成(Integrate)进你的程序（要有集成测试）。</li>
+</ol>
+
+
+<p>妙的是，这一系列步骤假定你开始的时候并不知你的代码抽象的样子。但你一旦你开始写代码，它会逐渐帮助你明白你要解决的问题（方案）。</p>
+
+<p>与TDD（测试驱动开发）截然不同的是，TDD期望你在你开始动手写代码前明白你要写的代码。</p>
+
+<p>这确实会把我们带到一个美妙的境地。使用DIRTI方法会有两个主要的阶段：不停的DIR和不停的RTI。</p>
+
+<p>当你最终明白方案之前，你将一遍遍的开发，分离，重构。而一旦顿悟以后，你将花费更多的时间到下一阶段（重构，测试，集成）。</p>
+
+<h2>为什么这有效（Why This Works)</h2>
+
+<p>为什么我坐在这里给你讲DIRTI方法？因为它行之有效。DIRTI方法确实会帮助你知道你要写的代码。它会帮助你指出要解决的问题。</p>
+
+<p>更重要的是，它为你能做出英明决断提供力量和武器。你一定记得，具有商业价值的代码是好的代码。所以当你离开开发阶段，你的代码已经具有了商业价值，因为它已经可以解决最初要解决的问题。</p>
+
+<p>整个进程是迭代的。你可以不停的分离、重构、分离、重构，直到你对代码满意。但这个过程中，你是在可以工作的代码上进行的。这非常酷！这样允许你责问自己，”是否代码已经足够好了“。一旦你对代码满意了，就进入下一阶段。</p>
+
+<p>这会让你关注于最重要的东西：商业价值，而代码质量上的关注度是可以动态选择的。</p>
+
+<h2>不是方案，仅仅是工具（Not A Solution, A Tool)</h2>
+
+<p>必须要澄清的是：不是要你替换掉TDD、结对编程或其它你已经采用了的方法。DIRTI只会是你工具箱里的又一件工具。针对不同的问题要采用不同的工具：</p>
+
+<p>如果你明白你要写的东西，那就用TDD。如果你仅仅知道问题，而不知解决方案（最佳），那就用DIRTI吧。</p>
+
+<p>===================================================================================</p>
+
+<p>翻译自：<a href="http://blog.ircmaxell.com/2013/11/beyond-clean-code.html">Beyond Clean Code</a></p>
+
+<p>图片来自：<a href="http://www.aqee.net/how-to-write-good-code/">如何写出好代码</a></p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>发音同Dirty<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/11/17/effective-tools/">Effective Tools - 多粘贴板 && 快速搜索</a></h1>
       
       
@@ -643,55 +780,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/21/openshift-tips/">Openshift小技巧-热部署</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-21T22:24:00+00:00" pubdate data-updated="true">2013-10-21</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github的pages时没遇到的事情，用Google快速搜索下，原来要用热部署（hot deploy)实现不重启openshift程序部署文件，官方是支持的，方法很简单：</p>
-
-<ol>
-<li>切换到你的Openshift程序根目录</li>
-<li>创建文件hot_deploy到指定目录：</li>
-</ol>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch .openshift/markers/hot_deploy
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6">&larr; Older</a>
@@ -709,6 +797,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/21/review-xzjy/">读《寻找家园》</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/08/evil-refactor/">关于重构的一些想法</a>
       </li>
     
@@ -724,15 +816,11 @@
         <a href="/blog/2014/04/27/the-gay-genius-review/">读《苏东坡传》</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/04/18/who-use-stl/">谁在用C++ STL？</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (11)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (3)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (11)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>
