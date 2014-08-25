@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/</loc>
+    <lastmod>2014-08-18T23:34:52+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://towriting.com/blog/2014/07/21/review-xzjy/</loc>
     <lastmod>2014-07-21T23:51:23+00:00</lastmod>
     <priority>0.8</priority>
@@ -311,35 +317,35 @@
   
   <url>
     <loc>http://towriting.com/404.html</loc>
-    <lastmod>2014-08-03T20:00:11+00:00</lastmod>
+    <lastmod>2014-08-25T22:46:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/blog/archives/</loc>
-    <lastmod>2014-08-03T20:00:11+00:00</lastmod>
+    <lastmod>2014-08-25T22:46:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/</loc>
-    <lastmod>2014-08-03T20:00:11+00:00</lastmod>
+    <lastmod>2014-08-25T22:46:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/about/</loc>
-    <lastmod>2014-08-03T20:00:11+00:00</lastmod>
+    <lastmod>2014-08-25T22:46:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/search.html</loc>
-    <lastmod>2014-08-03T20:00:11+00:00</lastmod>
+    <lastmod>2014-08-25T22:46:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
