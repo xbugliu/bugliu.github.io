@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-08-25T22:46:13+00:00</updated>
+  <updated>2014-09-01T00:15:23+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    
+    <title type="html"><![CDATA[互联网公司“24小时待命”的陋习]]></title>
+    <link href="http://towriting.com/blog/2014/08/31/24-hour-stand-by/"/>
+    
+    <updated>2014-08-31T11:47:45+00:00</updated>
+    <id>http://towriting.com/blog/2014/08/31/24-hour-stand-by</id>
+    
+    <content type="html"><![CDATA[<p>24小时待命可能有些夸张，但它确实是以一种不成文的规定存在于一部分互联网公司。记得去年培训时，来自深圳总部的培训老师，自豪的说TX许多部门里员工都是24小时待命，随时应对解决问题。听一些其它公司的朋友讲，他们也有非上班时间被叫回公司的现象。所以24小时待命在一些地方可能形成了习俗。习俗很可怕，哪怕明知是错误的人们也无力反抗，比如裹脚。</p>
+
+<h3>有时真的需要24小时待命</h3>
+
+<p>在一些<code>小而美</code>的团队，早期面对众多的对手，必须有快速的执行力，才可以抢占先机，可以说24小时待命是小团队早期阶段不会死掉的必备条件。</p>
+
+<p>还有一种情况下，相关人员必须随叫随到，就是线上产品出现了严重问题，这是必须要立即处理的，出现了这种问题，相信大家每个人都会很着急，会主动赶回去的。这主要涉及运维和相关开发。</p>
+
+<h3>头痛医脚的昏招</h3>
+
+<p>但除了这两种情况，我看不出这种随意拉员工到公司的习惯有什么好处，相反会极大的侵害员工的积极性。如果在一个非创业期的团队经常出现周末随意拉员工回去加班的情况，那一定是<strong>产品和项目管理出现了严重问题</strong>。拉员工回去对于解决问题，治标不治本，相反还让人产生反感，让人有种疲于奔命之感。</p>
+
+<p>除此之外还有一种情况容易滋生24小时待命文化:老板的淫威。这是我熟识的一个朋友身上发生的事，他经常在坐了一个小时公交快到家门口的时候，被老板叫回去开临时会议，而且一开就到半夜12点了。后来朋友离开了那家公司，想必他不愿意再过那种随叫随到的生活，毕竟家里还有娇妻幼子。</p>
+
+<p>我现在也有些反感，周六早上被拉进微信群讨论产品问题，为什么不周五讨论？如果是紧急问题，我会立马回去处理的，但往往事情并不是那么紧急，往往是因为老板的不经意一句话，产品人员热情的跟进了，于是我们开发人员就到了公司加班。</p>
+
+<h3>陋习的危害</h3>
+
+<p>对于这种24小时待命的习俗，是没有人敢于站出来反对的，因为稍有质疑就会被扣上<code>不积极</code>、<code>没有责任心</code>的帽子，以后在公司就别想混了。所以对于这种东西，大家往往<strong>道路以目</strong>。长久下去，必会影响公司的发展，挫败团队的斗志。</p>
+
+<p>仔细想一下，24小时待命和<code>不积极</code>、<code>没有责任心</code>责任心并没有必然关系，岗位不同，责任不同，就我们开发而言，责任心应该体现在按时保质的完成开发任务（协助处理一些突发事故）。QA的主要责任感是按时完成测试，如果一个团队推行24小时待命，那什么东西是非得半夜过来测的？</p>
+
+<p>相反我觉得员工对&#8221;24小时待命&#8221;文化的逆来顺受是一种逃避和不负责任的做法。没人去深层次的分析和解决产生临时拉人加班的原因，只会使团队滑向更深的深渊。</p>
+]]></content>
+    
+  </entry>
+  
+  <entry>
+    
+    <title type="html"><![CDATA[C++14-大餐后的甜点]]></title>
+    <link href="http://towriting.com/blog/2014/08/25/cpp-14-dessert/"/>
+    
+    <updated>2014-08-25T23:15:41+00:00</updated>
+    <id>http://towriting.com/blog/2014/08/25/cpp-14-dessert</id>
+    
+    <content type="html"><![CDATA[<p>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是<a href="http://electronicdesign.com/dev-tools/bjarne-stroustrup-talks-about-c14">谨小甚微的</a>。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。</p>
+
+<p><img class="pull-right" src="http://towriting.com/images/posts/cpp-14-dessert/wg21-timeline.png"></p>
+
+<p>但Bjarne还说了，C++永远是心向开发者的，C++14将给开发者大开方面之门。关于C++14更详细的细节可以看维基百科:<a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14</a>,这里将下自己感兴趣的特性：</p>
+
+<h3>语言改变</h3>
+
+<p><strong>范型lambda</strong></p>
+
+<p>在C++11下，如果你想要打印出一个数的平方，可能需要这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square_int</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">square_double</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">double</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了保持函数的局部性，我们才选择的lambda，但C++11的lambda却导致多个类型时代码膨胀且重复，此时我们需要回过头来借助全局的模板了。</p>
+
+<p>但C++14可以完美的解决上面的问题，因为C++14中lambda的参数可以用auto代替具体的类型：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>auto返回类型</strong></p>
+
+<p>C++11支持auto关键字，用于变量的自动类型推导。但由于时间限制，C++标准委员会并没有让auto也支持函数的返回值类型自动推导，现在C++14支持了。这将会在返回类内部类型的成员函数书写上减少好多工作量：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Wiget</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">enum</span> <span class="n">Status</span><span class="p">{</span><span class="n">show</span><span class="p">,</span> <span class="n">hide</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">getStatus</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">Wiget</span><span class="o">::</span><span class="n">getStatus</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">show</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>编译器支持</h3>
+
+<p>曾经被标准折磨的死去活来的编译器如今越挫越勇。标准出来的快，编译器支持的更快。CLang（3.4）半年前就宣布已完全支持C++14(draft)特性（语言和库）。本人电脑上的GCC4.9.1也已部分支持C++14特性。但公司的开发环境要支持C++14可就难了。</p>
+
+<p>参考：</p>
+
+<p><a href="https://isocpp.org/std/status">https://isocpp.org/std/status</a></p>
+
+<p><a href="http://cpprocks.com/c1114-compiler-and-library-shootout/">http://cpprocks.com/c1114-compiler-and-library-shootout/</a></p>
+
+<p><a href="http://cpprocks.com/an-overview-of-c14-language-features/">http://cpprocks.com/an-overview-of-c14-language-features/</a></p>
+
+<p><a href="http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html">http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html</a></p>
+
+<p><a href="https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/">https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/</a></p>
+]]></content>
+    
+  </entry>
   
   <entry>
     
@@ -2001,233 +2122,6 @@ the sum of values in vecIn：
 
 
 <p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
-]]></content>
-    
-  </entry>
-  
-  <entry>
-    
-    <title type="html"><![CDATA[《黑天鹅—如何应对不可知的未来》读书笔记]]></title>
-    <link href="http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/"/>
-    
-    <updated>2013-12-11T23:57:00+00:00</updated>
-    <id>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan</id>
-    
-    <content type="html"><![CDATA[<p><a href="http://www.amazon.cn/gp/product/B005U9CO3W/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B005U9CO3W&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《黑天鹅—如何应对不可知的未来》</a>上册的阅读笔记：</p>
-
-<ul>
-<li>我们通过观察或经验获得的知识具有严重的局限性和脆弱性</li>
-<li>为什么读报实际上降低了你对世界的认识呢</li>
-<li>黑天鹅的逻辑是，你不知道的事比你知道的事更有意义，因为许多黑天鹅事件正是由于它们不被预期而发生和加剧的</li>
-<li>看到一件事情发生正是因为人们认为它不应该发生，这是不是很奇怪？</li>
-<li>尽管他们有经验和数据，但他们并不比普通大众更了解相关问题，只是更善于阐述而已，甚至只是更善于用复杂的数学模型把你弄晕而已</li>
-<li>我们不学习规律，而是学习事实</li>
-<li>正常的东西经常是不重要的</li>
-<li>任何寻求证实的人都能够找到足够的证据来欺骗自己，以及他身边的人</li>
-<li>即使我们取得了知识上的进步和成长，或者正因为这种进步和成长，未来仍会越来越不可预测</li>
-<li>仅仅在装扮上公然反叛是一回事—社会科学家和经济学家称之为“廉价的标签”</li>
-<li>历史是模糊的。你看到了结果，但看不到导致历史事件发生的幕后原因</li>
-<li><strong>在预测上，非常聪明和掌握大量信息的人并不比出租车司机更有优势</strong></li>
-<li>避免信息毒害的好处</li>
-<li>每当我把时间不是花在研究，而是花在追求物质财富上时，它都让我感到羞愧</li>
-<li>业余作家为自己写作，专业作家为他人写作</li>
-<li>如果你是一名脑力劳动者，你不必工作太卖力，只需要多想。你的产出为 100和 1000 时，你做的工作是一样的</li>
-<li><strong>收入具有突破性的职业只有在你成功的时候对你是好的</strong></li>
-<li>而今天，少数人夺走几乎一切，剩下的人几乎什么也得不到。</li>
-<li>设计一双鞋比真正把它们做出来赚钱得多</li>
-<li>当你的样本量足够大时，任何个例都不会对整体产生重大影响</li>
-<li>几乎所有社会问题都来自极端斯坦</li>
-<li>只花 100 美元就让别人有快乐一天的感觉非常令人飘飘然</li>
-<li>火鸡问题可以把“<strong>喂你的那只手也可能是拧断你脖子的那只手</strong>”的情况一般化</li>
-<li>从火鸡的角度，第 1001 天没有喂食是黑天鹅事件，从屠宰者的角度却不是，因为这不是意料之外的</li>
-<li>正面的黑天鹅事件需要时间来显现它们的影响，而负面的黑天鹅事件发生得非常迅速—毁灭比缔造要容易和迅速得多</li>
-<li>现代世界是极端斯坦，被不经常发生及非常不经常发生的事件左右</li>
-<li>我们习惯过度解释，偏好简洁的故事，而不是原始真相</li>
-<li>叙述谬误指的是我们无法在不编造理由或者强加一种逻辑关系的情况下观察一系列事实。对事实的解释会与事实混在一起，使事实变得更容易被记住</li>
-<li>文字或符号表述得越有条理，越不具随机性，越符合一定模式，这种表述就越容易在大脑中储存或者写在一本书里，好让你的后人在某一天读到。</li>
-<li>压缩对意识的正常工作至关重要</li>
-<li>信息越具有随机性，事物就越复杂，因而越难以概括</li>
-<li>不要试图刻意不去想它—这几乎一定会带来反作用。更合适的解决办法是更多地看到事件不可避免的部分</li>
-<li>人们提出一个原因，好让你接受一则新闻，同时让事情看上去更具体</li>
-<li>有人负责核实事实，却没有人负责核实真理</li>
-<li><strong>一个人的死亡是悲剧，100 万人的死亡只是统计学意义上的说法。</strong></li>
-<li>因为我们的反应是不经过思考和反省的</li>
-<li>我们对黑天鹅现象的误解大部分归因于我们对系统 1（叙述）以及情感（包括情绪）的运用</li>
-<li><strong>没有新发现是非常有价值的，因为它是发现过程的一部分</strong></li>
-<li>许多人在生活中忙忙碌碌，相信自己在做正确的事，但很长时间都无法拿出实实在在的成绩。他们需要一种不时获得满足感的能力，才能在不断受到周围人的残酷打击的情况下不失去勇气。</li>
-<li>这些职业能够产生一种持续的自我满足感</li>
-<li>风险投资人比创业家赚钱，出版商比作者赚钱，艺术经纪人比艺术家赚钱，科学比科学家成功（大约 50%的科学和学术论文或许花费了科学家几个月甚至几年的努力，却从来没有被人真正读过）。<strong>参与赌博的人获得了另一种非物质报酬：希望</strong>.</li>
-<li><strong>假如你赚了 1000 万美元，然后损失了 900 万美元，这情形比根本没有赚钱还糟！</strong></li>
-<li>学派使一个有着非凡思想而从中获益的希望很渺茫的人能够找到同伴</li>
-<li>沉默的证据</li>
-<li>自传的全部意义就在于武断地把某些品质与事件连成因果关系</li>
-<li>这些行业产出了大量失败者：挨饿的演员比挨饿的会计师多，即使你假设他们的平均收入是一样的</li>
-<li>没有必要为所有濒危物种感到道义上负有责任</li>
-<li>这是一种沉默的犯罪</li>
-<li>回想一下证实偏差：政府非常擅长告诉你他们做了什么，而不是他们没做什么</li>
-<li>救活一个人只是统计数字，伤害一个人则是奇闻逸事</li>
-<li>我们冒险通常不是出于自信，而是出于无知和对不确定性的无视</li>
-<li>我的存在是低概率事件的重大结果，而我经常忘记这一点。</li>
-</ul>
-
-]]></content>
-    
-  </entry>
-  
-  <entry>
-    
-    <title type="html"><![CDATA[C++中的静态断言]]></title>
-    <link href="http://towriting.com/blog/2013/12/10/static-assert/"/>
-    
-    <updated>2013-12-10T00:02:00+00:00</updated>
-    <id>http://towriting.com/blog/2013/12/10/static-assert</id>
-    
-    <content type="html"><![CDATA[<h2>什么是静态断言</h2>
-
-<p>断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，这两个宏生成DEBUG版本下的断言，另外还有assert，是C/C++提供的断言函数，效果和以上两个宏是一样的。</p>
-
-<p>那什么是静态断言？上面介绍的普通断言是运行时检测的，静态断言是编译期检测的，所以被称之为静态断言（static assert）。最早知道编译期检测是在Matthew wilson的<a href="http://www.amazon.cn/gp/product/B008A4Y2R0/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B008A4Y2R0&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《Imperfect C++》</a>中，里面称其为约束（constraints)，并抱怨C++为什么不支持如此常用的功能（C++11已有改善）。</p>
-
-<p>那使用静态断言有什么好处呢？</p>
-
-<h2>静态断言的好处</h2>
-
-<ol>
-<li>更早的报告错误，我们知道构建是早于运行的，更早的错误报告意味着开发成本的降低</li>
-<li>无法忽略的错误，对于Assert类似DEBUG下的断言，有时候被不会被执行到，即使执行到也会遭到一些开发的忽视，而静态断言的错误是无法忽视的，因为构建失败了。</li>
-<li>减少运行时开销，静态断言是编译期检测的，减少了运行时开销</li>
-</ol>
-
-
-<p>那如何使用实现静态断言？</p>
-
-<h2>使用静态断言</h2>
-
-<p>静态断言作用的对象一般是编译时已知的状态。任何可以成为模板类参数的内容都可以作为静态断言的对象。</p>
-
-<p>下面看一个静态断言的例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">D</span><span class="p">,</span><span class="k">typename</span> <span class="n">B</span><span class="o">&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">has_base</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>     <span class="o">~</span><span class="n">has_base</span><span class="p">()</span>
-</span><span class='line'>    <span class="p">{</span>
-</span><span class='line'>        <span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)(</span><span class="n">D</span><span class="o">*</span><span class="p">,</span><span class="n">B</span><span class="o">*</span><span class="p">)</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="nl">private:</span>
-</span><span class='line'>    <span class="k">static</span> <span class="kt">void</span> <span class="n">constraints</span><span class="p">(</span><span class="n">D</span> <span class="o">*</span><span class="n">pd</span><span class="p">,</span><span class="n">B</span> <span class="o">*</span><span class="n">pb</span><span class="p">)</span>
-</span><span class='line'>   <span class="p">{</span>
-</span><span class='line'>        <span class="n">pb</span> <span class="o">=</span> <span class="n">pd</span><span class="p">;</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个例子最早出自Bjarne Stroustrup之手，用于检测一个类型是否是另一个类型的父类（类型相等和void*的情况没有考虑，用起来像这样子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">CBase</span> <span class="p">{};</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">CDer</span><span class="o">:</span> <span class="k">public</span> <span class="n">CBase</span> <span class="p">{};</span>
-</span><span class='line'><span class="n">has_base</span><span class="o">&lt;</span><span class="n">CDer</span><span class="p">,</span> <span class="n">CBase</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">;</span>
-</span><span class='line'><span class="n">has_base</span><span class="o">&lt;</span><span class="n">CBase</span><span class="p">,</span> <span class="n">CDer</span><span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span> <span class="c1">//编译错误</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>它的工作原理是，成员函数constraints试图把D的指针转化成B的指针，这一般只在B是D的派生类时成立。而且constraints函数永远不会被调到，所以没有运行时开销。</p>
-
-<p>在看一个例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">enum</span> <span class="n">personType</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">person_child</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_adult</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_woman</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_man</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">person_count</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="kt">void</span> <span class="nf">ProcessPersonType</span><span class="p">(</span><span class="n">personType</span> <span class="n">ptVal</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="kt">char</span> <span class="n">dummy</span><span class="p">[</span><span class="n">person_count</span> <span class="o">&gt;</span> <span class="n">CHAR_MAX</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">];</span>
-</span><span class='line'>  <span class="kt">char</span> <span class="n">cVal</span> <span class="o">=</span> <span class="n">ptVal</span><span class="p">;</span>
-</span><span class='line'>  <span class="c1">// do something with cVal</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面例子里，试图将枚举类型的值转化成cVal,但可能有溢出的问题，所以设置一个静态断言：<code>char dummy[person_count &gt; UCHAR_MAX ? 1 : -1];</code>，原理是如果personType的最大值大于char类型的最大值，则表达式为<code>char dummy[-1]</code>，我们知道这是编译不过的，所以会提示我们出问题了。</p>
-
-<p>以上方式虽然可以实现静态断言的效果，但提示的信息，可能和我们断言想要报告的完全无关，所以并不是最完美的解决方案。</p>
-
-<h2>C++11中的静态断言</h2>
-
-<p>C++11中增加了static_assert支持静态断言，用法相当简单，static_asset接受两个参数，第一个为要断言的内容，第二个为显示的错误提示。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span> <span class="n">n</span><span class="o">&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">Factorial</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="n">static_assert</span><span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&quot;n must bigger than 1&quot;</span><span class="p">);</span>
-</span><span class='line'> <span class="k">enum</span><span class="p">{</span> <span class="n">value</span><span class="o">=</span><span class="n">n</span> <span class="o">*</span> <span class="n">Factorial</span><span class="o">&lt;</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;::</span><span class="n">value</span> <span class="p">};</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">template</span><span class="o">&lt;&gt;</span>
-</span><span class='line'><span class="k">struct</span> <span class="n">Factorial</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'> <span class="k">enum</span><span class="p">{</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="p">};</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面是计算阶乘的一个模板，我们使用static_assert检测n的值大于1，如果不满足则，编译错误，提示为：&#8221;n must bigger than 1&#8221;。</p>
-
-<p>static_assert是编译器很容易实现的一个特性，一般的编译器最新版本应该都已支持。</p>
 ]]></content>
     
   </entry>

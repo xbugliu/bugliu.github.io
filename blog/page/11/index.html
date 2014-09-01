@@ -80,6 +80,279 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/07/25/mutexs-owned-by-process/">获取进程打开的互斥量</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-25T21:36:00+00:00" pubdate data-updated="true">2013-07-25</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&#8221;拥有&#8221;的互斥量来区分这些进程。所以下面实现了获取指定进程&#8221;拥有&#8221;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
+
+<pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
+</code></pre>
+
+<p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_INFORMATION</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>2. 将句柄复制到当前进程
+</code></pre>
+
+<p>想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。</p>
+
+<pre><code>3. 获取句柄的类型信息
+</code></pre>
+
+<p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_OBJECT_TYPE_INFORMATION</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中第一个成员TypeName即是句柄类型的类型名</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/25/mutexs-owned-by-process/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/20/smart-getprocaddress/">Smart GetProcAddress之实现</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-20T22:36:00+00:00" pubdate data-updated="true">2013-07-20</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Windows下有过编程经验的朋友肯定用过这个函数：<a href="http://msdn.microsoft.com/en-us/library/ms683212%28v=vs.85%29.aspx">GetProcAddress</a>，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：</p>
+
+<figure class='code'><figcaption><span>DLL导出函数的头文件:dll.h</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>动态加载DLL调用上面两个函数</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC2</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="n">FUNC1</span> <span class="n">func1</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC1</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">FUNC2</span> <span class="n">func2</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC2</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func2&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="n">func1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'><span class="n">func2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上是主流的代码写法，但其实稍有问题：
+1. 要定义一套函数类型，且违反DRY，枯燥乏味，影响代码美观
+2. 隐式类型转换是魔鬼，如果DLL实现变化，则调用出错，比如：</p>
+
+<figure class='code'><figcaption><span>DLL导出函数的头文件：fun2的参数变成了三个，调用非出错不可</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</span><span class='line'><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，问题来了，如何避免：</p>
+
+<figure class='code'><figcaption><span>方案1：使用模板</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
+</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 使用方法如下：注意1. 要引用对应头文件，2. auto（自动类型推导）关键字从VS2010开始支持</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">func1</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看起来我们解决了DRY问题，也不用写繁琐的typedef了，于是我们开始Build，很快你就发现Link错误，unresolved external symbol，没注意取地址&amp;func1，已静态依赖于DLL，看来此路不通。取地址的目的是从头文件中获取函数的类型，还有什么方法可以获取函数的类型呢？</p>
+
+<figure class='code'><figcaption><span>方案2：使用decltype</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 封装一个智能GetProcAddress</span>
+</span><span class='line'><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hModule</span><span class="p">,</span> <span class="n">pFuncName</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 使用方法如下：</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">func1</span> <span class="o">=</span> <span class="n">SmartGetProcAddress</span><span class="o">&lt;</span><span class="n">decltype</span><span class="p">(</span><span class="n">func1</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;func1&quot;</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用decltype可以解决，函数取地址（&amp;)会静态依赖DLL问题，这里的关键是decltype(func1)这种写法的支持，最初这种写法在g++4.7测试是支持的，不过后来再VS2012、VS2010上测试好像都不支持，所以SmartGetProcAddress只能存在于理论阶段了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/07/20/the-books-i-have-read/">我曾读过的那些书</a></h1>
       
       
@@ -416,6 +689,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/08/31/24-hour-stand-by/">互联网公司“24小时待命”的陋习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/25/cpp-14-dessert/">C++14-大餐后的甜点</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/">实现无锁算法的常见陷阱</a>
       </li>
     
@@ -427,19 +708,11 @@
         <a href="/blog/2014/07/08/evil-refactor/">关于重构的一些想法</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/06/28/archlinux-trim/">Linux下开启TRIM</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (11)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

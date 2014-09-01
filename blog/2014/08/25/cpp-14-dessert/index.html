@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>C++14-大餐后的甜点 - 书写|记下人生痕迹</title>
+  <meta name="author" content="ToWriting">
+
+          
+        <meta name="description" content="记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等相关技术知识; 所有文章皆为原创或翻译.">
+        <meta name="keywords" content="C++14 范型lambda">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://towriting.com/blog/2014/08/25/cpp-14-dessert">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.useso.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.useso.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.useso.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-42601840-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner">
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:towriting.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+  
+    
+      <h1 class="entry-title">C++14-大餐后的甜点</h1>
+    
+  
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-25T23:15:41+00:00" pubdate data-updated="true">2014-08-25</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是<a href="http://electronicdesign.com/dev-tools/bjarne-stroustrup-talks-about-c14">谨小甚微的</a>。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。</p>
+
+<p><img class="pull-right" src="/images/posts/cpp-14-dessert/wg21-timeline.png"></p>
+
+<p>但Bjarne还说了，C++永远是心向开发者的，C++14将给开发者大开方面之门。关于C++14更详细的细节可以看维基百科:<a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14</a>,这里将下自己感兴趣的特性：</p>
+
+<h3>语言改变</h3>
+
+<p><strong>范型lambda</strong></p>
+
+<p>在C++11下，如果你想要打印出一个数的平方，可能需要这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square_int</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">square_double</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">double</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了保持函数的局部性，我们才选择的lambda，但C++11的lambda却导致多个类型时代码膨胀且重复，此时我们需要回过头来借助全局的模板了。</p>
+
+<p>但C++14可以完美的解决上面的问题，因为C++14中lambda的参数可以用auto代替具体的类型：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>auto返回类型</strong></p>
+
+<p>C++11支持auto关键字，用于变量的自动类型推导。但由于时间限制，C++标准委员会并没有让auto也支持函数的返回值类型自动推导，现在C++14支持了。这将会在返回类内部类型的成员函数书写上减少好多工作量：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Wiget</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">enum</span> <span class="n">Status</span><span class="p">{</span><span class="n">show</span><span class="p">,</span> <span class="n">hide</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">getStatus</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">Wiget</span><span class="o">::</span><span class="n">getStatus</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">show</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>编译器支持</h3>
+
+<p>曾经被标准折磨的死去活来的编译器如今越挫越勇。标准出来的快，编译器支持的更快。CLang（3.4）半年前就宣布已完全支持C++14(draft)特性（语言和库）。本人电脑上的GCC4.9.1也已部分支持C++14特性。但公司的开发环境要支持C++14可就难了。</p>
+
+<p>参考：</p>
+
+<p><a href="https://isocpp.org/std/status">https://isocpp.org/std/status</a></p>
+
+<p><a href="http://cpprocks.com/c1114-compiler-and-library-shootout/">http://cpprocks.com/c1114-compiler-and-library-shootout/</a></p>
+
+<p><a href="http://cpprocks.com/an-overview-of-c14-language-features/">http://cpprocks.com/an-overview-of-c14-language-features/</a></p>
+
+<p><a href="http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html">http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html</a></p>
+
+<p><a href="https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/">https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">ToWriting</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-25T23:15:41+00:00" pubdate data-updated="true">2014-08-25</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-plus-plus-14/'>c++14</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  <br/>
+  
+  
+  
+  
+  
+  <!-- Baidu Button BEGIN -->
+	<script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=0&amp;pos=left&amp;uid=6821503" ></script>
+	<script type="text/javascript" id="bdshell_js"></script>
+	<script type="text/javascript">
+	document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000);
+	</script>
+  <!-- Baidu Button END -->
+  
+
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/" title="Previous Post: 实现无锁算法的常见陷阱">&laquo; 实现无锁算法的常见陷阱</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/31/24-hour-stand-by/" title="Next Post: 互联网公司“24小时待命”的陋习">互联网公司“24小时待命”的陋习 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+    <section id="comment">
+      <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"towriting"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</div>
+    </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/31/24-hour-stand-by/">互联网公司“24小时待命”的陋习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/25/cpp-14-dessert/">C++14-大餐后的甜点</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/">实现无锁算法的常见陷阱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/21/review-xzjy/">读《寻找家园》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/08/evil-refactor/">关于重构的一些想法</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h2>文章分类</h2>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (5)</a></li></ul>
+</section>
+<section>
+  <h2>每日必读</h2>
+   <ul>
+    <li>
+    <a href="http://news.ycombinator.com/">Hacker News</a>
+    </li>
+    <li>
+    <a href="http://www.reddit.com/r/programming/">/r/programming</a>
+    </li>
+   </ul>
+  <h2>关注博客</h2>
+  <ul>
+    <li>
+      <a href="http://coolshell.cn/">酷壳</a>
+    </li>
+    <li>
+      <a href="http://mindhacks.cn/">Mind Hacks</a>
+    </li>
+  </ul>
+  <h2>友情链接</h2>
+  <ul>
+    <li>
+      <a href="http://bestcbooks.com">计算机书籍控</a>
+    </li>
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - ToWriting <br/>
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>, customized with <a href="https://github.com/mjhea0/whiterspace">whiterspace</a>.</span>
+</p>
+
+<p>
+  <span class="credit">本站内容采用<a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a>进行许可</span>
+</p></footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
