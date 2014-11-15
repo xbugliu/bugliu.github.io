@@ -214,6 +214,7 @@ description: 整理我这些年来读过的书籍
 * 6月-我们仨（杨绛）
 * 7月-寻找家园（高尔泰）[review][6]
 * 9月-格蠹汇编（范读)
+* 10月-摩托车修理店的未来工作哲学[review][7]
 
 
 
@@ -223,3 +224,4 @@ description: 整理我这些年来读过的书籍
 [4]: /blog/2014/04/18/who-use-stl/
 [5]: /blog/2014/04/27/the-gay-genius-review/
 [6]: /blog/2014/07/21/review-xzjy/
+[7]: /blog/2014/10/26/shop-class-as-soulcraft-notes
