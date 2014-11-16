@@ -80,6 +80,348 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C++11系列-改进的类型推导：auto、decltype和新的函数语法</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-08T00:18:00+00:00" pubdate data-updated="true">2013-08-08</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>C++11引入了一些新的实用的类型推导能力，这意味着你可以花费更少的时间去写那些编译器已经知道的东西。当然有些时候你需要帮助编译器或者你的编程伙伴。但是C++11，你可以在一些乏味的东西上花更少的时间，而多去关注逻辑本身。</p>
+
+<h2>auto之乐</h2>
+
+<p>我们先快速回顾一下auto，万一你没有读<a href="/blog/2013/08/01/what-is-cpp11/">第一篇C++11文章</a>中关于auto的部分。在C++11中，如果编译器在定义一个变量的时候可以推断出变量的类型，不用写变量的类型，你只需写auto即可。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在可以这样写：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这当然不是auto预期的用途！它会在模板和迭代器的配合使用中闪耀光芒：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">iterator</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其它时候auto也会非常有用。比如，你有一些下面格式的代码：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">BuiltType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">BuiltType</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的代码，我们看到这里需要两个模板参数：一个是Builder对象的类型，另一个是Builder创建出的对象的类型。糟糕的是创建出的类型无法被推导出，所以每次你必须这样调用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span><span class="o">&lt;</span><span class="n">MyObj</span><span class="o">&gt;</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是auto立即将丑陋的代码一扫无余，当Builder创建对象时不用写特殊代码了，你可以让C++帮你做：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="kt">void</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在你仅需一个模板参数，而且这个参数可以在函数调用的时候轻松推导：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样更易调用了，并且没丢失可读性，却更清晰了。</p>
+
+<h2>decltype和新的返回值语法</h2>
+
+<p>现在你可能会说auto就这样吗，假如我想返回Builder创建的对象怎么办？我还是需要提供一个模板参数作为返回值的类型。好！这充分证明了标准委员有一群聪明的家伙，对这个问题他们早想好了一个完美的解决方案。这个方案由两部分组成：decltype和新的返回值语法。</p>
+
+<h3>新的返回值语法</h3>
+
+<p>让我们讲一下新的返回值语法，这个语法还能看到auto的另一个用处。在以前版本的C和C++中，返回值的类型必须写在函数的前面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="nf">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在C++11中，你可以把返回类型放在函数声明的后面，用auto代替前面的返回类型，像这样：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是为什么我要这样用？让我们看一个证明这个语法好处的例子。一个包含枚举的类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">class</span> <span class="nc">Person</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="nl">public:</span>
+</span><span class='line'>    <span class="k">enum</span> <span class="n">PersonType</span> <span class="p">{</span> <span class="n">ADULT</span><span class="p">,</span> <span class="n">CHILD</span><span class="p">,</span> <span class="n">SENIOR</span> <span class="p">};</span>
+</span><span class='line'>    <span class="kt">void</span> <span class="nf">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">PersonType</span> <span class="nf">getPersonType</span> <span class="p">();</span>
+</span><span class='line'><span class="nl">private:</span>
+</span><span class='line'>    <span class="n">PersonType</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们写了一个简单的类，里面有一个类型PersonType表明Person是小孩、成人和老人。不做特殊考虑，我们定义这些成员方法时会发生什么？
+第一个设置方法，很简单，你可以使用枚举类型PersonType而不会有错误：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">void</span> <span class="n">Person</span><span class="o">::</span><span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">_person_type</span> <span class="o">=</span> <span class="n">person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>而第二个方法却是一团糟。简单的代码却编译不过：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="c1">// 编译器不知道PersonType是什么，因为PersonType会在Person类之外使用</span>
+</span><span class='line'><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你必须要这样写，才能使返回值正常工作</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">Person</span><span class="o">::</span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这可能不算大问题，不过会容易出错，尤其是牵连进模板的时候。</p>
+
+<p>这就是新的返回值语法引进的原因。因为函数的返回值出现在函数的最后，而不是前面，你不需要补全类作用域。当编译器解析到返回值的时候，它已经知道返回值属于Person类，所以它也知道PersonType是什么。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PersonType</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，这确实不错，但它真的能帮助我们什么吗？我们还不能使用新的返回值语法去解决我们之前的问题，我们能吗？不能，让我们介绍新的概念：decltype。</p>
+
+<h2>decltype</h2>
+
+<p>decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量，decltype让你从一个变量（或表达式）中得到类型。我说的是什么？</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'><span class="n">decltype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 相当于 auto y = x;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以对基本上任何类型使用decltype，包括函数的返回值。嗯，听起来像个熟悉的问题，假如我们这样写：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们将得到makeObject的返回值类型，这能让我们指定makeAndProcessObject的返回类型。我们可以整合进新的返回值语法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="k">auto</span>
+</span><span class='line'><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// do stuff with val</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这仅适用于新的返回值语法，因为旧的语法下，我们在声明函数返回值的时候无法引用函数参数，而新语法，所有的参数都是可访问的。</p>
+
+<h2>auto：引用、指针和常量</h2>
+
+<p>下面要确定的一个问题是auto如何处理引用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp; or int?</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>答案是在C++11中，auto处理引用时默认是值类型，所以下面的代码bar是int。不过你可以指定&amp;作为修饰符强制它作为引用：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int</span>
+</span><span class='line'><span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>不过，假如你有一个指针auto则自动获取指针类型：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是你也可以显式指定表明变量是一个指针：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">auto</span> <span class="o">*</span><span class="n">p_baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当处理引用时，你一样可以标记const，如果需要的话：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int&amp;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者指针：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="nf">const_foo</span><span class="p">();</span>
+</span><span class='line'><span class="k">const</span> <span class="k">auto</span><span class="o">*</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int*</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">const_foo</span><span class="p">();</span> <span class="c1">// const int*</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>所有这些都很自然，并且这遵循C++模板中类型推导的规则。</p>
+
+<p>下一篇：<a href="/blog/2013/08/11/lambda-closures/">Lambda表达式简明教程</a></p>
+
+<p>上一篇：<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a></p>
+
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html">C++11 &ndash; Auto, Decltype and return values after functions &ndash; Cprogramming.com</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h1>
       
       
@@ -511,193 +853,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/01/what-is-cpp11/">C++11系列-什么是C++11</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-01T20:32:00+00:00" pubdate data-updated="true">2013-08-01</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>什么是C++0x?</h2>
-
-<p>C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9月份，C++0x正式由官方发布并命名C++11，现在很多编译器已经支持了部分C++11特性。</p>
-
-<p>C++11包括大量的新特性：主要特征像<a href="http://en.cppreference.com/w/cpp/language/lambda">lambda</a>表达式和移动语义，实用的类型推导关键字auto，更简单的容器遍历方法，和大量使模板更容易使用的改进。这一系列教程将包含所以以上特性。</p>
-
-<h2>你该关注C++11吗？</h2>
-
-<p>很明显，C++11为C++带来了大量的新特性。C++11将修复大量缺陷和降低代码拖沓，比如lambda表达式的支持将使代码更简洁。像移动语义这种特性会提高语言内核的基础效率，使你可以写出更快的代码。对模板系统的优化可以使你更容易写出泛型的代码。</p>
-
-<p>新的标准库同时也会包含新的特性，包括对多线程的支持和优化智能指针，后者将给那些还没用类似于<a href="http://www.boost.org/doc/libs/1_46_1/libs/smart_ptr/shared_ptr.htm">boost::shared_ptr</a>的人提供更简单的内存管理方法。</p>
-
-<p>我已经开始使用新的C++11特性，并且非常喜欢：新的auto关键字，对模板&#8221;>>&ldquo;写法的支持，lambda表达式和新的函数定义语法。</p>
-
-<h2>C++11是如何开发出来的？</h2>
-
-<p>C++11的出现，首先要感谢C++标准委员会的辛勤工作，一群来自学术界和工业界的专家，他们的多次会晤攻克难题，终于设计出了一种跨平台，被多种编译器支持，可以生成高效易维护代码的语言。而C++11新标准，就像对灵活强大的C++的一次不可思议的扩展。</p>
-
-<h2>C++11包括什么？</h2>
-
-<h4>更易用的语言</h4>
-
-<p>使用过C++11后，我发现它提供了大量的基础方法使C++变成了一种更易使用的语言。这不是说它变成了简单的语言&mdash;这里有大量的新特性&mdash;提供了大量的方法使编程更容易。让我们看一个例子，auto关键字。在C++11中，假如编译器可以从变量的初始化中得到它的类型，那么你不必要指定类型。比如，你可以这样写：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编译器可以推导出y的类型是int。当然，这不是一个证明auto有用的一个闪亮的例子。当使用模板特别是STL时auto很好用。为什么这么说，想象使用一个迭代器(iterator):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
-</span><span class='line'><span class="n">address_book</span><span class="p">[</span><span class="s">&quot;Alex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;webmaster@towriting.com&quot;</span><span class="p">;</span>
-</span><span class='line'><span class="c1">//add a bunch of people to address_book</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在你想遍历address_book中的元素，要这样做，你需要一个迭代器：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这是一个恐怖的长类型声明，当你已经知道这个类型的时候。这样是不是简洁多了：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码变得更简单明了，我觉得可读性也更高了，因为模板语法使这一行其它内容变模糊了。这是我特别喜欢的一个特性，我发现它消除了许多头疼和难以追踪的编译错误，节省了时间而没有丢掉表达式的意思。</p>
-
-<h4>区间迭代（range-based for loop)</h4>
-
-<p>下面迭代器的例子是C++11提供的一种处理迭代的更好方法，有些人叫做区间迭代（基本上所有的现代语言都支持）。这个例子足够证明这种语法是多么优雅：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
-</span><span class='line'><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">i</span><span class="o">:</span> <span class="n">vec</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你需要做的就是给出一个变量和要迭代的区间。但是如果你想迭代一个map怎么办？你怎么设置map中值的类型？你知道vector值的类型是int。但map的值类型是pair，通过.first和.second给你提供键和值。但是用auto，你根本无需关心确切类型，你可以简单的写成：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="n">address_entry</span><span class="o">:</span> <span class="n">address_book</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">first</span><span class="o">&lt;&lt;</span><span class="s">&quot; &quot;</span><span class="o">&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">second</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这将打印出：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>Alex webmaster@towriting.com
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这是一个不错的C++11新特性组合用法吧？</p>
-
-<h4>>>(right angle brackets)</h4>
-
-<p>我这里还有更易用的优化&mdash;在以前的C++标准中，假如你写一个含有其他模板类型的模板：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>你必须在结束的两个&#8217;>&lsquo;之间添加空格。这不仅烦人，而且当你写成>>而没有空格时，你将得到困惑和误导的编译错误信息。产生这种行为的原因是C++词法分析的最大匹配原则（<a href="http://en.wikipedia.org/wiki/Maximal_munch">maximal munch rule</a>)。一个好消息是从今往后，你再也不用担心了：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>对，这确实是个小东西，不过却是人工代码克服机器工具的胜利。另外，这样写就不那么丑了。</p>
-
-<h4>多线程</h4>
-
-<p>这是第一次，C++11将包含一种内存模型和对应的多线程库，这意味着你将可以编写符合标准的多线程代码。新标准将提供所有的通用线程方法，比如线程、线程局部存储和原子操作。它也提供了一系列有趣的特性：futures和promises。futures和promises的主要思想是，你可以编写代码表示，“这个对象，一个future代码还没计算完的结果&#8221;，它将可以在后台计算结果。当这个值需要的时候，你向future发请求，假如这个值准备好了，那就可以得到它，要不然继续等待。</p>
-
-<p>我将在后续的文章中深入探讨多线程。</p>
-
-<h4>还有好多其他的东西</h4>
-
-<p>C++11特性的数量是客观的。你可以阅读维基百科里的<a href="http://en.wikipedia.org/wiki/C%2B%2B0x">C++11</a>页面，而我计划在这一系列文章中深入探索这些特性，包括：</p>
-
-<ul>
-<li><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></li>
-<li><a href="/blog/2013/08/11/lambda-closures/">Lambda表达式</a></li>
-<li><a href="/blog/2013/08/20/ranged-for-loop/">区间迭代</a></li>
-<li><a href="/blog/2013/09/17/constexpr/">常量表达式</a></li>
-<li>右值引用和移动语义</li>
-<li>nullptr和强类型的枚举</li>
-</ul>
-
-
-<h3>C++11的编译器支持</h3>
-
-<p>当然，如果无法使用再好的语言特性又有什么用，好消息是大量的编译器已经开始支持C++11。Apache基金会整理了一个列表，列出了C++11的语言特性和编译器的支持情况：<a href="http://wiki.apache.org/stdcxx/C%2B%2B0xCompilerSupport">支持C++11的编译器</a>。假如你对GCC感兴趣，这里有<a href="http://gcc.gnu.org/gcc-4.7/cxx0x_status.html">GCC4.7支持C++11</a>。</p>
-
-<p>有些编译器，比如GCC，不会默认支持这些新特性&mdash;例如，为了支持C++11特性，编译时必须指定 -std=c++0x。当然这也是很有用的，你可以在你的项目中选择编译器和语言集。</p>
-
-<p>下一篇：<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">如何用auto、decltype和新的函数语法编写更好的代码</a></p>
-
-<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/what-is-c++0x.html">What is C++0x? &ndash; Cprogramming.com</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11">&larr; Older</a>
@@ -715,6 +870,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/11/15/api-design-for-c-plus-plus-notes/">C++API设计 - 笔记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/10/26/shop-class-as-soulcraft-notes/">读《摩托车修理店的未来工作哲学》</a>
       </li>
     
@@ -730,15 +889,11 @@
         <a href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/">实现无锁算法的常见陷阱</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/07/21/review-xzjy/">读《寻找家园》</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (18)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

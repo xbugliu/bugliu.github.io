@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-11-15T20:17:06+00:00</updated>
+  <updated>2014-11-16T16:13:29+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,73 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C++API设计 - 笔记]]></title>
+    <link href="http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/"/>
+    <updated>2014-11-15T20:24:38+00:00</updated>
+    <id>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes</id>
+    <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00EE13U30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00EE13U30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ API设计</a>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看这本书了。</p>
+
+<h2>笔记</h2>
+
+<p>P91 重构就像汽车高速行驶时更换引擎，但还不能停车</p>
+
+<p>P103 API的第一个发行版本很重要</p>
+
+<p>P115 LISKOV替换原则指出，如果S是T的子类，那么在行为上，S不需要修改就可以替换T类型的对象</p>
+
+<p>P117 私有继承、Was-a的关系</p>
+
+<p>P119 开发封闭原则是一种启发式的原则，则不是必须遵守的</p>
+
+<p>P121 一个好的名字往往可以表达类的意图，如果一个类难以命名，这往往是缺乏设计的信号</p>
+
+<p>P122 函数尽量使用正面的概念命名，比如IsConnect而不是IsUnConnect</p>
+
+<p>P132 C API比C++ API具有更好的二进制兼容性</p>
+
+<p>P140 可以使用预处理器技术模拟模板</p>
+
+<p>P176 避免使用友元，这往往意味这糟糕的设计</p>
+
+<p>P182 如果没有必要使用Dynamic_Cast则常见的做法是关闭运行时信息生成</p>
+
+<p>P182 不要猜测性能瓶颈的位置</p>
+
+<p>P183 传值可能会导致对象切割而引起莫名其妙的问题</p>
+
+<p>P185 不应该前置声明STL的类型</p>
+
+<p>P192 C++11中一个构造函数可以调用其他的构造函数</p>
+
+<p>P192 对象越小，就越适合缓存</p>
+
+<p>P197 Donald Knuth有句名言：过早优化是万恶之源</p>
+
+<p>P211 Linux 的奇数版本号代表开发版本</p>
+
+<p>P216 如果确实需要做二进制不兼容，则需要考虑给信库起个新名字。比如zlib.dll &ndash;> zlib1.dll</p>
+
+<p>P225 弃用标记：__declspec(deprecated)</p>
+
+<p>P250 时间驱动、质量驱动和功能驱动</p>
+
+<p>P257 性能测试的结果是实数而不是简单的真和假</p>
+
+<p>P264 驱动测试开发的好处是推动你考虑接口会被如何调用</p>
+
+<p>P286 SWIG</p>
+
+<p>P286 任何脚本绑定技术都是建立在适配器模式上的</p>
+
+<p>P286 Boost.Python支持Boost和Python的互相交互</p>
+
+<p>P265 模拟对象又可以简单称为MOCK</p>
+
+<p>P339 每个DLL有相应的到入库lib文件，虽然静态库和导入库的格式都是lib但他们的文件类型是不同的</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[谁在用C++ STL？]]></title>
@@ -546,7 +613,7 @@ the sum of values in vecIn：
 <p><img class="pull-right" src="/images/posts/cpp-blogs/dave_abrahams.jpg" width="120" height="150"></p>
 
 <ul>
-<li><strong>David Abrahams的博客</strong>: <a href="http://daveabrahams.com/">Dave Abrahams: Home Page | Stuff I wrote, things I did, etc</a></li>
+<li><strong>David Abrahams的博客</strong>: <a href="http://daveabrahams.com/">Dave Abrahams: Home Page | Stuff I wrote, things I did, etc</a>[已失效]</li>
 </ul>
 
 
@@ -712,11 +779,11 @@ the sum of values in vecIn：
 <p>Agustín Bergé，86年生阿根廷人，可能是这里面最年轻的，stackoverflow目前排名708。作者想用自己的博客探索永无边界的C++世界，尤其是那些前人未涉足的犄角旮旯，所以C++中毒颇深者可以看看。</p>
 
 <ul>
-<li><strong>Chris Kohlhoff的博客</strong>: <a href="http://blog.think-async.com/">Preshing on Programming</a></li>
+<li><strong>Chris Kohlhoff的博客</strong>: <a href="http://blog.think-async.com/">Thinking Asynchronously in C++</a></li>
 </ul>
 
 
-<p>Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。</p>
+<p>Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。</p>
 
 <h2>中文C++名博</h2>
 
@@ -755,117 +822,6 @@ the sum of values in vecIn：
 
 
 <p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C++中的静态断言]]></title>
-    <link href="http://towriting.com/blog/2013/12/10/static-assert/"/>
-    <updated>2013-12-10T00:02:00+00:00</updated>
-    <id>http://towriting.com/blog/2013/12/10/static-assert</id>
-    <content type="html"><![CDATA[<h2>什么是静态断言</h2>
-
-<p>断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，这两个宏生成DEBUG版本下的断言，另外还有assert，是C/C++提供的断言函数，效果和以上两个宏是一样的。</p>
-
-<p>那什么是静态断言？上面介绍的普通断言是运行时检测的，静态断言是编译期检测的，所以被称之为静态断言（static assert）。最早知道编译期检测是在Matthew wilson的<a href="http://www.amazon.cn/gp/product/B008A4Y2R0/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B008A4Y2R0&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="" target="_blank">《Imperfect C++》</a>中，里面称其为约束（constraints)，并抱怨C++为什么不支持如此常用的功能（C++11已有改善）。</p>
-
-<p>那使用静态断言有什么好处呢？</p>
-
-<h2>静态断言的好处</h2>
-
-<ol>
-<li>更早的报告错误，我们知道构建是早于运行的，更早的错误报告意味着开发成本的降低</li>
-<li>无法忽略的错误，对于Assert类似DEBUG下的断言，有时候被不会被执行到，即使执行到也会遭到一些开发的忽视，而静态断言的错误是无法忽视的，因为构建失败了。</li>
-<li>减少运行时开销，静态断言是编译期检测的，减少了运行时开销</li>
-</ol>
-
-
-<p>那如何使用实现静态断言？</p>
-
-<h2>使用静态断言</h2>
-
-<p>静态断言作用的对象一般是编译时已知的状态。任何可以成为模板类参数的内容都可以作为静态断言的对象。</p>
-
-<p>下面看一个静态断言的例子：
-```cpp
-template <typename D,typename B>
-struct has_base
-{</p>
-
-<pre><code> ~has_base()
-{
-    void(*p)(D*,B*) = constraints;
-}
-</code></pre>
-
-<p>private:</p>
-
-<pre><code>static void constraints(D *pd,B *pb)
-</code></pre>
-
-<p>   {</p>
-
-<pre><code>    pb = pd; 
-</code></pre>
-
-<p>   }
-};
-<code>
-这个例子最早出自Bjarne Stroustrup之手，用于检测一个类型是否是另一个类型的父类（类型相等和void*的情况没有考虑，用起来像这样子：
-</code>cpp
-class CBase {};
-class CDer: public CBase {};
-has_base&lt;CDer, CBase> a;
-has_base&lt;CBase, CDer> b; //编译错误
-```
-它的工作原理是，成员函数constraints试图把D的指针转化成B的指针，这一般只在B是D的派生类时成立。而且constraints函数永远不会被调到，所以没有运行时开销。</p>
-
-<p>在看一个例子：
-```cpp
-enum personType
-{</p>
-
-<pre><code>person_child,
-person_adult,
-person_woman,
-person_man,
-person_count    
-</code></pre>
-
-<p>};</p>
-
-<p>void ProcessPersonType(personType ptVal)
-{
-  char dummy[person_count > CHAR_MAX ? -1 : 1];
-  char cVal = ptVal;
-  // do something with cVal
-}</p>
-
-<p><code>``
-上面例子里，试图将枚举类型的值转化成cVal,但可能有溢出的问题，所以设置一个静态断言：</code>char dummy[person_count > UCHAR_MAX ? 1 : -1];<code>，原理是如果personType的最大值大于char类型的最大值，则表达式为</code>char dummy[-1]`，我们知道这是编译不过的，所以会提示我们出问题了。</p>
-
-<p>以上方式虽然可以实现静态断言的效果，但提示的信息，可能和我们断言想要报告的完全无关，所以并不是最完美的解决方案。</p>
-
-<h2>C++11中的静态断言</h2>
-
-<p>C++11中增加了static_assert支持静态断言，用法相当简单，static_asset接受两个参数，第一个为要断言的内容，第二个为显示的错误提示。
-```cpp
-template<int n>                               <br/>
-struct Factorial                                  <br/>
-{
- static_assert(n > 1, &ldquo;n must bigger than 1&rdquo;);<br/>
- enum{ value=n * Factorial&lt;n-1>::value }; <br/>
-};</p>
-
-<p>template&lt;>                                        <br/>
-struct Factorial<0>                                  <br/>
-{<br/>
- enum{ value=1 };<br/>
-};<br/>
-```
-上面是计算阶乘的一个模板，我们使用static_assert检测n的值大于1，如果不满足则，编译错误，提示为："n must bigger than 1"。</p>
-
-<p>static_assert是编译器很容易实现的一个特性，一般的编译器最新版本应该都已支持。</p>
 ]]></content>
   </entry>
   

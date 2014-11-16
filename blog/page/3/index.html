@@ -80,6 +80,103 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2014/04/18/who-use-stl/">谁在用C++ STL？</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-18T23:39:00+00:00" pubdate data-updated="true">2014-04-18</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
+
+<p>大家知道STL中三大法宝：容器、迭代器和算法。我所经历的公司/团队STL的使用情况：</p>
+
+<hr />
+
+<table border="1">
+<tr><th>序号</th><th>团队规模</th><th>项目规模</th><th>容器</th><th>迭代器</th><th>高级迭代器</th><th>算法</th><th>高级算法</th><th>funtional</th></tr>
+<tr><th>1</th><td>5人以下,平均2年经验</td><td>10万以下</td><td>基本没有</td><td>基本没有</td><td>基本没有</td><td>基本没有</td><td>无</td><td>无</td></tr>
+<tr><th>2</th><td>10人,平均2年经验</td><td>100万</td><td>较多</td><td>较多</td><td>较少</td><td>较少</td><td>极少</td><td>几无</td></tr>
+<tr><th>3</th><td>10人,平均4年经验</td><td>100万</td><td>较多</td><td>较多</td><td>较少</td><td>极少</td><td>较少</td><td>有</td></tr>
+</table>
+
+
+<p>（注：表中迭代器是指通过begin和end获取interator，而高级迭代器指back_inserter等迭代器生成器和内置迭代器;算法指sort,foreach, 高级算法指算法带if的形式）</p>
+
+<hr />
+
+<p><strong>看来，STL并不受大家欢迎，至少在我所呆过的团队里是这样的，为何如此？</strong></p>
+
+<h3>洪水猛兽 （守旧）</h3>
+
+<p>容器（最简单的vector）几乎是大部分C++程序员最开始接触的STL组件，我也不例外。那是10年自己刚毕业那会儿，在一家公司实习，实现一个简单的图像显示和处理的Demo程序。里面图像数据最初是存储在原始的数组（char [])中。那一阵子在狂啃《C++ Primer》，里面提到C++程序员不应该使用这些原生的数组，应该用vector代替，于是自己将程序中的char []替换成了vector<char>。而后发现一些图像算法执行慢了好多，遂请教mentor，mentor是名校的doctor，不编程久已，他并没用过STL，但提出不要用STL，不要追时髦、偷懒，老老实实的写“C”代码就好了。</p>
+
+<p>舔着第一次用STL的伤口，念着mentor的教诲，在这家公司的第一年里自己后来好像就不再关注和使用STL。同期的C++ Programmer共四人，一个工作1年，另两个更久些，那时我们在“不赶时髦”上很团结，大家愉快的使用着VC6，且都不使用STL。</p>
+
+<p>这就是某些老式小型软件公司一些C++程序员对待STL的态度：排斥守旧，其中缘由高校的计算机教育脱不了干系。</p>
+
+<p>当然有个人和特殊业务场景也会排斥STL：<a href="http://www.zhihu.com/question/20201972">为何某些公司不容许使用C++ STL</a>。</p>
+
+<h3>玄之又玄 （畏惧）</h3>
+
+<p>C++本来有有很多不易掌握的细节。而STL同样如此，简单强大，但有微妙的陷阱。就拿Effective STL来说，条款1：慎重的选择容器类型中，就有大量自己不曾掌握模棱两可的点：</p>
+
+<ul>
+<li>string的swap会导致迭代器失效</li>
+<li>容器的内部可能有引用计数</li>
+<li>插入、删除操作的回滚能力</li>
+</ul>
+
+
+<p>当然有些细节无需掌握，但就我接触到的C++程序员大都使用STL的最简单用法: 使用vector和map存储一些数据，而对稍微高级点的STL用法麻木无知或畏惧使用：</p>
+
+<ol>
+<li>各种容器的区别，如何使用容器兼容C接口</li>
+<li>for_each等函数存在的意义，如何写出函数式风格的代码</li>
+<li>类的成员函数和同名全局函数的区别，比如set::find与std::find，map::remove与std::remove等等</li>
+<li>xxx_if函数的使用，如何写predicate</li>
+<li>function&lt;>, bind函数的使用</li>
+<li>一些惯用法，比如erase-remove</li>
+</ol>
+
+
+<p>以上是我认为一个合格的C++开发应掌握的STL技巧。而掌握这些技巧，却是需要一段时间的练习，是否这一原因导致了一部分人对STL的无爱？因为即使不掌握这些技巧，功能是同样可以完成的。</p>
+
+<h3>曲高和寡 （风气)</h3>
+
+<p>语言的出现提高了人们交流的效率，设计模式的出现提高了软件人员的交流效率，但前提是交流的双方都懂才行。STL同样如此，我之蜜糖彼之砒霜，在一个不了解STL的团队中大量使用STL尤其是一些稍微“高级另类”的用法，难免遭人排斥。而且别人很难看懂你写的代码，指责你的代码难于维护，这并不是谁的错，这是一个道不同不幸与某的问题。</p>
+
+<p>在一个不用、不了解STL的团队，喜爱STL之人会克制使用STL！</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2014/04/08/tencent-anniversary/">入职一周年记</a></h1>
       
       
@@ -347,80 +444,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/26/learn-ruby/">为什么要学Ruby</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-26T21:15:00+00:00" pubdate data-updated="true">2013-12-26</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>  最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不会装系统的。而和这些不懂电脑的同学大谈各种计算机知识、编程语言的特点，是我一大爱好：脚本语言是一种易学的语言，要不然为何叫”脚本“，是因为用脚都可以学会；脚本语言里面有三P：Python，Php, Perl，都是极好的，当然还有一个Ruby，不过是日本人发明的，你如果不爱国的话，倒可以学一学&hellip;</p>
-
-<p>  最早的关于Ruby的记忆，就是和同学的这些对话了。毕业后，狂补C++的知识，不惜一切的想要提高C++的技术水平，听闻C++程序员必须要辅修一门脚本语言，于是Perl，Python，Ruby三门语言在我脑中角逐，最后Python胜出，于是啃了两三本Python的书籍，断断续续写了一些脚本，逢人就推荐Python，&#8221;life is short, use Python!&ldquo;, Python是个极佳的工具语言，Python的学习反向促进了对C++的领悟，Lambda的概念是从Python中学到的，当然后来自己又追逐Lambda的源头Haskell，就不多说了。</p>
-
-<p>  而自己为什么又要开始学Ruby了呢？不爱国了吗？当然开玩笑了，互联网的世界那里有国别之分，而且我们谋生用的技术那些是国产呢？</p>
-
-<p>  从Ruby很火可以推断Ruby应该是个不错的语言，除却这个原因和学习本身就是一个快乐的过程外，以下是自己主观上想要学习Ruby的原因：</p>
-
-<h3>C++学习之痒</h3>
-
-<p>当然C++现在处于并且将长期处于自己技术方向的中心。都说C++语法都让人着迷，然自己好像陷入C++的汪洋大海中了，看到这些<a href="/blog/2013/12/12/cpp-blogs/">大牛的博文</a>，始觉自己对C++了解的太少了。短暂的休息是为了下一次冲锋，C++的深入，先放一放。</p>
-
-<h3>美丽新世界</h3>
-
-<p><a href="http://en.wikipedia.org/wiki/Andy_Hunt_(author)">Andrew Hunt</a>的经典名著<a href='http://www.amazon.cn/gp/product/B004GV08CY/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004GV08CY&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>程序员修炼之道</a>中提到，程序员每年要学习一门语言。一些教授所言的“语言不重要，所有语言都是相通的“这种观点经不起推敲。人为什么要学习外语，无外乎两种原因：了解语言背后的思维习惯和掌握语言背后的信息价值。编程语言和自然语言一样的，学习一门新的编程语言，可以接触到新的思维习惯和语言先天的优势（语法糖、框架、库、社区等）。</p>
-
-<h3>劳动是必需品</h3>
-
-<p>中学时，记得关于共产主义的描述有一条是：<code>劳动已不仅是谋生的手段，而且成了生活的第一需要</code>，设想一下，到那时休5做2，想要加班都会被领导批评，要层层审批才能通过。那时的劳动定是快乐的，可这种乌托邦的社会，你我未必可以赶的上，我们如何爱上我们的工作？</p>
-
-<p><code>Ruby, 让你爱上你的工作</code>。这是某些人打出的Ruby的口号，我特别想证明这个口号是对的，或是错的。</p>
-
-<h3>现实的考量</h3>
-
-<p>Ruby在国内算是小众的语言，但如果要转Ruby的话，能否找到工作，刚才在Indeed上搜索Ruby:948条,Python:4,474条;Haskell:7条；机会确实不太多，再看Ruby的趋势，左侧全球的Ruby热度减退，但右侧国内Ruby热度13年井喷，所以不久以后Ruby还是可以学以致工作的。</p>
-
-<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=/m/06ff5&cmpt=q&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=400&h=330"></script>
-
-
-
-
-<script type="text/javascript" src="//www.google.com/trends/embed.js?hl=en-US&q=Ruby&geo=CN&cmpt=geo&content=1&cid=TIMESERIES_GRAPH_0&export=5&w=350&h=330"></script>
-
-
-<h3>为了自由</h3>
-
-<p>当然并没有人强暴我的心理或肉体，我指的自由是，可以做一个自由职业者。这当然这是3、5年后的目标，而靠C++实现这个目标貌似不容易，如今是Web与APP的天下了，ROR，貌似是一个适宜自由职业者开发web产品的框架。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4">&larr; Older</a>
@@ -438,6 +461,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/11/15/api-design-for-c-plus-plus-notes/">C++API设计 - 笔记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/10/26/shop-class-as-soulcraft-notes/">读《摩托车修理店的未来工作哲学》</a>
       </li>
     
@@ -453,15 +480,11 @@
         <a href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/">实现无锁算法的常见陷阱</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/07/21/review-xzjy/">读《寻找家园》</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (17)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (18)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>
