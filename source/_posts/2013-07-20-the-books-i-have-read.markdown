@@ -213,9 +213,9 @@ description: 整理我这些年来读过的书籍
 * 6月-历史深处的忧虑
 * 6月-我们仨（杨绛）
 * 7月-寻找家园（高尔泰）[review][6]
-* 9月-格蠹汇编（范读)
+* 9月-格蠹汇编（泛读)
 * 10月-摩托车修理店的未来工作哲学[review][7]
-
+* 11月15日-C++API设计[note][8]
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
@@ -225,3 +225,4 @@ description: 整理我这些年来读过的书籍
 [5]: /blog/2014/04/27/the-gay-genius-review/
 [6]: /blog/2014/07/21/review-xzjy/
 [7]: /blog/2014/10/26/shop-class-as-soulcraft-notes
+[8]: /blog/2014/11/15/api-design-for-c-plus-plus-notes

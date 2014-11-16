@@ -57,7 +57,7 @@ Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% apr
 <br/>
 {% img pull-right /images/posts/cpp-blogs/dave_abrahams.jpg 120 150%}
 
-* **David Abrahams的博客**: [Dave Abrahams: Home Page | Stuff I wrote, things I did, etc][4]
+* **David Abrahams的博客**: [Dave Abrahams: Home Page | Stuff I wrote, things I did, etc][4][已失效]
 
 David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，{% aproduct B002WB1J0U*C++ Template Metaprogramming%}的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。
 <br/>
@@ -159,9 +159,9 @@ Daniel Park，喜欢用昵称whanhee，身世不知。一个注重实干的C++�
 Agustín Bergé，86年生阿根廷人，可能是这里面最年轻的，stackoverflow目前排名708。作者想用自己的博客探索永无边界的C++世界，尤其是那些前人未涉足的犄角旮旯，所以C++中毒颇深者可以看看。
 
 
-* **Chris Kohlhoff的博客**: [Preshing on Programming][13]
+* **Chris Kohlhoff的博客**: [Thinking Asynchronously in C++][13]
 
-Chris Kohlhoff，澳大利亚人，Boost.asoi作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。
+Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。
 
 ##中文C++名博
 
