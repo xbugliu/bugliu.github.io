@@ -80,6 +80,165 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/08/11/lambda-closures/">C++11系列-lambda函数</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T22:45:00+00:00" pubdate data-updated="true">2013-08-11</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img class="pull-left" src="/images/posts/lambda-closures/lambda.png" width="66" height="90" title="'lambda'" >
+C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。</p>
+
+<h2>为什么Lambda很酷</h2>
+
+<p>想象你有一个地址簿类，并且你想要提供一个可供检索的函数。你可能会提供一个简单的函数，接受一个字符串然后返回满足所有字符串的地址。有时有些用户可能希望这样。不过假如他们只是想检索域名或者检索用户名并且忽略域名结果；或者检索出现在其他列表中的所有Email地址。这里可能有许多可能的检索方式。除了类中集成所有这些搜索选项，提供一个通用的查找方法，这个方法接受一个查找规则的函数，这样不是更好些吗？让我们叫这个函数findMatchingAddresses，它接受一个函数或仿函数对象。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;string&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;vector&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">AddressBook</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nl">public:</span>
+</span><span class='line'>    <span class="c1">// 使用模板可以是我们忽略函数、仿函数和Lambda的不同</span>
+</span><span class='line'>    <span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">Func</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findMatchingAddresses</span> <span class="p">(</span><span class="n">Func</span> <span class="n">func</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">results</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">_addresses</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">end</span> <span class="o">=</span> <span class="n">_addresses</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">itr</span> <span class="o">!=</span> <span class="n">end</span><span class="p">;</span> <span class="o">++</span><span class="n">itr</span> <span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="c1">// 调用传递到findMatchingAddresses的函数并检测是否匹配规则</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span> <span class="n">func</span><span class="p">(</span> <span class="o">*</span><span class="n">itr</span> <span class="p">)</span> <span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="n">results</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="o">*</span><span class="n">itr</span> <span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">results</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nl">private:</span>
+</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">_addresses</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>任何人可以传递一个包含地址查找逻辑的函数给findMatchingAddresses。假如这个函数返回真，则得到相应的地址，地址将被返回。这种方式在以前的C++中一样支持，不过却遭遇一个致命缺陷：创建函数非常不方便。你必须先在其他地方定义好函数，你才能使用它。这就是Lambda出现的原因。</p>
+
+<h2>基本Lambda语法</h2>
+
+<p>在我们解决这个问题之前，让我们看一下真实的lambda基本语法。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;iostream&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">auto</span> <span class="n">func</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">()</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Hello world&quot;</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>    <span class="n">func</span><span class="p">();</span> <span class="c1">// now call the function</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>好，你找到lambda了吗？它以[]开始。这个标识，叫做捕获指定器，它告诉编译器我们要创建一个lambda表达式。你将看到[](或者里面有变量）在每一个lambda函数的开始。</p>
+
+<p>接着，像其他函数一样，我们需要一个参数列表：()。返回值呢？答案是我们不需要指定。在C++11中，假如编译器可以推导lambda函数的返回值，它将帮你做这件事而不需你显式指定。在这个例子里，编译器知道函数没有返回值。我们只是有一个打印“hello world&#8221;的函数体。这一行事实上不会触发关于打印的任何事：我们仅仅是创建了一个函数在这里。基本上相当于定义了一个普通函数。</p>
+
+<p>我们在下面一行调用了这个lambda函数：func()，像调用其它普通函数一样。顺便看到，配合auto做这些事情是多么简单！你不用担心函数指针的丑陋语法。</p>
+
+<h2>在我们的例子中应用Lambda</h2>
+
+<p>让我们看看怎样将lambda应用到我们地址簿例子里，首先我们创建一个查找包含“.org&#8221;的email地址的简单函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">AddressBook</span> <span class="n">global_address_book</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findAddressesFromOrgs</span> <span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">global_address_book</span><span class="p">.</span><span class="n">findMatchingAddresses</span><span class="p">(</span>
+</span><span class='line'>        <span class="c1">// we&#39;re declaring a lambda here; the [] signals the start</span>
+</span><span class='line'>        <span class="p">[]</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">addr</span><span class="p">.</span><span class="n">find</span><span class="p">(</span> <span class="s">&quot;.org&quot;</span> <span class="p">)</span> <span class="o">!=</span> <span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/08/11/lambda-closures/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C++11系列-改进的类型推导：auto、decltype和新的函数语法</a></h1>
       
       
@@ -723,136 +882,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/03/unix-background-job/">Bg,Fg,&,Ctrl-Z &#8211; 5个例子搞定Unix(linux)后台任务</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-03T19:25:00+00:00" pubdate data-updated="true">2013-08-03</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。</p>
-
-<p>在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换到前台、查看所有后台任务和结束一个后台任务。</p>
-
-<h2>1. 执行一个后台任务</h2>
-
-<p>在命令后面添加<a href="https://en.wikipedia.org/wiki/Ampersand">&amp;</a>就可以将任务执行到后台。</p>
-
-<p>比如，当你执行一个可能耗时很长的查找命令，你可以像下面例子中一样将它执行到后台。下面的例子将查找root目录下24小时内被修改过的文件：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt <span class="p">&amp;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2. 通过CTRL-Z和bg命令将当前任务切换到后台</h2>
-
-<p>你也可以将一个已经运行的前台任务切换到后台：</p>
-
-<ul>
-<li>组合键 ‘CTRL+Z’ 将暂停当前任务。</li>
-<li>执行bg将任务切换到后台执行</li>
-</ul>
-
-
-<p>像下面的例子，假如你忘记将任务执行到后台，你无需结束当前任务再启动一个新的后台任务。你可以暂停当前任务然后将它切换到后台：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>find / -ctime -1 &gt; /tmp/changed-file-list.txt
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span><span class="o">[</span>CTRL-Z<span class="o">]</span>
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>+  Stopped                 find / -ctime -1 &gt; /tmp/changed-file-list.txt
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span><span class="nb">bg</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>3. 使用jobs命令查看所有后台任务</h2>
-
-<p>你可以使用<strong>jobs</strong>命令列出所有后台任务。一个jobs命令的可能输出如下：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
-</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
-</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4. 通过fg命令将后台任务切换到前台</h2>
-
-<p>你可以通过<strong>fg</strong>命令将后台任务切换到前台。如果执行fg命令不带参数，则将最近的后台任务切换到前台。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">fg</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>假如你有多个后台任务，你又想将指定任务切换到前台，那你可以先执行jobs命令列出所有任务号和对应命令。下面的例子，fg %1将一号任务(download-file.sh)切换到前台。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">jobs</span>
-</span><span class='line'><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
-</span><span class='line'><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
-</span><span class='line'><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span><span class="nb">fg</span> %1
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>5. 通过kill %结束指定的后台任务</h2>
-
-<p>假如你想杀死指定的后台任务，用<strong>kill</strong> %任务号就行了。下面是杀死2号任务的例子：</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="nb">kill</span> %2
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/11">&larr; Older</a>
@@ -870,6 +899,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/11/22/windbg-memory-leak/">Windbg定位内存泄露的一种简单方法</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/11/15/api-design-for-c-plus-plus-notes/">C++API设计 - 笔记</a>
       </li>
     
@@ -885,15 +918,11 @@
         <a href="/blog/2014/08/25/cpp-14-dessert/">C++14-大餐后的甜点</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/">实现无锁算法的常见陷阱</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (18)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (18)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>
