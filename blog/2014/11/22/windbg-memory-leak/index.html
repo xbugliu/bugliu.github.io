@@ -101,7 +101,7 @@
   </header>
 
 
-<div class="entry-content"><p>前两天接到一个反映进程内存占用过G的投诉。问题是必現的，一定是内存泄露，应该容易定位，一同事远程看过现场，使用gflags和windbg试图找到泄露的堆栈，同事是一步步按照<a href="http://www.codeproject.com/Articles/31382/Memory-Leak-Detection-Using-Windbg">这篇文章的方法</a>来的，但在最有一步Windbg没有找到出问题的堆栈，用户给我们远程的时间很短，无法深究gflags+windbg不灵验的原因，只得另辟蹊径。</p>
+<div class="entry-content"><p>前两天接到一个反映进程内存占用过G的投诉。问题是必現的，一定是内存泄露，应该容易定位，一同事远程看过现场，使用gflags和windbg试图找到泄露的堆栈，同事是一步步按照<a href="http://www.codeproject.com/Articles/31382/Memory-Leak-Detection-Using-Windbg">这篇文章的方法</a>来的，但在最后一步Windbg没有找到出问题的堆栈，用户给我们远程的时间很短，无法深究gflags+windbg不灵验的原因，只得另辟蹊径。</p>
 
 <h2>步骤如下：</h2>
 
