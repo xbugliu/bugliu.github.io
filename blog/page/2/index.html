@@ -80,6 +80,117 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2014/08/25/cpp-14-dessert/">C++14-大餐后的甜点</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-25T23:15:41+00:00" pubdate data-updated="true">2014-08-25</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是<a href="http://electronicdesign.com/dev-tools/bjarne-stroustrup-talks-about-c14">谨小甚微的</a>。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。</p>
+
+<p><img class="pull-right" src="/images/posts/cpp-14-dessert/wg21-timeline.png"></p>
+
+<p>但Bjarne还说了，C++永远是心向开发者的，C++14将给开发者大开方面之门。关于C++14更详细的细节可以看维基百科:<a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14</a>,这里讲下自己感兴趣的特性：</p>
+
+<h3>语言改变</h3>
+
+<p><strong>范型lambda</strong></p>
+
+<p>在C++11下，如果你想要打印出一个数的平方，可能需要这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square_int</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">square_double</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">double</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为了保持函数的局部性，我们才选择的lambda，但C++11的lambda却导致多个类型时代码膨胀且重复，此时我们需要回过头来借助全局的模板了。</p>
+
+<p>但C++14可以完美的解决上面的问题，因为C++14中lambda的参数可以用auto代替具体的类型：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>auto返回类型</strong></p>
+
+<p>C++11支持auto关键字，用于变量的自动类型推导。但由于时间限制，C++标准委员会并没有让auto也支持函数的返回值类型自动推导，现在C++14支持了。这将会在返回类内部类型的成员函数书写上减少好多工作量：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Wiget</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">enum</span> <span class="n">Status</span><span class="p">{</span><span class="n">show</span><span class="p">,</span> <span class="n">hide</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">auto</span> <span class="n">getStatus</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'><span class="k">auto</span> <span class="n">Wiget</span><span class="o">::</span><span class="n">getStatus</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">show</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>编译器支持</h3>
+
+<p>曾经被标准折磨的死去活来的编译器如今越挫越勇。标准出来的快，编译器支持的更快。CLang（3.4）半年前就宣布已完全支持C++14(draft)特性（语言和库）。本人电脑上的GCC4.9.1也已部分支持C++14特性。但公司的开发环境要支持C++14可就难了。</p>
+
+<p>参考：</p>
+
+<p><a href="https://isocpp.org/std/status">https://isocpp.org/std/status</a></p>
+
+<p><a href="http://cpprocks.com/c1114-compiler-and-library-shootout/">http://cpprocks.com/c1114-compiler-and-library-shootout/</a></p>
+
+<p><a href="http://cpprocks.com/an-overview-of-c14-language-features/">http://cpprocks.com/an-overview-of-c14-language-features/</a></p>
+
+<p><a href="http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html">http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html</a></p>
+
+<p><a href="https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/">https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/">实现无锁算法的常见陷阱</a></h1>
       
       
@@ -797,72 +908,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-03T22:55:00+00:00" pubdate data-updated="true">2014-05-03</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必须也要做。关于应用宝Dock的具体进度、功能与界面不做介绍，现在从开发的角度讲一讲Dock项目两个月来的一点体会。</p>
-
-<p>自己的角色：负责逻辑部分接口和整体框架的设计，及相关功能开发。</p>
-
-<h3>可圈可点之处：</h3>
-
-<hr />
-
-<p><strong>1. 逻辑与界面完全分离</strong></p>
-
-<p>Dock项目应该是，我们团队第一次在多人协作下，采用了界面与逻辑分离的开发方案。这样的好处是：降低了耦合，使开发简单化（做UI的无需关心逻辑，反之依然）。当然这样做必然会增加一些工作量，尤其是后来界面和逻辑分属不同进程，逻辑的接口必须做IPC转发。</p>
-
-<p>逻辑与界面分离的方案，最重要的是定义好接口。</p>
-
-<p><strong>2. 最小完备接口</strong></p>
-
-<p>最小完备接口是我一贯主张的一种接口风格，因为一旦增加冗余的接口，并被客户端代码使用，那就很难移除了，势必造成接口膨胀。项目期间，主管提出接口要提前考虑、功能要丰富的建议，不过自己还是坚持了自己想法。因为加一个接口容易，去掉一个就难了，好比韩愈曾说的，从善如登、从恶如崩。</p>
-
-<h3>败笔之处</h3>
-
-<hr />
-
-<p><strong>1. 任务分配粗略</strong></p>
-
-<p>需求接下来，四个人开始做，一开始定下两个人做界面另两个做逻辑，但没有细化具体的产品细节、开发难度耗时等，也没有分配具体谁做什么事情，只是口头上大概分了一下。这极易导致任务分配不均和任务遗漏的现象。好的方法应该是，细化任务并明确责任，公诸于众。但团队积习如此，非朝夕可改。</p>
-
-<p><strong>2. 线程的滥用</strong></p>
-
-<p>线程滥用当然指逻辑部分。从进入应用宝团队初期，就发现代码中线程滥用，好似每天不开几个线程吃不下饭一般。所以最初Dock的逻辑代码的主框架考虑到了这点，以使后面添加具体业务时无需创建线程。但后期，需求的演变和功能的要求迫使不得不又增加了几个线程，其实有些线程是非必须的。而这些不必要的线程，往往会滋生一批Bug。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3">&larr; Older</a>
@@ -880,6 +925,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/07/windbg-dump-asso/">Windbg关联dmp文件</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/11/22/windbg-memory-leak/">Windbg定位内存泄露的一种简单方法</a>
       </li>
     
@@ -895,15 +944,11 @@
         <a href="/blog/2014/08/31/24-hour-stand-by/">互联网公司“24小时待命”的陋习</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2014/08/25/cpp-14-dessert/">C++14-大餐后的甜点</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (18)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (6)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (18)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (6)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

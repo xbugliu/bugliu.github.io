@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2014-11-24T22:34:26+00:00</updated>
+  <updated>2014-12-07T23:43:23+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,138 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    
+    <title type="html"><![CDATA[Windbg关联dmp文件]]></title>
+    <link href="http://towriting.com/blog/2014/12/07/windbg-dump-asso/"/>
+    
+    <updated>2014-12-07T22:58:38+00:00</updated>
+    <id>http://towriting.com/blog/2014/12/07/windbg-dump-asso</id>
+    
+    <content type="html"><![CDATA[<p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
+
+<p><img src="http://towriting.com/images/posts/windbg-dump-asso/windbg_dmp.png" title="" ></p>
+
+<p>我设置了三种打开方式：</p>
+
+<ul>
+<li>直接使用Windbg打开dump</li>
+<li>使用windbg打开dump并进行分析</li>
+<li>使用windbg打开dump，切换到32位，然后分析（针对加载的wow64)</li>
+</ul>
+
+
+<h3>配置dmp关联的方法</h3>
+
+<h4>1. 设置dmp文件的关联</h4>
+
+<p>Windows下文件的关联指的是在explorer下，双击或通过右键打开文件时选择指定程序打开。文件的关联方式可以通过注册表进行配置，在HKEY_CLASSES_ROOT、HKEY_CURRENT_USER\Software\Classes、HKEY_LOCAL_MACHINE\Software\Classes有以 &ldquo;.文件格式&rdquo; 命名的键和另一个自定义的键里面保存具体的配置，用来配置这个文件格式的关联，比如我们要配置的dmp文件的关联，最终会是这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HKEY_CURRENT_USER\Software\Classes
+</span><span class='line'>   dmpfile
+</span><span class='line'>     DefaultIcon
+</span><span class='line'>       default = "C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe",0
+</span><span class='line'>     shell
+</span><span class='line'>       Analyze with windbg
+</span><span class='line'>           command
+</span><span class='line'>              default=C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -c "!analyze -v" -z "%1\"
+</span><span class='line'>       Analyze with windbg - wow64
+</span><span class='line'>           command
+</span><span class='line'>              default="C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -c "!wow64exts.sw; !analyze -v" -z "%1"
+</span><span class='line'>       open
+</span><span class='line'>           command
+</span><span class='line'>              default="C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -z "%1"
+</span><span class='line'>   .dmp
+</span><span class='line'>     default = dmpfile</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然，更改HKEY_CURRENT_USER是对当前用户有效，HKEY_LOCAL_MACHINE是对所有用户有效，而HKEY_CLASSES_ROOT是兼容的产物，不推荐在直接配置HKEY_CLASSES_ROOT。</p>
+
+<h4>2. 去除用户自定义的打开方式-自定义程序</h4>
+
+<p> 如果你设置过打开方式里面的自定义程序，必须先删除这一项，否则我们上一步设置的文件关联将不会生效，打开方式自定义程序的配置也是保存在注册表中，具体位置在：</p>
+
+<p> <code>
+ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
+</code></p>
+
+<p>将这个UserChoice键删除即可。</p>
+
+<h4>3. 到这里就讲完了，最后奉上一个bat:</h4>
+
+<figure class='code'><figcaption><span> (windbg-dump-asso.bat)</span> <a href='http://towriting.com/downloads/code/script/windbg-dump-asso.bat'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='bat'><span class='line'><span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">dbgpath</span><span class="o">=</span>\<span class="s2">&quot;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe\&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\.dmp&quot;</span> <span class="n">/f</span> <span class="n">/d</span> dmpfile
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span><span class="p">,</span><span class="m">0</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\DefaultIcon&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -z \<span class="s2">&quot;%%1\&quot;</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\open\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> &quot;<span class="nv">%val%</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!wow64exts.sw; !analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg  - wow64\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
+</span><span class='line'>
+</span><span class='line'>REG DELETE <span class="s2">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice&quot;</span> <span class="n">/f</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="n">/p</span> finish<span class="o">=</span><span class="s2">&quot;finsh!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：</p>
+
+<p><a href="http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx">http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx</a></p>
+
+<p><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx">http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx</a></p>
+]]></content>
+    
+  </entry>
   
   <entry>
     
@@ -1873,55 +2005,6 @@ p342 piecewise_construct emplace.</p>
 <p>结果一目了然。（多线程同时操作INI时，每次的结果可能都不一样的）。</p>
 
 <hr />
-]]></content>
-    
-  </entry>
-  
-  <entry>
-    
-    <title type="html"><![CDATA[我为什么从同花顺离职]]></title>
-    <link href="http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/"/>
-    
-    <updated>2013-12-16T23:42:00+00:00</updated>
-    <id>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job</id>
-    
-    <content type="html"><![CDATA[<p>  最近知乎上很流行的一个问题是<a href="http://www.zhihu.com/topic/19909711">为什么从 X 离职</a>，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。</p>
-
-<p>  首先，照例发自肺腑的感谢一下同花顺，同花顺的日子是我C++进步最快的一段时间，在这里我接触到了正规的开发流程，并且遇到了一个很棒的团队，那时的日子每天都很开心。</p>
-
-<hr />
-
-<p>  切入正题，我为什么离开同花顺：</p>
-
-<h3>待遇认知的分歧</h3>
-
-<p>　员工离职的理由千万条，但薪水待遇肯定是大部分人选择离开的最重要的原因，不过大部分人不肯承认罢了。离职的导火索就是公司的年终奖，入职Offer上明确写明是3-6个月，可实际发到手的一月左右。我表明了自己的不满，公司领导以程序员不是钟点工，薪水是靠产品的收益决定的来“开导”我。这种观点不错，但是却是站在创业者的角度看的。自己作为一个打工者，站在打工者的角度上讲，程序员的待遇在市场经济条件下，是由供求关系决定的，并上下浮动于程序员个体的能力和工作产出。何况公司远没到揭不开锅的程度，你可以不按约定给我应有的Money，但不能忽悠我。</p>
-
-<h3>人为什么要工作？</h3>
-
-<p>　马斯洛总结了人的<a href="http://en.wikipedia.org/wiki/Maslow's_hierarchy_of_needs">五种需求</a>。</p>
-
-<p>　刚毕业时囊空如洗，一头扎进工作中，完全是为了实现人的第一种需求-生理（存）需求。自己前两年的工作确实是为了实现生存需求，但当工作两三年，衣食无虞，现在仍然工作的原因好像是上一阶段的惯性。有些人可能为了实现“昂贵”的生理需求（车房等）而工作一辈子，但对我而言这种动力不足以使我能持续激情的工作。</p>
-
-<p>　顺着马斯洛的需求金子塔往上看，塔顶是自我实现的需求，这是人的最高级的需求。</p>
-
-<p>　是否可以提高自己的能力，是我衡量一份工作是否适合自己的重要指标。以前从没有在内心中将自我能力的提高作为工作的一个直接原因，觉得能力提高（自我实现需求）不过是为了能挣更多钱（生理需求），觉得后者才是工作的直接原因。看来我错了，自我能力的提高属于自我实现的需求，完全是促使我们工作的高级原因。而可贵的是，高级的需求好像兼容低级的需求，就是你在实现了自我实现的需求后，生理需求自然可以满足了。并且生理需求容易满足，自我实现需求难以满足，而自我实现的满足可以给人带来持久且真正的满足。在我看来，工作中的自我实现包括两点：自我能力提高和我（们）创造了有价值的东西。</p>
-
-<p>  而同花顺，据观察感知是无法满足我这两种需求的，尤其第二种，我的判断是错误的吗？</p>
-
-<h5>分割线&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;2014年8月2日&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</h5>
-
-<p>时隔半年发现自己上面说的东西有些空洞，现在我的<a href="http://weibo.com/wpcockroach">老领导</a>也早已离开同花顺，并在之乎专门回答了：<a href="http://www.zhihu.com/question/22086638">你为什么离开同花顺</a>。事到如今，一年半时间，原同花顺行情客户端开发组，一波十几个老同事，都差不多走光了。这种情况，公司自身肯定是有问题的，每个走的人肯定也都有自己的小九九。</p>
-
-<p>就我来说，本不想再说同花顺的坏话，毕竟在这里认识了好多好哥们，而且不想给别人留下自己落井下石的形象，但如果是事实，为什么不说呢？</p>
-
-<p>其实，离开同花顺最主要的原因是同花顺作坊式的管理让人看不到希望、没有尊严。如果是其他原因不可能所有人都想跑掉，要知道有些人找的新工作某些方面并不比同花顺好，但依然义无反顾的走了，因为新的环境会让人更有尊严一些。</p>
-
-<p>技术总监，同花顺股东之一，浙大毕业，技术相貌俱佳，但人品不知、管理水平没有。自己与其交流较少，亦没有留下丁点好印象。有些工作久的同事亲切的称呼其为：会写代码的流氓。坊间流传的大量关于他撵走同事的传言，始吾不信，后来年终谈话时，问我：加薪升级是由什么决定的？我说出了几种答案都被其否定，最后他说是由他决定的。</p>
-
-<p>后来我就走了，辗转半年后，一个老同事请我们吃散伙饭，这个老同事是公认的技术总监的红人，但席间讲出了令我心寒齿冷的故事。原来老同事离职前最后一天，被技术总监叫去，让他去一个项目里救火，老同事不愿，技术总监说：给你两条路，一给我在干半个月，把XX弄好，二，走人但最后一个月工资别要了！</p>
-
-<p>所以，在这种环境，这种人手下干活，谁能扛得住？</p>
 ]]></content>
     
   </entry>
