@@ -216,6 +216,7 @@ description: 整理我这些年来读过的书籍
 * 9月-格蠹汇编（泛读)
 * 10月-摩托车修理店的未来工作哲学[review][7]
 * 11月15日-C++API设计[note][8]
+* 12月20日-西游记(kindle)
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
