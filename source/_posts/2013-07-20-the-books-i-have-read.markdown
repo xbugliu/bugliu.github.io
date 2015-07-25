@@ -218,6 +218,13 @@ description: 整理我这些年来读过的书籍
 * 11月15日-C++API设计[note][8]
 * 12月20日-西游记(kindle)
 
+2015年
+
+* 呼兰河传 （在读)
+* 笑话方法论 
+* 水浒传 
+* 天龙八部 6月
+
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
 [2]: /blog/2013/08/25/read-notes-hacker-and-painters/
