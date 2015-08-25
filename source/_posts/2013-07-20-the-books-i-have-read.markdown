@@ -224,6 +224,8 @@ description: 整理我这些年来读过的书籍
 * 笑话方法论 
 * 水浒传 
 * 天龙八部 6月
+* 雍正皇帝-九王奪嫡
+
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
