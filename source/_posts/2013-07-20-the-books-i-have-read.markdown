@@ -226,7 +226,7 @@ description: 整理我这些年来读过的书籍
 * 天龙八部 6月
 * 雍正皇帝-九王奪嫡 8月
 * 雍正皇帝-雕弓天狼 8月
-* 程序员的呐喊 9月
+* 程序员的呐喊[review][9] 9月
 
 
 
@@ -238,5 +238,5 @@ description: 整理我这些年来读过的书籍
 [6]: /blog/2014/07/21/review-xzjy/
 [7]: /blog/2014/10/26/shop-class-as-soulcraft-notes
 [8]: /blog/2014/11/15/api-design-for-c-plus-plus-notes
-[9]: /blog/2014/11/15/api-design-for-c-plus-plus-notes
+[9]: /blog/2015/09/10/a-programmers-rantings
 
