@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++11 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus-11/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-07-25T22:16:03+00:00</updated>
+  <updated>2015-09-10T23:46:30+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -679,7 +679,7 @@ for ( int i : v ) { cout &lt;&lt; i &lt;&lt; endl; }
     <link href="http://towriting.com/blog/2013/08/11/lambda-closures/"/>
     <updated>2013-08-11T22:45:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/11/lambda-closures</id>
-    <content type="html"><![CDATA[<p><img class="pull-left" src="/images/posts/lambda-closures/lambda.png" width="66" height="90" title="&lsquo;lambda&rsquo;" >
+    <content type="html"><![CDATA[<p>{% img pull-left /images/posts/lambda-closures/lambda.png 66 90 &lsquo;lambda&rsquo;%}
 C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。</p>
 
 <h2>为什么Lambda很酷</h2>

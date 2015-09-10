@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 并发 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/bing-fa/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-07-25T22:16:03+00:00</updated>
+  <updated>2015-09-10T23:46:30+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -24,23 +24,16 @@
 
 <p>线程同步是多线程程序设计的核心，传统的做法上就是代码临界区上加锁。锁可以防止多个线程同一时间进入临界区代码。在高度并发的程序里，锁可能成为严重的性能瓶颈。无锁编程的目标是不用锁也能解决并发问题。无锁编程一般依赖的是原子操作，比如“compare-and-swap”<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>原子的执行下面的操作：</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="mi">1</span> <span class="kt">bool</span> <span class="nf">CompareAndSwap</span><span class="p">(</span><span class="n">Value</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">addr</span><span class="p">,</span> <span class="n">Value</span> <span class="n">oldVal</span><span class="p">,</span> <span class="n">Value</span> <span class="n">newVal</span><span class="p">){</span>
-</span><span class='line'><span class="mi">2</span>     <span class="k">if</span><span class="p">(</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">addr</span> <span class="o">==</span> <span class="n">oldVal</span><span class="p">){</span>
-</span><span class='line'><span class="mi">3</span>         <span class="o">*</span><span class="n">addr</span> <span class="o">=</span> <span class="n">newVal</span><span class="p">;</span>
-</span><span class='line'><span class="mi">4</span>         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-</span><span class='line'><span class="mi">5</span>     <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'><span class="mi">6</span>         <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-</span><span class='line'><span class="mi">7</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">8</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:cpp %}
+1 bool CompareAndSwap(Value<em> addr, Value oldVal, Value newVal){
+2     if(</em>addr == oldVal){
+3         *addr = newVal;
+4         return true;
+5     }else{
+6         return false;
+7     }
+8 }
+{% endcodeblock%}</p>
 
 <p>使用无锁算法的最大缺陷是：</p>
 
@@ -55,79 +48,42 @@
 
 <p>C++代码如下：</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="mi">1</span> <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Entry</span><span class="o">&gt;</span>
-</span><span class='line'> <span class="mi">2</span> <span class="k">class</span> <span class="nc">LockFreeStack</span><span class="p">{</span>
-</span><span class='line'> <span class="mi">3</span>     <span class="k">struct</span> <span class="n">Node</span><span class="p">{</span>
-</span><span class='line'> <span class="mi">4</span>         <span class="n">Entry</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">entry</span><span class="p">;</span>
-</span><span class='line'> <span class="mi">5</span>         <span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">next</span><span class="p">;</span>
-</span><span class='line'> <span class="mi">6</span>     <span class="p">};</span>
-</span><span class='line'> <span class="mi">7</span>
-</span><span class='line'> <span class="mi">8</span>     <span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">m_head</span><span class="p">;</span>
-</span><span class='line'> <span class="mi">9</span>
-</span><span class='line'><span class="mi">10</span>     <span class="kt">void</span> <span class="nf">Push</span><span class="p">(</span><span class="n">Entry</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">e</span><span class="p">){</span>
-</span><span class='line'><span class="mi">11</span>         <span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">n</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">;</span>
-</span><span class='line'><span class="mi">12</span>         <span class="n">n</span><span class="o">-&gt;</span><span class="n">entry</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span>
-</span><span class='line'><span class="mi">13</span>         <span class="k">do</span><span class="p">{</span>
-</span><span class='line'><span class="mi">14</span>             <span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">m_head</span><span class="p">;</span>
-</span><span class='line'><span class="mi">15</span>         <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">CompareAndSwap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">m_head</span><span class="p">,</span> <span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">n</span><span class="p">));</span>
-</span><span class='line'><span class="mi">16</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">17</span>
-</span><span class='line'><span class="mi">18</span>     <span class="n">Entry</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">Pop</span><span class="p">(){</span>
-</span><span class='line'><span class="mi">19</span>         <span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">old_head</span><span class="p">;</span>
-</span><span class='line'><span class="mi">20</span>         <span class="n">Entry</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="mi">21</span>         <span class="k">do</span><span class="p">{</span>
-</span><span class='line'><span class="mi">22</span>             <span class="n">old_head</span> <span class="o">=</span> <span class="n">m_head</span><span class="p">;</span>
-</span><span class='line'><span class="mi">23</span>             <span class="nf">if</span><span class="p">(</span><span class="n">old_head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">){</span>
-</span><span class='line'><span class="mi">24</span>                 <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'><span class="mi">25</span>             <span class="p">}</span>
-</span><span class='line'><span class="mi">26</span>         <span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">CompareAndSwap</span><span class="p">(</span><span class="o">&amp;</span><span class="n">amp</span><span class="p">;</span><span class="n">m_head</span><span class="p">,</span> <span class="n">old_head</span><span class="p">,</span> <span class="n">old_head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">));</span>
-</span><span class='line'><span class="mi">27</span>
-</span><span class='line'><span class="mi">28</span>         <span class="n">result</span> <span class="o">=</span> <span class="n">old_head</span><span class="o">-&gt;</span><span class="n">entry</span><span class="p">;</span>
-</span><span class='line'><span class="mi">29</span>         <span class="k">delete</span> <span class="n">old_head</span><span class="p">;</span>
-</span><span class='line'><span class="mi">30</span>         <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-</span><span class='line'><span class="mi">31</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">32</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:cpp %}</p>
+
+<p> 1 template <class Entry>
+ 2 class LockFreeStack{
+ 3     struct Node{
+ 4         Entry<em> entry;
+ 5         Node</em> next;
+ 6     };
+ 7
+ 8     Node<em> m_head;
+ 9
+10     void Push(Entry</em> e){
+11         Node<em> n = new Node;
+12         n->entry = e;
+13         do{
+14             n->next = m_head;
+15         }while(!CompareAndSwap(&amp;m_head, n->next, n));
+16     }
+17
+18     Entry</em> Pop(){
+19         Node<em> old_head;
+20         Entry</em> result;
+21         do{
+22             old_head = m_head;
+23             if(old_head == NULL){
+24                 return NULL;
+25             }
+26         }while(!CompareAndSwap(&amp;m_head, old_head, old_head->next));
+27
+28         result = old_head->entry;
+29         delete old_head;
+30         return result;
+31     }
+32 }</p>
+
+<p>{% endcodeblock%}</p>
 
 <p>遗憾的是，这个无锁栈充满的错误：</p>
 
@@ -164,7 +120,7 @@
 
 <p>印象中，代码会按照我们指定的顺序执行，最少也会满足”<a href="http://en.wikipedia.org/wiki/Happened-before">happens before</a>“关系。不幸的是，不管理论还是实际上，下面代码的执行可能出现x,y都是0的结果。:</p>
 
-<p><img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/memory-reordering.png"></p>
+<p>{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/memory-reordering.png %}</p>
 
 <p>C++11以前标准对于多线程是讳莫如深的，所以编译器的优化是着眼于单线程的。上面的代码，交换执行顺序，并不会影响单线程中程序的语义。所以可能会产生这种结果。</p>
 
@@ -208,28 +164,28 @@
 
 <p>到现在我们解决了所有的问题。让我们看一下性能。测试使用的是一台8核Intel&reg; Xeon&reg; 处理器。每个线程的工作是随机的执行数量几乎相等的Push和Pop操作。每个线程不加限制的执行机器可以处理的操作。</p>
 
-<p><img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart.svg"></p>
+<p>{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart.svg %}</p>
 
 <p>我们修改栈顶的次数越多，CompareAndSwap失败的次数也会越多。一个简单有效的减少失败的方法是失败后Sleep一下，这可以调节Stack可以高效的处理数据。下面是每次失败后Sleep(250)的数据：</p>
 
-<p><img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart1.svg"></p>
+<p>{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart1.svg %}</p>
 
 <p>太好了，增加Sleep后栈的吞吐量增加了7倍。并且Sleep减少的处理器的消耗。让我们看一下处理器的使用情况：</p>
 
 <p>加锁的栈：</p>
 
-<p><img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_mutex.png"></p>
+<p>{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_mutex.png %}</p>
 
 <p>无锁的栈，不加Sleep:</p>
 
-<p><img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_lockfree.png"></p>
+<p>{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_lockfree.png %}</p>
 
 <p>无锁的栈，Sleep(250):</p>
 
-<p><img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_usleep.png"></p>
+<p>{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_usleep.png %}</p>
 
 <p>看起来无锁更好？等等，锁一样可以达到好的性能，我们不用std::mutex，我们使用Sleep(250)的自旋锁：
-<img class="pull-right" src="/images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart2.svg"></p>
+{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart2.svg %}</p>
 
 <h2>结果</h2>
 
@@ -243,262 +199,138 @@
 
 <p>加锁的：</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'> <span class="mi">1</span> <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">mutex</span><span class="o">&gt;</span>
-</span><span class='line'> <span class="mi">2</span> <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">stack</span><span class="o">&gt;</span>
-</span><span class='line'> <span class="mi">3</span>
-</span><span class='line'> <span class="mi">4</span> <span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
-</span><span class='line'> <span class="mi">5</span> <span class="k">class</span> <span class="nc">LockedStack</span><span class="p">{</span>
-</span><span class='line'> <span class="mi">6</span> <span class="k">public</span><span class="o">:</span>
-</span><span class='line'> <span class="mi">7</span>     <span class="kt">void</span> <span class="n">Push</span><span class="p">(</span><span class="n">T</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">entry</span><span class="p">){</span>
-</span><span class='line'> <span class="mi">8</span>         <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">m_mutex</span><span class="p">);</span>
-</span><span class='line'> <span class="mi">9</span>         <span class="n">m_stack</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">entry</span><span class="p">);</span>
-</span><span class='line'><span class="mi">10</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">11</span>
-</span><span class='line'><span class="mi">12</span>     <span class="c1">// For compatability with the LockFreeStack interface,</span>
-</span><span class='line'><span class="mi">13</span>     <span class="c1">// add an unused int parameter.</span>
-</span><span class='line'><span class="mi">14</span>     <span class="c1">//</span>
-</span><span class='line'><span class="mi">15</span>     <span class="n">T</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">Pop</span><span class="p">(</span><span class="kt">int</span><span class="p">){</span>
-</span><span class='line'><span class="mi">16</span>         <span class="n">std</span><span class="o">::</span><span class="n">lock_guard</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="o">&gt;</span> <span class="n">lock</span><span class="p">(</span><span class="n">m_mutex</span><span class="p">);</span>
-</span><span class='line'><span class="mi">17</span>         <span class="nf">if</span><span class="p">(</span><span class="n">m_stack</span><span class="p">.</span><span class="n">empty</span><span class="p">()){</span>
-</span><span class='line'><span class="mi">18</span>             <span class="k">return</span> <span class="n">nullptr</span><span class="p">;</span>
-</span><span class='line'><span class="mi">19</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">20</span>         <span class="n">T</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">m_stack</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
-</span><span class='line'><span class="mi">21</span>         <span class="n">m_stack</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-</span><span class='line'><span class="mi">22</span>         <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-</span><span class='line'><span class="mi">23</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">24</span>
-</span><span class='line'><span class="mi">25</span> <span class="k">private</span><span class="o">:</span>
-</span><span class='line'><span class="mi">26</span>     <span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">T</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;&gt;</span> <span class="n">m_stack</span><span class="p">;</span>
-</span><span class='line'><span class="mi">27</span>     <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">m_mutex</span><span class="p">;</span>
-</span><span class='line'><span class="mi">28</span> <span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:cpp %}
+ 1 #include <mutex>
+ 2 #include <stack>
+ 3
+ 4 template<class T>
+ 5 class LockedStack{
+ 6 public:
+ 7     void Push(T<em> entry){
+ 8         std::lock_guard&lt;std::mutex> lock(m_mutex);
+ 9         m_stack.push(entry);
+10     }
+11
+12     // For compatability with the LockFreeStack interface,
+13     // add an unused int parameter.
+14     //
+15     T</em> Pop(int){
+16         std::lock_guard&lt;std::mutex> lock(m_mutex);
+17         if(m_stack.empty()){
+18             return nullptr;
+19         }
+20         T<em> ret = m_stack.top();
+21         m_stack.pop();
+22         return ret;
+23     }
+24
+25 private:
+26     std::stack&lt;T</em>> m_stack;
+27     std::mutex m_mutex;
+28 };
+{% endcodeblock%}</p>
 
 <p>Lock-Free的：
 (垃圾收集相关的代码没贴出来）</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'> <span class="mi">1</span> <span class="k">class</span> <span class="nc">LockFreeStack</span><span class="p">{</span>
-</span><span class='line'> <span class="mi">2</span> <span class="k">public</span><span class="o">:</span>
-</span><span class='line'> <span class="mi">3</span>     <span class="c1">// The elements we wish to store should inherit Node</span>
-</span><span class='line'> <span class="mi">4</span>     <span class="c1">//</span>
-</span><span class='line'> <span class="mi">5</span>     <span class="k">struct</span> <span class="n">Node</span><span class="p">{</span>
-</span><span class='line'> <span class="mi">6</span>         <span class="n">boost</span><span class="o">::</span><span class="n">atomic</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;&gt;</span> <span class="n">next</span><span class="p">;</span>
-</span><span class='line'> <span class="mi">7</span>     <span class="p">};</span>
-</span><span class='line'> <span class="mi">8</span>
-</span><span class='line'> <span class="mi">9</span>     <span class="c1">// Unfortunately, there is no platform independent way to</span>
-</span><span class='line'><span class="mi">10</span>     <span class="c1">// define this class.  The following definition works in</span>
-</span><span class='line'><span class="mi">11</span>     <span class="c1">// gcc on x86_64 architectures</span>
-</span><span class='line'><span class="mi">12</span>     <span class="c1">//</span>
-</span><span class='line'><span class="mi">13</span>     <span class="k">class</span> <span class="nc">TaggedPointer</span><span class="p">{</span>
-</span><span class='line'><span class="mi">14</span>     <span class="k">public</span><span class="o">:</span>
-</span><span class='line'><span class="mi">15</span>         <span class="n">TaggedPointer</span><span class="p">()</span><span class="o">:</span> <span class="n">m_node</span><span class="p">(</span><span class="n">nullptr</span><span class="p">),</span> <span class="n">m_counter</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{}</span>
-</span><span class='line'><span class="mi">16</span>
-</span><span class='line'><span class="mi">17</span>         <span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">GetNode</span><span class="p">(){</span>
-</span><span class='line'><span class="mi">18</span>             <span class="k">return</span> <span class="n">m_node</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">);</span>
-</span><span class='line'><span class="mi">19</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">20</span>
-</span><span class='line'><span class="mi">21</span>         <span class="kt">uint64_t</span> <span class="n">GetCounter</span><span class="p">(){</span>
-</span><span class='line'><span class="mi">22</span>             <span class="k">return</span> <span class="n">m_counter</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">);</span>
-</span><span class='line'><span class="mi">23</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">24</span>
-</span><span class='line'><span class="mi">25</span>         <span class="kt">bool</span> <span class="n">CompareAndSwap</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">oldNode</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="n">oldCounter</span><span class="p">,</span> <span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">newNode</span><span class="p">,</span> <span class="kt">uint64_t</span> <span class="n">newCounter</span><span class="p">){</span>
-</span><span class='line'><span class="mi">26</span>             <span class="kt">bool</span> <span class="n">cas_result</span><span class="p">;</span>
-</span><span class='line'><span class="mi">27</span>             <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="k">asm</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="k">volatile</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span>
-</span><span class='line'><span class="mi">28</span>             <span class="p">(</span>
-</span><span class='line'><span class="mi">29</span>                 <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">lock</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>           <span class="c1">// This makes the following instruction atomic (it is non-blocking)</span>
-</span><span class='line'><span class="mi">30</span>                 <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">cmpxchg16b</span> <span class="o">%</span><span class="mi">0</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>  <span class="c1">// cmpxchg16b sets ZF on success</span>
-</span><span class='line'><span class="mi">31</span>                 <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">setz</span>       <span class="o">%</span><span class="mi">3</span><span class="p">;</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>  <span class="c1">// if ZF set, set cas_result to 1</span>
-</span><span class='line'><span class="mi">32</span>
-</span><span class='line'><span class="mi">33</span>                 <span class="o">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">+</span><span class="n">m</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="k">this</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">+</span><span class="n">a</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">(</span><span class="n">oldNode</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">+</span><span class="n">d</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">(</span><span class="n">oldCounter</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="o">=</span><span class="n">q</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">(</span><span class="n">cas_result</span><span class="p">)</span>
-</span><span class='line'><span class="mi">34</span>                 <span class="o">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">b</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">(</span><span class="n">newNode</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">c</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span> <span class="p">(</span><span class="n">newCounter</span><span class="p">)</span>
-</span><span class='line'><span class="mi">35</span>                 <span class="o">:</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">cc</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;,</span> <span class="o">&amp;</span><span class="n">ldquo</span><span class="p">;</span><span class="n">memory</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="p">;</span>
-</span><span class='line'><span class="mi">36</span>             <span class="p">);</span>
-</span><span class='line'><span class="mi">37</span>             <span class="k">return</span> <span class="n">cas_result</span><span class="p">;</span>
-</span><span class='line'><span class="mi">38</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">39</span>     <span class="k">private</span><span class="o">:</span>
-</span><span class='line'><span class="mi">40</span>         <span class="n">boost</span><span class="o">::</span><span class="n">atomic</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;&gt;</span> <span class="n">m_node</span><span class="p">;</span>
-</span><span class='line'><span class="mi">41</span>         <span class="n">boost</span><span class="o">::</span><span class="n">atomic</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">uint64_t</span><span class="o">&gt;</span> <span class="n">m_counter</span><span class="p">;</span>
-</span><span class='line'><span class="mi">42</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">43</span>     <span class="c1">// 16-byte alignment is required for double-width</span>
-</span><span class='line'><span class="mi">44</span>     <span class="c1">// compare and swap</span>
-</span><span class='line'><span class="mi">45</span>     <span class="c1">//</span>
-</span><span class='line'><span class="mi">46</span>     <span class="o">&lt;</span><span class="n">strong</span><span class="o">&gt;</span><span class="n">attribute</span><span class="o">&lt;/</span><span class="n">strong</span><span class="o">&gt;</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="mi">16</span><span class="p">)));</span>
-</span><span class='line'><span class="mi">47</span>
-</span><span class='line'><span class="mi">48</span>     <span class="kt">bool</span> <span class="nf">TryPushStack</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">entry</span><span class="p">){</span>
-</span><span class='line'><span class="mi">49</span>         <span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">oldHead</span><span class="p">;</span>
-</span><span class='line'><span class="mi">50</span>         <span class="kt">uint64_t</span> <span class="n">oldCounter</span><span class="p">;</span>
-</span><span class='line'><span class="mi">51</span>
-</span><span class='line'><span class="mi">52</span>         <span class="n">oldHead</span> <span class="o">=</span> <span class="n">m_head</span><span class="p">.</span><span class="n">GetNode</span><span class="p">();</span>
-</span><span class='line'><span class="mi">53</span>         <span class="n">oldCounter</span> <span class="o">=</span> <span class="n">m_head</span><span class="p">.</span><span class="n">GetCounter</span><span class="p">();</span>
-</span><span class='line'><span class="mi">54</span>         <span class="n">entry</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">oldHead</span><span class="p">,</span> <span class="n">boost</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">);</span>
-</span><span class='line'><span class="mi">55</span>         <span class="k">return</span> <span class="n">m_head</span><span class="p">.</span><span class="n">CompareAndSwap</span><span class="p">(</span><span class="n">oldHead</span><span class="p">,</span> <span class="n">oldCounter</span><span class="p">,</span> <span class="n">entry</span><span class="p">,</span> <span class="n">oldCounter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="mi">56</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">57</span>
-</span><span class='line'><span class="mi">58</span>     <span class="kt">bool</span> <span class="n">TryPopStack</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;&amp;</span><span class="n">amp</span><span class="p">;</span> <span class="n">oldHead</span><span class="p">,</span> <span class="kt">int</span> <span class="n">threadId</span><span class="p">){</span>
-</span><span class='line'><span class="mi">59</span>         <span class="n">oldHead</span> <span class="o">=</span> <span class="n">m_head</span><span class="p">.</span><span class="n">GetNode</span><span class="p">();</span>
-</span><span class='line'><span class="mi">60</span>         <span class="kt">uint64_t</span> <span class="n">oldCounter</span> <span class="o">=</span> <span class="n">m_head</span><span class="p">.</span><span class="n">GetCounter</span><span class="p">();</span>
-</span><span class='line'><span class="mi">61</span>         <span class="nf">if</span><span class="p">(</span><span class="n">oldHead</span> <span class="o">==</span> <span class="n">nullptr</span><span class="p">){</span>
-</span><span class='line'><span class="mi">62</span>             <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-</span><span class='line'><span class="mi">63</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">64</span>         <span class="n">m_hazard</span><span class="p">[</span><span class="n">threadId</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="mi">8</span><span class="p">].</span><span class="n">store</span><span class="p">(</span><span class="n">oldHead</span><span class="p">,</span> <span class="n">boost</span><span class="o">::</span><span class="n">memory_order_seq_cst</span><span class="p">);</span>
-</span><span class='line'><span class="mi">65</span>         <span class="nf">if</span><span class="p">(</span><span class="n">m_head</span><span class="p">.</span><span class="n">GetNode</span><span class="p">()</span> <span class="o">!=</span> <span class="n">oldHead</span><span class="p">){</span>
-</span><span class='line'><span class="mi">66</span>             <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-</span><span class='line'><span class="mi">67</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">68</span>         <span class="k">return</span> <span class="n">m_head</span><span class="p">.</span><span class="n">CompareAndSwap</span><span class="p">(</span><span class="n">oldHead</span><span class="p">,</span> <span class="n">oldCounter</span><span class="p">,</span> <span class="n">oldHead</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">boost</span><span class="o">::</span><span class="n">memory_order_acquire</span><span class="p">),</span> <span class="n">oldCounter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-</span><span class='line'><span class="mi">69</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">70</span>
-</span><span class='line'><span class="mi">71</span>     <span class="kt">void</span> <span class="n">Push</span><span class="p">(</span><span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">entry</span><span class="p">){</span>
-</span><span class='line'><span class="mi">72</span>         <span class="k">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
-</span><span class='line'><span class="mi">73</span>             <span class="k">if</span><span class="p">(</span><span class="n">TryPushStack</span><span class="p">(</span><span class="n">entry</span><span class="p">)){</span>
-</span><span class='line'><span class="mi">74</span>                 <span class="k">return</span><span class="p">;</span>
-</span><span class='line'><span class="mi">75</span>             <span class="p">}</span>
-</span><span class='line'><span class="mi">76</span>             <span class="n">usleep</span><span class="p">(</span><span class="mi">250</span><span class="p">);</span>
-</span><span class='line'><span class="mi">77</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">78</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">79</span>
-</span><span class='line'><span class="mi">80</span>     <span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">Pop</span><span class="p">(</span><span class="kt">int</span> <span class="n">threadId</span><span class="p">){</span>
-</span><span class='line'><span class="mi">81</span>         <span class="n">Node</span><span class="o">&lt;</span><span class="n">em</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
-</span><span class='line'><span class="mi">82</span>         <span class="nf">while</span><span class="p">(</span><span class="nb">true</span><span class="p">){</span>
-</span><span class='line'><span class="mi">83</span>             <span class="k">if</span><span class="p">(</span><span class="n">TryPopStack</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">threadId</span><span class="p">)){</span>
-</span><span class='line'><span class="mi">84</span>                 <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-</span><span class='line'><span class="mi">85</span>             <span class="p">}</span>
-</span><span class='line'><span class="mi">86</span>             <span class="n">usleep</span><span class="p">(</span><span class="mi">250</span><span class="p">);</span>
-</span><span class='line'><span class="mi">87</span>         <span class="p">}</span>
-</span><span class='line'><span class="mi">88</span>     <span class="p">}</span>
-</span><span class='line'><span class="mi">89</span>
-</span><span class='line'><span class="mi">90</span> <span class="k">private</span><span class="o">:</span>
-</span><span class='line'><span class="mi">91</span>     <span class="n">TaggedPointer</span> <span class="n">m_head</span><span class="p">;</span>
-</span><span class='line'><span class="mi">92</span>     <span class="c1">// Hazard pointers are separated into different cache lines to avoid contention</span>
-</span><span class='line'><span class="mi">93</span>     <span class="c1">//</span>
-</span><span class='line'><span class="mi">94</span>     <span class="n">boost</span><span class="o">::</span><span class="n">atomic</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Node</span><span class="o">&lt;/</span><span class="n">em</span><span class="o">&gt;&gt;</span> <span class="n">m_hazard</span><span class="p">[</span><span class="n">MAX_THREADS</span><span class="o">*</span><span class="mi">8</span><span class="p">];</span>
-</span><span class='line'><span class="mi">95</span> <span class="p">};</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:cpp %}
+ 1 class LockFreeStack{
+ 2 public:
+ 3     // The elements we wish to store should inherit Node
+ 4     //
+ 5     struct Node{
+ 6         boost::atomic&lt;Node<em>> next;
+ 7     };
+ 8
+ 9     // Unfortunately, there is no platform independent way to
+10     // define this class.  The following definition works in
+11     // gcc on x86_64 architectures
+12     //
+13     class TaggedPointer{
+14     public:
+15         TaggedPointer(): m_node(nullptr), m_counter(0) {}
+16
+17         Node</em> GetNode(){
+18             return m_node.load(boost::memory_order_acquire);
+19         }
+20
+21         uint64_t GetCounter(){
+22             return m_counter.load(boost::memory_order_acquire);
+23         }
+24
+25         bool CompareAndSwap(Node<em> oldNode, uint64_t oldCounter, Node</em> newNode, uint64_t newCounter){
+26             bool cas_result;
+27             <strong>asm</strong> <strong>volatile</strong>
+28             (
+29                 &ldquo;lock;&rdquo;           // This makes the following instruction atomic (it is non-blocking)
+30                 &ldquo;cmpxchg16b %0;&rdquo;  // cmpxchg16b sets ZF on success
+31                 &ldquo;setz       %3;&rdquo;  // if ZF set, set cas_result to 1
+32
+33                 : &ldquo;+m&rdquo; (<em>this), &ldquo;+a&rdquo; (oldNode), &ldquo;+d&rdquo; (oldCounter), &ldquo;=q&rdquo; (cas_result)
+34                 : &ldquo;b&rdquo; (newNode), &ldquo;c&rdquo; (newCounter)
+35                 : &ldquo;cc&rdquo;, &ldquo;memory&rdquo;
+36             );
+37             return cas_result;
+38         }
+39     private:
+40         boost::atomic&lt;Node</em>> m_node;
+41         boost::atomic&lt;uint64_t> m_counter;
+42     }
+43     // 16-byte alignment is required for double-width
+44     // compare and swap
+45     //
+46     <strong>attribute</strong>((aligned(16)));
+47
+48     bool TryPushStack(Node<em> entry){
+49         Node</em> oldHead;
+50         uint64_t oldCounter;
+51
+52         oldHead = m_head.GetNode();
+53         oldCounter = m_head.GetCounter();
+54         entry->next.store(oldHead, boost::memory_order_relaxed);
+55         return m_head.CompareAndSwap(oldHead, oldCounter, entry, oldCounter + 1);
+56     }
+57
+58     bool TryPopStack(Node<em>&amp; oldHead, int threadId){
+59         oldHead = m_head.GetNode();
+60         uint64_t oldCounter = m_head.GetCounter();
+61         if(oldHead == nullptr){
+62             return true;
+63         }
+64         m_hazard[threadId</em>8].store(oldHead, boost::memory_order_seq_cst);
+65         if(m_head.GetNode() != oldHead){
+66             return false;
+67         }
+68         return m_head.CompareAndSwap(oldHead, oldCounter, oldHead->next.load(boost::memory_order_acquire), oldCounter + 1);
+69     }
+70
+71     void Push(Node<em> entry){
+72         while(true){
+73             if(TryPushStack(entry)){
+74                 return;
+75             }
+76             usleep(250);
+77         }
+78     }
+79
+80     Node</em> Pop(int threadId){
+81         Node<em> res;
+82         while(true){
+83             if(TryPopStack(res, threadId)){
+84                 return res;
+85             }
+86             usleep(250);
+87         }
+88     }
+89
+90 private:
+91     TaggedPointer m_head;
+92     // Hazard pointers are separated into different cache lines to avoid contention
+93     //
+94     boost::atomic&lt;Node</em>> m_hazard[MAX_THREADS*8];
+95 };</p>
+
+<p>{% endcodeblock%}</p>
 <div class="footnotes">
 <hr/>
 <ol>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 阅读 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/yue-du/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-07-25T22:16:03+00:00</updated>
+  <updated>2015-09-10T23:46:30+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -14,11 +14,34 @@
 
   
   <entry>
+    <title type="html"><![CDATA[读<程序员的呐喊>]]></title>
+    <link href="http://towriting.com/blog/2015/09/10/a-programmers-rantings/"/>
+    <updated>2015-09-10T22:06:45+00:00</updated>
+    <id>http://towriting.com/blog/2015/09/10/a-programmers-rantings</id>
+    <content type="html"><![CDATA[<p>又是一本国外技术圈的名人的博客整理成的书。作者steve yegge是google的程序员，06年之前的7年工作在amazon。丰富的编程经验和自由的个性，使他对各种编程语言和互联网产品有自己独到的见解。</p>
+
+<p>&lt;程序员的呐喊>之呐喊英文书名原为咆哮(Rantings)，应该指的是steve yegge对各种语言的<code>攻击</code>。除了对ruby流露出无尽的爱慕外，steve yegge对其它语言无不加以批判：Java的名词王国，Python圈子的傲慢刚愎，Perl像一个各种语言的垃圾填埋厂。除了攻击语言，他还'攻击'自己的所在的公司，除了流露出对旧东家老大贝佐斯的不满，还经常对google的各种产品指指点点。</p>
+
+<p>当然，以上steve yegge的各种吐槽咆哮都是有理有据有礼有节的。从Jeff Atwood<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>到steve yegge，国内还有coolshell的陈皓，都是技艺精湛、勤于思考、笔耕不辍，在圈子里很有影响力的大牛，放到古代定是名噪一时使洛阳纸贵的才子。而籍籍无名之辈的你我，如不奋起直追，定日复一日年复一年，骈死于需求槽枥之间。</p>
+
+<p>与有缘之人共勉！</p>
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>blog.codinghorror.com, 博客集整理成书，中文版&lt;高效能程序员的修炼><a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[读《摩托车修理店的未来工作哲学》]]></title>
     <link href="http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/"/>
     <updated>2014-10-26T20:50:12+00:00</updated>
     <id>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes</id>
-    <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00KF0MTR2/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00KF0MTR2&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>&lt;摩托车修理店的未来工作哲学></a>是一本大抵关于工作的书。</p>
+    <content type="html"><![CDATA[<p>{% aproduct B00KF0MTR2*&lt;摩托车修理店的未来工作哲学>%}是一本大抵关于工作的书。</p>
 
 <h3>薪水的意义</h3>
 
@@ -43,7 +66,7 @@
     <link href="http://towriting.com/blog/2014/04/27/the-gay-genius-review/"/>
     <updated>2014-04-27T21:52:00+00:00</updated>
     <id>http://towriting.com/blog/2014/04/27/the-gay-genius-review</id>
-    <content type="html"><![CDATA[<p>昨天在kindle上读完了<a href='http://www.amazon.cn/gp/product/B00D7X84MS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00D7X84MS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>苏东坡传</a>，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。</p>
+    <content type="html"><![CDATA[<p>昨天在kindle上读完了{% aproduct B00D7X84MS*苏东坡传%}，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。</p>
 
 <p>苏东坡留下了大量的文字，百姓也口口相传着他的轶事，细心严谨的林语堂以此推敲出苏东坡的一生。苏东坡漫长的一生虽坎坷精彩，但也不过如其词云：<strong>大江东去浪淘尽千古风流人物</strong>，读完苏东坡的一生，印象最深的却是如下两个细节：</p>
 
@@ -193,59 +216,6 @@
 <li>任何一个领域的最佳作品都不可能由对用户言听计从的人做出来的</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[人生本应丰富多彩：《别逗了,费曼先生》读后感]]></title>
-    <link href="http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/"/>
-    <updated>2013-08-12T23:49:00+00:00</updated>
-    <id>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman</id>
-    <content type="html"><![CDATA[<p>知道这本书的时间应该不超过一年，至少是在经常逛stackoverflow以后，那至少是2011年以后的事了。stackoverflow中列出的<a href="http://stackoverflow.com/questions/1711/what-is-the-single-most-influential-book-every-programmer-should-read">每个程序员都应该读的书</a>里面，有几本书看起来和编程风牛马不相及，其中之一就是这本<a href="http://www.amazon.cn/gp/product/B009QVEA8M/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B009QVEA8M&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《别逗了，费曼先生》</a>。</p>
-
-<p>书不厚，买来20天断续读完，坦白的说没有达到读之前的预期。因为stackoverflow推荐书单上，自己读过的其它书籍，读后或是能切身感觉到促进自己技能的，比如《代码大全》、《设计模式》；或是震撼自己认知的，比如《禅与摩托车维修艺术》。产生预期差异的原因是本不应抱着世俗的心去读它，本书不会直接提高编程技能。费曼是个顶尖的拿过诺贝尔的理论物理学家，但他同时也是一个爱搞怪、特例独行、有小毛病的正常人。他写这本书可能仅为博大家一乐，或者炫耀自己多彩的人生。要脱去费曼物理学家的皮，像亚马逊一条置顶书评说的：“It shows that even our greatest scientists can be just regular guys like you and me“。</p>
-
-<h2>人生就应如费曼这样，而不是把时光都浪费在做自己不喜欢的事情上：</h2>
-
-<h2>多彩的童年</h2>
-
-<p>费曼小时候做的好多事，相信我们中国的孩子也都做过：喜欢瞎捣鼓，修个收音机、搞个小发明什么的。修收音机还貌似都到达收费的水平。回想自己上小时候也喜欢修东西，修过电视、电子表、单放机等等，不过"修"坏许多东西，为此遭受不少父亲的呵斥。费曼小时候当过”童工“，为了偷懒搞了好多发明，接电话机，削土豆机等等，想象一群大人围在一个矮自己好几头的小鬼，看他一本正经的演示自己的发明就想笑。</p>
-
-<h2>世俗学习生涯</h2>
-
-<p>很早就开始读一些数学物理的教材，所以费曼考的上MIT。刚上大学时，也会像一个普通美国大学新生参加兄弟会，并且接受“残酷”的考验。本科毕业时，他去了几次贝尔实验室，可能想留下工作，不过好像贝尔的家伙没看上他，所以他失望的去了一家搞镀塑料的公司。时间不长他就去了普林斯顿读研究生。他讨厌并无法逃避一些交际，他也会为修学分而选择自己不在行的人物学科。</p>
-
-<h2>搞怪的人生不枯燥</h2>
-
-<p>喜欢开密码锁，并乐此不疲，是许多读过《别逗了》的人对费曼的印象。他喜欢开锁，并找机会去做，并让别人大吃一惊，为此别人很讨厌他，不让他靠近自己的锁。在MIT时，他也发扬了一把MIT的hack精神，藏了宿舍的门，并且没人相信是他做的。他用杯子戏弄服务员一节是我最喜欢的。书中充满了费曼搞怪的经历，人生如此才有趣。</p>
-
-<h2>人生要成就</h2>
-
-<p>这本书没讲费曼是如何牛起来的，只说他研究生毕业，想为国报效就去了军方，后来有机会参加了曼哈顿计划，他讲自己可能是第一个近距离用肉眼看原子弹爆炸的人。这些足以在历史上留下一笔了，而吾等草根大众，只会淹没于历史长河中，百年后，一抔黄土而已。后来他获得诺奖，但他讨厌别人半夜打电话告诉他，骂别人为什么不等天亮在告诉他，面对成就那是怎样的淡定。</p>
-
-<h2>人生应有一不以此谋生的工作</h2>
-
-<p>费曼有一些特殊的爱好，比如开锁，画画与打鼓。打鼓是他一生的最爱。一些美国的科学家最后会喜欢上一种乐器，比如爱因斯坦喜欢小提琴，但拉的很难听。但费曼的鼓打的很不懒，上的了台面，参加过巴西国家级狂欢节、参加过国际级比赛。一个不以谋生的爱好给人带来的快乐，是持久与强烈的。</p>
-
-<h2>真性情</h2>
-
-<p>费曼从不掩饰自己的喜好，比如漂亮女孩，歌舞表演等等，他喜欢去拉斯维加斯。有一段时间他像个普通人一样（他就是个普通人）混迹酒吧，他向人讨教追求女孩的方法，学成之后屡试不爽。</p>
-
-<h2>爱并不一定要浪漫</h2>
-
-<p>他的第一任妻子阿莲重病时，他被军方召集制造原子弹无法照顾她，甚至没能见她最后一面，对阿莲的生理上的死亡，他没有特别的难过。数月之后，他走过一家百货商店的橱窗，里面挂着女士的服装，他想到其中一件阿莲或许喜欢，那一刻他万分悲戚：十年生死两茫茫，不思量，自难忘！</p>
-
-<h2>行万里路说万家言</h2>
-
-<p>他去日本后，喜欢上了日本精致的生活，他在日本的时光很惬意（但原子的制造他参加了），他想深入了解这个民族，他住在日本人住的酒店里，日语水平也到了可以打出租车出去溜达的地步，但日语这种语气意义丰富的语言，最终令他望而却步。但他葡萄牙语说的很棒，他经常去巴西，喜欢巴西，喜欢狂欢节。他承认巴西的学生不笨，但像中国学生一样，巴西学生也读死书，不知举一反三，对此费曼很无奈。有一次费曼参加一次巴西的学术会议，巴西国内的专家都蹩脚的英语做发言，只有他一个人说葡萄牙语，这令他很差异，如果他来到中国看到举国四六级后会作何感想。</p>
-
-<h2>勇于说“不”</h2>
-
-<p>造原子弹时，军方限制了书信自由，费曼反抗的冲动大于写信，写出好多古怪的信件与军方周旋；看不惯军方的形式主义，执意要回自己的一元专利费；自己去做讲座，宁愿不要费用，也不向邀请方提供发票；他宁愿不要费用也不想遵守政府例行的公文材料&hellip;</p>
-
-<h2>好奇人不老</h2>
-
-<p>除了费曼的搞怪，给人留下强烈印象的是费曼的好奇心：观察草履虫，研究蚂蚁的觅食轨迹、追问油漆合成色、破译玛雅数学、研究读心术、搞清楚梦到底有没有颜色、经历幻觉&hellip;人要有一颗好奇心，要不断的去发现尝试试验新的东西，要不漫长的一生有什么意思？没有好奇心，人只是会行走的尸体罢了。</p>
 ]]></content>
   </entry>
   

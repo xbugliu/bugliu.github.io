@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 读书 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/du-shu/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-07-25T22:16:03+00:00</updated>
+  <updated>2015-09-10T23:46:30+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -18,7 +18,7 @@
     <link href="http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/"/>
     <updated>2014-11-15T20:24:38+00:00</updated>
     <id>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes</id>
-    <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00EE13U30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00EE13U30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ API设计</a>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看这本书了。</p>
+    <content type="html"><![CDATA[<p>{% aproduct B00EE13U30*C++ API设计%}从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看这本书了。</p>
 
 <h2>笔记</h2>
 

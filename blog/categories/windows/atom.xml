@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windows | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-07-25T22:16:03+00:00</updated>
+  <updated>2015-09-10T23:46:30+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -20,7 +20,7 @@
     <id>http://towriting.com/blog/2014/12/07/windbg-dump-asso</id>
     <content type="html"><![CDATA[<p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
 
-<p><img src="/images/posts/windbg-dump-asso/windbg_dmp.png" title="" ></p>
+<p>{% img /images/posts/windbg-dump-asso/windbg_dmp.png  %}</p>
 
 <p>我设置了三种打开方式：</p>
 
@@ -75,52 +75,7 @@ HKEY_CURRENT_USER\Software\Classes
 
 <h4>3. 到这里就讲完了，最后奉上一个bat:</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (windbg-dump-asso.bat)</span> <a href='/downloads/code/script/windbg-dump-asso.bat'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='bat'><span class='line'><span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">dbgpath</span><span class="o">=</span>\<span class="s2">&quot;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe\&quot;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\.dmp&quot;</span> <span class="n">/f</span> <span class="n">/d</span> dmpfile
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span><span class="p">,</span><span class="m">0</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\DefaultIcon&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -z \<span class="s2">&quot;%%1\&quot;</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\open\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> &quot;<span class="nv">%val%</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!wow64exts.sw; !analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg  - wow64\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
-</span><span class='line'>
-</span><span class='line'>REG DELETE <span class="s2">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice&quot;</span> <span class="n">/f</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="n">/p</span> finish<span class="o">=</span><span class="s2">&quot;finsh!&quot;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% include_code script/windbg-dump-asso.bat %}</p>
 
 <p>参考：</p>
 
@@ -213,9 +168,9 @@ return 0;
 <p>```
 代码很简单，开60个线程同时往一个INI文件里写东西，让我们对比一下多线程操作INI和非多线程操作的结果，左侧是不使用多线程操作的结果（只贴出前50行）：</p>
 
-<p><img class="pull-left" src="/images/posts/ini-muti-thread/result.png"></p>
+<p>{% img pull-left /images/posts/ini-muti-thread/result.png %}</p>
 
-<p><img class="pull-left" src="/images/posts/ini-muti-thread/error_result.png"></p>
+<p>{% img pull-left /images/posts/ini-muti-thread/error_result.png %}</p>
 
 <p></br>
 </br>
@@ -310,44 +265,15 @@ return bRet;
     <link href="http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/"/>
     <updated>2013-08-03T22:24:00+00:00</updated>
     <id>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver</id>
-    <content type="html"><![CDATA[<p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="&lsquo;windows自动安装驱动&rsquo; &lsquo;windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。&rsquo;" ></p>
+    <content type="html"><![CDATA[<p>{% img right /images/posts/forbid-auto-install-driver/auto_install_driver_tip.png &lsquo;windows自动安装驱动&rsquo; &lsquo;windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。&rsquo; %}</p>
 
 <p>前两天我需要手动安装一个手机的根节点驱动，这个驱动属于系统基础驱动，所以一插入手机windows就帮你装上了，这不是我想要的。当我用遍了google、yahoo、ixquick、duckduckgo、baidu、soso各种搜索引擎仍然没有找到有效的禁用windows自动安装驱动的办法后，我只好尝试暴力对抗了。</p>
 
 <p>很快用ProcessMonitor定位到安装驱动的进程：
-<img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver.png"></p>
+{% img right /images/posts/forbid-auto-install-driver/auto_install_driver.png %}</p>
 
 <p>不想让系统自动安装驱动，破坏drvinst进程就可以达到。写个简单的脚本，插入手机前跑起来就OK了（win7系统开启UAC则需管理员权限运行）：
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (forbid_auto_install_driver.py)</span> <a href='/downloads/code/python/forbid_auto_install_driver.py'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='py'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
-</span><span class='line'><span class="kn">import</span> <span class="nn">subprocess</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">RunLoop</span><span class="p">():</span>
-</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="bp">True</span><span class="p">):</span>
-</span><span class='line'>        <span class="n">startupinfo</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTUPINFO</span><span class="p">()</span>
-</span><span class='line'>        <span class="n">startupinfo</span><span class="o">.</span><span class="n">dwFlags</span> <span class="o">|=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STARTF_USESHOWWINDOW</span>
-</span><span class='line'>        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;taskkill /F /IM drvinst.exe&#39;</span><span class="p">,</span> <span class="n">startupinfo</span><span class="o">=</span><span class="n">startupinfo</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span class='line'>    <span class="n">RunLoop</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+{% include_code python/forbid_auto_install_driver.py %}
 <strong>注意：</strong>如果破坏drvinst进程后发现系统对新插入的设备不再自动安装驱动，则设备管理器中扫描检测硬件改动即可。</p>
 ]]></content>
   </entry>
@@ -359,176 +285,7 @@ return bRet;
     <id>http://towriting.com/blog/2013/07/31/de-elevate-start-process</id>
     <content type="html"><![CDATA[<p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
-</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;UserEnv.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinBase.h&gt;</span>
-</span><span class='line'><span class="cp">#include &lt;WinSafer.h&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
-</span><span class='line'><span class="n">HANDLE</span> <span class="nf">CreateNormalUserToken</span><span class="p">()</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="n">HANDLE</span> <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferComputeTokenFromLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hRestrictedToken</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>	<span class="n">SaferCloseLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">);</span>
-</span><span class='line'>	<span class="k">return</span> <span class="n">hRestrictedToken</span><span class="p">;</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
-</span><span class='line'><span class="n">BOOL</span> <span class="nf">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="n">DWORD</span> <span class="n">dwCreationFlags</span> <span class="o">=</span> <span class="n">NORMAL_PRIORITY_CLASS</span> <span class="o">|</span> <span class="n">CREATE_NEW_CONSOLE</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">LPVOID</span> <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>	<span class="k">if</span><span class="p">(</span><span class="n">CreateEnvironmentBlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pEnv</span><span class="p">,</span> <span class="n">hRestToken</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">))</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="n">dwCreationFlags</span> <span class="o">|=</span> <span class="n">CREATE_UNICODE_ENVIRONMENT</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>	<span class="k">else</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="n">PROCESS_INFORMATION</span> <span class="n">pi</span><span class="p">;</span>
-</span><span class='line'>	<span class="n">STARTUPINFO</span> <span class="n">si</span><span class="p">;</span>	
-</span><span class='line'>	<span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">si</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">));</span>
-</span><span class='line'>	<span class="n">si</span><span class="p">.</span><span class="n">cb</span><span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">si</span><span class="p">.</span><span class="n">lpDesktop</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;winsta0</span><span class="se">\\</span><span class="s">default&quot;</span><span class="p">);</span> <span class="c1">//default input desktop for the interactive window station</span>
-</span><span class='line'>	<span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pi</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">pi</span><span class="p">));</span>
-</span><span class='line'>
-</span><span class='line'>	<span class="k">const</span> <span class="n">BOOL</span> <span class="n">bResult</span> <span class="o">=</span> <span class="n">CreateProcessAsUser</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">,</span>    <span class="c1">// client&#39;s access token</span>
-</span><span class='line'>						<span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// file to execute</span>
-</span><span class='line'>						<span class="n">cmd</span><span class="p">,</span>      <span class="c1">// command line</span>
-</span><span class='line'>						<span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to process SECURITY_ATTRIBUTES</span>
-</span><span class='line'>						<span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to thread SECURITY_ATTRIBUTES</span>
-</span><span class='line'>						<span class="n">FALSE</span><span class="p">,</span>                  <span class="c1">// handles are not inheritable</span>
-</span><span class='line'>						<span class="n">dwCreationFlags</span><span class="p">,</span>        <span class="c1">// creation flags</span>
-</span><span class='line'>						<span class="n">pEnv</span><span class="p">,</span>                   <span class="c1">// pointer to new environment block</span>
-</span><span class='line'>						<span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// name of current directory</span>
-</span><span class='line'>						<span class="o">&amp;</span><span class="n">si</span><span class="p">,</span>                    <span class="c1">// pointer to STARTUPINFO structure</span>
-</span><span class='line'>						<span class="o">&amp;</span><span class="n">pi</span>                     <span class="c1">// receives information about new process</span>
-</span><span class='line'>						<span class="p">);</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">bResult</span><span class="p">)</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hProcess</span><span class="p">);</span>
-</span><span class='line'>		<span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>	<span class="k">if</span> <span class="p">(</span><span class="n">pEnv</span><span class="p">)</span>
-</span><span class='line'>	<span class="p">{</span>
-</span><span class='line'>		<span class="n">DestroyEnvironmentBlock</span><span class="p">(</span><span class="n">pEnv</span><span class="p">);</span>
-</span><span class='line'>	<span class="p">}</span>
-</span><span class='line'>	<span class="n">CloseHandle</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">);</span>
-</span><span class='line'>	<span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>	<span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
-</span><span class='line'>	<span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
-</span><span class='line'>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% include_code  WIN7/VS2010 cpp/de_elevate_start_process.cpp %}</p>
 
 <h3>需要创建出的进程支持拖拽的看这里：<a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
 ]]></content>
