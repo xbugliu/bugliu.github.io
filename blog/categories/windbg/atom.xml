@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windbg | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windbg/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-09-10T23:46:30+00:00</updated>
+  <updated>2015-09-10T23:50:45+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -26,28 +26,47 @@
 
 <h3>1. 打印出heap的使用情况</h3>
 
-<p>{% codeblock lang:bash %}
-0:003> !heap -s
-LFH Key : 0x7ce97b7b
-LFH Key : 0x7ce97b7b
-Termination on corruption : ENABLED
-Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast</p>
-
-<pre><code>              (k)    (k)     (k)    (k)    length  blocks cont. heap 
-</code></pre>
-
-<hr />
-
-<p>002c0000 00000002 1024    372     1024   54    13      1      0     0    LFH
-00010000 00008000 64      4       64 2   1     1       0      0<br/>
-00020000 00008000 64      64      64     62    1       1      0     0
-004d0000 00001002 1088    152     1088   7     4       2      0     0    LFH
-007c0000 00001002 1088    188     1088   18    7       2      0     0    LFH
-00880000 00001002 1280    276     1280   14    5       2      0     0    LFH
-01db0000 00001002 64      12      64     2     3       1      0     0
-021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH
-00810000 00001002 64      12      64     2     3       1      0     0
-{% endcodeblock%}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>0:003&gt; !heap -s
+</span><span class='line'>LFH Key : 0x7ce97b7b
+</span><span class='line'>LFH Key : 0x7ce97b7b
+</span><span class='line'>Termination on corruption : ENABLED
+</span><span class='line'>Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;              <span class="o">(</span>k<span class="o">)</span>    <span class="o">(</span>k<span class="o">)</span>     <span class="o">(</span>k<span class="o">)</span>    <span class="o">(</span>k<span class="o">)</span>    length  blocks cont. heap
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;hr /&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;002c0000 00000002 1024    372     1024   54    13      1      0     0    LFH
+</span><span class='line'>00010000 00008000 64      4       64 2   1     1       0      0&lt;br/&gt;
+</span><span class='line'>00020000 00008000 64      64      64     62    1       1      0     0
+</span><span class='line'>004d0000 00001002 1088    152     1088   7     4       2      0     0    LFH
+</span><span class='line'>007c0000 00001002 1088    188     1088   18    7       2      0     0    LFH
+</span><span class='line'>00880000 00001002 1280    276     1280   14    5       2      0     0    LFH
+</span><span class='line'>01db0000 00001002 64      12      64     2     3       1      0     0
+</span><span class='line'>021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH
+</span><span class='line'>00810000 00001002 64      12      64     2     3       1      0     0
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>很明显这一行：<strong>021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH</strong>是有异常的。</p>
 

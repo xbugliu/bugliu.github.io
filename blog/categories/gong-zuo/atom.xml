@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 工作 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/gong-zuo/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-09-10T23:46:30+00:00</updated>
+  <updated>2015-09-10T23:50:45+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -66,9 +66,7 @@
 
 <p>现实总是正态分布的。大量的程序员是普通水平的，一些大牛已属异类，神级程序员只是传说中有（其实一些也很烂）。</p>
 
-<p>{% blockquote Brooks&rsquo;s law <a href="http://en.wikipedia.org/wiki/Brooks%27s_law">http://en.wikipedia.org/wiki/Brooks%27s_law</a> 维基百科%}
-落后的项目增加人手,只会导致进度更加落后
-{% endblockquote %}</p>
+<p><blockquote><p>落后的项目增加人手,只会导致进度更加落后</p><footer><strong>Brooks&rsquo;s law <a href="http://en.wikipedia.org/wiki/Brooks%27s_law">http://en.wikipedia.org/wiki/Brooks%27s_law</a> 维基百科</strong></footer></blockquote></p>
 
 <h2>神级程序员只是个神话</h2>
 

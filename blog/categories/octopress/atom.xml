@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-09-10T23:46:30+00:00</updated>
+  <updated>2015-09-10T23:50:45+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -63,7 +63,7 @@ rake new_page[404.html]
 <p>User-agent: *
 Disallow: /404.html</p>
 
-<p>Sitemap: {{ site.url }}/sitemap.xml
+<p>Sitemap: http://towriting.com/sitemap.xml
 ```</p>
 
 <h2>3. 网站地图中隐藏掉404页面</h2>
