@@ -8,13 +8,13 @@ footer: true
 
 ###关于我
 
-令狐，半路出家程序员一枚，但能写精致的代码，专注C++且热爱Python。有技术焦虑症及代码洁癖。目前就职于腾讯杭州，从事Windows下桌面程序开发工作（手机助手）。
+令狐，半路出家程序员一枚，但能写精致的代码，专注C++且热爱Python。有技术焦虑症及代码洁癖。目前就职于腾讯杭州，~~从事Windows下桌面程序开发工作(应用宝)~~，现从事安卓平台手机QQ的开发工作(QQ物联)。
 
 ###联系我
 
-EMAIL: xuechongliu at tencent dot com
+EMAIL: eHVlY2hvbmdsaXUgYXQgdGVuY2VudCBkb3QgY29t=
 
-QQ: 532469278
+QQ: NTMyNDY5Mjc4=
 
 ###工作小记
 诞于河北，2010年毕业于太原，修引信学，大学尝学Win32汇编，及各种零碎计算机知识。
