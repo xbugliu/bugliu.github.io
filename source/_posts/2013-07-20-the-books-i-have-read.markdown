@@ -232,6 +232,10 @@ description: 整理我这些年来读过的书籍
 * 安卓开发艺术探索
 * 穷爸爸富爸爸
 
+2016年
+* 胡雪岩-高阳-五册
+
+
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
