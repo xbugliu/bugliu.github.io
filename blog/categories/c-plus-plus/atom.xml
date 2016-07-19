@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-10-27T00:15:51+00:00</updated>
+  <updated>2016-07-19T00:11:34+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Bjarne Stroustrup previews C++ 17]]></title>
+    <link href="http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/"/>
+    <updated>2016-03-17T23:17:22+00:00</updated>
+    <id>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17</id>
+    <content type="html"><![CDATA[<p>本文是infoWorld关于C++17对C++之父进行的采访，原文见<a href="0">这里</a></p>
+
+<hr />
+
+<p><strong>InfoWorld</strong>:C++17什么时候可用?</p>
+
+<p><strong>Stroustrup</strong>:C++17将会在2017年的某个时间正式发布，可能是在秋季。主要特性的实现会准时或提前完成。其实有些部分现在已经实现了。</p>
+
+<p><strong>InfoWorld</strong>:你认为C++17有哪些重大的新特性?</p>
+
+<p><strong>Stroustrup</strong>:如何定义重大呢，假如一个语言特性或者库会影响你对这门语言的看法并且影响你的代码结构，那我认为它就是重要的。按照这个定义，很遗憾，我的答案是：
+对于绝大多数人来说，C++17并没有重大的特性。请不要把"C++17并无重大改进”这样的文字加粗或者作为文章的标题，因为这是不准确的、是不必要的煽动。我很看好文件库(file system library)和
+并行算法(parallel algorithms)。它们特别有用，会使有些任务变简单，但对于大部分人来说，这并不是重大的特性。</p>
+
+<p>然而，我认为重大的特性以其它的方式存在。一些重大的特性会出现在TS(Technical Specifications)中。比如：concepts, networking, more concurrency stuff, ranges (Standard Template Library 2), modules, coroutines.
+它们肯定不会被包含在C++17中，但它们确实存在着。</p>
+
+<p><strong>InfoWorld</strong>:C++17的哪些<a href="http://meetingcpp.com/index.php/br/items/cpp17-and-other-future-highlights-of-cpp.html">改进</a>对开发者影响最大呢？</p>
+
+<ul>
+<li>(parts of) Library Fundamentals TS v1</li>
+<li>Parallelism TS v1 * File System TS v1</li>
+<li>Special math functions</li>
+<li>hardware<em>*</em>interference_size * .is_always_lockfree() * clamp()</li>
+<li>non-const .data() for string</li>
+</ul>
+
+
+<p><strong>Stroustrup</strong>:这因人而异，因你做的事情而异。对我来说，我认为并行算法是最重要的，文件系统库也是很方便的特性. <code>optional</code>, <code>any</code>和<code>string_view</code>这些基础库中的东西也很重要. 另外STL中其它小的改进也很多.
+如果你是搞数学的，那么数学库对你是不可或缺的，现在也都在标准库中了。</p>
+
+<p><strong>InfoWorld</strong>:7月份能知道C++17所有的特性(facets)吗?</p>
+
+<p><strong>Stroustrup</strong>:我希望可以，2016年6月下旬，我们会在芬兰奥卢确定一些小的提议,比如:</p>
+
+<ul>
+<li>Dynamic memory allocation for overaligned data (for better vectorization)</li>
+<li>Template parameter deduction for constructors (make many"make functions" redundant)</li>
+<li>constexpr_if (a compile-time if)</li>
+<li>Refining Expression Evaluation Order for Idiomatic C++ (finally, we can eliminate bugs from people accidentally relying on undefined order of evaluation)</li>
+<li>Default comparisons (==, !=, &lt;, &lt;=, >, and >=)</li>
+<li>Operator Dot (smart references)</li>
+<li>Generalizing the Range-Based For Loop (for sentinel-based and counted ranges)</li>
+<li>Structured bindings (simple use of multiple return types)</li>
+</ul>
+
+
+<p>只要不是运气太差，这些都可以确定下来的。当然，投票统计之前所有事情都是无法确定的。标准委员会会争取共识，一张否决票顶五张赞成票。和16年3月份通过的决议比较，假如本次通过了大部分决议那C++17将变得更加有趣。</p>
+
+<p><strong>InfoWorld</strong>:随着<code>constexpr lambdas</code>进入C++17，C++是不是朝着函数式编程语言更进了一步。这对开发者有什么影响呢？</p>
+
+<p><strong>Stroustrup</strong>:自从1994年STL起，C++平稳而谨慎的增加着函数式编程技术的使用。<code>constexpr lambdas</code>只是编译时特性的一个简单扩展。如果<code>structured bindings</code>的决议C++17通过了的话，
+多返回值将被支持，就像一些函数式编程语言的函数一样。</p>
+
+<p><strong>InfoWorld</strong>:<code>Concepts</code>这个可以改善编译时诊断的技术，没有被加入C++17是不是一件遗憾的事情？</p>
+
+<p><strong>Stroustrup</strong>:对我来说是的，这是个巨大的遗憾。从2004年，我就和Gabriel Dos Reis及其他几个人一起，在这个问题上研究了好几年，并且用Andrew Sutton的实现测试了三年的时间。我觉得可以
+正式发布这个特性了，但标准委员会的大多数人因为各种原因不同意。一个<code>Concept</code>是对类型和值的集合的编译时断言(predicate)。我认为“更好的错误提示"是<code>Concept</code>最基础且重要的一个优势：我们可以对
+我们泛型函数（模板）的参数设定要求。这样可以促成更好的设计、更好的接口、更高效的代码。</p>
+
+<p><strong>InfoWorld</strong>:你能不能回答下，为什么<code>modules</code>和<code>co-routines</code>也不会放到c++17.</p>
+
+<p><strong>Stroustrup</strong>:我很乐意看到<code>modules</code>可以更好的防范某些单元上下文中的改变(比如宏)和更好的编译速度，但是提议还没有为C++17准备好，所以只能加进TS了。我想最终<code>modules</code>会变成一个重要的特性。
+它解决了C/C++里面长期存在的问题。MS C++(vs2015)和clang的某些版本已经有类似<code>modules</code>的支持。对于<code>co-routines</code>没有直接放到c++17而是放到TS中我很失望。我认为它在一些特殊的场景下很重要(pipelines and generators)。
+MS Vc++（vs2015）也集成了这个特性。</p>
+
+<p><strong>InfoWorld</strong>:为什么你不延期发布一年，以使<code>concepts</code>、<code>modules</code>和<code>co-routines</code>等特性可以一起发布呢?</p>
+
+<p><strong>Stroustrup</strong>:我以前也被问过这个问题，我回答了no, 我们要保证c++17可以按期发布。一次延期会是一次很不好的先例，会导致后面更多的延期。假如c++17变成c++18, 我想c++20会变成c++22或者c++23。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[C++API设计 - 笔记]]></title>
@@ -526,302 +603,6 @@ the sum of values in vecIn：
 14
 100 is Odd？ false
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[那些C++牛人的博客]]></title>
-    <link href="http://towriting.com/blog/2013/12/12/cpp-blogs/"/>
-    <updated>2013-12-12T20:57:00+00:00</updated>
-    <id>http://towriting.com/blog/2013/12/12/cpp-blogs</id>
-    <content type="html"><![CDATA[<p>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。</p>
-
-<h2>C++大牛的博客</h2>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/BjarneStroustrup.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Bjarne Stroustrup的博客</strong>: <a href="http://www.stroustrup.com/">Bjarne Stroustrup&rsquo;s Homepage</a></li>
-</ul>
-
-
-<p>Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于<a href="http://en.wikipedia.org/wiki/Texas_A%26M_University">TAMU</a>。他的Homepage和他的书籍<a href='http://www.amazon.cn/gp/product/B003EIKI0C/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B003EIKI0C&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>The C++ Programming Language</a>一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/ScottMeyers.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Scott Meyers的博客</strong>: <a href="http://scottmeyers.blogspot.com/">The View from Aristeia</a></li>
-</ul>
-
-
-<p>Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道的名字，畅销书：<a href='http://www.amazon.cn/gp/product/B004G72P24<em>Effective C++</em>B004IP8BD6/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004G72P24<em>Effective C++</em>B004IP8BD6&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>More Effective C++</a>的作者。博客长期更新，就凭Scott Meyers这个名字，就值得一读。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/stan_lippman.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Stanley B.Lippman的博客</strong>: <a href="http://blogs.msdn.com/b/slippman/">Stan Lippman&rsquo;s BLog</a></li>
-</ul>
-
-
-<p>Lippman，C++第一个编译器<a href="http://en.wikipedia.org/wiki/Cfront">Cfront</a>的实现者，最大的贡献是凭借其著作<a href='http://www.amazon.cn/gp/product/B00ESUIL0O<em>C++ Primer/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ESUIL0O<em>C++ Primer&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'></a>, 在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书<a href='http://www.amazon.cn/gp/product/B006QXQXTM</em>Inside The C++ Object Model/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006QXQXTM</em>Inside The C++ Object Model&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'></a>, 让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。</p>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/HerbSutter.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Herb Sutter的博客</strong>: <a href="http://herbsutter.com/">Sutter’s Mill: Herb Sutter on software, hardware, and concurrency</a></li>
-</ul>
-
-
-<p>Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：<a href='http://www.amazon.cn/gp/product/B008CGKUBS<em>Exceptional C++</em>B004IUISIO<em>More Exceptional C++</em>B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008CGKUBS<em>Exceptional C++</em>B004IUISIO<em>More Exceptional C++</em>B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。</p>
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/AndreiAlexandrescu.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Andrei Alexandrescu的博客</strong>: <a href="http://erdani.com/index.php/articles/">Official website of Andrei Alexandrescu</a></li>
-</ul>
-
-
-<p>Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书<a href='http://www.amazon.cn/gp/product/0201704315/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201704315&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Modern C++ Design: Generic Programming and Design Patterns Applied</a>的作者，凭借此书使C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/dave_abrahams.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>David Abrahams的博客</strong>: <a href="http://daveabrahams.com/">Dave Abrahams: Home Page | Stuff I wrote, things I did, etc</a>[已失效]</li>
-</ul>
-
-
-<p>David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，<a href='http://www.amazon.cn/gp/product/B002WB1J0U/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B002WB1J0U&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Template Metaprogramming</a>的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/BartoszMilewski.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Bartosz Milewski的博客</strong>：<a href="http://bartoszmilewski.com/">Bartosz Milewski&rsquo;s Programming Cafe：Concurrency, Multicore, C++, Haskell</a></li>
-</ul>
-
-
-<p>Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。<a href='http://www.amazon.cn/gp/product/B009TB3ZBW/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B009TB3ZBW&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>c++ in action</a>的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。</p>
-
-<p>不才曾翻译过他的文章：<a href="/blog/2013/09/23/edward-chands/">C++手爱德华</a></p>
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/anthony_williams.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Anthony Williams的博客</strong>：<a href="http://www.justsoftwaresolutions.co.uk/blog/">Just Software Solutions</a></li>
-</ul>
-
-
-<p>Anthony Williams，英国人，一个记事起就开始写程序的人。<a href="http://www.boost.org/doc/libs/1_55_0/doc/html/thread.html">Boost.Thread</a>的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：<a href='http://www.amazon.cn/gp/product/1933988770/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=1933988770&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Concurrency in Action</a>，市面上第一本讲解C++11并发的权威书籍。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/AlexanderStepanov.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Alexander A. Stepanov的博客</strong>：<a href="http://www.stepanovpapers.com/">Collected Papers of Alexander A. Stepanov</a></li>
-</ul>
-
-
-<p>Alexander A. Stepanov，出生于莫斯科，STL之父，<a href='http://www.amazon.cn/gp/product/B006P7V73G/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006P7V73G&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>编程原本</a>的作者。Alexander A. Stepanov的这个博客如其名，是他个人学术论文的整理，学术价值应该是蛮高吧，不过像我这种低级程序员只能远观了。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/austern.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Matt Austern的博客</strong>: <a href="http://lafstern.org/matt/">Matt Austern&rsquo;s Home Page</a></li>
-</ul>
-
-
-<p>Matt Austern, 现任职于Google, 前C++标准委员会主席，SCG STL的最初实现者，<a href='http://www.amazon.cn/gp/product/0201309564/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201309564&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Generic Programming and the STL</a>的作者。Matt Austern的这个博客其实是个人主页，没有太多技术东西，只是一些生平和生活照片，无聊的看一下倒还行。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/pjp.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>P.J. Plauger的博客</strong>：<a href="http://www.stepanovpapers.com/">Collected Papers of Alexander A. Stepanov</a></li>
-</ul>
-
-
-<p>P.J. Plauger，这个名字可能不是每个人都听说过，但在Windows平台开发的同学肯定都用过他写的代码，他就是MS VC STL库的实现者。本来他的博客，只是个人主页并且上面没什么内容，不过看到他的履历里面完成了13部科幻小说的编写，拿来勉励大家吧。</p>
-
-<br/>
-
-
-<br/>
-
-
-<h2>C++高手的博客</h2>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/akrzemi1.jpeg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Andrzej Krzemieński的博客</strong>：<a href="http://akrzemi1.wordpress.com/">Andrzej&rsquo;s C++ blog Guidelines and thoughts about C++</a></li>
-</ul>
-
-
-<p>Andrzej Krzemieński，从名字看是波兰人，近期博客更新较快，表达清晰，行文流畅，内容难度不高，有C++11内容，是像我这样的初级并且语言控的C++程序员的福音。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/SumantTambe.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Sumant Tambe的博客</strong>： <a href="http://cpptruths.blogspot.com/">c++ truths</a></li>
-</ul>
-
-
-<p>Sumant Tambe，印度人，美国范德堡大学的计算机博士，技术涉猎广泛，同时也是著名的<a href="http://en.wikibooks.org/wiki/More_C++_Idioms">More C++ Idioms</a>创建者。博客一直更新，内容面向中高级C++程序员，最新文章涉及C++11的“高级Idioms”，比如13年10月的一篇文章主题是：创建递归的lambda表达式。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/JeffPreshing.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Jeff Preshing的博客</strong>: <a href="http://preshing.com/">Preshing on Programming</a></li>
-</ul>
-
-
-<p>Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入浅出，是C++工程控的福音。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/Joaqu.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Joaquín M López Muñoz的博客</strong>: <a href="http://bannalia.blogspot.com/">Bannalia: trivial notes on themes diverse</a></li>
-</ul>
-
-
-<p>Joaquín M López Muñoz，西班牙人。Boost.MultiIndex的实现者。博客长期更新，内容偏向算法，文章中有大量的公式推演和曲线图表，估计大部分中国开发者对这种内容是不感冒的。计算机或数学系的研究生，并以后打算从事算法相关工作的，推荐阅读。从这个西班牙男人身上，也可以看到老牌欧洲资本主义国家，教育水平的强悍，尤其是基础学科。</p>
-
-<ul>
-<li><strong>Daniel Park的博客</strong>: <a href="http://functionalcpp.wordpress.com/">functionalcpp-Abusing the type system like never before</a></li>
-</ul>
-
-
-<p>Daniel Park，喜欢用昵称whanhee，身世不知。一个注重实干的C++狂热分子，正如其博客简介所说，不想接着讲那些被讲烂掉的函数式编程概念，要用C++来实现这些概念。博客是一个关于函数式编程概念如何用C++实现的一个系列文章，作者采用的是C++11乃至C++14的特性，所以对C++高级函数式实现思想感兴趣的不容错过。近期博客更新也较快的。</p>
-
-<ul>
-<li><strong>Agustín Bergé的博客</strong>: <a href="http://talesofcpp.fusionfenix.com/">talesofcpp</a></li>
-</ul>
-
-
-<p>Agustín Bergé，86年生阿根廷人，可能是这里面最年轻的，stackoverflow目前排名708。作者想用自己的博客探索永无边界的C++世界，尤其是那些前人未涉足的犄角旮旯，所以C++中毒颇深者可以看看。</p>
-
-<ul>
-<li><strong>Chris Kohlhoff的博客</strong>: <a href="http://blog.think-async.com/">Thinking Asynchronously in C++</a></li>
-</ul>
-
-
-<p>Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。</p>
-
-<h2>中文C++名博</h2>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/liuweipeng.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>刘未鹏的博客</strong>：<a href="http://mindhacks.cn/">MindHacks-思维改变生活</a></li>
-</ul>
-
-
-<p>刘未鹏，84年生人，现就职于微软，<a href='http://www.amazon.cn/gp/product/B008A4Y2R0<em>Imperfect C++</em>B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008A4Y2R0<em>Imperfect C++</em>B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>译者，大学时对C++有极大的学习兴趣，曾与C++之父邮件往来，记录在另一个博客<a href="http://blog.csdn.net/pongba/">C++的卢浮宫</a>上。据闻刘未鹏现忙于育儿与心理学，所以博客更新较慢，但以往博客含金量高，很值得一读。博客内容偏重于学习方法，纯技术的C++文章少些。</p>
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/chenhao.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>陈皓的博客</strong>：<a href="http://coolshell.cn/">酷壳-享受编程和技术所带来的快乐</a></li>
-</ul>
-
-
-<p>陈皓，不认为自己是牛人的牛人，现就职于阿里巴巴。<a href="http://coolshell.cn/articles/4990.html">程序员技术练级攻略</a>这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/chenshuo.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>陈硕的博客</strong>：<a href="http://blog.csdn.net/solstice/">陈硕的Blog</a></li>
-</ul>
-
-
-<p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
 ]]></content>
   </entry>
   

@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>《黑客与画家》阅读笔记 - 书写|记下人生痕迹</title>
+  <title>Bjarne Stroustrup previews C++ 17 - 书写|记下人生痕迹</title>
   <meta name="author" content="ToWriting">
 
           
-        <meta name="description" content="《黑客与画家》的阅读笔记，整理出来，方便自己和他人检索">
-        <meta name="keywords" content="黑客与画家,笔记">
+        <meta name="description" content="C++之父关于C++17的访问">
+        <meta name="keywords" content="C++17,C++">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters">
+  <link rel="canonical" href="http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="书写|记下人生痕迹" type="application/atom+xml">
@@ -73,7 +73,7 @@
   <header>
   
     
-      <h1 class="entry-title">《黑客与画家》阅读笔记</h1>
+      <h1 class="entry-title">Bjarne Stroustrup Previews C++ 17</h1>
     
   
     
@@ -90,66 +90,82 @@
   
 
 
-<time datetime="2013-08-25T01:00:00+00:00" pubdate data-updated="true">2013-08-25</time>
+<time datetime="2016-03-17T23:17:22+00:00" pubdate data-updated="true">2016-03-17</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>整理下自己前段时间阅读<a href="http://www.amazon.cn/gp/product/B004WHZGZQ/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B004WHZGZQ&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《黑客与画家》</a>后记下的精彩观点：</p>
+<div class="entry-content"><p>本文是infoWorld关于C++17对C++之父进行的采访，原文见<a href="0">这里</a></p>
+
+<hr />
+
+<p><strong>InfoWorld</strong>:C++17什么时候可用?</p>
+
+<p><strong>Stroustrup</strong>:C++17将会在2017年的某个时间正式发布，可能是在秋季。主要特性的实现会准时或提前完成。其实有些部分现在已经实现了。</p>
+
+<p><strong>InfoWorld</strong>:你认为C++17有哪些重大的新特性?</p>
+
+<p><strong>Stroustrup</strong>:如何定义重大呢，假如一个语言特性或者库会影响你对这门语言的看法并且影响你的代码结构，那我认为它就是重要的。按照这个定义，很遗憾，我的答案是：
+对于绝大多数人来说，C++17并没有重大的特性。请不要把&#8221;C++17并无重大改进”这样的文字加粗或者作为文章的标题，因为这是不准确的、是不必要的煽动。我很看好文件库(file system library)和
+并行算法(parallel algorithms)。它们特别有用，会使有些任务变简单，但对于大部分人来说，这并不是重大的特性。</p>
+
+<p>然而，我认为重大的特性以其它的方式存在。一些重大的特性会出现在TS(Technical Specifications)中。比如：concepts, networking, more concurrency stuff, ranges (Standard Template Library 2), modules, coroutines.
+它们肯定不会被包含在C++17中，但它们确实存在着。</p>
+
+<p><strong>InfoWorld</strong>:C++17的哪些<a href="http://meetingcpp.com/index.php/br/items/cpp17-and-other-future-highlights-of-cpp.html">改进</a>对开发者影响最大呢？</p>
 
 <ul>
-<li>要读懂这本书，必须理解什么是黑客。<strong>hack指漂亮的解决方法，而hacker是指使用hack解决问题的人。hack还指求解问题过程中产生的精神愉悦与享受。</strong></li>
-<li>hacker vs cracker</li>
-<li>革新其实和异端是同一件事情</li>
-<li><strong>平庸的智力是不可忍受的</strong></li>
-<li>那些对自己没信心的人会通过虐待他们眼中的下等人来凸显自己的身份。</li>
-<li>最受欢迎的人并不欺负书呆子，因为他不需要靠踩在书呆子身上来垫高自己。</li>
-<li>学校的真实目的是把儿童都关在同一个地方，以方便大人白天可以腾出手来把事情做完。</li>
-<li>你告诉一个人他的脚是坏的，并不能阻止他去怀疑自己穿错了鞋子。</li>
-<li>当工作的专业化程度越来越高，我们就需要更长时间的训练。</li>
-<li>坏人使用毒品，是为了建立他们之间的社交纽带</li>
-<li>这样的考核（代码量）容易实施，而容易实施的考核总是被优先考虑</li>
-<li>黑客搞懂计算机理论的必要性与画家搞懂颜料化学成分的必要性差不多</li>
-<li>编程语言的必须要具有动态扩展的特性，他是去帮助你去思考如何编程而不是表达已想好的程序。</li>
-<li>在那里（大公司），<strong>程序员被当成技工</strong>，职责就是将产品经理的“构想”翻译成代码。</li>
-<li>你很难依靠软件与大公司展开竞争，可以展开的领域是无人涉足的领域。</li>
-<li><strong>换位思考并不意味着自我牺牲</strong></li>
-<li>判断一个人是否具有换位思考的能力有一个好办法，就是看他怎样<strong>向没有技术背景的人解释技术问题</strong>。</li>
-<li>激怒他人的言论是有些人会相信的言论。</li>
-<li>我们对任何被禁止的事情总是充满好奇心</li>
-<li>如果你可以“远远的”思维跳跃，想出别人一听到就脑袋轰隆一声的想法，那你“小小的”思维跳跃就不再困难，而小小的思维跳跃被人称为创新。</li>
-<li>在思想自由和言论自由之间划一条界线</li>
-<li>讨论一个观点可能产生许多观点，而不讨论则什么也没有</li>
-<li>流行的思想与流行的服饰传播的途径大致相同，第一批人有精英意识，想把自己与普通人区分开来，而第二批人接受流行，不是想要与众不同，而是害怕与众不同。</li>
-<li>公民自由真的是国家富强的原因，而不是结果吗？</li>
-<li>版本这个概念不适合互联网软件</li>
-<li>将一个构思束之高阁，不仅意味着延迟它的实现，还意味着延迟有在实现过程中激发的构思。</li>
-<li>如果你出错了，没有人会提醒你，<strong>唯一的代码保护机制就是你的羞耻心</strong>，你不想被同事当成傻瓜，就足矣。</li>
-<li>价格歧视，针对不同用户制定不同的价格。</li>
-<li>边际成本，指下一单产品的生产成本</li>
-<li>有钱的客户倾向于更贵的选择，及时便宜的选择更符合他们的需要，他们也不会购买。</li>
-<li><strong>金钱不等于财富</strong></li>
-<li>金钱是专业化的副产品</li>
-<li>大多数的生意的目的是为了创造财富，做出人们真正需要的东西</li>
-<li><strong>目前存在的最大的手工艺人群体就是程序员</strong></li>
-<li>要致富，你需要两样东西，可测量性和可放大性</li>
-<li>（有些人）致富的方法不是创造财富，而是以统治者的强权进行搜刮掠夺。</li>
-<li>当更快的致富方式出现后，贪污才逐渐不流行了。</li>
-<li>富人和穷人之间生活差异的鸿沟正在缩小，品牌是这种差距的遗留物</li>
-<li>你要避免的是绝对贫穷，而不是相对贫穷。</li>
-<li>如果解决方法是丑陋的，那肯定还有简单的解决方法</li>
-<li><strong>优秀作品的秘诀</strong>就是：非常严格的品味，再加上实现这种品味的能力</li>
-<li>技术的变化速度是很快的。但是，编程语言不一样，与其说是技术，还不如说是<strong>程序员的思考模式</strong>。</li>
-<li><strong>认为所有语言都一样的看法是自欺欺人</strong>。</li>
-<li>优秀函数库的作用将超过语言本身</li>
-<li>编程时提高代码运行速度的关键是使用好的性能分析器，而不是其他方法</li>
-<li>随着互联网的兴起，程序的瓶颈不是计算机的运算速度，而是I/O</li>
-<li>人们有时候会想要自己并不真正需要的东西</li>
-<li>任何一个领域的最佳作品都不可能由对用户言听计从的人做出来的</li>
+<li>(parts of) Library Fundamentals TS v1</li>
+<li>Parallelism TS v1 * File System TS v1</li>
+<li>Special math functions</li>
+<li>hardware<em>*</em>interference_size * .is_always_lockfree() * clamp()</li>
+<li>non-const .data() for string</li>
 </ul>
 
+
+<p><strong>Stroustrup</strong>:这因人而异，因你做的事情而异。对我来说，我认为并行算法是最重要的，文件系统库也是很方便的特性. <code>optional</code>, <code>any</code>和<code>string_view</code>这些基础库中的东西也很重要. 另外STL中其它小的改进也很多.
+如果你是搞数学的，那么数学库对你是不可或缺的，现在也都在标准库中了。</p>
+
+<p><strong>InfoWorld</strong>:7月份能知道C++17所有的特性(facets)吗?</p>
+
+<p><strong>Stroustrup</strong>:我希望可以，2016年6月下旬，我们会在芬兰奥卢确定一些小的提议,比如:</p>
+
+<ul>
+<li>Dynamic memory allocation for overaligned data (for better vectorization)</li>
+<li>Template parameter deduction for constructors (make many&#8221;make functions&#8221; redundant)</li>
+<li>constexpr_if (a compile-time if)</li>
+<li>Refining Expression Evaluation Order for Idiomatic C++ (finally, we can eliminate bugs from people accidentally relying on undefined order of evaluation)</li>
+<li>Default comparisons (==, !=, &lt;, &lt;=, >, and >=)</li>
+<li>Operator Dot (smart references)</li>
+<li>Generalizing the Range-Based For Loop (for sentinel-based and counted ranges)</li>
+<li>Structured bindings (simple use of multiple return types)</li>
+</ul>
+
+
+<p>只要不是运气太差，这些都可以确定下来的。当然，投票统计之前所有事情都是无法确定的。标准委员会会争取共识，一张否决票顶五张赞成票。和16年3月份通过的决议比较，假如本次通过了大部分决议那C++17将变得更加有趣。</p>
+
+<p><strong>InfoWorld</strong>:随着<code>constexpr lambdas</code>进入C++17，C++是不是朝着函数式编程语言更进了一步。这对开发者有什么影响呢？</p>
+
+<p><strong>Stroustrup</strong>:自从1994年STL起，C++平稳而谨慎的增加着函数式编程技术的使用。<code>constexpr lambdas</code>只是编译时特性的一个简单扩展。如果<code>structured bindings</code>的决议C++17通过了的话，
+多返回值将被支持，就像一些函数式编程语言的函数一样。</p>
+
+<p><strong>InfoWorld</strong>:<code>Concepts</code>这个可以改善编译时诊断的技术，没有被加入C++17是不是一件遗憾的事情？</p>
+
+<p><strong>Stroustrup</strong>:对我来说是的，这是个巨大的遗憾。从2004年，我就和Gabriel Dos Reis及其他几个人一起，在这个问题上研究了好几年，并且用Andrew Sutton的实现测试了三年的时间。我觉得可以
+正式发布这个特性了，但标准委员会的大多数人因为各种原因不同意。一个<code>Concept</code>是对类型和值的集合的编译时断言(predicate)。我认为“更好的错误提示&#8221;是<code>Concept</code>最基础且重要的一个优势：我们可以对
+我们泛型函数（模板）的参数设定要求。这样可以促成更好的设计、更好的接口、更高效的代码。</p>
+
+<p><strong>InfoWorld</strong>:你能不能回答下，为什么<code>modules</code>和<code>co-routines</code>也不会放到c++17.</p>
+
+<p><strong>Stroustrup</strong>:我很乐意看到<code>modules</code>可以更好的防范某些单元上下文中的改变(比如宏)和更好的编译速度，但是提议还没有为C++17准备好，所以只能加进TS了。我想最终<code>modules</code>会变成一个重要的特性。
+它解决了C/C++里面长期存在的问题。MS C++(vs2015)和clang的某些版本已经有类似<code>modules</code>的支持。对于<code>co-routines</code>没有直接放到c++17而是放到TS中我很失望。我认为它在一些特殊的场景下很重要(pipelines and generators)。
+MS Vc++（vs2015）也集成了这个特性。</p>
+
+<p><strong>InfoWorld</strong>:为什么你不延期发布一年，以使<code>concepts</code>、<code>modules</code>和<code>co-routines</code>等特性可以一起发布呢?</p>
+
+<p><strong>Stroustrup</strong>:我以前也被问过这个问题，我回答了no, 我们要保证c++17可以按期发布。一次延期会是一次很不好的先例，会导致后面更多的延期。假如c++17变成c++18, 我想c++20会变成c++22或者c++23。</p>
 </div>
 
 
@@ -172,12 +188,12 @@
   
 
 
-<time datetime="2013-08-25T01:00:00+00:00" pubdate data-updated="true">2013-08-25</time>
+<time datetime="2016-03-17T23:17:22+00:00" pubdate data-updated="true">2016-03-17</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/yue-du/'>阅读</a>
+    <a class='category' href='/blog/categories/c-plus-plus/'>c++</a>
   
 </span>
 
@@ -205,10 +221,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/21/things-of-const/" title="Previous Post: const 二三事">&laquo; const 二三事</a>
+        <a class="basic-alignment left" href="/blog/2015/10/11/android-6-dot-0-openssl-crash/" title="Previous Post: Android 6.0 openssl crash">&laquo; Android 6.0 openssl crash</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/01/this-pointer/" title="Next Post: 熟悉的陌生人-this指针(1)">熟悉的陌生人-this指针(1) &raquo;</a>
       
     </p>
   </footer>

@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2015-10-27T00:15:51+00:00</updated>
+  <updated>2016-07-19T00:11:34+00:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    
+    <title type="html"><![CDATA[Bjarne Stroustrup previews C++ 17]]></title>
+    <link href="http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/"/>
+    
+    <updated>2016-03-17T23:17:22+00:00</updated>
+    <id>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17</id>
+    
+    <content type="html"><![CDATA[<p>本文是infoWorld关于C++17对C++之父进行的采访，原文见<a href="0">这里</a></p>
+
+<hr />
+
+<p><strong>InfoWorld</strong>:C++17什么时候可用?</p>
+
+<p><strong>Stroustrup</strong>:C++17将会在2017年的某个时间正式发布，可能是在秋季。主要特性的实现会准时或提前完成。其实有些部分现在已经实现了。</p>
+
+<p><strong>InfoWorld</strong>:你认为C++17有哪些重大的新特性?</p>
+
+<p><strong>Stroustrup</strong>:如何定义重大呢，假如一个语言特性或者库会影响你对这门语言的看法并且影响你的代码结构，那我认为它就是重要的。按照这个定义，很遗憾，我的答案是：
+对于绝大多数人来说，C++17并没有重大的特性。请不要把&#8221;C++17并无重大改进”这样的文字加粗或者作为文章的标题，因为这是不准确的、是不必要的煽动。我很看好文件库(file system library)和
+并行算法(parallel algorithms)。它们特别有用，会使有些任务变简单，但对于大部分人来说，这并不是重大的特性。</p>
+
+<p>然而，我认为重大的特性以其它的方式存在。一些重大的特性会出现在TS(Technical Specifications)中。比如：concepts, networking, more concurrency stuff, ranges (Standard Template Library 2), modules, coroutines.
+它们肯定不会被包含在C++17中，但它们确实存在着。</p>
+
+<p><strong>InfoWorld</strong>:C++17的哪些<a href="http://meetingcpp.com/index.php/br/items/cpp17-and-other-future-highlights-of-cpp.html">改进</a>对开发者影响最大呢？</p>
+
+<ul>
+<li>(parts of) Library Fundamentals TS v1</li>
+<li>Parallelism TS v1 * File System TS v1</li>
+<li>Special math functions</li>
+<li>hardware<em>*</em>interference_size * .is_always_lockfree() * clamp()</li>
+<li>non-const .data() for string</li>
+</ul>
+
+
+<p><strong>Stroustrup</strong>:这因人而异，因你做的事情而异。对我来说，我认为并行算法是最重要的，文件系统库也是很方便的特性. <code>optional</code>, <code>any</code>和<code>string_view</code>这些基础库中的东西也很重要. 另外STL中其它小的改进也很多.
+如果你是搞数学的，那么数学库对你是不可或缺的，现在也都在标准库中了。</p>
+
+<p><strong>InfoWorld</strong>:7月份能知道C++17所有的特性(facets)吗?</p>
+
+<p><strong>Stroustrup</strong>:我希望可以，2016年6月下旬，我们会在芬兰奥卢确定一些小的提议,比如:</p>
+
+<ul>
+<li>Dynamic memory allocation for overaligned data (for better vectorization)</li>
+<li>Template parameter deduction for constructors (make many&#8221;make functions&#8221; redundant)</li>
+<li>constexpr_if (a compile-time if)</li>
+<li>Refining Expression Evaluation Order for Idiomatic C++ (finally, we can eliminate bugs from people accidentally relying on undefined order of evaluation)</li>
+<li>Default comparisons (==, !=, &lt;, &lt;=, >, and >=)</li>
+<li>Operator Dot (smart references)</li>
+<li>Generalizing the Range-Based For Loop (for sentinel-based and counted ranges)</li>
+<li>Structured bindings (simple use of multiple return types)</li>
+</ul>
+
+
+<p>只要不是运气太差，这些都可以确定下来的。当然，投票统计之前所有事情都是无法确定的。标准委员会会争取共识，一张否决票顶五张赞成票。和16年3月份通过的决议比较，假如本次通过了大部分决议那C++17将变得更加有趣。</p>
+
+<p><strong>InfoWorld</strong>:随着<code>constexpr lambdas</code>进入C++17，C++是不是朝着函数式编程语言更进了一步。这对开发者有什么影响呢？</p>
+
+<p><strong>Stroustrup</strong>:自从1994年STL起，C++平稳而谨慎的增加着函数式编程技术的使用。<code>constexpr lambdas</code>只是编译时特性的一个简单扩展。如果<code>structured bindings</code>的决议C++17通过了的话，
+多返回值将被支持，就像一些函数式编程语言的函数一样。</p>
+
+<p><strong>InfoWorld</strong>:<code>Concepts</code>这个可以改善编译时诊断的技术，没有被加入C++17是不是一件遗憾的事情？</p>
+
+<p><strong>Stroustrup</strong>:对我来说是的，这是个巨大的遗憾。从2004年，我就和Gabriel Dos Reis及其他几个人一起，在这个问题上研究了好几年，并且用Andrew Sutton的实现测试了三年的时间。我觉得可以
+正式发布这个特性了，但标准委员会的大多数人因为各种原因不同意。一个<code>Concept</code>是对类型和值的集合的编译时断言(predicate)。我认为“更好的错误提示&#8221;是<code>Concept</code>最基础且重要的一个优势：我们可以对
+我们泛型函数（模板）的参数设定要求。这样可以促成更好的设计、更好的接口、更高效的代码。</p>
+
+<p><strong>InfoWorld</strong>:你能不能回答下，为什么<code>modules</code>和<code>co-routines</code>也不会放到c++17.</p>
+
+<p><strong>Stroustrup</strong>:我很乐意看到<code>modules</code>可以更好的防范某些单元上下文中的改变(比如宏)和更好的编译速度，但是提议还没有为C++17准备好，所以只能加进TS了。我想最终<code>modules</code>会变成一个重要的特性。
+它解决了C/C++里面长期存在的问题。MS C++(vs2015)和clang的某些版本已经有类似<code>modules</code>的支持。对于<code>co-routines</code>没有直接放到c++17而是放到TS中我很失望。我认为它在一些特殊的场景下很重要(pipelines and generators)。
+MS Vc++（vs2015）也集成了这个特性。</p>
+
+<p><strong>InfoWorld</strong>:为什么你不延期发布一年，以使<code>concepts</code>、<code>modules</code>和<code>co-routines</code>等特性可以一起发布呢?</p>
+
+<p><strong>Stroustrup</strong>:我以前也被问过这个问题，我回答了no, 我们要保证c++17可以按期发布。一次延期会是一次很不好的先例，会导致后面更多的延期。假如c++17变成c++18, 我想c++20会变成c++22或者c++23。</p>
+]]></content>
+    
+  </entry>
   
   <entry>
     
@@ -1604,69 +1685,6 @@
 <p>感觉整个春节的基调是灰的，唯一的亮点是，自己尝试着购得一<a href='http://www.amazon.cn/gp/product/B00CWPIDHI/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00CWPIDHI&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>KPW2</a>，并且在春节期间，窝在家里里屋的床上翻看了三本书，自己的阅读习惯应该是被改变了，且是好的改变，这算是一慰藉吧！！</p>
 
 <p>还有一事想起，今年群发短信明显减少，收到的短信也算是“私人定制”的，还意外的收到了苟哥一条酸溜溜的祝福。同事们会在微信群里发红包。当然更要好的同学会通话联系，我远在非洲的高中好友，总会在佳节想起我。</p>
-]]></content>
-    
-  </entry>
-  
-  <entry>
-    
-    <title type="html"><![CDATA[2013年（下半年）个人总结]]></title>
-    <link href="http://towriting.com/blog/2014/01/01/2013-review/"/>
-    
-    <updated>2014-01-01T21:55:00+00:00</updated>
-    <id>http://towriting.com/blog/2014/01/01/2013-review</id>
-    
-    <content type="html"><![CDATA[<blockquote><p>人没有进步，和死鱼有什么区别！</p></blockquote>
-
-<p>今天是西元2014年的第一天，最近一周内，网上随意浏览时各种关于个人或者行业的年度总结不时映入眼帘。当然行业大佬、业界明星的总结与底层的程序员是不可能相同的，无论从视角、信息含量、高度等维度来比较。前者会高屋建瓴的描绘行业发展态势、自己（公司）为何做出某个举动、某个举动的结果、未来行业的走向等等；而后者更多的关注于：今年学习了哪些技术、换了几份工作、攒了多少钱等等。所以程序员的个人总结，仅仅是个人总结。</p>
-
-<h2>总结的目的：Summary Or Review</h2>
-
-<p>就在准备写这个总结时，本想给新的Markdown文件来个规范的命名，最初我以为是<code>Summary</code>但以Summary + 2013为关键字Google并不能得到看起来像“年度总结”的东西，去HackerNews瞎翻一通，终于看到了一个哥们的2013年度总结:<a href="http://nathanbarry.com/2013-review/">TWO YEARS AFTER QUITTING MY JOB: 2013 IN REVIEW</a>，<code>Review</code>做总结的翻译再合适不过了。在我看来Review有两层意思，其一是字面意思：<strong>回看</strong>，单从这一层意思看，Summary亦可胜任。另一层，IT行业的同学自可意会，通不过<code>Review</code>的代码需要<strong>回退</strong>(当然人生无法回退）。所以<strong>总结的意义在于：发现问题</strong>。</p>
-
-<h2>下半年做了什么</h2>
-
-<p>上半年的流水帐已交待在<a href="http://towriting.com/blog/2013/09/15/summary/">上半年总结</a>中。下半年工作基本上算是上一阶段的自然延续，代码得到了组长的认可，开始参与手机管家开发。11月开始了应用宝Mini版开发，应用宝Mini版是今年压力最大的开发任务：工期短、框架不熟悉、任务重。回过头来看，大家竟然按时完成了。应用宝完整版的开发自己并没有参与，而被安排做另一个新项目的开发，开发的产品会成为后续应用宝版本的“核心”。前期主要由我一个人开发，由组长Review接口，到目前系统的框架和基本功能已完成，此项目不爽的是用VS2005开发，对于熟悉C++11的人来说，VS2010与VS2005的差别自是判若云泥。</p>
-
-<p>其它的就算是翻译了技术文章数篇吧。</p>
-
-<h2>下半年学了些什么</h2>
-
-<p>技术方面下半年，很惭愧的讲并没有自己满意的进步或新的输入。新的技术输入可能算是Ruby语言的学习，不过第一轮学习计划：阅读Ruby编程语言和Ruby元编程，才完成40%。再就是工作中接触到了COM，知道了一些COM相关的开发流程。C++方面的深入貌似裹足不前了，这半年来没有在某个大面比如并发或模板上专门提高，只是随意的在某些细枝末节上深入而已。工具上可能算是对一些软件更熟练使用了，比如这篇<a href="http://towriting.com/blog/2013/11/17/effective-tools/">记录</a>的，虽提高了工作效率，但都不太值得一提。</p>
-
-<h2>Review出的问题</h2>
-
-<p>1 自己是工作的机器吗</p>
-
-<p>13年工作较以往强度增大了很多，加班也已经达到了一般人难以想象的程度，有的月仅休息3天，平时一般都是22：00后下班。在这样的工作状态和个人习惯的双重影响下，13年自己除了工作貌似并没有做任何有意义的事情，还好有2次旅游，一次越南、一次江西。
-朋友交流团队活动也很少，所以13年自己好像成了工作的机器。</p>
-
-<p>2 阅读亮起了黄灯</p>
-
-<p>自己一直自认为算是个“好读书”的人，但从自己的<a href="http://towriting.com/blog/2013/07/20/the-books-i-have-read/">读书记录</a>来看，13年的阅读量下降了不少，平均才每月一本，而且很多还拖沓着没有读完，说工作太忙只是给自己找借口，其实周六周日还是有时间的，而周六日的时间好像都耗费在无意义的上网和看视频上。时间是个很奇怪的东西，当半夜下班拖着疲倦的身体，倒想到了时间的宝贵，会很珍惜的带着困意阅读一会儿。而周六日大把的时间，觉得肯定不缺阅读的时间，直至周日晚上才发现还没有翻过书。
-新的一年一定纠正周末懒散的坏习惯。</p>
-
-<p>3 社交能力的丧失</p>
-
-<p>13年，大部分时间实在公司，休息时也窝在住处。除工作外没有认识任何人，没有参加过任何体育运动，孑然一身，逐渐丧失交际能力。2014要走出去！！！</p>
-
-<h2>2014要做什么</h2>
-
-<h4>Must do</h4>
-
-<ul>
-<li>改正上面的问题：1、2</li>
-<li>3月前学习Ruby,前半年开发一款WebAPP</li>
-</ul>
-
-
-<h4>Can do</h4>
-
-<ul>
-<li>改正上面的问题：3</li>
-<li>考个驾照</li>
-</ul>
-
 ]]></content>
     
   </entry>
