@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 并发 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/bing-fa/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[实现无锁算法的常见陷阱]]></title>
-    <link href="http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/"/>
-    <updated>2014-08-18T23:34:52+00:00</updated>
-    <id>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms</id>
+    <link href="http://towriting.com/blog/2014/08/19/common-pitfalls-in-writing-lock-free-algorithms/"/>
+    <updated>2014-08-19T07:34:52+08:00</updated>
+    <id>http://towriting.com/blog/2014/08/19/common-pitfalls-in-writing-lock-free-algorithms</id>
     <content type="html"><![CDATA[<h2>翻译自：<a href="http://blog.memsql.com/common-pitfalls-in-writing-lock-free-algorithms/">Common Pitfalls in Writing Lock-Free Algorithms</a></h2>
 
 <p>通常，只要两个操作之间的步骤是有穷的，一个多线程算法就认为可以实现为无锁(lock-free)。理论上无锁算法也早已被证明，看起来实现一个无锁算法也很简单。但其实不然，每一步都隐藏着陷阱：并发的线程可以修改共享的对象，甚至在执行一个操作时线程可以突然暂停或中止，而这是另一个线程当作好像若无其事。</p>

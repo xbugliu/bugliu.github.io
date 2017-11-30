@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windbg | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windbg/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Windbg定位内存泄露的一种简单方法]]></title>
-    <link href="http://towriting.com/blog/2014/11/22/windbg-memory-leak/"/>
-    <updated>2014-11-22T20:51:47+00:00</updated>
-    <id>http://towriting.com/blog/2014/11/22/windbg-memory-leak</id>
+    <link href="http://towriting.com/blog/2014/11/23/windbg-memory-leak/"/>
+    <updated>2014-11-23T04:51:47+08:00</updated>
+    <id>http://towriting.com/blog/2014/11/23/windbg-memory-leak</id>
     <content type="html"><![CDATA[<p>前两天接到一个反映进程内存占用过G的投诉。问题是必現的，一定是内存泄露，应该容易定位，一同事远程看过现场，使用gflags和windbg试图找到泄露的堆栈，同事是一步步按照<a href="http://www.codeproject.com/Articles/31382/Memory-Leak-Detection-Using-Windbg">这篇文章的方法</a>来的，但在最后一步Windbg没有找到出问题的堆栈，用户给我们远程的时间很短，无法深究gflags+windbg不灵验的原因，只得另辟蹊径。</p>
 
 <h2>步骤如下：</h2>

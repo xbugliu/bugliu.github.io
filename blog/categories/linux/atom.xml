@@ -4,7 +4,7 @@
   <title><![CDATA[Category: linux | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux下开启TRIM]]></title>
-    <link href="http://towriting.com/blog/2014/06/28/archlinux-trim/"/>
-    <updated>2014-06-28T21:55:12+00:00</updated>
-    <id>http://towriting.com/blog/2014/06/28/archlinux-trim</id>
+    <link href="http://towriting.com/blog/2014/06/29/archlinux-trim/"/>
+    <updated>2014-06-29T05:55:12+08:00</updated>
+    <id>http://towriting.com/blog/2014/06/29/archlinux-trim</id>
     <content type="html"><![CDATA[<p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
 
 <p>首先要检测SSD是否支持TRIM:</p>
@@ -79,7 +79,7 @@ fstrim -v /home >> $LOG
   <entry>
     <title type="html"><![CDATA[Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务]]></title>
     <link href="http://towriting.com/blog/2013/08/03/unix-background-job/"/>
-    <updated>2013-08-03T19:25:00+00:00</updated>
+    <updated>2013-08-03T19:25:00+08:00</updated>
     <id>http://towriting.com/blog/2013/08/03/unix-background-job</id>
     <content type="html"><![CDATA[<p>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。</p>
 

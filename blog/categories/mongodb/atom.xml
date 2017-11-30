@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mongodb | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/mongodb/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[MongoDB中的$in和$elemMatch]]></title>
-    <link href="http://towriting.com/blog/2015/01/14/mongodb-in-elem/"/>
-    <updated>2015-01-14T23:02:51+00:00</updated>
-    <id>http://towriting.com/blog/2015/01/14/mongodb-in-elem</id>
+    <link href="http://towriting.com/blog/2015/01/15/mongodb-in-elem/"/>
+    <updated>2015-01-15T07:02:51+08:00</updated>
+    <id>http://towriting.com/blog/2015/01/15/mongodb-in-elem</id>
     <content type="html"><![CDATA[<p>PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手搞起，打算山寨goodreads的<a href="http://goodreads.com/quotes">quotes</a>板块，已经草草的实现了部分功能-<a href="http://quotes.towriting.com">看这里</a>, 其中数据库部分使用到是MongoDB, 使用MongoDB的原因是新鲜、好玩、简单，MongoDB确实比较容易理解，花2个小时看了一遍<a href="https://github.com/karlseguin/the-little-mongodb-book/blob/master/en/mongodb.markdown">the-little-mongodb-book</a>就可以上手干活了。</p>
 
 <p>但高级些的用法还是需要细读官方文档，不然还是会出错，最近自己就在$in和$elemMatch上栽跟头，花费了大把时间。</p>

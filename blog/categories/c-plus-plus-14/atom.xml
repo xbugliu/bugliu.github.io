@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++14 | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus-14/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[C++14-大餐后的甜点]]></title>
-    <link href="http://towriting.com/blog/2014/08/25/cpp-14-dessert/"/>
-    <updated>2014-08-25T23:15:41+00:00</updated>
-    <id>http://towriting.com/blog/2014/08/25/cpp-14-dessert</id>
+    <link href="http://towriting.com/blog/2014/08/26/cpp-14-dessert/"/>
+    <updated>2014-08-26T07:15:41+08:00</updated>
+    <id>http://towriting.com/blog/2014/08/26/cpp-14-dessert</id>
     <content type="html"><![CDATA[<p>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是<a href="http://electronicdesign.com/dev-tools/bjarne-stroustrup-talks-about-c14">谨小甚微的</a>。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。</p>
 
 <p><img class="pull-right" src="/images/posts/cpp-14-dessert/wg21-timeline.png"></p>

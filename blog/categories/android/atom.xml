@@ -4,7 +4,7 @@
   <title><![CDATA[Category: android | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Android 6.0 openssl crash]]></title>
-    <link href="http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/"/>
-    <updated>2015-10-11T22:59:55+00:00</updated>
-    <id>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash</id>
+    <link href="http://towriting.com/blog/2015/10/12/android-6-dot-0-openssl-crash/"/>
+    <updated>2015-10-12T06:59:55+08:00</updated>
+    <id>http://towriting.com/blog/2015/10/12/android-6-dot-0-openssl-crash</id>
     <content type="html"><![CDATA[<p>Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0更换了OpenSSL库而导致的一个Crash。</p>
 
 <h2>Crash的原因：</h2>

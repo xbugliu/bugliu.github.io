@@ -4,7 +4,7 @@
   <title><![CDATA[Category: blog | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/blog/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[octopress定制公益404页面]]></title>
     <link href="http://towriting.com/blog/2013/08/04/octopress-custom-404/"/>
-    <updated>2013-08-04T00:10:00+00:00</updated>
+    <updated>2013-08-04T00:10:00+08:00</updated>
     <id>http://towriting.com/blog/2013/08/04/octopress-custom-404</id>
     <content type="html"><![CDATA[<p>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。</p>
 

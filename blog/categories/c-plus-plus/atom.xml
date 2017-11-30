@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++ | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Bjarne Stroustrup previews C++ 17]]></title>
-    <link href="http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/"/>
-    <updated>2016-03-17T23:17:22+00:00</updated>
-    <id>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17</id>
+    <link href="http://towriting.com/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17/"/>
+    <updated>2016-03-18T07:17:22+08:00</updated>
+    <id>http://towriting.com/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17</id>
     <content type="html"><![CDATA[<p>本文是infoWorld关于C++17对C++之父进行的采访，原文见<a href="0">这里</a></p>
 
 <hr />
@@ -92,9 +92,9 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   
   <entry>
     <title type="html"><![CDATA[C++API设计 - 笔记]]></title>
-    <link href="http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/"/>
-    <updated>2014-11-15T20:24:38+00:00</updated>
-    <id>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes</id>
+    <link href="http://towriting.com/blog/2014/11/16/api-design-for-c-plus-plus-notes/"/>
+    <updated>2014-11-16T04:24:38+08:00</updated>
+    <id>http://towriting.com/blog/2014/11/16/api-design-for-c-plus-plus-notes</id>
     <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00EE13U30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00EE13U30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ API设计</a>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看这本书了。</p>
 
 <h2>笔记</h2>
@@ -160,7 +160,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     <title type="html"><![CDATA[谁在用C++ STL？]]></title>
     <link href="http://towriting.com/blog/2014/04/18/who-use-stl/"/>
-    <updated>2014-04-18T23:39:00+00:00</updated>
+    <updated>2014-04-18T23:39:00+08:00</updated>
     <id>http://towriting.com/blog/2014/04/18/who-use-stl</id>
     <content type="html"><![CDATA[<p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
 
@@ -228,7 +228,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     <title type="html"><![CDATA[《C++标准库第二版 上册》笔记]]></title>
     <link href="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/"/>
-    <updated>2013-12-18T23:27:00+00:00</updated>
+    <updated>2013-12-18T23:27:00+08:00</updated>
     <id>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1</id>
     <content type="html"><![CDATA[<p>p63 a pair&lt;> using a type that has only a nonconstant copy constructor will no longer compile.</p>
 
@@ -476,7 +476,7 @@ p342 piecewise_construct emplace.</p>
   <entry>
     <title type="html"><![CDATA[Boost.Lambda与C++11.Lambda的用法对比]]></title>
     <link href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/"/>
-    <updated>2013-12-13T22:38:00+00:00</updated>
+    <updated>2013-12-13T22:38:00+08:00</updated>
     <id>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda</id>
     <content type="html"><![CDATA[<p>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。</p>
 

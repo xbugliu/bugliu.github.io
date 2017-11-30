@@ -4,7 +4,7 @@
   <title><![CDATA[书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -16,10 +16,10 @@
   <entry>
     
     <title type="html"><![CDATA[Bjarne Stroustrup previews C++ 17]]></title>
-    <link href="http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/"/>
+    <link href="http://towriting.com/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17/"/>
     
-    <updated>2016-03-17T23:17:22+00:00</updated>
-    <id>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17</id>
+    <updated>2016-03-18T07:17:22+08:00</updated>
+    <id>http://towriting.com/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17</id>
     
     <content type="html"><![CDATA[<p>本文是infoWorld关于C++17对C++之父进行的采访，原文见<a href="0">这里</a></p>
 
@@ -97,10 +97,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[Android 6.0 openssl crash]]></title>
-    <link href="http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/"/>
+    <link href="http://towriting.com/blog/2015/10/12/android-6-dot-0-openssl-crash/"/>
     
-    <updated>2015-10-11T22:59:55+00:00</updated>
-    <id>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash</id>
+    <updated>2015-10-12T06:59:55+08:00</updated>
+    <id>http://towriting.com/blog/2015/10/12/android-6-dot-0-openssl-crash</id>
     
     <content type="html"><![CDATA[<p>Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0更换了OpenSSL库而导致的一个Crash。</p>
 
@@ -152,10 +152,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[读<程序员的呐喊>]]></title>
-    <link href="http://towriting.com/blog/2015/09/10/a-programmers-rantings/"/>
+    <link href="http://towriting.com/blog/2015/09/11/a-programmers-rantings/"/>
     
-    <updated>2015-09-10T22:06:45+00:00</updated>
-    <id>http://towriting.com/blog/2015/09/10/a-programmers-rantings</id>
+    <updated>2015-09-11T06:06:45+08:00</updated>
+    <id>http://towriting.com/blog/2015/09/11/a-programmers-rantings</id>
     
     <content type="html"><![CDATA[<p>又是一本国外技术圈的名人的博客整理成的书。作者steve yegge是google的程序员，06年之前的7年工作在amazon。丰富的编程经验和自由的个性，使他对各种编程语言和互联网产品有自己独到的见解。</p>
 
@@ -179,10 +179,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[MongoDB中的$in和$elemMatch]]></title>
-    <link href="http://towriting.com/blog/2015/01/14/mongodb-in-elem/"/>
+    <link href="http://towriting.com/blog/2015/01/15/mongodb-in-elem/"/>
     
-    <updated>2015-01-14T23:02:51+00:00</updated>
-    <id>http://towriting.com/blog/2015/01/14/mongodb-in-elem</id>
+    <updated>2015-01-15T07:02:51+08:00</updated>
+    <id>http://towriting.com/blog/2015/01/15/mongodb-in-elem</id>
     
     <content type="html"><![CDATA[<p>PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手搞起，打算山寨goodreads的<a href="http://goodreads.com/quotes">quotes</a>板块，已经草草的实现了部分功能-<a href="http://quotes.towriting.com">看这里</a>, 其中数据库部分使用到是MongoDB, 使用MongoDB的原因是新鲜、好玩、简单，MongoDB确实比较容易理解，花2个小时看了一遍<a href="https://github.com/karlseguin/the-little-mongodb-book/blob/master/en/mongodb.markdown">the-little-mongodb-book</a>就可以上手干活了。</p>
 
@@ -233,10 +233,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[Windbg关联dmp文件]]></title>
-    <link href="http://towriting.com/blog/2014/12/07/windbg-dump-asso/"/>
+    <link href="http://towriting.com/blog/2014/12/08/windbg-dump-asso/"/>
     
-    <updated>2014-12-07T22:58:38+00:00</updated>
-    <id>http://towriting.com/blog/2014/12/07/windbg-dump-asso</id>
+    <updated>2014-12-08T06:58:38+08:00</updated>
+    <id>http://towriting.com/blog/2014/12/08/windbg-dump-asso</id>
     
     <content type="html"><![CDATA[<p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
 
@@ -365,10 +365,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[Windbg定位内存泄露的一种简单方法]]></title>
-    <link href="http://towriting.com/blog/2014/11/22/windbg-memory-leak/"/>
+    <link href="http://towriting.com/blog/2014/11/23/windbg-memory-leak/"/>
     
-    <updated>2014-11-22T20:51:47+00:00</updated>
-    <id>http://towriting.com/blog/2014/11/22/windbg-memory-leak</id>
+    <updated>2014-11-23T04:51:47+08:00</updated>
+    <id>http://towriting.com/blog/2014/11/23/windbg-memory-leak</id>
     
     <content type="html"><![CDATA[<p>前两天接到一个反映进程内存占用过G的投诉。问题是必現的，一定是内存泄露，应该容易定位，一同事远程看过现场，使用gflags和windbg试图找到泄露的堆栈，同事是一步步按照<a href="http://www.codeproject.com/Articles/31382/Memory-Leak-Detection-Using-Windbg">这篇文章的方法</a>来的，但在最后一步Windbg没有找到出问题的堆栈，用户给我们远程的时间很短，无法深究gflags+windbg不灵验的原因，只得另辟蹊径。</p>
 
@@ -589,10 +589,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[C++API设计 - 笔记]]></title>
-    <link href="http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/"/>
+    <link href="http://towriting.com/blog/2014/11/16/api-design-for-c-plus-plus-notes/"/>
     
-    <updated>2014-11-15T20:24:38+00:00</updated>
-    <id>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes</id>
+    <updated>2014-11-16T04:24:38+08:00</updated>
+    <id>http://towriting.com/blog/2014/11/16/api-design-for-c-plus-plus-notes</id>
     
     <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00EE13U30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00EE13U30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ API设计</a>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看这本书了。</p>
 
@@ -660,10 +660,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[读《摩托车修理店的未来工作哲学》]]></title>
-    <link href="http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/"/>
+    <link href="http://towriting.com/blog/2014/10/27/shop-class-as-soulcraft-notes/"/>
     
-    <updated>2014-10-26T20:50:12+00:00</updated>
-    <id>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes</id>
+    <updated>2014-10-27T04:50:12+08:00</updated>
+    <id>http://towriting.com/blog/2014/10/27/shop-class-as-soulcraft-notes</id>
     
     <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00KF0MTR2/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00KF0MTR2&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>&lt;摩托车修理店的未来工作哲学></a>是一本大抵关于工作的书。</p>
 
@@ -691,7 +691,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[互联网公司“24小时待命”的陋习]]></title>
     <link href="http://towriting.com/blog/2014/08/31/24-hour-stand-by/"/>
     
-    <updated>2014-08-31T11:47:45+00:00</updated>
+    <updated>2014-08-31T19:47:45+08:00</updated>
     <id>http://towriting.com/blog/2014/08/31/24-hour-stand-by</id>
     
     <content type="html"><![CDATA[<p>24小时待命可能有些夸张，但它确实是以一种不成文的规定存在于一部分互联网公司。记得去年培训时，来自深圳总部的培训老师，自豪的说TX许多部门里员工都是24小时待命，随时应对解决问题。听一些其它公司的朋友讲，他们也有非上班时间被叫回公司的现象。所以24小时待命在一些地方可能形成了习俗。习俗很可怕，哪怕明知是错误的人们也无力反抗，比如裹脚。</p>
@@ -724,10 +724,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[C++14-大餐后的甜点]]></title>
-    <link href="http://towriting.com/blog/2014/08/25/cpp-14-dessert/"/>
+    <link href="http://towriting.com/blog/2014/08/26/cpp-14-dessert/"/>
     
-    <updated>2014-08-25T23:15:41+00:00</updated>
-    <id>http://towriting.com/blog/2014/08/25/cpp-14-dessert</id>
+    <updated>2014-08-26T07:15:41+08:00</updated>
+    <id>http://towriting.com/blog/2014/08/26/cpp-14-dessert</id>
     
     <content type="html"><![CDATA[<p>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是<a href="http://electronicdesign.com/dev-tools/bjarne-stroustrup-talks-about-c14">谨小甚微的</a>。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。</p>
 
@@ -810,10 +810,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[实现无锁算法的常见陷阱]]></title>
-    <link href="http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/"/>
+    <link href="http://towriting.com/blog/2014/08/19/common-pitfalls-in-writing-lock-free-algorithms/"/>
     
-    <updated>2014-08-18T23:34:52+00:00</updated>
-    <id>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms</id>
+    <updated>2014-08-19T07:34:52+08:00</updated>
+    <id>http://towriting.com/blog/2014/08/19/common-pitfalls-in-writing-lock-free-algorithms</id>
     
     <content type="html"><![CDATA[<h2>翻译自：<a href="http://blog.memsql.com/common-pitfalls-in-writing-lock-free-algorithms/">Common Pitfalls in Writing Lock-Free Algorithms</a></h2>
 
@@ -1305,10 +1305,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[读《寻找家园》]]></title>
-    <link href="http://towriting.com/blog/2014/07/21/review-xzjy/"/>
+    <link href="http://towriting.com/blog/2014/07/22/review-xzjy/"/>
     
-    <updated>2014-07-21T23:51:23+00:00</updated>
-    <id>http://towriting.com/blog/2014/07/21/review-xzjy</id>
+    <updated>2014-07-22T07:51:23+08:00</updated>
+    <id>http://towriting.com/blog/2014/07/22/review-xzjy</id>
     
     <content type="html"><![CDATA[<p>诚然，这是一本文辞优美的自传集。自以为博学杂收，但此前竟从未听说过高尔泰，概和主流媒介打压有关。80后的我，有幸避过了那段岁月，所以对于书中，高先生凄苦的人生，只能报以同情，很难产生共鸣。高先生悲惨的际遇和余华《活着》中的福贵的一生很像，波诡云谲的时代，至亲“莫名其妙”的离去，种种不公平待遇，最后还活着，随波逐流。</p>
 
@@ -1330,7 +1330,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[关于重构的一些想法]]></title>
     <link href="http://towriting.com/blog/2014/07/08/evil-refactor/"/>
     
-    <updated>2014-07-08T00:26:25+00:00</updated>
+    <updated>2014-07-08T08:26:25+08:00</updated>
     <id>http://towriting.com/blog/2014/07/08/evil-refactor</id>
     
     <content type="html"><![CDATA[<p>很早之前听说过这样一个故事：</p>
@@ -1353,10 +1353,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <entry>
     
     <title type="html"><![CDATA[Linux下开启TRIM]]></title>
-    <link href="http://towriting.com/blog/2014/06/28/archlinux-trim/"/>
+    <link href="http://towriting.com/blog/2014/06/29/archlinux-trim/"/>
     
-    <updated>2014-06-28T21:55:12+00:00</updated>
-    <id>http://towriting.com/blog/2014/06/28/archlinux-trim</id>
+    <updated>2014-06-29T05:55:12+08:00</updated>
+    <id>http://towriting.com/blog/2014/06/29/archlinux-trim</id>
     
     <content type="html"><![CDATA[<p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
 
@@ -1435,7 +1435,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[Dock项目个人总结]]></title>
     <link href="http://towriting.com/blog/2014/05/03/dock-project-experience/"/>
     
-    <updated>2014-05-03T22:55:00+00:00</updated>
+    <updated>2014-05-03T22:55:00+08:00</updated>
     <id>http://towriting.com/blog/2014/05/03/dock-project-experience</id>
     
     <content type="html"><![CDATA[<p>Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必须也要做。关于应用宝Dock的具体进度、功能与界面不做介绍，现在从开发的角度讲一讲Dock项目两个月来的一点体会。</p>
@@ -1476,7 +1476,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[读《苏东坡传》]]></title>
     <link href="http://towriting.com/blog/2014/04/27/the-gay-genius-review/"/>
     
-    <updated>2014-04-27T21:52:00+00:00</updated>
+    <updated>2014-04-27T21:52:00+08:00</updated>
     <id>http://towriting.com/blog/2014/04/27/the-gay-genius-review</id>
     
     <content type="html"><![CDATA[<p>昨天在kindle上读完了<a href='http://www.amazon.cn/gp/product/B00D7X84MS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00D7X84MS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>苏东坡传</a>，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。</p>
@@ -1512,7 +1512,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[谁在用C++ STL？]]></title>
     <link href="http://towriting.com/blog/2014/04/18/who-use-stl/"/>
     
-    <updated>2014-04-18T23:39:00+00:00</updated>
+    <updated>2014-04-18T23:39:00+08:00</updated>
     <id>http://towriting.com/blog/2014/04/18/who-use-stl</id>
     
     <content type="html"><![CDATA[<p>C++用了四年了，这两天才把<a href='http://www.amazon.cn/gp/product/B00DGLU91K/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00DGLU91K&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective STL</a>看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及另两本，个中缘由是否因为STL地位不济。所以今日以自己鄙陋的经历来谈一谈当前STL在C++程序员中的地位和使用状况。</p>
@@ -1584,7 +1584,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[入职一周年记]]></title>
     <link href="http://towriting.com/blog/2014/04/08/tencent-anniversary/"/>
     
-    <updated>2014-04-08T23:38:00+00:00</updated>
+    <updated>2014-04-08T23:38:00+08:00</updated>
     <id>http://towriting.com/blog/2014/04/08/tencent-anniversary</id>
     
     <content type="html"><![CDATA[<p>现在是2014年4月8日，23点45分，一刻钟后，今天将永不存在。一个小时前，才离开公司，相信现在公司还有同事在吧。今早收到了系统发来的祝贺入职周年的邮件，这一天真的来了，回头看自己竟然咬牙坚持下来了。</p>
@@ -1643,7 +1643,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[读：人生元编程]]></title>
     <link href="http://towriting.com/blog/2014/02/23/mac-shuo-review/"/>
     
-    <updated>2014-02-23T22:52:00+00:00</updated>
+    <updated>2014-02-23T22:52:00+08:00</updated>
     <id>http://towriting.com/blog/2014/02/23/mac-shuo-review</id>
     
     <content type="html"><![CDATA[<p><a href='http://www.amazon.cn/gp/product/B00ID5UV30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ID5UV30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>人生元编程</a>这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，自称Mac君。去年就断断续续的跟过Mac君在其<a href="http://macshuo.com/">博客</a>上帖的文章，印象最深的是其能将IT界大佬的故事娓娓道来，颇有吴军之风，更兼Mac君是根正苗红的程序员，所以文章读来倍感亲切，处处体现了其对程序员个体的勉励。</p>
@@ -1673,7 +1673,7 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     <title type="html"><![CDATA[春节杂记]]></title>
     <link href="http://towriting.com/blog/2014/02/20/spring/"/>
     
-    <updated>2014-02-20T22:00:00+00:00</updated>
+    <updated>2014-02-20T22:00:00+08:00</updated>
     <id>http://towriting.com/blog/2014/02/20/spring</id>
     
     <content type="html"><![CDATA[<p>今天正月二十一，按我们老家旧时的习俗，二月二&#8221;龙抬头&#8221;以后，才算过完年。今年过年在家里待了12天，算来不短，一年的忙碌终换来了多出的几日闲暇。年前被评为优秀员工算是出乎自己意料的一件春节期间的乐事。但在家中的这一小段时光，却没什么值得记录的，在村里依旧是整天玩一种叫做牌九的赌博游戏，自己很乏味，但儿时的伙伴热衷于此，只能舍乐陪他们了。然后其它的无非是，会会旧时朋友同学，一年中平日难得交流，且行业迥异，话题颇少，只能以酒代话，醉醺醺的归家了。</p>

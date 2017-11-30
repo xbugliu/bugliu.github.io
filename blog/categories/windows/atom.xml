@@ -4,7 +4,7 @@
   <title><![CDATA[Category: windows | 书写|记下人生痕迹]]></title>
   <link href="http://towriting.com/blog/categories/windows/atom.xml" rel="self"/>
   <link href="http://towriting.com/"/>
-  <updated>2016-07-19T00:11:34+00:00</updated>
+  <updated>2017-12-01T01:26:58+08:00</updated>
   <id>http://towriting.com/</id>
   <author>
     <name><![CDATA[ToWriting]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Windbg关联dmp文件]]></title>
-    <link href="http://towriting.com/blog/2014/12/07/windbg-dump-asso/"/>
-    <updated>2014-12-07T22:58:38+00:00</updated>
-    <id>http://towriting.com/blog/2014/12/07/windbg-dump-asso</id>
+    <link href="http://towriting.com/blog/2014/12/08/windbg-dump-asso/"/>
+    <updated>2014-12-08T06:58:38+08:00</updated>
+    <id>http://towriting.com/blog/2014/12/08/windbg-dump-asso</id>
     <content type="html"><![CDATA[<p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
 
 <p><img src="/images/posts/windbg-dump-asso/windbg_dmp.png" title="" ></p>
@@ -133,7 +133,7 @@ HKEY_CURRENT_USER\Software\Classes
   <entry>
     <title type="html"><![CDATA[Windows提供的INI接口不是线程安全的]]></title>
     <link href="http://towriting.com/blog/2013/12/17/ini-muti-thread/"/>
-    <updated>2013-12-17T23:28:00+00:00</updated>
+    <updated>2013-12-17T23:28:00+08:00</updated>
     <id>http://towriting.com/blog/2013/12/17/ini-muti-thread</id>
     <content type="html"><![CDATA[<p>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms725501(v=vs.85).aspx">WritePrivateProfileString</a>的文档中并没有提到。
 据<a href="http://mfctips.com/tag/getprivateprofilestring/">这篇文章</a>介绍:</p>
@@ -264,7 +264,7 @@ return 0;
   <entry>
     <title type="html"><![CDATA[创建支持拖拽的进程]]></title>
     <link href="http://towriting.com/blog/2013/08/06/process-can-drag-drop/"/>
-    <updated>2013-08-06T22:48:00+00:00</updated>
+    <updated>2013-08-06T22:48:00+08:00</updated>
     <id>http://towriting.com/blog/2013/08/06/process-can-drag-drop</id>
     <content type="html"><![CDATA[<p>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：<a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a>。</p>
 
@@ -308,7 +308,7 @@ return bRet;
   <entry>
     <title type="html"><![CDATA[暴力禁止windows自动安装驱动]]></title>
     <link href="http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/"/>
-    <updated>2013-08-03T22:24:00+00:00</updated>
+    <updated>2013-08-03T22:24:00+08:00</updated>
     <id>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver</id>
     <content type="html"><![CDATA[<p><img class="right" src="/images/posts/forbid-auto-install-driver/auto_install_driver_tip.png" title="&lsquo;windows自动安装驱动&rsquo; &lsquo;windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。&rsquo;" ></p>
 
@@ -355,7 +355,7 @@ return bRet;
   <entry>
     <title type="html"><![CDATA[降权启动进程]]></title>
     <link href="http://towriting.com/blog/2013/07/31/de-elevate-start-process/"/>
-    <updated>2013-07-31T22:01:00+00:00</updated>
+    <updated>2013-07-31T22:01:00+08:00</updated>
     <id>http://towriting.com/blog/2013/07/31/de-elevate-start-process</id>
     <content type="html"><![CDATA[<p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
 
