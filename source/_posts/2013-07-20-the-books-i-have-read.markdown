@@ -244,7 +244,10 @@ description: 整理我这些年来读过的书籍
 * 战天京 4月
 * 腾讯传 7月读完
 * CODE (Charles Petzold) 8月
+* 兄弟
 
+2018年
+* 智能时代
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
