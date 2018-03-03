@@ -249,6 +249,7 @@ description: 整理我这些年来读过的书籍
 2018年
 
 * 智能时代
+* 鹿鼎记
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
