@@ -76,6 +76,63 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2018/03/03/interview/">关于招聘和面试的个人感悟</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-03-03T16:47:58+08:00" pubdate data-updated="true">2018-03-03</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近半年部门业务扩展求贤若渴，所以不停的在收集简历和面试，从面试的情况来看，大约有下列三求职者：</p>
+
+<ul>
+<li><p>第一类：技术娴熟，沟通流畅，基础知识和业务知识都对答如流，并且和部门业务的契合度很高。</p></li>
+<li><p>第二类：基础知识淡漠，业务知识可以侃侃而谈，中规中矩，没有亮点，也挑不出毛病。</p></li>
+<li><p>第三类：一些奇葩。或是工作10余年，简历光鲜，但能力甚是平庸者。或是不实诚，不懂装懂，故弄玄虚之徒。等等。</p></li>
+</ul>
+
+
+<p>三类人数比例符合正态分布，大部分是第二类人。面试通过的也大多是第二类人中，挑选和团队比较契合的。当今IT行业岗位对人的要求，技术上要求并不高，大多可以做的: &ldquo;无它，唯手熟耳&#8221;。
+除了技术以外，软实力也很重要，学习的能力，团队合作能力，沟通和倾听的能力，等等也是招聘中比较看中的。</p>
+
+<p>在面试一些工作10余年的老程序员时，我总是心怀敬意，但可惜的是到目前我遇到为数不少的老程序员并没有展示出应有的技术风采，他们也大多做着平庸的项目，淡忘了技术的根基，望着井口的天叹气，没有办法跳出来。
+每到此时，我总是心生悲凉，依稀看到了自己的影子。</p>
+
+<p>我心中理想的面试种子选手应该是：工作2到3年，熟练掌握一门语言C++/Java, 有产品思维，使用google英文，linux玩的6，关心新技术动向。</p>
+
+<p>最后为了回馈大家阅读本文，经总部特批，部门（腾讯杭州: 智能语音&amp;QQ物联）扩大招聘: 安卓客户端开发，C++后台开发，AI实施工程师。名额有限，先到先得，本招聘截至时间到2018年7月1日。</p>
+
+<p><a href="/about">联系方式</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17/">Bjarne Stroustrup Previews C++ 17</a></h1>
       
       
@@ -387,163 +444,6 @@ MS Vc++（vs2015）也集成了这个特性。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2014/12/08/windbg-dump-asso/">Windbg关联dmp文件</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-08T06:58:38+08:00" pubdate data-updated="true">2014-12-08</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
-
-<p><img src="/images/posts/windbg-dump-asso/windbg_dmp.png" title="" ></p>
-
-<p>我设置了三种打开方式：</p>
-
-<ul>
-<li>直接使用Windbg打开dump</li>
-<li>使用windbg打开dump并进行分析</li>
-<li>使用windbg打开dump，切换到32位，然后分析（针对加载的wow64)</li>
-</ul>
-
-
-<h3>配置dmp关联的方法</h3>
-
-<h4>1. 设置dmp文件的关联</h4>
-
-<p>Windows下文件的关联指的是在explorer下，双击或通过右键打开文件时选择指定程序打开。文件的关联方式可以通过注册表进行配置，在HKEY_CLASSES_ROOT、HKEY_CURRENT_USER\Software\Classes、HKEY_LOCAL_MACHINE\Software\Classes有以 &ldquo;.文件格式&rdquo; 命名的键和另一个自定义的键里面保存具体的配置，用来配置这个文件格式的关联，比如我们要配置的dmp文件的关联，最终会是这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>HKEY_CURRENT_USER\Software\Classes
-</span><span class='line'>   dmpfile
-</span><span class='line'>     DefaultIcon
-</span><span class='line'>       default = "C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe",0
-</span><span class='line'>     shell
-</span><span class='line'>       Analyze with windbg
-</span><span class='line'>           command
-</span><span class='line'>              default=C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -c "!analyze -v" -z "%1\"
-</span><span class='line'>       Analyze with windbg - wow64
-</span><span class='line'>           command
-</span><span class='line'>              default="C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -c "!wow64exts.sw; !analyze -v" -z "%1"
-</span><span class='line'>       open
-</span><span class='line'>           command
-</span><span class='line'>              default="C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -z "%1"
-</span><span class='line'>   .dmp
-</span><span class='line'>     default = dmpfile</span></code></pre></td></tr></table></div></figure>
-
-
-<p>当然，更改HKEY_CURRENT_USER是对当前用户有效，HKEY_LOCAL_MACHINE是对所有用户有效，而HKEY_CLASSES_ROOT是兼容的产物，不推荐在直接配置HKEY_CLASSES_ROOT。</p>
-
-<h4>2. 去除用户自定义的打开方式-自定义程序</h4>
-
-<p> 如果你设置过打开方式里面的自定义程序，必须先删除这一项，否则我们上一步设置的文件关联将不会生效，打开方式自定义程序的配置也是保存在注册表中，具体位置在：</p>
-
-<p> <code>
- HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
-</code></p>
-
-<p>将这个UserChoice键删除即可。</p>
-
-<h4>3. 到这里就讲完了，最后奉上一个bat:</h4>
-
-<figure class='code'><figcaption><span> (windbg-dump-asso.bat)</span> <a href='/downloads/code/script/windbg-dump-asso.bat'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='bat'><span class='line'><span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">dbgpath</span><span class="o">=</span>\<span class="s2">&quot;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe\&quot;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\.dmp&quot;</span> <span class="n">/f</span> <span class="n">/d</span> dmpfile
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span><span class="p">,</span><span class="m">0</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\DefaultIcon&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -z \<span class="s2">&quot;%%1\&quot;</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\open\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> &quot;<span class="nv">%val%</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!wow64exts.sw; !analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg  - wow64\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
-</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
-</span><span class='line'>
-</span><span class='line'>REG DELETE <span class="s2">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice&quot;</span> <span class="n">/f</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">set</span> <span class="n">/p</span> finish<span class="o">=</span><span class="s2">&quot;finsh!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>参考：</p>
-
-<p><a href="http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx">http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx</a></p>
-
-<p><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx">http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2">&larr; Older</a>
@@ -559,6 +459,10 @@ MS Vc++（vs2015）也集成了这个特性。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/03/03/interview/">关于招聘和面试的个人感悟</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17/">Bjarne Stroustrup previews C++ 17</a>
       </li>
     
@@ -572,10 +476,6 @@ MS Vc++（vs2015）也集成了这个特性。</p>
     
       <li class="post">
         <a href="/blog/2015/01/15/mongodb-in-elem/">MongoDB中的$in和$elemMatch</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/windbg-dump-asso/">Windbg关联dmp文件</a>
       </li>
     
   </ul>

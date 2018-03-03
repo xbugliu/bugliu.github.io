@@ -76,6 +76,163 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2014/12/08/windbg-dump-asso/">Windbg关联dmp文件</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-08T06:58:38+08:00" pubdate data-updated="true">2014-12-08</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
+
+<p><img src="/images/posts/windbg-dump-asso/windbg_dmp.png" title="" ></p>
+
+<p>我设置了三种打开方式：</p>
+
+<ul>
+<li>直接使用Windbg打开dump</li>
+<li>使用windbg打开dump并进行分析</li>
+<li>使用windbg打开dump，切换到32位，然后分析（针对加载的wow64)</li>
+</ul>
+
+
+<h3>配置dmp关联的方法</h3>
+
+<h4>1. 设置dmp文件的关联</h4>
+
+<p>Windows下文件的关联指的是在explorer下，双击或通过右键打开文件时选择指定程序打开。文件的关联方式可以通过注册表进行配置，在HKEY_CLASSES_ROOT、HKEY_CURRENT_USER\Software\Classes、HKEY_LOCAL_MACHINE\Software\Classes有以 &ldquo;.文件格式&rdquo; 命名的键和另一个自定义的键里面保存具体的配置，用来配置这个文件格式的关联，比如我们要配置的dmp文件的关联，最终会是这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HKEY_CURRENT_USER\Software\Classes
+</span><span class='line'>   dmpfile
+</span><span class='line'>     DefaultIcon
+</span><span class='line'>       default = "C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe",0
+</span><span class='line'>     shell
+</span><span class='line'>       Analyze with windbg
+</span><span class='line'>           command
+</span><span class='line'>              default=C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -c "!analyze -v" -z "%1\"
+</span><span class='line'>       Analyze with windbg - wow64
+</span><span class='line'>           command
+</span><span class='line'>              default="C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -c "!wow64exts.sw; !analyze -v" -z "%1"
+</span><span class='line'>       open
+</span><span class='line'>           command
+</span><span class='line'>              default="C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe" -z "%1"
+</span><span class='line'>   .dmp
+</span><span class='line'>     default = dmpfile</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当然，更改HKEY_CURRENT_USER是对当前用户有效，HKEY_LOCAL_MACHINE是对所有用户有效，而HKEY_CLASSES_ROOT是兼容的产物，不推荐在直接配置HKEY_CLASSES_ROOT。</p>
+
+<h4>2. 去除用户自定义的打开方式-自定义程序</h4>
+
+<p> 如果你设置过打开方式里面的自定义程序，必须先删除这一项，否则我们上一步设置的文件关联将不会生效，打开方式自定义程序的配置也是保存在注册表中，具体位置在：</p>
+
+<p> <code>
+ HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
+</code></p>
+
+<p>将这个UserChoice键删除即可。</p>
+
+<h4>3. 到这里就讲完了，最后奉上一个bat:</h4>
+
+<figure class='code'><figcaption><span> (windbg-dump-asso.bat)</span> <a href='/downloads/code/script/windbg-dump-asso.bat'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='bat'><span class='line'><span class="p">@</span><span class="k">echo</span> <span class="k">off</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">dbgpath</span><span class="o">=</span>\<span class="s2">&quot;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe\&quot;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\.dmp&quot;</span> <span class="n">/f</span> <span class="n">/d</span> dmpfile
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span><span class="p">,</span><span class="m">0</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\DefaultIcon&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -z \<span class="s2">&quot;%%1\&quot;</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\open\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> &quot;<span class="nv">%val%</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!wow64exts.sw; !analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg  - wow64\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="nv">val</span><span class="o">=</span><span class="nv">%dbgpath%</span> -c \<span class="s2">&quot;!analyze -v\&quot;</span> -z \<span class="s2">&quot;%%1\&quot;</span>
+</span><span class='line'>REG ADD <span class="s2">&quot;HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg\command&quot;</span> <span class="n">/f</span> <span class="n">/d</span> <span class="s2">&quot;%val%&quot;</span>
+</span><span class='line'>
+</span><span class='line'>REG DELETE <span class="s2">&quot;HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice&quot;</span> <span class="n">/f</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">set</span> <span class="n">/p</span> finish<span class="o">=</span><span class="s2">&quot;finsh!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：</p>
+
+<p><a href="http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx">http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx</a></p>
+
+<p><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx">http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2014/11/23/windbg-memory-leak/">Windbg定位内存泄露的一种简单方法</a></h1>
       
       
@@ -529,117 +686,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/26/cpp-14-dessert/">C++14-大餐后的甜点</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-26T07:15:41+08:00" pubdate data-updated="true">2014-08-26</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是<a href="http://electronicdesign.com/dev-tools/bjarne-stroustrup-talks-about-c14">谨小甚微的</a>。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。</p>
-
-<p><img class="pull-right" src="/images/posts/cpp-14-dessert/wg21-timeline.png"></p>
-
-<p>但Bjarne还说了，C++永远是心向开发者的，C++14将给开发者大开方面之门。关于C++14更详细的细节可以看维基百科:<a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14</a>,这里讲下自己感兴趣的特性：</p>
-
-<h3>语言改变</h3>
-
-<p><strong>范型lambda</strong></p>
-
-<p>在C++11下，如果你想要打印出一个数的平方，可能需要这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square_int</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">square_double</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">double</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>为了保持函数的局部性，我们才选择的lambda，但C++11的lambda却导致多个类型时代码膨胀且重复，此时我们需要回过头来借助全局的模板了。</p>
-
-<p>但C++14可以完美的解决上面的问题，因为C++14中lambda的参数可以用auto代替具体的类型：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>auto返回类型</strong></p>
-
-<p>C++11支持auto关键字，用于变量的自动类型推导。但由于时间限制，C++标准委员会并没有让auto也支持函数的返回值类型自动推导，现在C++14支持了。这将会在返回类内部类型的成员函数书写上减少好多工作量：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Wiget</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="k">enum</span> <span class="n">Status</span><span class="p">{</span><span class="n">show</span><span class="p">,</span> <span class="n">hide</span><span class="p">}</span>
-</span><span class='line'>  <span class="k">auto</span> <span class="n">getStatus</span><span class="p">();</span>
-</span><span class='line'><span class="p">};</span>
-</span><span class='line'><span class="k">auto</span> <span class="n">Wiget</span><span class="o">::</span><span class="n">getStatus</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">show</span><span class="p">;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>编译器支持</h3>
-
-<p>曾经被标准折磨的死去活来的编译器如今越挫越勇。标准出来的快，编译器支持的更快。CLang（3.4）半年前就宣布已完全支持C++14(draft)特性（语言和库）。本人电脑上的GCC4.9.1也已部分支持C++14特性。但公司的开发环境要支持C++14可就难了。</p>
-
-<p>参考：</p>
-
-<p><a href="https://isocpp.org/std/status">https://isocpp.org/std/status</a></p>
-
-<p><a href="http://cpprocks.com/c1114-compiler-and-library-shootout/">http://cpprocks.com/c1114-compiler-and-library-shootout/</a></p>
-
-<p><a href="http://cpprocks.com/an-overview-of-c14-language-features/">http://cpprocks.com/an-overview-of-c14-language-features/</a></p>
-
-<p><a href="http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html">http://llvm.org/releases/3.4/tools/clang/docs/ReleaseNotes.html</a></p>
-
-<p><a href="https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/">https://solarianprogrammer.com/2014/08/28/cpp-14-lambda-tutorial/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3">&larr; Older</a>
@@ -657,6 +703,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/03/03/interview/">关于招聘和面试的个人感悟</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/18/bjarne-stroustrup-previews-c-plus-plus-17/">Bjarne Stroustrup previews C++ 17</a>
       </li>
     
@@ -670,10 +720,6 @@
     
       <li class="post">
         <a href="/blog/2015/01/15/mongodb-in-elem/">MongoDB中的$in和$elemMatch</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/08/windbg-dump-asso/">Windbg关联dmp文件</a>
       </li>
     
   </ul>
