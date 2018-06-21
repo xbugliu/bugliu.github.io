@@ -251,6 +251,7 @@ description: 整理我这些年来读过的书籍
 * 智能时代
 * 鹿鼎记
 * 激荡十年，水大鱼大
+* 长安十二时辰 6月17日
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
