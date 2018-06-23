@@ -76,6 +76,141 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/08/04/octopress-custom-404/">Octopress定制公益404页面</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-04T00:10:00+08:00" pubdate data-updated="true">2013-08-04</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。</p>
+
+<h2>1. 创建404页面</h2>
+
+<p>首先，需要创建自定义的404页面，最初我是这样创建的，将404错误页面创建到source目录下的error目录</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>error/404.html<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建一个新的目录error专门保存错误页面，有两个好处。1是存储结构清晰，2是可以在robots.txt将整个目录Disallow掉。</p>
+
+<p>但后来看到github自定义404页面的<a href="https://help.github.com/articles/custom-404-pages">说明</a>，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_page<span class="o">[</span>404.html<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2. Robots文件隐藏404页面</h2>
+
+<p>404页面异常页面，所谓家丑不可外扬，此页面无需搜索引擎爬虫知道。编辑robots.txt文件，添加404页面的Disallow：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
+</span><span class='line'>layout: null
+</span><span class='line'>---
+</span><span class='line'>User-agent: *
+</span><span class='line'>Disallow: /404.html
+</span><span class='line'>
+</span><span class='line'>Sitemap: <span class="o"></span>/sitemap.xml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>3. 网站地图中隐藏掉404页面</h2>
+
+<p>同样网站地图也不需要包含添加404页面。打开plugins/sitemap_generator.rb，找到EXCLUDED_FILES，然后添加404.html。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Change SITEMAP_FILE_NAME if you would like your sitemap file</span>
+</span><span class='line'><span class="c1"># to be called something else</span>
+</span><span class='line'><span class="no">SITEMAP_FILE_NAME</span> <span class="o">=</span> <span class="s2">&quot;sitemap.xml&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Any files to exclude from being included in the sitemap.xml</span>
+</span><span class='line'><span class="no">EXCLUDED_FILES</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;atom.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;404.html&quot;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Any files that include posts, so that when a new post is added, the last</span>
+</span><span class='line'><span class="c1"># modified date of these pages should take that into account</span>
+</span><span class='line'><span class="no">PAGES_INCLUDE_POSTS</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;index.html&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4. 定制公益404页面</h2>
+
+<p>我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面(404.html)即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>---
+</span><span class='line'>layout: page
+</span><span class='line'>title: <span class="s2">&quot;&quot;</span>
+</span><span class='line'>header: <span class="nb">false</span>
+</span><span class='line'>date: 2013-08-04 00:08
+</span><span class='line'>comments: <span class="nb">false</span>
+</span><span class='line'>sharing: <span class="nb">false</span>
+</span><span class='line'>footer: <span class="nb">false</span>
+</span><span class='line'>---
+</span><span class='line'>&lt;center&gt;&lt;h1&gt;ToWriting.com 404!&lt;/h1&gt;&lt;/center&gt;
+</span><span class='line'>&lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;http://www.qq.com/404/search_children.js?edition=small&quot;</span> <span class="nv">charset</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span>&gt;&lt;/script&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/08/03/forbid-auto-install-driver/">暴力禁止windows自动安装驱动</a></h1>
       
       
@@ -678,153 +813,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/25/mutexs-owned-by-process/">获取进程打开的互斥量</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-25T21:36:00+08:00" pubdate data-updated="true">2013-07-25</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&#8221;拥有&#8221;的互斥量来区分这些进程。所以下面实现了获取指定进程&#8221;拥有&#8221;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
-
-<pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
-</code></pre>
-
-<p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>2. 将句柄复制到当前进程
-</code></pre>
-
-<p>想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。</p>
-
-<pre><code>3. 获取句柄的类型信息
-</code></pre>
-
-<p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">typedef</span> <span class="k">struct</span> <span class="n">_OBJECT_TYPE_INFORMATION</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>  <span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'>  <span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中第一个成员TypeName即是句柄类型的类型名</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/07/25/mutexs-owned-by-process/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/13">&larr; Older</a>
@@ -842,6 +830,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/06/23/changan12/">读《长安十二时辰》</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/03/03/interview/">关于招聘和面试的个人感悟</a>
       </li>
     
@@ -857,15 +849,11 @@
         <a href="/blog/2015/09/11/a-programmers-rantings/">读<程序员的呐喊></a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/01/15/mongodb-in-elem/">MongoDB中的$in和$elemMatch</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

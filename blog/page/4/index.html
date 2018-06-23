@@ -76,6 +76,111 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2014/06/29/archlinux-trim/">Linux下开启TRIM</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-29T05:55:12+08:00" pubdate data-updated="true">2014-06-29</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。</p>
+
+<p>首先要检测SSD是否支持TRIM:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&quot;TRIM supported&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果支持则会出现：&#8221;Data Set Management TRIM supported&#8221;</p>
+
+<p>如果SSD支持TRIM, 则可以开启TRIM了, 这里介绍常用的两种方法。</p>
+
+<h3>方法1：修改<a href="http://en.wikipedia.org/wiki/Fstab">fstab</a>, 添加discard属性</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo vim /etc/fstab
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是我机器上fstab的配置</p>
+
+<blockquote><p>UUID=27dd31b4-8aa4-4043-b921-540a312c056c       /               ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 1</p>
+
+<p>UUID=42f79958-0776-4b2f-8aa3-db827bf257b6       /home           ext4            rw,relatime,data=ordered,<strong>discard</strong>        0 2</p></blockquote>
+
+<h3>方法2：使用fstrim定期执行trim任务</h3>
+
+<p>以我用的archlinux为例，首先安装并运行<a href="http://en.wikipedia.org/wiki/Cron">cron</a>服务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo pacman -S cronie
+</span><span class='line'>sudo systemctl start cronie
+</span><span class='line'>sudo systemctl <span class="nb">enable </span>cronie
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后创建一个任务配置:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/cron.daily/trim
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>并将下面的内容拷贝到里面：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;*** $(date -R) ***&quot;</span> &gt;&gt; <span class="nv">$LOG</span>
+</span><span class='line'>fstrim -v / &gt;&gt; <span class="nv">$LOG</span>
+</span><span class='line'>fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>参考：</p>
+
+<ol>
+<li><p><a href="http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html">http://www.webupd8.org/2013/01/enable-trim-on-ssd-solid-state-drives.html</a></p></li>
+<li><p><a href="https://wiki.archlinux.org/index.php/Solid_State_Drives">https://wiki.archlinux.org/index.php/Solid_State_Drives</a></p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2014/05/03/dock-project-experience/">Dock项目个人总结</a></h1>
       
       
@@ -378,61 +483,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/23/mac-shuo-review/">读：人生元编程</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-23T22:52:00+08:00" pubdate data-updated="true">2014-02-23</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href='http://www.amazon.cn/gp/product/B00ID5UV30/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ID5UV30&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>人生元编程</a>这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，自称Mac君。去年就断断续续的跟过Mac君在其<a href="http://macshuo.com/">博客</a>上帖的文章，印象最深的是其能将IT界大佬的故事娓娓道来，颇有吴军之风，更兼Mac君是根正苗红的程序员，所以文章读来倍感亲切，处处体现了其对程序员个体的勉励。</p>
-
-<p>但《人生元编程》书读来的快感并不比直接从Mac君博客上扒拉文章高多少，且大篇幅的Mac技巧、系统配置的内容，有充页数之嫌，直接会被我等俗气的Windows程序员pass。但一本书能找到哪怕一处能启发自己的点足矣，何况此书还是有很多地方还是闪耀着智慧的光泽的：</p>
-
-<ul>
-<li>如果你能够把技术文章写好，慢慢就能写出人文类的文字，慢慢你就会发现自己已经站在科技与人文的十字路口了</li>
-<li>只有多核或多个CPU才可能发生并行，如果单核单CPU只能发生并发行为</li>
-<li>不停的反驳别人不会证明自己的聪明和独立思考，正确的讨论技巧和解决问题才是王道</li>
-<li>曾经有位古人说过，如果你手里有一把锤子，所有东西看上去都像钉子。还有一位今人说过，如果你有一个钉子，就会满大街找锤子！</li>
-<li>技术岗所受到的待遇普遍是低于相同层级的管理岗位的，</li>
-<li>如果我需要别人的意见和建议，那就把自己放空，暂时扔掉偏见和预判，</li>
-<li>旅行就是从一个自己待烦了的地方，跑到一个别人待烦了的地方</li>
-<li>很多人羡慕创业公司的人获得的财富，他们只不过是把你20年平稳的打工生涯压缩成4年艰苦卓绝的创业</li>
-<li>但费力之事自有其好处，人生总要做一些艰难费力的事情，读书也是一样。 写到这儿很多读者要问了，这和</li>
-<li>但费力之事自有其好处，人生总要做一些艰难费力的事情</li>
-<li>真正强大的Shell是深藏不露的zsh，</li>
-</ul>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5">&larr; Older</a>
@@ -450,6 +500,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/06/23/changan12/">读《长安十二时辰》</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/03/03/interview/">关于招聘和面试的个人感悟</a>
       </li>
     
@@ -465,15 +519,11 @@
         <a href="/blog/2015/09/11/a-programmers-rantings/">读<程序员的呐喊></a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/01/15/mongodb-in-elem/">MongoDB中的$in和$elemMatch</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

@@ -76,6 +76,85 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2015/01/15/mongodb-in-elem/">MongoDB中的$in和$elemMatch</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-15T07:02:51+08:00" pubdate data-updated="true">2015-01-15</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手搞起，打算山寨goodreads的<a href="http://goodreads.com/quotes">quotes</a>板块，已经草草的实现了部分功能-<a href="http://quotes.towriting.com">看这里</a>, 其中数据库部分使用到是MongoDB, 使用MongoDB的原因是新鲜、好玩、简单，MongoDB确实比较容易理解，花2个小时看了一遍<a href="https://github.com/karlseguin/the-little-mongodb-book/blob/master/en/mongodb.markdown">the-little-mongodb-book</a>就可以上手干活了。</p>
+
+<p>但高级些的用法还是需要细读官方文档，不然还是会出错，最近自己就在$in和$elemMatch上栽跟头，花费了大把时间。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>{ _id: 1, quote: "不要着急，最好的总会在最不经意的时候出现", author: 泰戈尔, tags: [ "哲理", "人生" ]}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比如（上面的例子)，我需要根据tag<code>哲理</code>查找tags中包含<code>哲理</code>的记录，怎样写query语句呢？借助于万能的google，$in和$elemMatch很快进入了我的视线，从字面理解，$in是查询指定field是否在某个集合中，看mongo的官方文档$in的用法也确实是这样讲的：</p>
+
+<blockquote><p>The $in operator selects the documents where the value of a field equals any value in the specified array.</p></blockquote>
+
+<p>一眼看去，并不适于我们的需求。再看看$elemMatch：</p>
+
+<blockquote><p>The $elemMatch operator matches documents in a collection that contain an array field with at least one element that matches all the specified query criteria.</p></blockquote>
+
+<p>$elemMatch专门用于查询数组Field中元素是否满足指定的条件。看起来适合我们的需求，像这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> db.items.find({"tags": {$elemMatch: {$equal: "哲理"}}}) ;错误</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的用法是错误的，因为mongo并没有$equal查询指令, 所以我们无法用$elemMatch达成我们的需求。</p>
+
+<p>当发现$elemMatch无法满足功能需求时，自己陷入了错误的方向：怀疑用错了$elemMatch, 然后就一直在网上看别人如何使用$elemMatch的, 而没有回头看下$in到用法，直到走投无路时。我发现$in到第二个用处：</p>
+
+<blockquote><p>Use the $in Operator to Match Values in an Array</p></blockquote>
+
+<p>并且官方示例和自己的需求场景几乎一模一样，接着当然自己很快实现了按tag查找的功能：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>db.items.find({"tags": {$in: ["哲理"]}})</span></code></pre></td></tr></table></div></figure>
+
+
+<p>总结下$in和$elemMatch：</p>
+
+<ul>
+<li>$in要查询的Field可以是普通值也可以是数组，而$elemMatch则是专门用于查询array Field的。</li>
+<li>$in的查询相对简单，主要是查询值或数组中某个值是否在待查询列表中.</li>
+<li>$elemMatch的查询则比较复杂，是查询Array Field中的元素是否满足一系列的查询条件。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2014/12/08/windbg-dump-asso/">Windbg关联dmp文件</a></h1>
       
       
@@ -626,66 +705,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/31/24-hour-stand-by/">互联网公司“24小时待命”的陋习</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-31T19:47:45+08:00" pubdate data-updated="true">2014-08-31</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>24小时待命可能有些夸张，但它确实是以一种不成文的规定存在于一部分互联网公司。记得去年培训时，来自深圳总部的培训老师，自豪的说TX许多部门里员工都是24小时待命，随时应对解决问题。听一些其它公司的朋友讲，他们也有非上班时间被叫回公司的现象。所以24小时待命在一些地方可能形成了习俗。习俗很可怕，哪怕明知是错误的人们也无力反抗，比如裹脚。</p>
-
-<h3>有时真的需要24小时待命</h3>
-
-<p>在一些<code>小而美</code>的团队，早期面对众多的对手，必须有快速的执行力，才可以抢占先机，可以说24小时待命是小团队早期阶段不会死掉的必备条件。</p>
-
-<p>还有一种情况下，相关人员必须随叫随到，就是线上产品出现了严重问题，这是必须要立即处理的，出现了这种问题，相信大家每个人都会很着急，会主动赶回去的。这主要涉及运维和相关开发。</p>
-
-<h3>头痛医脚的昏招</h3>
-
-<p>但除了这两种情况，我看不出这种随意拉员工到公司的习惯有什么好处，相反会极大的侵害员工的积极性。如果在一个非创业期的团队经常出现周末随意拉员工回去加班的情况，那一定是<strong>产品和项目管理出现了严重问题</strong>。拉员工回去对于解决问题，治标不治本，相反还让人产生反感，让人有种疲于奔命之感。</p>
-
-<p>除此之外还有一种情况容易滋生24小时待命文化:老板的淫威。这是我熟识的一个朋友身上发生的事，他经常在坐了一个小时公交快到家门口的时候，被老板叫回去开临时会议，而且一开就到半夜12点了。后来朋友离开了那家公司，想必他不愿意再过那种随叫随到的生活，毕竟家里还有娇妻幼子。</p>
-
-<p>我现在也有些反感，周六早上被拉进微信群讨论产品问题，为什么不周五讨论？如果是紧急问题，我会立马回去处理的，但往往事情并不是那么紧急，往往是因为老板的不经意一句话，产品人员热情的跟进了，于是我们开发人员就到了公司加班。</p>
-
-<h3>陋习的危害</h3>
-
-<p>对于这种24小时待命的习俗，是没有人敢于站出来反对的，因为稍有质疑就会被扣上<code>不积极</code>、<code>没有责任心</code>的帽子，以后在公司就别想混了。所以对于这种东西，大家往往<strong>道路以目</strong>。长久下去，必会影响公司的发展，挫败团队的斗志。</p>
-
-<p>仔细想一下，24小时待命和<code>不积极</code>、<code>没有责任心</code>责任心并没有必然关系，岗位不同，责任不同，就我们开发而言，责任心应该体现在按时保质的完成开发任务（协助处理一些突发事故）。QA的主要责任感是按时完成测试，如果一个团队推行24小时待命，那什么东西是非得半夜过来测的？</p>
-
-<p>相反我觉得员工对&#8221;24小时待命&#8221;文化的逆来顺受是一种逃避和不负责任的做法。没人去深层次的分析和解决产生临时拉人加班的原因，只会使团队滑向更深的深渊。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3">&larr; Older</a>
@@ -703,6 +722,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/06/23/changan12/">读《长安十二时辰》</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/03/03/interview/">关于招聘和面试的个人感悟</a>
       </li>
     
@@ -718,15 +741,11 @@
         <a href="/blog/2015/09/11/a-programmers-rantings/">读<程序员的呐喊></a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/01/15/mongodb-in-elem/">MongoDB中的$in和$elemMatch</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (4)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>
