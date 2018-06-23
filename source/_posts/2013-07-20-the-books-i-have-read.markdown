@@ -251,7 +251,7 @@ description: 整理我这些年来读过的书籍
 * 智能时代
 * 鹿鼎记
 * 激荡十年，水大鱼大
-* 长安十二时辰 6月17日
+* 长安十二时辰[review][10] 6月17日 
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
@@ -263,4 +263,5 @@ description: 整理我这些年来读过的书籍
 [7]: /blog/2014/10/26/shop-class-as-soulcraft-notes
 [8]: /blog/2014/11/15/api-design-for-c-plus-plus-notes
 [9]: /blog/2015/09/10/a-programmers-rantings
+[10]: /blog/2018/06/23/changan12
 
