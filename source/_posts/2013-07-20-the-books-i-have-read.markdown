@@ -252,6 +252,8 @@ description: 整理我这些年来读过的书籍
 * 鹿鼎记
 * 激荡十年，水大鱼大
 * 长安十二时辰[review][10] 6月17日 
+* 风气陇西 7月28日读完
+* Effective Python (在读) 
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
