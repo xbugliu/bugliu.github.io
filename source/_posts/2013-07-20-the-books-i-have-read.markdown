@@ -254,6 +254,7 @@ description: 整理我这些年来读过的书籍
 * 长安十二时辰[review][10] 6月17日 
 * 风气陇西 7月28日读完
 * Effective Python (在读) 
+* 大江东去 10月21日读完
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
