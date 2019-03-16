@@ -255,6 +255,13 @@ description: 整理我这些年来读过的书籍
 * 风气陇西 7月28日读完
 * Effective Python (在读) 
 * 大江东去 10月21日读完
+* 笑傲江湖 重读一遍
+* 神雕侠侣 12月份深圳出差期间读完
+
+2019年
+
+* 倚天屠龙记 19年春节
+* 连城诀 2月
 
 
 [1]: /blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/
