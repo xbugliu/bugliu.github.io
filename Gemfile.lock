@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://mirrors.tuna.tsinghua.edu.cn/rubygems/
   specs:
     RedCloth (4.2.9)
     blankslate (2.1.2.4)
@@ -105,4 +105,4 @@ DEPENDENCIES
   stringex (~> 1.4.0)
 
 BUNDLED WITH
-   1.11.2
+   1.17.3
