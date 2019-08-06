@@ -76,6 +76,218 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/07/31/de-elevate-start-process/">降权启动进程</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-31T22:01:00+08:00" pubdate data-updated="true">2013-07-31</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用<a href="http://msdn.microsoft.com/en-us/library/ms682429.aspx">CreateProcessAsUser</a>。</p>
+
+<figure class='code'><figcaption><span>WIN7/VS2010 (de_elevate_start_process.cpp)</span> <a href='/downloads/code/cpp/de_elevate_start_process.cpp'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &quot;stdafx.h&quot;</span>
+</span><span class='line'><span class="cp">#include &lt;Windows.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;UserEnv.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;WinBase.h&gt;</span>
+</span><span class='line'><span class="cp">#include &lt;WinSafer.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#pragma comment(lib, &quot;Userenv.lib&quot;)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 获取不含管理员权限的Token</span>
+</span><span class='line'><span class="n">HANDLE</span> <span class="nf">CreateNormalUserToken</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">SAFER_LEVEL_HANDLE</span> <span class="n">hLevel</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferCreateLevel</span><span class="p">(</span><span class="n">SAFER_SCOPEID_USER</span><span class="p">,</span> <span class="n">SAFER_LEVELID_NORMALUSER</span><span class="p">,</span> <span class="n">SAFER_LEVEL_OPEN</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">HANDLE</span> <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SaferComputeTokenFromLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">hRestrictedToken</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">hRestrictedToken</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">SaferCloseLevel</span><span class="p">(</span><span class="n">hLevel</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">hRestrictedToken</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 从管理员进程，创建非管理员进程</span>
+</span><span class='line'><span class="n">BOOL</span> <span class="nf">DeElevateStartProcess</span><span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span> <span class="n">cmd</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="k">const</span> <span class="n">HANDLE</span> <span class="n">hRestToken</span> <span class="o">=</span> <span class="n">CreateNormalUserToken</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">hRestToken</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">DWORD</span> <span class="n">dwCreationFlags</span> <span class="o">=</span> <span class="n">NORMAL_PRIORITY_CLASS</span> <span class="o">|</span> <span class="n">CREATE_NEW_CONSOLE</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">LPVOID</span> <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">CreateEnvironmentBlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pEnv</span><span class="p">,</span> <span class="n">hRestToken</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">))</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">dwCreationFlags</span> <span class="o">|=</span> <span class="n">CREATE_UNICODE_ENVIRONMENT</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">pEnv</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">PROCESS_INFORMATION</span> <span class="n">pi</span><span class="p">;</span>
+</span><span class='line'>  <span class="n">STARTUPINFO</span> <span class="n">si</span><span class="p">;</span>    
+</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">si</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">));</span>
+</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">cb</span><span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">STARTUPINFO</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">si</span><span class="p">.</span><span class="n">lpDesktop</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;winsta0</span><span class="se">\\</span><span class="s">default&quot;</span><span class="p">);</span> <span class="c1">//default input desktop for the interactive window station</span>
+</span><span class='line'>  <span class="n">ZeroMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pi</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">pi</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">const</span> <span class="n">BOOL</span> <span class="n">bResult</span> <span class="o">=</span> <span class="n">CreateProcessAsUser</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">,</span>    <span class="c1">// client&#39;s access token</span>
+</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// file to execute</span>
+</span><span class='line'>                      <span class="n">cmd</span><span class="p">,</span>      <span class="c1">// command line</span>
+</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to process SECURITY_ATTRIBUTES</span>
+</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// pointer to thread SECURITY_ATTRIBUTES</span>
+</span><span class='line'>                      <span class="n">FALSE</span><span class="p">,</span>                  <span class="c1">// handles are not inheritable</span>
+</span><span class='line'>                      <span class="n">dwCreationFlags</span><span class="p">,</span>        <span class="c1">// creation flags</span>
+</span><span class='line'>                      <span class="n">pEnv</span><span class="p">,</span>                   <span class="c1">// pointer to new environment block</span>
+</span><span class='line'>                      <span class="nb">NULL</span><span class="p">,</span>                   <span class="c1">// name of current directory</span>
+</span><span class='line'>                      <span class="o">&amp;</span><span class="n">si</span><span class="p">,</span>                    <span class="c1">// pointer to STARTUPINFO structure</span>
+</span><span class='line'>                      <span class="o">&amp;</span><span class="n">pi</span>                     <span class="c1">// receives information about new process</span>
+</span><span class='line'>                      <span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">bResult</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hProcess</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">CloseHandle</span><span class="p">(</span><span class="n">pi</span><span class="p">.</span><span class="n">hThread</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="n">pEnv</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>      <span class="n">DestroyEnvironmentBlock</span><span class="p">(</span><span class="n">pEnv</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">CloseHandle</span><span class="p">(</span><span class="n">hRestToken</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">bResult</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">TCHAR</span> <span class="n">cmd</span><span class="p">[]</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&quot;notepad.exe&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="n">DeElevateStartProcess</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>需要创建出的进程支持拖拽的看这里：<a href="/blog/2013/08/06/process-can-drag-drop/">创建支持拖拽的进程</a></h3>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/07/25/mutexs-owned-by-process/">获取进程打开的互斥量</a></h1>
       
       
@@ -375,35 +587,161 @@
 
   <div class="entry-content"><p>在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。</p>
 
-<h2>大学以前</h2>
+<p>2019年</p>
 
-<p><strong>这个时期距今较久，房屋翻新书籍都已轶失，当时亦没有记录下来读书清单，所以只能模糊的回忆了：</strong></p>
+<ul>
+<li>倚天屠龙记 19年春节</li>
+<li>连城诀 2月</li>
+<li>毛泽东选集第一卷 6月</li>
+<li>资治通鉴周纪一至汉纪十三 5月到7月</li>
+<li>水浒传 （微信读书）7月</li>
+</ul>
 
-<ol>
-<li><p>启蒙读物  阅读时间：启蒙至小学毕业</p>
 
-<p> 此时读过的非课本书主要是一些启蒙读物、幼儿读物、作文书。能说的上名字的只有有：《小学生必读》系列杂志、《舒克和贝塔》、《旁中华书法》，《格林童话》，《上下五千年》，《成语故事》。这个时期好像没有主动买过书，父母偶尔会买一些绘画、作文书，故事书也很少买。自己读书的主要来源是班上的同学带来的课外书，和哥哥的教材。哥哥比我大四岁，他那些语文书我总是看的津津有味，一遍又一遍。</p></li>
-<li><p>白马笑西风</p></li>
+<p>2018年</p>
+
+<ul>
+<li>智能时代</li>
 <li>鹿鼎记</li>
-<li>碧血剑</li>
-<li>雪山飞狐</li>
-<li>鸳鸯刀</li>
-<li>物理演义</li>
-<li>化学演义</li>
-<li>东周列国志</li>
-<li>情人剑</li>
-<li>方与圆 高二</li>
-<li>平凡的世界 高二</li>
-<li>胡雪岩</li>
-<li>红与黑</li>
-<li>平凡的世界</li>
-<li>红楼梦</li>
-<li>战争与和平</li>
-<li>学习的革命</li>
-<li>鲁迅文集</li>
-<li>余秋雨文集</li>
-<li>围城</li>
-</ol>
+<li>激荡十年，水大鱼大</li>
+<li>长安十二时辰<a href="/blog/2018/06/23/changan12">review</a> 6月17日</li>
+<li>风起陇西 7月28日读完</li>
+<li>Effective Python (在读)</li>
+<li>大江东去 10月21日读完</li>
+<li>笑傲江湖 重读一遍</li>
+<li>神雕侠侣 12月份深圳出差期间读完</li>
+</ul>
+
+
+<p>2017年</p>
+
+<ul>
+<li>笑忘书</li>
+<li>城南旧时 3月19日</li>
+<li>战天京 4月</li>
+<li>腾讯传 7月读完</li>
+<li>CODE (Charles Petzold) 8月</li>
+<li>兄弟</li>
+</ul>
+
+
+<p>2016年</p>
+
+<ul>
+<li>胡雪岩-高阳-五册</li>
+<li>笑傲江湖</li>
+</ul>
+
+
+<p>2015年</p>
+
+<ul>
+<li>呼兰河传 （在读)</li>
+<li>笑话方法论</li>
+<li>水浒传</li>
+<li>天龙八部 6月</li>
+<li>雍正皇帝-九王奪嫡 8月</li>
+<li>雍正皇帝-雕弓天狼 8月</li>
+<li>程序员的呐喊<a href="/blog/2015/09/10/a-programmers-rantings">review</a> 9月</li>
+<li>雍正皇帝-恨水东逝</li>
+<li>历代经济变革得失 &ndash; 十一期间</li>
+<li>安卓开发艺术探索</li>
+<li>穷爸爸富爸爸</li>
+</ul>
+
+
+<p>2014年</p>
+
+<ul>
+<li>看见</li>
+<li>白夜行</li>
+<li>三体1</li>
+<li>人生元编程<a href="/blog/2014/02/23/mac-shuo-review/">阅读体会</a></li>
+<li>3月-射雕英雄传</li>
+<li>4月-Effective STL<a href="/blog/2014/04/18/who-use-stl/">读后感</a></li>
+<li>4月-windows并发编程指南</li>
+<li>4月-苏东坡传 <a href="/blog/2014/04/27/the-gay-genius-review/">review</a></li>
+<li>5月-拆掉思维里的墙</li>
+<li>6月-历史深处的忧虑</li>
+<li>6月-我们仨（杨绛）</li>
+<li>7月-寻找家园（高尔泰）<a href="/blog/2014/07/21/review-xzjy/">review</a></li>
+<li>9月-格蠹汇编（泛读)</li>
+<li>10月-摩托车修理店的未来工作哲学<a href="/blog/2014/10/26/shop-class-as-soulcraft-notes">review</a></li>
+<li>11月15日-C++API设计<a href="/blog/2014/11/15/api-design-for-c-plus-plus-notes">note</a></li>
+<li>12月20日-西游记(kindle)</li>
+</ul>
+
+
+<p>2013年</p>
+
+<ul>
+<li>别逗了，费曼先生. <a href="/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/">读后感</a></li>
+<li>学习之道</li>
+<li>自我（在读）</li>
+<li>C++标准库：自学教程与参考手册·英文版</li>
+<li>黑天鹅上册</li>
+<li>黑客与画家. <a href="/blog/2013/08/25/read-notes-hacker-and-painters/">阅读笔记</a></li>
+<li>麦田的守望者</li>
+<li>1984(14年4月读完）</li>
+<li>Ruby编程语言（在读）</li>
+<li>决策与判断（在读）</li>
+<li>C++ templates(在读）</li>
+<li>瓦尔登湖（在读）</li>
+<li>高效能程序员的修炼</li>
+<li>程序员修炼之道 13-12-1</li>
+<li>Ruby元编程（在读）</li>
+</ul>
+
+
+<h5>杭州时</h5>
+
+<p>2012-3至2013-3</p>
+
+<ul>
+<li>Inside The C++ Object</li>
+<li>Effective C++</li>
+<li>More Effective C++</li>
+<li>Exceptional C++</li>
+<li>More Exceptional C++</li>
+<li>Exceptional C++ Style</li>
+<li>C++的设计与演化</li>
+<li>Imperfect C++</li>
+<li>代码大全</li>
+<li>禅与摩托车维修艺术</li>
+<li>暗时间</li>
+<li>设计模式</li>
+<li>C++代码设计与重用</li>
+<li>C++沉思录</li>
+<li>身体语言密码</li>
+<li>影响力</li>
+<li>走出软件作坊</li>
+<li>心理和脑</li>
+<li>走出软件作坊</li>
+<li>程序员的思维修炼:开发认知潜能的九堂课</li>
+</ul>
+
+
+<h5>宁波时</h5>
+
+<ul>
+<li>2010-10 程序员的自我修养-编译、链接</li>
+<li>2010-11 python核心编程</li>
+<li>2011-1 胡雪岩前三册</li>
+<li>2011-2 深入理解计算机系统</li>
+<li>2011-3 dive into python</li>
+<li>2011-3 万历十五年</li>
+<li>2011-4 德川家康</li>
+<li>2011-4 镰仓战神</li>
+<li>2011-5 胡雪岩等3部</li>
+<li>2011-6 亭长小武、穆斯林的葬礼</li>
+<li>2011-7 java程序设计与问题解决基础版</li>
+<li>2011-8 婴齐传</li>
+<li>2011-9 袁来如此</li>
+<li>德川家康前六册</li>
+<li>国富论</li>
+<li>C++程序设计语言</li>
+<li>浪潮之巅</li>
+</ul>
 
 
 <h2>大学期间</h2>
@@ -510,160 +848,35 @@
 </ol>
 
 
-<h2>毕业后到2013年</h2>
+<h2>大学以前</h2>
 
-<h5>宁波时</h5>
+<p><strong>这个时期距今较久，房屋翻新书籍都已轶失，当时亦没有记录下来读书清单，所以只能模糊的回忆了：</strong></p>
 
-<ul>
-<li>2010-10 程序员的自我修养-编译、链接</li>
-<li>2010-11 python核心编程</li>
-<li>2011-1 胡雪岩前三册</li>
-<li>2011-2 深入理解计算机系统</li>
-<li>2011-3 dive into python</li>
-<li>2011-3 万历十五年</li>
-<li>2011-4 德川家康</li>
-<li>2011-4 镰仓战神</li>
-<li>2011-5 胡雪岩等3部</li>
-<li>2011-6 亭长小武、穆斯林的葬礼</li>
-<li>2011-7 java程序设计与问题解决基础版</li>
-<li>2011-8 婴齐传</li>
-<li>2011-9 袁来如此</li>
-<li>德川家康前六册</li>
-<li>国富论</li>
-<li>C++程序设计语言</li>
-<li>浪潮之巅</li>
-</ul>
+<ol>
+<li><p>启蒙读物  阅读时间：启蒙至小学毕业</p>
 
-
-<h5>杭州时</h5>
-
-<p>2012-3至2013-3</p>
-
-<ul>
-<li>Inside The C++ Object</li>
-<li>Effective C++</li>
-<li>More Effective C++</li>
-<li>Exceptional C++</li>
-<li>More Exceptional C++</li>
-<li>Exceptional C++ Style</li>
-<li>C++的设计与演化</li>
-<li>Imperfect C++</li>
-<li>代码大全</li>
-<li>禅与摩托车维修艺术</li>
-<li>暗时间</li>
-<li>设计模式</li>
-<li>C++代码设计与重用</li>
-<li>C++沉思录</li>
-<li>身体语言密码</li>
-<li>影响力</li>
-<li>走出软件作坊</li>
-<li>心理和脑</li>
-<li>走出软件作坊</li>
-<li>程序员的思维修炼:开发认知潜能的九堂课</li>
-</ul>
-
-
-<p>2013年</p>
-
-<ul>
-<li>别逗了，费曼先生. <a href="/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/">读后感</a></li>
-<li>学习之道</li>
-<li>自我（在读）</li>
-<li>C++标准库：自学教程与参考手册·英文版</li>
-<li>黑天鹅上册</li>
-<li>黑客与画家. <a href="/blog/2013/08/25/read-notes-hacker-and-painters/">阅读笔记</a></li>
-<li>麦田的守望者</li>
-<li>1984(14年4月读完）</li>
-<li>Ruby编程语言（在读）</li>
-<li>决策与判断（在读）</li>
-<li>C++ templates(在读）</li>
-<li>瓦尔登湖（在读）</li>
-<li>高效能程序员的修炼</li>
-<li>程序员修炼之道 13-12-1</li>
-<li>Ruby元编程（在读）</li>
-</ul>
-
-
-<p>2014年</p>
-
-<ul>
-<li>看见</li>
-<li>白夜行</li>
-<li>三体1</li>
-<li>人生元编程<a href="/blog/2014/02/23/mac-shuo-review/">阅读体会</a></li>
-<li>3月-射雕英雄传</li>
-<li>4月-Effective STL<a href="/blog/2014/04/18/who-use-stl/">读后感</a></li>
-<li>4月-windows并发编程指南</li>
-<li>4月-苏东坡传 <a href="/blog/2014/04/27/the-gay-genius-review/">review</a></li>
-<li>5月-拆掉思维里的墙</li>
-<li>6月-历史深处的忧虑</li>
-<li>6月-我们仨（杨绛）</li>
-<li>7月-寻找家园（高尔泰）<a href="/blog/2014/07/21/review-xzjy/">review</a></li>
-<li>9月-格蠹汇编（泛读)</li>
-<li>10月-摩托车修理店的未来工作哲学<a href="/blog/2014/10/26/shop-class-as-soulcraft-notes">review</a></li>
-<li>11月15日-C++API设计<a href="/blog/2014/11/15/api-design-for-c-plus-plus-notes">note</a></li>
-<li>12月20日-西游记(kindle)</li>
-</ul>
-
-
-<p>2015年</p>
-
-<ul>
-<li>呼兰河传 （在读)</li>
-<li>笑话方法论</li>
-<li>水浒传</li>
-<li>天龙八部 6月</li>
-<li>雍正皇帝-九王奪嫡 8月</li>
-<li>雍正皇帝-雕弓天狼 8月</li>
-<li>程序员的呐喊<a href="/blog/2015/09/10/a-programmers-rantings">review</a> 9月</li>
-<li>雍正皇帝-恨水东逝</li>
-<li>历代经济变革得失 &ndash; 十一期间</li>
-<li>安卓开发艺术探索</li>
-<li>穷爸爸富爸爸</li>
-</ul>
-
-
-<p>2016年</p>
-
-<ul>
-<li>胡雪岩-高阳-五册</li>
-<li>笑傲江湖</li>
-</ul>
-
-
-<p>2017年</p>
-
-<ul>
-<li>笑忘书</li>
-<li>城南旧时 3月19日</li>
-<li>战天京 4月</li>
-<li>腾讯传 7月读完</li>
-<li>CODE (Charles Petzold) 8月</li>
-<li>兄弟</li>
-</ul>
-
-
-<p>2018年</p>
-
-<ul>
-<li>智能时代</li>
+<p> 此时读过的非课本书主要是一些启蒙读物、幼儿读物、作文书。能说的上名字的只有有：《小学生必读》系列杂志、《舒克和贝塔》、《旁中华书法》，《格林童话》，《上下五千年》，《成语故事》。这个时期好像没有主动买过书，父母偶尔会买一些绘画、作文书，故事书也很少买。自己读书的主要来源是班上的同学带来的课外书，和哥哥的教材。哥哥比我大四岁，他那些语文书我总是看的津津有味，一遍又一遍。</p></li>
+<li><p>白马笑西风</p></li>
 <li>鹿鼎记</li>
-<li>激荡十年，水大鱼大</li>
-<li>长安十二时辰<a href="/blog/2018/06/23/changan12">review</a> 6月17日</li>
-<li>风气陇西 7月28日读完</li>
-<li>Effective Python (在读)</li>
-<li>大江东去 10月21日读完</li>
-<li>笑傲江湖 重读一遍</li>
-<li>神雕侠侣 12月份深圳出差期间读完</li>
-</ul>
-
-
-<p>2019年</p>
-
-<ul>
-<li>倚天屠龙记 19年春节</li>
-<li>连城诀 2月</li>
-</ul>
+<li>碧血剑</li>
+<li>雪山飞狐</li>
+<li>鸳鸯刀</li>
+<li>物理演义</li>
+<li>化学演义</li>
+<li>东周列国志</li>
+<li>情人剑</li>
+<li>方与圆 高二</li>
+<li>平凡的世界 高二</li>
+<li>胡雪岩</li>
+<li>红与黑</li>
+<li>平凡的世界</li>
+<li>红楼梦</li>
+<li>战争与和平</li>
+<li>学习的革命</li>
+<li>鲁迅文集</li>
+<li>余秋雨文集</li>
+<li>围城</li>
+</ol>
 
 </div>
   
@@ -749,6 +962,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/07/29/leave-tencent/">我为什么从腾讯离职</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/06/23/changan12/">读《长安十二时辰》</a>
       </li>
     
@@ -764,15 +981,11 @@
         <a href="/blog/2015/10/12/android-6-dot-0-openssl-crash/">Android 6.0 openssl crash</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/09/11/a-programmers-rantings/">读<程序员的呐喊></a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/zhi-chang'>职场 (1)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>

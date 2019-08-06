@@ -76,6 +76,289 @@
   <header>
   
     
+      <h1 class="entry-title"><a href="/blog/2013/12/18/read-notes-of-cpp-standard-1/">《C++标准库第二版 上册》笔记</a></h1>
+      
+      
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-18T23:27:00+08:00" pubdate data-updated="true">2013-12-18</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>p63 a pair&lt;> using a type that has only a nonconstant copy constructor will no longer compile.</p>
+
+<p>p64 std::piecewise_construct is passed as the first argument is class Foo forced to use a constructor that takes the elements of the tuple rather than a tuple as a whole.</p>
+
+<p>p65 The make_pair() function template enables you to create a value pair without writing the types explicitly.</p>
+
+<p>p67 pair used in functions that return two values.</p>
+
+<p>p68 tuples extend the concept of pairs to an arbitrary number.we can access elements with the get&lt;>() function template.</p>
+
+<p>p70 A tuple type can be a reference. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+</span><span class='line'><span class="n">tuple</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&amp;&gt;</span> <span class="n">t</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For element access, you must know the index of element at complier time.It is also a complier error if you pass a invalid index.
+Make_tuple can create tuple without special the type of element.
+By using references with make_tuple(), you can extract values of a tuple back to some other variables. e.g.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">);</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+</span><span class='line'><span class="n">make_tuple</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>p72 std::tie() creates a tuple of references. the use of std::ignore allows ignoring tuple elements while parsing with tie()</p>
+
+<p>p75 You can initialize a two-element tuple with a pair.Also, you can assign a pair to a two-element tuple.</p>
+
+<p>p76 Tow types of smart pointer:</p>
+
+<ul>
+<li>shared_ptr. Multiple smart pointer can refer to the same object.</li>
+<li>unique_ptr. only one smart pointer can refer to this object at a time.</li>
+</ul>
+
+
+<p>p77 shared_ptr. you can define other ways to clean up object.</p>
+
+<p>p78 shared_ptr can&rsquo;t assign a new ordinary pointer. but can use reset function to reset the pointer.</p>
+
+<p>p79 assigning a nullptr to a shared_ptr would delete the ownship.</p>
+
+<p>p80 Smart pointer, when use new[] to create an array of object, you must define your own deleter.</p>
+
+<p>p85 weak_ptr allows sharing but not owning an object.</p>
+
+<p>p90 You should always directly initialize a smart pointer the moment you create the object with its associated resource.</p>
+
+<p>p95 Aliasing constructor,The constructor taking another shared_pointer and an additional raw pointer.</p>
+
+<p>p96 shared pointers are not thread safe.</p>
+
+<p>p101 You can&rsquo;t copy or assgin a unique pointer if you use the ordinary copy semantics, but can use move semantics.</p>
+
+<p>p102 assgining nullptr is also possible, which has the same effect as calling reset().</p>
+
+<p>p103 The Reason that no std::move is necessary in the return statement of source() is than according to the language rules of c++11, the compiler will try a move automaticallly.</p>
+
+<p>p105 The c++ stl provides a partial spartial specialization of class unique_ptr for array: std::unique_ptr<code>&lt;std::string[]&gt;</code></p>
+
+<p>p110 unique_ptr not necessarily defined as T*</p>
+
+<p>p115 The new concept of numeric limits has two advantages: first, it offers more type safety. second, it enables a programmer to write templates that evaluate these limits.</p>
+
+<p>p119 all members of numeric_limits are declared as constexpr.</p>
+
+<p>p121 you can query for any arbitrary type whether or not it has numeric limits defined.</p>
+
+<p>p125 Type Traits:</p>
+
+<ul>
+<li>Type Predicates</li>
+<li>Type Relations</li>
+<li>Type Modifiers</li>
+</ul>
+
+
+<p>p130 A reference to a constant type is not constant</p>
+
+<p>p136 Note that swap provides an exception specification</p>
+
+<p>p158 Not that time_t usually is just the number of seconds since the UNXI epoch. bu this is not guaranteed.</p>
+
+<p>p166 The marjor advantage of iterators is that they offer a small but common interface for any arbitrary container type.</p>
+
+<p>p166 The concept of STL is base on a separation of data and operations. The data is managed by container classes, and the operations are defined by configurable algorithms. iterators are the glue between these two components.</p>
+
+<p>p167 There are three general kinds of containers:</p>
+
+<ul>
+<li>Sequence contains are ordered collections in which every element has a certain postion.</li>
+<li>Associative containers are sorted collections in which the postion of an element depends on its value due to a certain sorting criterion: set multiset map multimap.</li>
+<li>Unorderd containers. neither the order of insertion nor the value of the inserted element has an influence on the postion of the element, and the position might change over the lifetime of the container: unordered_set,undered_multiset,undered_map,undered_multimap.</li>
+</ul>
+
+
+<p>p170 size() is provided for any container class execept singly linked lists(class forward_list)</p>
+
+<p>p170 deque rhymes with &ldquo;check&rdquo;</p>
+
+<p>p171 the push_front is not provided for vectors, because it would have a bad runtime for vectors, but is is possible to insert an element at the beginning of a vector.</p>
+
+<p>p171 using array. with a safer and more convenient interface.</p>
+
+<p>p176 forward_list is in principle just a limited list.</p>
+
+<p>p177 The major advantage of associative containers is that finding an element with a specific value is rather fast.</p>
+
+<p>p177 you can consider a set as a special kind of map, in which the value is identical to the key. in fact, all these are implemented by using the same basic implementation of a binary tree.</p>
+
+<p>p180 C++11 guarantees that newly inserted elements are inserted at the end of equivalent elements that multisets and multimaps already contain.</p>
+
+<p>p180 unordered containers are typically implemented as a hash table. the goal is that each element has its own position so that you have fast access to each element.</p>
+
+<p>p185 associative array: an array whose index is not an integer value.</p>
+
+<p>p188 an iterator is an object that can iterate over elements. iterators share the same interface but have different types.</p>
+
+<p>p189 every container defines two iterator types:</p>
+
+<ul>
+<li>container::iterator is provided to iterator over elements in read/write mode</li>
+<li>container::const_iterator is provided to iterator over elements in read mode</li>
+</ul>
+
+
+<p>p199 To write generic code you should not use special operations for random-access iterators.</p>
+
+<p>p199 Algorithms are not member functions of the container classer but instead are global functions that operator wich iterators. this concept reduces the amount of code and increases the power and the flexibility of the library.</p>
+
+<p>p208 Multiple Ranges, make sure that the second and additional ranges have at least as many elements as the first range.</p>
+
+<p>p209 associative and unordered containers cannot be used as a destination for overwriting algorithms.</p>
+
+<p>p210 Interator Adapters</p>
+
+<p>p210 Insert Interators solve the problem of algorithms that write to destination that does not have enough room.</p>
+
+<p>p212 general insertor call insert()</p>
+
+<p>p213 <code>istream_iterator&lt;string&gt;()</code> calls the default constructor of iterators that creates a so-called end-of-stream iterator.</p>
+
+<p>p214 reverse iterators rbegin()\rend()</p>
+
+<p>p220 distance if iterator were random-access, you could with &ldquo;&ndash;&rdquo;</p>
+
+<p>p221 to make agorithms as flexible as possible there are good reason not requrie that interator know their container.</p>
+
+<p>p223 a container might have member functions that provide much better performance that algorithms</p>
+
+<p>p226 predicates must stateless</p>
+
+<p>p232 Lambda no default constructor and no assignment operator.</p>
+
+<p>p235 function object are functions with states</p>
+
+<ul>
+<li>fnctction object has its own type</li>
+<li>function object may faster than ordinary functions.</li>
+</ul>
+
+
+<p>p241 Binder to combine predefined function objects with other values or use special cases.</p>
+
+<p>p248 it&rsquo;s turns out that exception specifications could cause performance penalties, so they were replaced by noexcept with c++11.</p>
+
+<p>p249 if you need a transaction-safe container, you should use a list.</p>
+
+<p>p254 container&rsquo;s operators are not safe in the sense that they check for every possible error.</p>
+
+<p>p257 since c++11 you can use move constructor</p>
+
+<p>p258 Move Sytax: The contents of the container on the right-hand side are undefined afterwared:</p>
+
+<p>p258 forware_list not provided size()</p>
+
+<p>p260 all containers except vectors and deques guarantee that iterators an references to elements remianing valid if other elemenets are deleteed.</p>
+
+<p>p262 array&lt;> default initialized.</p>
+
+<p>p267 array you must not pass an iterator as the address of the first element.</p>
+
+<p>p271 vectors： capacity(), which returns the number of elements a vector could contain in its actual memory.</p>
+
+<p>p271 If the only reason for initialization is to reserve memory, you should use reserve()</p>
+
+<p>p271 it is not possible to call reserve for vectors to shrink the capacity.</p>
+
+<p>p282 For vector<bool> the return type of subscript operator is an auxiliary class.</p>
+
+<p>p283 Deque is typically implemented as a bunch of individual blocks.</p>
+
+<p>p284 Deque provide no support to control the capacity and the momnet of reallocation.Howerer reallocation may perform better than for vectors because according to their typical internal structure, deques don&rsquo;t have to copy all elemenets on reallocation.</p>
+
+<p>p284 Blocks of memory might get freed when they are no longer used(implementation specific)</p>
+
+<p>p286 You could say that lists are transaction safe.</p>
+
+<p>p301 The design goal to have &ldquo;zero space or time overhead relative to a hand-written C-stype single linked list.</p>
+
+<p>p303 forward_list provide no support size(), but you can use std::distance(list.begin(),list.end())</p>
+
+<p>p315 you cant change set&rsquo;s value from interator</p>
+
+<p>p316 not that the sorting criterion is also used to check for equivalence of two elements in the same container.</p>
+
+<p>p338 std::for_each(coll.begin(), coll.end(), [] (decltype(coll)::value_type &amp;elem) {}
+p342 piecewise_construct emplace.</p>
+
+<p>p345 [] is slower than the insert()</p>
+
+<p>p366 unorder container</p>
+
+<p>p366 unorder containers are optimized for fast searching of elements</p>
+
+<p>p386 using the noninvasive approach is simple, you need only objects that are able to iterate over the elements of an array by using the STL iterator interface.</p>
+
+<p>p386 Any Thing that behaves like an iterator is an iterator.</p>
+
+<p>p437 forward iterators, it is guaranteed that for two forward iterators that refor to the same elemnet, operator == yields true and that they will refer to the same value after both are incremented.</p>
+
+<p>p442 to be able to change container and iterator types, you should use advance</p>
+
+<p>p460 for insert iterator, a bad hint might even be worse than no hint.</p>
+
+<p>p471 writing user-defined iterators</p>
+
+<p>p476 each function object has its own type</p>
+
+<p>p479 by default, function objects are passed by value rather than by reference.</p>
+
+<p>p483 for_each can return a value</p>
+
+<p>p485 a predicate should always be stateless. you should declare operator() as const. but lambda not exist this problem.</p>
+
+<p>p494 bind also could bind data member.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+  
+    
       <h1 class="entry-title"><a href="/blog/2013/12/17/ini-muti-thread/">Windows提供的INI接口不是线程安全的</a></h1>
       
       
@@ -323,12 +606,6 @@
 <p>就我来说，本不想再说同花顺的坏话，毕竟在这里认识了好多好哥们，而且不想给别人留下自己落井下石的形象，但如果是事实，为什么不说呢？</p>
 
 <p>其实，离开同花顺最主要的原因是同花顺作坊式的管理让人看不到希望、没有尊严。如果是其他原因不可能所有人都想跑掉，要知道有些人找的新工作某些方面并不比同花顺好，但依然义无反顾的走了，因为新的环境会让人更有尊严一些。</p>
-
-<p>技术总监，同花顺股东之一，浙大毕业，技术相貌俱佳，但人品不知、管理水平没有。自己与其交流较少，亦没有留下丁点好印象。有些工作久的同事亲切的称呼其为：会写代码的流氓。坊间流传的大量关于他撵走同事的传言，始吾不信，后来年终谈话时，问我：加薪升级是由什么决定的？我说出了几种答案都被其否定，最后他说是由他决定的。</p>
-
-<p>后来我就走了，辗转半年后，一个老同事请我们吃散伙饭，这个老同事是公认的技术总监的红人，但席间讲出了令我心寒齿冷的故事。原来老同事离职前最后一天，被技术总监叫去，让他去一个项目里救火，老同事不愿，技术总监说：给你两条路，一给我在干半个月，把XX弄好，二，走人但最后一个月工资别要了！</p>
-
-<p>所以，在这种环境，这种人手下干活，谁能扛得住？</p>
 </div>
   
   
@@ -610,331 +887,6 @@ the sum of values in vecIn：
 
     </article>
   
-  
-    <article>
-      
-  <header>
-  
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/12/cpp-blogs/">那些C++牛人的博客</a></h1>
-      
-      
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-12T20:57:00+08:00" pubdate data-updated="true">2013-12-12</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。</p>
-
-<h2>C++大牛的博客</h2>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/BjarneStroustrup.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Bjarne Stroustrup的博客</strong>: <a href="http://www.stroustrup.com/">Bjarne Stroustrup&rsquo;s Homepage</a></li>
-</ul>
-
-
-<p>Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于<a href="http://en.wikipedia.org/wiki/Texas_A%26M_University">TAMU</a>。他的Homepage和他的书籍<a href='http://www.amazon.cn/gp/product/B003EIKI0C/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B003EIKI0C&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>The C++ Programming Language</a>一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/ScottMeyers.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Scott Meyers的博客</strong>: <a href="http://scottmeyers.blogspot.com/">The View from Aristeia</a></li>
-</ul>
-
-
-<p>Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道的名字，畅销书：<a href='http://www.amazon.cn/gp/product/B004G72P24/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004G72P24&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Effective C++</a>, <a href='http://www.amazon.cn/gp/product/B004IP8BD6/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004IP8BD6&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>More Effective C++</a>的作者。博客长期更新，就凭Scott Meyers这个名字，就值得一读。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/stan_lippman.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Stanley B.Lippman的博客</strong>: <a href="http://blogs.msdn.com/b/slippman/">Stan Lippman&rsquo;s BLog</a></li>
-</ul>
-
-
-<p>Lippman，C++第一个编译器<a href="http://en.wikipedia.org/wiki/Cfront">Cfront</a>的实现者，最大的贡献是凭借其著作<a href='http://www.amazon.cn/gp/product/B00ESUIL0O/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00ESUIL0O&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Primer</a>在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书<a href='http://www.amazon.cn/gp/product/B006QXQXTM/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006QXQXTM&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Inside The C++ Object Model</a>让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。</p>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/HerbSutter.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Herb Sutter的博客</strong>: <a href="http://herbsutter.com/">Sutter’s Mill: Herb Sutter on software, hardware, and concurrency</a></li>
-</ul>
-
-
-<p>Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：<a href='http://www.amazon.cn/gp/product/B008CGKUBS/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008CGKUBS&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++</a>, <a href='http://www.amazon.cn/gp/product/B004IUISIO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B004IUISIO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>More Exceptional C++</a>, <a href='http://www.amazon.cn/gp/product/B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。</p>
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/AndreiAlexandrescu.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Andrei Alexandrescu的博客</strong>: <a href="http://erdani.com/index.php/articles/">Official website of Andrei Alexandrescu</a></li>
-</ul>
-
-
-<p>Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书<a href='http://www.amazon.cn/gp/product/0201704315/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201704315&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Modern C++ Design: Generic Programming and Design Patterns Applied</a>的作者，凭借此书使C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/dave_abrahams.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>David Abrahams的博客</strong>: <a href="http://daveabrahams.com/">Dave Abrahams: Home Page | Stuff I wrote, things I did, etc</a>[已失效]</li>
-</ul>
-
-
-<p>David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，<a href='http://www.amazon.cn/gp/product/B002WB1J0U/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B002WB1J0U&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Template Metaprogramming</a>的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/BartoszMilewski.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Bartosz Milewski的博客</strong>：<a href="http://bartoszmilewski.com/">Bartosz Milewski&rsquo;s Programming Cafe：Concurrency, Multicore, C++, Haskell</a></li>
-</ul>
-
-
-<p>Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。<a href='http://www.amazon.cn/gp/product/B009TB3ZBW/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B009TB3ZBW&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>c++ in action</a>的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。</p>
-
-<p>不才曾翻译过他的文章：<a href="/blog/2013/09/23/edward-chands/">C++手爱德华</a></p>
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/anthony_williams.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Anthony Williams的博客</strong>：<a href="http://www.justsoftwaresolutions.co.uk/blog/">Just Software Solutions</a></li>
-</ul>
-
-
-<p>Anthony Williams，英国人，一个记事起就开始写程序的人。<a href="http://www.boost.org/doc/libs/1_55_0/doc/html/thread.html">Boost.Thread</a>的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：<a href='http://www.amazon.cn/gp/product/1933988770/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=1933988770&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>C++ Concurrency in Action</a>，市面上第一本讲解C++11并发的权威书籍。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/AlexanderStepanov.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Alexander A. Stepanov的博客</strong>：<a href="http://www.stepanovpapers.com/">Collected Papers of Alexander A. Stepanov</a></li>
-</ul>
-
-
-<p>Alexander A. Stepanov，出生于莫斯科，STL之父，<a href='http://www.amazon.cn/gp/product/B006P7V73G/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B006P7V73G&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>编程原本</a>的作者。Alexander A. Stepanov的这个博客如其名，是他个人学术论文的整理，学术价值应该是蛮高吧，不过像我这种低级程序员只能远观了。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/austern.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Matt Austern的博客</strong>: <a href="http://lafstern.org/matt/">Matt Austern&rsquo;s Home Page</a></li>
-</ul>
-
-
-<p>Matt Austern, 现任职于Google, 前C++标准委员会主席，SCG STL的最初实现者，<a href='http://www.amazon.cn/gp/product/0201309564/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=0201309564&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Generic Programming and the STL</a>的作者。Matt Austern的这个博客其实是个人主页，没有太多技术东西，只是一些生平和生活照片，无聊的看一下倒还行。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/pjp.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>P.J. Plauger的博客</strong>：<a href="http://www.stepanovpapers.com/">Collected Papers of Alexander A. Stepanov</a></li>
-</ul>
-
-
-<p>P.J. Plauger，这个名字可能不是每个人都听说过，但在Windows平台开发的同学肯定都用过他写的代码，他就是MS VC STL库的实现者。本来他的博客，只是个人主页并且上面没什么内容，不过看到他的履历里面完成了13部科幻小说的编写，拿来勉励大家吧。</p>
-
-<br/>
-
-
-<br/>
-
-
-<h2>C++高手的博客</h2>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/akrzemi1.jpeg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Andrzej Krzemieński的博客</strong>：<a href="http://akrzemi1.wordpress.com/">Andrzej&rsquo;s C++ blog Guidelines and thoughts about C++</a></li>
-</ul>
-
-
-<p>Andrzej Krzemieński，从名字看是波兰人，近期博客更新较快，表达清晰，行文流畅，内容难度不高，有C++11内容，是像我这样的初级并且语言控的C++程序员的福音。</p>
-
-<br/>
-
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/SumantTambe.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Sumant Tambe的博客</strong>： <a href="http://cpptruths.blogspot.com/">c++ truths</a></li>
-</ul>
-
-
-<p>Sumant Tambe，印度人，美国范德堡大学的计算机博士，技术涉猎广泛，同时也是著名的<a href="http://en.wikibooks.org/wiki/More_C++_Idioms">More C++ Idioms</a>创建者。博客一直更新，内容面向中高级C++程序员，最新文章涉及C++11的“高级Idioms”，比如13年10月的一篇文章主题是：创建递归的lambda表达式。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/JeffPreshing.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Jeff Preshing的博客</strong>: <a href="http://preshing.com/">Preshing on Programming</a></li>
-</ul>
-
-
-<p>Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自是深厚。博客每年更新十数篇，C++相关文章内容上进，直面工程上的难题：并发，而不是在C++本身上打转转。且行为流畅，图文并茂，深入浅出，是C++工程控的福音。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/Joaqu.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>Joaquín M López Muñoz的博客</strong>: <a href="http://bannalia.blogspot.com/">Bannalia: trivial notes on themes diverse</a></li>
-</ul>
-
-
-<p>Joaquín M López Muñoz，西班牙人。Boost.MultiIndex的实现者。博客长期更新，内容偏向算法，文章中有大量的公式推演和曲线图表，估计大部分中国开发者对这种内容是不感冒的。计算机或数学系的研究生，并以后打算从事算法相关工作的，推荐阅读。从这个西班牙男人身上，也可以看到老牌欧洲资本主义国家，教育水平的强悍，尤其是基础学科。</p>
-
-<ul>
-<li><strong>Daniel Park的博客</strong>: <a href="http://functionalcpp.wordpress.com/">functionalcpp-Abusing the type system like never before</a></li>
-</ul>
-
-
-<p>Daniel Park，喜欢用昵称whanhee，身世不知。一个注重实干的C++狂热分子，正如其博客简介所说，不想接着讲那些被讲烂掉的函数式编程概念，要用C++来实现这些概念。博客是一个关于函数式编程概念如何用C++实现的一个系列文章，作者采用的是C++11乃至C++14的特性，所以对C++高级函数式实现思想感兴趣的不容错过。近期博客更新也较快的。</p>
-
-<ul>
-<li><strong>Agustín Bergé的博客</strong>: <a href="http://talesofcpp.fusionfenix.com/">talesofcpp</a></li>
-</ul>
-
-
-<p>Agustín Bergé，86年生阿根廷人，可能是这里面最年轻的，stackoverflow目前排名708。作者想用自己的博客探索永无边界的C++世界，尤其是那些前人未涉足的犄角旮旯，所以C++中毒颇深者可以看看。</p>
-
-<ul>
-<li><strong>Chris Kohlhoff的博客</strong>: <a href="http://blog.think-async.com/">Thinking Asynchronously in C++</a></li>
-</ul>
-
-
-<p>Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。</p>
-
-<h2>中文C++名博</h2>
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/liuweipeng.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>刘未鹏的博客</strong>：<a href="http://mindhacks.cn/">MindHacks-思维改变生活</a></li>
-</ul>
-
-
-<p>刘未鹏，84年生人，现就职于微软，<a href='http://www.amazon.cn/gp/product/B008A4Y2R0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B008A4Y2R0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Imperfect C++</a>, <a href='http://www.amazon.cn/gp/product/B00114BFTO/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00114BFTO&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Exceptional C++ Style</a>译者，大学时对C++有极大的学习兴趣，曾与C++之父邮件往来，记录在另一个博客<a href="http://blog.csdn.net/pongba/">C++的卢浮宫</a>上。据闻刘未鹏现忙于育儿与心理学，所以博客更新较慢，但以往博客含金量高，很值得一读。博客内容偏重于学习方法，纯技术的C++文章少些。</p>
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/chenhao.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>陈皓的博客</strong>：<a href="http://coolshell.cn/">酷壳-享受编程和技术所带来的快乐</a></li>
-</ul>
-
-
-<p>陈皓，不认为自己是牛人的牛人，现就职于阿里巴巴。<a href="http://coolshell.cn/articles/4990.html">程序员技术练级攻略</a>这篇博文足以奠定其江湖地位。陈皓自称有技术焦虑症，所以博客更新频繁，内容大量涉及C++及一切劝人上进的观点和方法，也有不少网友的高质量投稿，涉及软件开发的方方面面。</p>
-
-<br/>
-
-
-<br/>
-
-
-<p><img class="pull-right" src="/images/posts/cpp-blogs/chenshuo.jpg" width="120" height="150"></p>
-
-<ul>
-<li><strong>陈硕的博客</strong>：<a href="http://blog.csdn.net/solstice/">陈硕的Blog</a></li>
-</ul>
-
-
-<p>陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作<a href='http://www.amazon.cn/gp/product/B00AYS2KL0/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B00AYS2KL0&linkCode=as2&tag=bringmeluck-23' rel='external nofollow' target='_blank'>Linux多线程服务端编程:使用muduo C++网络库</a>一本，译注若干。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7">&larr; Older</a>
@@ -952,6 +904,10 @@ the sum of values in vecIn：
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/07/29/leave-tencent/">我为什么从腾讯离职</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/06/23/changan12/">读《长安十二时辰》</a>
       </li>
     
@@ -967,15 +923,11 @@ the sum of values in vecIn：
         <a href="/blog/2015/10/12/android-6-dot-0-openssl-crash/">Android 6.0 openssl crash</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2015/09/11/a-programmers-rantings/">读<程序员的呐喊></a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h2>文章分类</h2>
-    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/android'>android (1)</a></li><li><a href='/blog/categories/blog'>blog (1)</a></li><li><a href='/blog/categories/c-plus-plus'>c++ (19)</a></li><li><a href='/blog/categories/c-plus-plus-11'>c++11 (7)</a></li><li><a href='/blog/categories/c-plus-plus-14'>c++14 (1)</a></li><li><a href='/blog/categories/linux'>linux (2)</a></li><li><a href='/blog/categories/mongodb'>mongodb (1)</a></li><li><a href='/blog/categories/octopress'>octopress (2)</a></li><li><a href='/blog/categories/openshift'>openshift (1)</a></li><li><a href='/blog/categories/python'>python (1)</a></li><li><a href='/blog/categories/ruby'>ruby (1)</a></li><li><a href='/blog/categories/windbg'>windbg (1)</a></li><li><a href='/blog/categories/windows'>windows (7)</a></li><li><a href='/blog/categories/shu-xie'>书写 (1)</a></li><li><a href='/blog/categories/chan-pin'>产品 (1)</a></li><li><a href='/blog/categories/ren-sheng-gui-ji'>人生轨迹 (1)</a></li><li><a href='/blog/categories/hui-yi'>回忆 (5)</a></li><li><a href='/blog/categories/gong-zuo'>工作 (2)</a></li><li><a href='/blog/categories/gong-ju'>工具 (1)</a></li><li><a href='/blog/categories/bing-fa'>并发 (1)</a></li><li><a href='/blog/categories/zong-jie'>总结 (3)</a></li><li><a href='/blog/categories/cheng-xu-ren-sheng'>程序人生 (12)</a></li><li><a href='/blog/categories/zhi-chang'>职场 (1)</a></li><li><a href='/blog/categories/xing-dong'>行动 (1)</a></li><li><a href='/blog/categories/ji-lu'>记录 (2)</a></li><li><a href='/blog/categories/du-shu'>读书 (1)</a></li><li><a href='/blog/categories/du-hou-gan'>读后感 (5)</a></li><li><a href='/blog/categories/yue-du'>阅读 (7)</a></li></ul>
 </section>
 <section>
   <h2>每日必读</h2>
