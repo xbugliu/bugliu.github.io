@@ -18,7 +18,7 @@ sudo hdparm -I /dev/sda | grep "TRIM supported"
 
 如果SSD支持TRIM, 则可以开启TRIM了, 这里介绍常用的两种方法。
 
-###方法1：修改[fstab][1], 添加discard属性
+### 方法1：修改[fstab][1], 添加discard属性
 ```bash
 sudo vim /etc/fstab
 ```
@@ -33,7 +33,7 @@ sudo vim /etc/fstab
 
 
 
-###方法2：使用fstrim定期执行trim任务
+### 方法2：使用fstrim定期执行trim任务
 以我用的archlinux为例，首先安装并运行[cron][2]服务：
 ```bash
 sudo pacman -S cronie

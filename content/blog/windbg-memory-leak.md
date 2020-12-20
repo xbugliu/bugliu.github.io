@@ -11,9 +11,9 @@ categories = ["开发"]
 
 ##步骤如下：
 
-###0. 安装windbg, 设置symbols, 用windbg attach到发生内存泄露的进程
+### 0. 安装windbg, 设置symbols, 用windbg attach到发生内存泄露的进程
 
-###1. 打印出heap的使用情况
+### 1. 打印出heap的使用情况
 
 {% codeblock lang:bash %}
 0:003> !heap -s
@@ -36,7 +36,7 @@ Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast
 
 很明显这一行：**021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH**是有异常的。
 
-###2. 显示异常heap的信息
+### 2. 显示异常heap的信息
 
 ```
 0:003> !heap -stat -h 021f0000
@@ -51,7 +51,7 @@ group-by: TOTSIZE max-display: 20
 
 上面11d块size为a45c的内存极有可能是泄露的内存。
 
-###3. 根据泄露内存的Size找到CallStack
+### 3. 根据泄露内存的Size找到CallStack
 ```
 0:003> bp ntdll!RtlAllocateHeap "j(poi(@esp+c) = 0x0a45c) 'k';'gc'"
 0:003> g
@@ -123,7 +123,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 0021f980 00000000 0021f980 00000000 ntdll!_RtlUserThreadStartntdll!_RtlUserThreadStart++0x1b0x1b
 ```
 
-###4. 最后甄别CallStack是否真正的发生内存泄露
+### 4. 最后甄别CallStack是否真正的发生内存泄露
 
 ##总结
 

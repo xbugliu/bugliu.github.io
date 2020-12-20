@@ -75,10 +75,10 @@ C++代码如下：
 
 遗憾的是，这个无锁栈充满的错误：
 
-###Segfault
+### Segfault
 Push操作分配内存保存节点信息，Pop操作释放这些内存。然而，线程T1在顺序执行22行和26行之间的时间里，另一个线程T2可能已经释放了这个节点，然后程序Crash了。
 
-###Corruption
+### Corruption
 仅仅对比新值与老值是否相等，`CompareAndSwap`方法并不能保证是否值发生了变化。假如快照在22行的值，被修改了，然后又被恢复了，然后`CompareAndSwap`会成功。这就是著名的**ABA问题**。假如栈中前两个节点是A和C，如果以下面的序列操作：
  
   * 线程1执行Pop，并在22行读到了m_head(**A**)，在26行读到了old_head->next(**C**)，然后突然阻塞在执行在`CompareAndSwap`之前。
@@ -89,16 +89,16 @@ Push操作分配内存保存节点信息，Pop操作释放这些内存。然而�
   
 然后26行的`CompareAndSwap`会成功，虽然m_head已经被改变3次了，因为它只检测old_head是否等于m_head。这是有问题的，因为新的栈顶本应指向**B**，然而却指向了**C**。
 
-###Not lock-free
+### Not lock-free
 C++标准并不保证new和delete是lock-free的。一个无锁的数据结构去调用非无锁的库函数不是什么好主意，所以我们需要一个无锁的内存分配子。
 
 
-###Data races
+### Data races
 当一个线程向内存中写入数据，而另一个线程同时从相同的内存读数据时，所产生的结果是未定义的，除非使用std::atomic。读和写操作都必须是原子的。在C++11以前一个通用的方法是使用**volatile**关键字来生命原子变量，然而这个关键字有很大的[缺陷][2]。
 
 在我们的例子中，多个线程读栈顶指针可能会引起竞争，push和pop操作都有可能，因为其它线程可能在修改他。
 
-###Memory reordering
+### Memory reordering
 印象中，代码会按照我们指定的顺序执行，最少也会满足”[happens before][3]“关系。不幸的是，不管理论还是实际上，下面代码的执行可能出现x,y都是0的结果。:
 
 {% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/memory-reordering.png %}
@@ -109,19 +109,19 @@ C++11以前标准对于多线程是讳莫如深的，所以编译器的优化是
 
 上面大部分问题都有多种解决方案，这里我会把自己工作中使用的方法描述出来。
 
-###Segfault
+### Segfault
 解引用节点之前，必须确保该节点没有被删掉。每一个线程都有一个全局可见的"hazard pointer"。当访问一个节点之前，会先设置Hazard pointer执行这个节点。只要设置过Hazard pointer就可以保证这个节点此时还是栈顶节点。如果其它线程此时移除这个栈顶节点，要检测没有Hazard pointer指向这个节点才能清除节点的内存。
 
-###Corruption
+### Corruption
 解决ABA问题的一个方法是确保栈顶不会有同样的值两次。我们使用“tagged pointers”来确保栈头值的唯一。一个“tagged pointers”包含一个指针和64位计数器。每当栈顶变化，计数器加一。
 
-###Not lock-free
+### Not lock-free
 
 
-###Data races
+### Data races
 我们目前使用的是boost::atomic。现在我们使用gcc4.6也已经支持std::atomic，但实现的效率没有boost高。在gcc4.6中，所有需要原子操作的地方都被应用了memory barriers，即使本不必使用的地方。
 
-###Memory reordering
+### Memory reordering
 C++11为原子操作提供了一种新的内存模型和内存序语义，以解决乱序的问题。CompareAndSwap需要顺序一致性(sequentially consistent)的语义保证。顺序一致性意味着所有的线程以一种一致的次序执行操作。事实证明hazard pointers也一样需要顺序一致性保证内存语义。
 如果不使用内存一致性，下面这种情况下会有问题：
  

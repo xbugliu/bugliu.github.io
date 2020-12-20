@@ -12,7 +12,7 @@ description = "C++惯用法safe bool与C++11中的显式操作符简介"
 ##Safe bool idiom
 什么是safe bool idiom？就是为自定义类型（class）提供检测真假的能力，而又不会带来副作用。
 
-###为类(Class)提供检测真假的能力
+### 为类(Class)提供检测真假的能力
 方法有二，第一种简单直白，提供一个返回bool类型的函数，比如下面的isValid成员函数：
 ```cpp
 class CData
@@ -58,7 +58,7 @@ int main()
 ```
 漂亮的外表后面的东西可能是有毒的，比如毒蘑菇、巫婆的毒苹果和传说中的红颜祸水们。软件开发也概莫能外，这个漂亮的解决方案后面有问题。
 
-###bool操作符的副作用
+### bool操作符的副作用
 假使有一个简单的指针外敷类：
 ```cpp
 template<typename T>
@@ -89,7 +89,7 @@ int main()
 有人不小心拿两个不同类型的类对象来比较，不幸的是编译器并没有报错，因为17行隐式调用了operator==(bool,bool)，后面的结果真真天知道。
 这可如何是好？C++社区里最不缺人才，很快有人想出解决方案：
 
-###Safe bool实现
+### Safe bool实现
 Safe Bool正式的提出是这里：[The Safe Bool Idiom](http://www.artima.com/cppsource/safebool.html)，方法就是写一个类型转化操作符，这个操作符返回一个可以进行 **if** 判断的特有类型：
 ```cpp
 class Testable 

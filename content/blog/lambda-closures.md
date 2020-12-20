@@ -2,6 +2,7 @@
 title = "C++11系列-lambda函数"
 date = "2013-08-11"
 slug = "2013/08/11/lambda-closures"
+categories = ["翻译"]
 tags =["C++","C++11","lambda","匿名函数","闭包"]
 description = "C++11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项"
 +++
@@ -183,11 +184,11 @@ int main()
     f.func();
 }
 ```
-###捕获引用的优缺点
+### 捕获引用的优缺点
 以引用捕获变量时，可以在lambda函数内修改局部变量的值。这也意味着从一个函数中返回一个lambda函数，你不能以引用捕获变量，因为引用的值在函数返回时已经无效了。
 ##lambda函数的类型是什么？
 创建lambda函数的一个原因是有些人创建了一个希望接受lambda函数的函数。我们已经看到了我们使用模板去接收lambda函数作为参数，并且使用auto去接这个lambda函数作为一个局部变量。但是你如何命名指定的lambda函数？因为像前面看到的一样，每一个lambda函数都实现为一个独立的类，所以即使是拥有相同类型和返回值的lambda函数也是不同的类型。但C++11提供了一个便捷的外敷类去存储任何类型的函数，lambda函数、仿函数和函数指针。
-###std::function
+### std::function
 新的std::function是传递lambda函数的最好的方式，不管是传递参数还是返回值。它允许你在模板中指定参数列表和返回值的确切类型。这里有AddressBook的例子，这次我们使用std::function代替模板。注意我们用到了'functional'头文件。
 ```cpp
 #include <functional>
@@ -226,7 +227,7 @@ if ( func )
     func();
 }
 ```
-###关于函数指针的提示
+### 关于函数指针的提示
 在最终的C++11标准中，假如你有一个指定空捕获列表的lambda函数，那它将像普通函数一样并可以被赋值到一个函数指针。这有一个作为指针使用空捕获列表lambda的例子：
 ```cpp
 typedef int (*func)();

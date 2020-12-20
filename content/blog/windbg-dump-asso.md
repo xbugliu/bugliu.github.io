@@ -17,7 +17,7 @@ categories = ["开发"]
   * 使用windbg打开dump并进行分析
   * 使用windbg打开dump，切换到32位，然后分析（针对加载的wow64)
 
-###配置dmp关联的方法
+### 配置dmp关联的方法
 
 #### 1. 设置dmp文件的关联
 
