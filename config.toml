@@ -60,7 +60,7 @@ copyright = "bugliu 2020"            # default: author.name ↓        # 默认�
   gitRepo = ""
 
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
-  logoTitle = "Even"        # default: the title value    # 默认值: 上面设置的title值
+  logoTitle = "towriting"        # default: the title value    # 默认值: 上面设置的title值
   keywords = ["阅读","思考","书写","程序员","C++"]
   description = "记录人生痕迹|分享技术心得 -- ToWriting.com. 一个立志独立思维的程序员的博客网站. 这里会记录下自己工作, 生活和回忆; 同时会分享编程等相关技术知识; 所有文章皆为原创或翻译."
 
