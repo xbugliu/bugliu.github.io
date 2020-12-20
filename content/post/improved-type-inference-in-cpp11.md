@@ -2,8 +2,8 @@
 title = "Improved Type Inference in Cpp11"
 date = "2013-08-08"
 slug = "2013/08/08/improved-type-inference-in-cpp11"
-Categories = [keywords = ["C++11","C++","auto","decltype","类型推导","自动类型"]
-description = 介绍了C++11中的几个自动推导类型的关键字用法及新的函数定义语法
+Categories = ["C++11","C++","auto","decltype","类型推导","自动类型"]
+description = "介绍了C++11中的几个自动推导类型的关键字用法及新的函数定义语法"
 +++
 C++11引入了一些新的实用的类型推导能力，这意味着你可以花费更少的时间去写那些编译器已经知道的东西。当然有些时候你需要帮助编译器或者你的编程伙伴。但是C++11，你可以在一些乏味的东西上花更少的时间，而多去关注逻辑本身。
 ##auto之乐

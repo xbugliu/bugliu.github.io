@@ -2,8 +2,8 @@
 title = "Interview"
 date = "2018-03-03"
 slug = "2018/03/03/interview"
-Categories = [keywords = [""]
-description = 
+Categories = [""]
+description = ""
 +++
 
 最近半年部门业务扩展求贤若渴，所以不停的在收集简历和面试，从面试的情况来看，大约有下列三求职者：

@@ -2,8 +2,8 @@
 title = "Mutexs Owned by Process"
 date = "2013-07-25"
 slug = "2013/07/25/mutexs-owned-by-process"
-Categories = [keywords = ["mutex","handle","process","互斥量","内核对象","句柄","线程"]
-description = 获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象
+Categories = ["mutex","handle","process","互斥量","内核对象","句柄","线程"]
+description = "获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象"
 +++
 最近有个任务涉及到区分【同进程名进程】，所以想到了用进程"拥有"的互斥量来区分这些进程。所以下面实现了获取指定进程"拥有"哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG...)。
 

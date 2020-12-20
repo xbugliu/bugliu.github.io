@@ -2,8 +2,8 @@
 title = "Learn Ruby"
 date = "2013-12-26"
 slug = "2013/12/26/learn-ruby"
-Categories = [keywords = ["C++程序员学Ruby","Ruby学习"]
-description = 开始学习Ruby
+Categories = ["C++程序员学Ruby","Ruby学习"]
+description = "开始学习Ruby"
 +++
 
   最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不会装系统的。而和这些不懂电脑的同学大谈各种计算机知识、编程语言的特点，是我一大爱好：脚本语言是一种易学的语言，要不然为何叫”脚本“，是因为用脚都可以学会；脚本语言里面有三P：Python，Php, Perl，都是极好的，当然还有一个Ruby，不过是日本人发明的，你如果不爱国的话，倒可以学一学...

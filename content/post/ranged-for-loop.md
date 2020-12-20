@@ -2,8 +2,8 @@
 title = "Ranged for Loop"
 date = "2013-08-20"
 slug = "2013/08/20/ranged-for-loop"
-Categories = [keywords = ["C++","for","C++11","算法","for_each"]
-description = 本文详细讲解了C++11中ranged for loop的用法
+Categories = ["C++","for","C++11","算法","for_each"]
+description = "本文详细讲解了C++11中ranged for loop的用法"
 +++
 在我前面[介绍C++11][1]的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的[auto关键字][2]就是一个例子；现在我想讲一下区间迭代（range-based for loop）。
 ##区间迭代的基本语法

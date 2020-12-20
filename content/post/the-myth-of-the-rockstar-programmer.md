@@ -2,8 +2,8 @@
 title = "The Myth of the Rockstar Programmer"
 date = "2013-09-30"
 slug = "2013/09/30/the-myth-of-the-rockstar-programmer"
-Categories = [keywords = ["工作","程序员","效率"]
-description = 明星程序员只是个神话
+Categories = ["工作","程序员","效率"]
+description = "明星程序员只是个神话"
 +++
 
 神级程序员[^1]的神话不过就是个，神话！它是由一些可悲的原因形成的神话：

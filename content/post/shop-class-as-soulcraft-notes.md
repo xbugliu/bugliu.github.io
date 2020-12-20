@@ -2,8 +2,8 @@
 title = "Shop Class as Soulcraft Notes"
 date = "2014-10-26"
 slug = "2014/10/26/shop-class-as-soulcraft-notes"
-Categories = [keywords = ["工作的意义","摩托车修理店的未来工作哲学"]
-description = 摩托车修理店的未来工作哲学读后的感想
+Categories = ["工作的意义","摩托车修理店的未来工作哲学"]
+description = "摩托车修理店的未来工作哲学读后的感想"
 +++
 
 

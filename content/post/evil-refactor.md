@@ -2,8 +2,8 @@
 title = "Evil Refactor"
 date = "2014-07-08"
 slug = "2014/07/08/evil-refactor"
-Categories = [keywords = ["重构","项目管理","代码整洁"]
-description = 大部分项目不宜重构
+Categories = ["重构","项目管理","代码整洁"]
+description = "大部分项目不宜重构"
 +++
 
 很早之前听说过这样一个故事：

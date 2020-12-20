@@ -2,8 +2,8 @@
 title = "Hero"
 date = "2019-08-22"
 slug = "2019/08/22/hero"
-Categories = [keywords = ["英雄的产生"]
-description = 
+Categories = ["英雄的产生"]
+description = ""
 published = false
 +++
 

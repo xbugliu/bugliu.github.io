@@ -2,8 +2,8 @@
 title = "Beyond Clean Code"
 date = "2013-12-03"
 slug = "2013/12/03/beyond-clean-code"
-Categories = [keywords = ["整洁代码","价值代码"]
-description = 整洁代码 VS 价值代码
+Categories = ["整洁代码","价值代码"]
+description = "整洁代码 VS 价值代码"
 +++
 
 ##什么是整洁代码（What Is Clean Code）

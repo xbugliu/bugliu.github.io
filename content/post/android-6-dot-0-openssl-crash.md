@@ -2,8 +2,8 @@
 title = "Android 6 Dot 0 Openssl Crash"
 date = "2015-10-11"
 slug = "2015/10/11/android-6-dot-0-openssl-crash"
-Categories = [keywords = ["Android 6.0 openssl Crash"]
-description = Android 6.0 openssl Crash
+Categories = ["Android 6.0 openssl Crash"]
+description = "Android 6.0 openssl Crash"
 +++
 
 Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0更换了OpenSSL库而导致的一个Crash。

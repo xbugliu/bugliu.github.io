@@ -2,8 +2,8 @@
 title = "Api Design for C Plus Plus Notes"
 date = "2014-11-15"
 slug = "2014/11/15/api-design-for-c-plus-plus-notes"
-Categories = [keywords = ["C++API设计","API DESIGN FOR C++"]
-description = C++ API 设计读书笔记
+Categories = ["C++API设计","API DESIGN FOR C++"]
+description = "C++ API 设计读书笔记"
 +++
 
 {% aproduct B00EE13U30*C++ API设计%}从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看这本书了。

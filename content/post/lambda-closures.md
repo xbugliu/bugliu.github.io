@@ -2,8 +2,8 @@
 title = "Lambda Closures"
 date = "2013-08-11"
 slug = "2013/08/11/lambda-closures"
-Categories = [keywords = ["C++","C++11","lambda","匿名函数","闭包"]
-description = C++11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项
+Categories = ["C++","C++11","lambda","匿名函数","闭包"]
+description = "C++11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项"
 +++
 {% img pull-left /images/posts/lambda-closures/lambda.png 66 90 'lambda'%}
 C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。

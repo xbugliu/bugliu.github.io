@@ -2,8 +2,8 @@
 title = "Cpp 14 Dessert"
 date = "2014-08-25"
 slug = "2014/08/25/cpp-14-dessert"
-Categories = [keywords = ["C++14 范型lambda"]
-description = 
+Categories = ["C++14 范型lambda"]
+description = ""
 +++
 
 这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是[谨小甚微的][1]。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。

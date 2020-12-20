@@ -2,8 +2,8 @@
 title = "Mac Shuo Review"
 date = "2014-02-23"
 slug = "2014/02/23/mac-shuo-review"
-Categories = [keywords = ["人生元编程读后感"]
-description = 人生元编程读后感
+Categories = ["人生元编程读后感"]
+description = "人生元编程读后感"
 +++
 
 {% aproduct B00ID5UV30*人生元编程%}这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，自称Mac君。去年就断断续续的跟过Mac君在其[博客][1]上帖的文章，印象最深的是其能将IT界大佬的故事娓娓道来，颇有吴军之风，更兼Mac君是根正苗红的程序员，所以文章读来倍感亲切，处处体现了其对程序员个体的勉励。

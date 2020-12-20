@@ -1,8 +1,7 @@
 +++
+title = "关于"
 date = "2013-07-17"
 slug = "about"
-sharing: false
-footer: true
 +++
 
 ###关于我

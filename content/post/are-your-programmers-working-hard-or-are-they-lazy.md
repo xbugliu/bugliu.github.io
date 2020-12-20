@@ -2,8 +2,8 @@
 title = "Are Your Programmers Working Hard or Are They Lazy"
 date = "2013-12-15"
 slug = "2013/12/15/are-your-programmers-working-hard-or-are-they-lazy"
-Categories = [keywords = ["程序员","懒惰","勤劳"]
-description = 你们是勤劳还是懒惰的程序员？
+Categories = ["程序员","懒惰","勤劳"]
+description = "你们是勤劳还是懒惰的程序员？"
 +++
 
 {% img pull-right /images/posts/working-hard/work-smart-not-hard.jpg%}

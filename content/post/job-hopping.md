@@ -2,8 +2,8 @@
 title = "Job Hopping"
 date = "2013-11-10"
 slug = "2013/11/10/job-hopping"
-Categories = [keywords = ["程序员","跳槽","增长见识"]
-description = 程序员跳槽可以增长见识
+Categories = ["程序员","跳槽","增长见识"]
+description = "程序员跳槽可以增长见识"
 +++
 
 前两天和一个一年半多没联系过的前同事通了个电话，聊了个把小时。我对他现在的工作状态很感兴趣，因为他的工作状态就是我不离开那家公司的可能的状态。

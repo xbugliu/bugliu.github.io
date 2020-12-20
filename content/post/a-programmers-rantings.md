@@ -2,8 +2,8 @@
 title = "A Programmers Rantings"
 date = "2015-09-10"
 slug = "2015/09/10/a-programmers-rantings"
-Categories = [keywords = ["A Programmer's Rantings","程序员的呐喊"]
-description = 
+Categories = ["A Programmer's Rantings","程序员的呐喊"]
+description = ""
 +++
 
 又是一本国外技术圈的名人的博客整理成的书。作者steve yegge是google的程序员，06年之前的7年工作在amazon。丰富的编程经验和自由的个性，使他对各种编程语言和互联网产品有自己独到的见解。

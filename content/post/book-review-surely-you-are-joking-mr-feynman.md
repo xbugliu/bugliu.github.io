@@ -2,8 +2,8 @@
 title = "Book Review Surely You Are Joking Mr Feynman"
 date = "2013-08-12"
 slug = "2013/08/12/book-review-surely-you-are-joking-mr-feynman"
-Categories = [keywords = ["费曼","Stackoverflow","读后感"]
-description = 这是Stackoverflow上分享的程序员必读书籍。里面讲到了费曼精彩的人生，人生如费曼这样真无憾了。
+Categories = ["费曼","Stackoverflow","读后感"]
+description = "这是Stackoverflow上分享的程序员必读书籍。里面讲到了费曼精彩的人生，人生如费曼这样真无憾了。"
 +++
 知道这本书的时间应该不超过一年，至少是在经常逛stackoverflow以后，那至少是2011年以后的事了。stackoverflow中列出的[每个程序员都应该读的书][1]里面，有几本书看起来和编程风牛马不相及，其中之一就是这本<a href="http://www.amazon.cn/gp/product/B009QVEA8M/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B009QVEA8M&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《别逗了，费曼先生》</a>。
 

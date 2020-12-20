@@ -2,8 +2,8 @@
 title = "Mongodb in Elem"
 date = "2015-01-14"
 slug = "2015/01/14/mongodb-in-elem"
-Categories = [keywords = ["MongoDB 数组查询"]
-description = MongoDB数组查询in与elemMatch的比较
+Categories = ["MongoDB 数组查询"]
+description = "MongoDB数组查询in与elemMatch的比较"
 +++
 
 PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手搞起，打算山寨goodreads的[quotes][1]板块，已经草草的实现了部分功能-[看这里][2], 其中数据库部分使用到是MongoDB, 使用MongoDB的原因是新鲜、好玩、简单，MongoDB确实比较容易理解，花2个小时看了一遍[the-little-mongodb-book][3]就可以上手干活了。

@@ -2,8 +2,8 @@
 title = "The Best Programmer in the World"
 date = "2013-09-22"
 slug = "2013/09/22/the-best-programmer-in-the-world"
-Categories = [keywords = ["程序员","快乐"]
-description = 世界上最杰出的程序员是获得最大快乐的那个人
+Categories = ["程序员","快乐"]
+description = "世界上最杰出的程序员是获得最大快乐的那个人"
 +++
 Colin停在我的办公室来叫我去看他最近的项目。他拆开了他的显示器切换器（用来在两台PC之间切换单个显示器），拆开的切换器就摊放在他的桌子上。他把切换器接上了从RadioShack[^1]淘来的部件，服务程序和客户端也都用VB6开发好了，将这一切整合好就能实现当鼠移动到屏幕边缘时自动切换显示器。Colin做这个项目获得了很大的快乐并且正在变成我们团队里最强大的程序员。这发生在Arduino[^2]创建之前一段时间，那时硬件Hacking的门槛还很高。VB6正在衰退，使用它的人被认为只能维护那些烂的LOB程序。从Colin身上，我看到了好的创造者都会有的精神：享受创造的过程而不管使用的工具。
 

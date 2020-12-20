@@ -2,8 +2,8 @@
 title = "Effective Tools"
 date = "2013-11-17"
 slug = "2013/11/17/effective-tools"
-Categories = [keywords = ["多粘贴板","xclip","finder","极速搜索"]
-description = 程序员工具箱必备：多粘帖板、快速搜索
+Categories = ["多粘贴板","xclip","finder","极速搜索"]
+description = "程序员工具箱必备：多粘帖板、快速搜索"
 +++
 
 前两天买了一本<a href="http://www.amazon.cn/gp/product/B001XCWFOI/ref=as_li_tf_tl?ie=UTF8&camp=536&creative=3200&creativeASIN=B001XCWFOI&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《卓有成效的程序员》</a>，看过几章后才明白为什么Stackoverflow里面人们会推荐这本书：它大抵是讲工具的，目的是为了提高程序员的生产率，但工具往往是人们漠视的。

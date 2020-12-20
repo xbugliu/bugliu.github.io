@@ -2,8 +2,8 @@
 title = "Boost Lambda vs Stand Lambda"
 date = "2013-12-13"
 slug = "2013/12/13/boost-lambda-vs-stand-lambda"
-Categories = [keywords = ["C++11 Lambda","C++ Lambda","boost Lambda","boost Lambda实例","boost Lambda用法"]
-description = boost Lambda使用的几个例子
+Categories = ["C++11 Lambda","C++ Lambda","boost Lambda","boost Lambda实例","boost Lambda用法"]
+description = "boost Lambda使用的几个例子"
 +++
 
 我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并不是每个人都有选择自己编译环境的权利。

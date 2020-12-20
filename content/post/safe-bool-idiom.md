@@ -2,8 +2,8 @@
 title = "Safe Bool Idiom"
 date = "2013-11-01"
 slug = "2013/11/01/safe-bool-idiom"
-Categories = [keywords = ["C++惯用法safe bool与C++11中的显式操作符"]
-description = C++惯用法safe bool与C++11中的显式操作符简介
+Categories = ["C++惯用法safe bool与C++11中的显式操作符"]
+description = "C++惯用法safe bool与C++11中的显式操作符简介"
 +++
 
 > C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：[More C++ Idioms](http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms)，虽凝聚了C++程序员的聪明才智，但都是特定时期的产物，

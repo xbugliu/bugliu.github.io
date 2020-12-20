@@ -2,8 +2,8 @@
 title = "Ini Muti Thread"
 date = "2013-12-17"
 slug = "2013/12/17/ini-muti-thread"
-Categories = [keywords = ["writeprivateprofilestring 线程安全","writeprivateprofilestring 多线程","INI 多线程"]
-description = writeprivateprofilestring函数不是线程安全
+Categories = ["writeprivateprofilestring 线程安全","writeprivateprofilestring 多线程","INI 多线程"]
+description = "writeprivateprofilestring函数不是线程安全"
 +++
 
 INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如[WritePrivateProfileString][1]的文档中并没有提到。

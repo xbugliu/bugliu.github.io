@@ -2,8 +2,8 @@
 title = "The Gay Genius Review"
 date = "2014-04-27"
 slug = "2014/04/27/the-gay-genius-review"
-Categories = [keywords = ["苏东坡","苏东坡传"]
-description = 苏东坡传读后感
+Categories = ["苏东坡","苏东坡传"]
+description = "苏东坡传读后感"
 +++
 
 昨天在kindle上读完了{% aproduct B00D7X84MS*苏东坡传%}，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，书中夹杂着大量苏东坡的文学作品：诗词和书信等，吾久不读古文，美感失，只好略过。

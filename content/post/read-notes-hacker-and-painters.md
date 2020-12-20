@@ -2,8 +2,8 @@
 title = "Read Notes Hacker and Painters"
 date = "2013-08-25"
 slug = "2013/08/25/read-notes-hacker-and-painters"
-Categories = [keywords = ["黑客与画家","笔记"]
-description = 《黑客与画家》的阅读笔记，整理出来，方便自己和他人检索
+Categories = ["黑客与画家","笔记"]
+description = "《黑客与画家》的阅读笔记，整理出来，方便自己和他人检索"
 +++
 
 整理下自己前段时间阅读<a href="http://www.amazon.cn/gp/product/B004WHZGZQ/ref=as_li_ss_tl?ie=UTF8&camp=536&creative=3132&creativeASIN=B004WHZGZQ&linkCode=as2&tag=bringmeluck-23" rel="external nofollow" title="">《黑客与画家》</a>后记下的精彩观点：
