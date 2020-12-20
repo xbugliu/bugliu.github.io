@@ -3,6 +3,7 @@ title = "This Pointer"
 date = "2013-09-01"
 slug = "2013/09/01/this-pointer"
 tags =["C++","this","this指针","thunk"]
+categories = ["开发"]
 description = "深入讲解每个C++程序员都知道的this指针知识,挖掘其背后的秘密!"
 +++
 this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不是你想象的样子！

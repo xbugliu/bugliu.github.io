@@ -2,6 +2,7 @@
 title = "Android 6 Dot 0 Openssl Crash"
 date = "2015-10-11"
 slug = "2015/10/11/android-6-dot-0-openssl-crash"
+categories = ["开发"]
 tags =["Android 6.0 openssl Crash"]
 description = "Android 6.0 openssl Crash"
 +++

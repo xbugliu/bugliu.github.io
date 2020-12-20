@@ -4,6 +4,7 @@ date = "2014-04-18"
 slug = "2014/04/18/who-use-stl"
 tags =["C++","STL"]
 description = "大家都知道STL，但为什么很少见人用它呢"
+categories = ["开发"]
 +++
 
 

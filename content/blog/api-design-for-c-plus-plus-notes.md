@@ -2,6 +2,7 @@
 title = "Api Design for C Plus Plus Notes"
 date = "2014-11-15"
 slug = "2014/11/15/api-design-for-c-plus-plus-notes"
+categories = ["阅读"]
 tags =["C++API设计","API DESIGN FOR C++"]
 description = "C++ API 设计读书笔记"
 +++

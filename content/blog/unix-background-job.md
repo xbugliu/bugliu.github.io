@@ -4,6 +4,7 @@ date = "2013-08-03"
 slug = "2013/08/03/unix-background-job"
 tags =["linux","backgroud","process","job","后台任务"]
 description = "Linux后台进程管理"
+categories = ["linux"]
 +++
 当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。
 

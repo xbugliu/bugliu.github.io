@@ -4,6 +4,7 @@ date = "2013-07-31"
 slug = "2013/07/31/de-elevate-start-process"
 tags =["process","uac","token","进程"]
 description = "管理员权限进程创建非管理员权限进程"
+categories = ["开发"]
 +++
 Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，首先得到受限的Token，然后由这个Token调用[CreateProcessAsUser][1]。
 

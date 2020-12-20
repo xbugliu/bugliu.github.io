@@ -2,6 +2,7 @@
 title = "A Programmers Rantings"
 date = "2015-09-10"
 slug = "2015/09/10/a-programmers-rantings"
+categories = ["阅读"]
 tags =["A Programmer's Rantings","程序员的呐喊"]
 description = ""
 +++

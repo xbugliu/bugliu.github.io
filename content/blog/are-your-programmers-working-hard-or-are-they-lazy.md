@@ -2,6 +2,7 @@
 title = "Are Your Programmers Working Hard or Are They Lazy"
 date = "2013-12-15"
 slug = "2013/12/15/are-your-programmers-working-hard-or-are-they-lazy"
+categories = ["翻译"]
 tags =["程序员","懒惰","勤劳"]
 description = "你们是勤劳还是懒惰的程序员？"
 +++

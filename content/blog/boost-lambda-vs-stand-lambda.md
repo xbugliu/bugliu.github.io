@@ -2,6 +2,7 @@
 title = "Boost Lambda vs Stand Lambda"
 date = "2013-12-13"
 slug = "2013/12/13/boost-lambda-vs-stand-lambda"
+categories = ["开发"]
 tags =["C++11 Lambda","C++ Lambda","boost Lambda","boost Lambda实例","boost Lambda用法"]
 description = "boost Lambda使用的几个例子"
 +++

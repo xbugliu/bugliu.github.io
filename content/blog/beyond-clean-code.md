@@ -2,6 +2,7 @@
 title = "Beyond Clean Code"
 date = "2013-12-03"
 slug = "2013/12/03/beyond-clean-code"
+categories = ["翻译"]
 tags =["整洁代码","价值代码"]
 description = "整洁代码 VS 价值代码"
 +++

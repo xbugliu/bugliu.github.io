@@ -2,6 +2,7 @@
 title = "Archlinux Trim"
 date = "2014-06-28"
 slug = "2014/06/28/archlinux-trim"
+categories = ["Linux"]
 tags =["linux trim","ssd trim"]
 description = "linux ssd trim"
 +++

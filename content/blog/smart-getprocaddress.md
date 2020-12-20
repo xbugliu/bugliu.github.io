@@ -1,5 +1,5 @@
 +++
-title = "Smart Getprocaddress"
+title = "Smart GetProcAddress之实现"
 date = "2013-07-20"
 slug = "2013/07/20/smart-getprocaddress"
 tags =["C++","模板"]

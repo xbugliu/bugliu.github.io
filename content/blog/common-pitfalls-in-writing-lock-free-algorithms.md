@@ -4,6 +4,7 @@ date = "2014-08-18"
 slug = "2014/08/18/common-pitfalls-in-writing-lock-free-algorithms"
 tags =["无锁编程"]
 description = "实现无锁算法的常见陷阱"
+categories = ["翻译"]
 +++
 
 翻译自：[Common Pitfalls in Writing Lock-Free Algorithms][1]

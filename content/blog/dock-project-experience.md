@@ -4,6 +4,7 @@ date = "2014-05-03"
 slug = "2014/05/03/dock-project-experience"
 tags =["程序人生","总结","工作","Dock"]
 description = "Dock项目个人总结"
+categories = ["职场"]
 +++
 
 Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必须也要做。关于应用宝Dock的具体进度、功能与界面不做介绍，现在从开发的角度讲一讲Dock项目两个月来的一点体会。

@@ -1,7 +1,8 @@
 +++
-title = "Begin Writing Blog"
+title = "开始写博客"
 date = "2013-07-17"
 slug = "2013/07/17/begin-writing-blog"
+categories = ["博客"]
 tags =["博客","思考","书写"]
 description = "我为什么写博客"
 +++
