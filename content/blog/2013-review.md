@@ -2,7 +2,7 @@
 title = "2013 Review"
 date = "2014-01-01"
 slug = "2014/01/01/2013-review"
-Categories = ["2013 年终总结,程序员年终总结"]
+tags =["2013 年终总结,程序员年终总结"]
 description = "2013年我的年终总结"
 +++
 

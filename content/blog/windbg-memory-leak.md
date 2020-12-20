@@ -2,7 +2,7 @@
 title = "Windbg Memory Leak"
 date = "2014-11-22"
 slug = "2014/11/22/windbg-memory-leak"
-Categories = ["windgb","内存泄露","tadb"]
+tags =["windgb","内存泄露","tadb"]
 description = "Windbg定位内存泄露的一直简单方法"
 +++
 

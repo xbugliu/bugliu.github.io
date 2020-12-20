@@ -2,7 +2,7 @@
 title = "Process Can Drag Drop"
 date = "2013-08-06"
 slug = "2013/08/06/process-can-drag-drop"
-Categories = ["Windows","UAC","Integrity","drag","drop","无法拖拽","拖拽"]
+tags =["Windows","UAC","Integrity","drag","drop","无法拖拽","拖拽"]
 description = "降权创建支持拖拽的进程"
 +++
 Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管理员权限进程，方法很简单，见前面的文章：[降权启动进程][1]。

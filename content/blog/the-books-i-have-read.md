@@ -2,7 +2,7 @@
 title = "The Books I Have Read"
 date = "2013-07-20"
 slug = "2013/07/20/the-books-i-have-read"
-Categories = ["书籍","记录","阅读"]
+tags =["书籍","记录","阅读"]
 description = "整理我这些年来读过的书籍"
 +++
 在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。

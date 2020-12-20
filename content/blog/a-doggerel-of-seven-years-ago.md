@@ -2,7 +2,7 @@
 title = "A Doggerel of Seven Years Ago"
 date = "2013-08-17"
 slug = "2013/08/17/a-doggerel-of-seven-years-ago"
-Categories = ["大学","高中","同学","朋友","七年"]
+tags =["大学","高中","同学","朋友","七年"]
 description = "七年过去了，人生有几个七年，庆幸自己当年留下的印迹，可今日回忆。"
 +++
     令伊伤神赴荆门

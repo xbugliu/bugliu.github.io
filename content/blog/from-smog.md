@@ -2,7 +2,7 @@
 title = "From Smog"
 date = "2013-12-08"
 slug = "2013/12/08/from-smog"
-Categories = ["杭州雾霾"]
+tags =["杭州雾霾"]
 description = "从杭州雾霾谈起"
 +++
 

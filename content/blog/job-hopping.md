@@ -2,7 +2,7 @@
 title = "Job Hopping"
 date = "2013-11-10"
 slug = "2013/11/10/job-hopping"
-Categories = ["程序员","跳槽","增长见识"]
+tags =["程序员","跳槽","增长见识"]
 description = "程序员跳槽可以增长见识"
 +++
 

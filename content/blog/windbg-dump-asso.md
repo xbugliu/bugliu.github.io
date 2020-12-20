@@ -2,7 +2,7 @@
 title = "Windbg Dump Asso"
 date = "2014-12-07"
 slug = "2014/12/07/windbg-dump-asso"
-Categories = ["windbg","dmp"]
+tags =["windbg","dmp"]
 description = "windbg设置dmp文件的关联"
 +++
 

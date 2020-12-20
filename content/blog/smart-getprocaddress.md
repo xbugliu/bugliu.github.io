@@ -2,7 +2,7 @@
 title = "Smart Getprocaddress"
 date = "2013-07-20"
 slug = "2013/07/20/smart-getprocaddress"
-Categories = ["C++","模板"]
+tags =["C++","模板"]
 description = "尝试一种更智能实现GetProcAddress的方式"
 +++
 Windows下有过编程经验的朋友肯定用过这个函数：[GetProcAddress][1]，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，函数使用方法简单，一般是如下流程：

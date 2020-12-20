@@ -2,7 +2,7 @@
 title = "Tencent Anniversary"
 date = "2014-04-08"
 slug = "2014/04/08/tencent-anniversary"
-Categories = ["腾讯","周年","职场"]
+tags =["腾讯","周年","职场"]
 description = "在腾讯待了整整一年了，这一年来究竟得到和失去了什么呢？"
 +++
 

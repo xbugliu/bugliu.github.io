@@ -2,7 +2,7 @@
 title = "From the User Perspective"
 date = "2013-11-06"
 slug = "2013/11/06/from-the-user-perspective"
-Categories = ["产品","用户角度"]
+tags =["产品","用户角度"]
 description = "做产品要站在用户角度考虑是个伪命题"
 +++
 > “要站在用户的角度考虑”是互联网软件的从业者几乎听的耳朵磨出茧子的一句话。站在用户的角度考虑才能做出好的产品，似乎是整个行业的共识，但对于这句话我大抵是不赞成的。

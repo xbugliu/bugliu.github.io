@@ -2,7 +2,7 @@
 title = "Lambda Closures"
 date = "2013-08-11"
 slug = "2013/08/11/lambda-closures"
-Categories = ["C++","C++11","lambda","匿名函数","闭包"]
+tags =["C++","C++11","lambda","匿名函数","闭包"]
 description = "C++11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项"
 +++
 {% img pull-left /images/posts/lambda-closures/lambda.png 66 90 'lambda'%}

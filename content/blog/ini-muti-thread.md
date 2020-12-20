@@ -2,7 +2,7 @@
 title = "Ini Muti Thread"
 date = "2013-12-17"
 slug = "2013/12/17/ini-muti-thread"
-Categories = ["writeprivateprofilestring 线程安全","writeprivateprofilestring 多线程","INI 多线程"]
+tags =["writeprivateprofilestring 线程安全","writeprivateprofilestring 多线程","INI 多线程"]
 description = "writeprivateprofilestring函数不是线程安全"
 +++
 

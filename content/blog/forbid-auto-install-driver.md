@@ -2,7 +2,7 @@
 title = "Forbid Auto Install Driver"
 date = "2013-08-03"
 slug = "2013/08/03/forbid-auto-install-driver"
-Categories = ["windows","driver","驱动"]
+tags =["windows","driver","驱动"]
 description = "暴力禁止windows自动安装驱动"
 +++
 {% img right /images/posts/forbid-auto-install-driver/auto_install_driver_tip.png 'windows自动安装驱动' 'windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不是人人都需要的，而且这时候你又找不到制止这种行为的入口，你一定很窝火。' %}

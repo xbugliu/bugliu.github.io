@@ -2,7 +2,8 @@
 title = "24 Hour Stand By"
 date = "2014-08-31"
 slug = "2014/08/31/24-hour-stand-by"
-Categories = ["加班文化"]
+categories = ["职场"]
+tags = ["加班文化"]
 description = "24小时待命文化"
 +++
 

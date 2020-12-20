@@ -2,7 +2,7 @@
 title = "Bjarne Stroustrup Previews C Plus Plus 17"
 date = "2016-03-17"
 slug = "2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17"
-Categories = ["C++17","C++"]
+tags =["C++17","C++"]
 description = "C++之父关于C++17的访问"
 +++
 

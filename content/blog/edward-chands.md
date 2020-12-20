@@ -2,7 +2,7 @@
 title = "Edward Chands"
 date = "2013-09-23"
 slug = "2013/09/23/edward-chands"
-Categories = ["C++","C++陷阱","C++哲学"]
+tags =["C++","C++陷阱","C++哲学"]
 description = "C++的哲学决定其不适应于并发编程"
 +++
 {% img pull-right /images/posts/edward-chands/Edwardscissorhandsposter.png  %}

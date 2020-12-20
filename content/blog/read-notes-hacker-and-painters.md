@@ -2,7 +2,7 @@
 title = "Read Notes Hacker and Painters"
 date = "2013-08-25"
 slug = "2013/08/25/read-notes-hacker-and-painters"
-Categories = ["黑客与画家","笔记"]
+tags =["黑客与画家","笔记"]
 description = "《黑客与画家》的阅读笔记，整理出来，方便自己和他人检索"
 +++
 

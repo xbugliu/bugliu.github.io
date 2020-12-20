@@ -2,7 +2,7 @@
 title = "What Is Cpp11"
 date = "2013-08-01"
 slug = "2013/08/01/what-is-cpp11"
-Categories = ["C++11"]
+tags =["C++11"]
 description = "介绍了什么是C++11"
 +++
 ##什么是C++0x?

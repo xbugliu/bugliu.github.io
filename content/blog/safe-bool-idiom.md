@@ -2,7 +2,7 @@
 title = "Safe Bool Idiom"
 date = "2013-11-01"
 slug = "2013/11/01/safe-bool-idiom"
-Categories = ["C++惯用法safe bool与C++11中的显式操作符"]
+tags =["C++惯用法safe bool与C++11中的显式操作符"]
 description = "C++惯用法safe bool与C++11中的显式操作符简介"
 +++
 

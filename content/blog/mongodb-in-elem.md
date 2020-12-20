@@ -2,7 +2,7 @@
 title = "Mongodb in Elem"
 date = "2015-01-14"
 slug = "2015/01/14/mongodb-in-elem"
-Categories = ["MongoDB 数组查询"]
+tags =["MongoDB 数组查询"]
 description = "MongoDB数组查询in与elemMatch的比较"
 +++
 

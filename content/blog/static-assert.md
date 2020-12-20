@@ -2,7 +2,7 @@
 title = "Static Assert"
 date = "2013-12-10"
 slug = "2013/12/10/static-assert"
-Categories = ["C++ 静态断言","C++ Static Assert","C++ static_assert","C++ 约束"]
+tags =["C++ 静态断言","C++ Static Assert","C++ static_assert","C++ 约束"]
 description = "什么是静态断言，为什么使用静态断言，如何使用静态断言"
 +++
 

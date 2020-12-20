@@ -2,7 +2,7 @@
 title = "The Gay Genius Review"
 date = "2014-04-27"
 slug = "2014/04/27/the-gay-genius-review"
-Categories = ["苏东坡","苏东坡传"]
+tags =["苏东坡","苏东坡传"]
 description = "苏东坡传读后感"
 +++
 

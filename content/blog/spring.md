@@ -2,7 +2,7 @@
 title = "Spring"
 date = "2014-02-20"
 slug = "2014/02/20/spring"
-Categories = ["程序员","春节"]
+tags =["程序员","春节"]
 description = "又过了个年，又长了一岁"
 +++
 

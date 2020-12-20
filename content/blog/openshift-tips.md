@@ -2,7 +2,7 @@
 title = "Openshift Tips"
 date = "2013-10-21"
 slug = "2013/10/21/openshift-tips"
-Categories = ["Openshift热部署"]
+tags =["Openshift热部署"]
 description = "如何热部署Openshift程序"
 +++
 

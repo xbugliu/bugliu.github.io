@@ -2,7 +2,7 @@
 title = "Effective Tools"
 date = "2013-11-17"
 slug = "2013/11/17/effective-tools"
-Categories = ["多粘贴板","xclip","finder","极速搜索"]
+tags =["多粘贴板","xclip","finder","极速搜索"]
 description = "程序员工具箱必备：多粘帖板、快速搜索"
 +++
 

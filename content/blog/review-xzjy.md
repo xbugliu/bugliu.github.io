@@ -2,7 +2,7 @@
 title = "Review Xzjy"
 date = "2014-07-21"
 slug = "2014/07/21/review-xzjy"
-Categories = ["高尔泰 寻找家园 读后感"]
+tags =["高尔泰 寻找家园 读后感"]
 description = "高尔泰 寻找家园 读后感"
 +++
 

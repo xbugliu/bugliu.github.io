@@ -2,7 +2,7 @@
 title = "Read Notes of the Black Swan"
 date = "2013-12-11"
 slug = "2013/12/11/read-notes-of-the-black-swan"
-Categories = ["黑天鹅—如何应对不可知的未来 笔记"]
+tags =["黑天鹅—如何应对不可知的未来 笔记"]
 description = "黑天鹅—如何应对不可知的未来 阅读笔记"
 +++
 

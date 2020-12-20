@@ -2,7 +2,7 @@
 title = "Mac Shuo Review"
 date = "2014-02-23"
 slug = "2014/02/23/mac-shuo-review"
-Categories = ["人生元编程读后感"]
+tags =["人生元编程读后感"]
 description = "人生元编程读后感"
 +++
 

@@ -2,7 +2,7 @@
 title = "Octopress Custom 404"
 date = "2013-08-04"
 slug = "2013/08/04/octopress-custom-404"
-Categories = ["404","公益404","octopress","博客","blog"]
+tags =["404","公益404","octopress","博客","blog"]
 description = "octopress定制公益404页面"
 +++
 一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下子跑到了Github的默认404上，感觉很突兀。所以自己想定制一个404，而现在公益404很流行，举手之劳，何乐不为。

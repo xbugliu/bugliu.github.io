@@ -2,7 +2,7 @@
 title = "Things of Const"
 date = "2013-08-21"
 slug = "2013/08/21/things-of-const"
-Categories = ["C++","const","常量"]
+tags =["C++","const","常量"]
 description = "讲解了C++中的重要的const的历史，用法，用处及使用过程中要注意的地方，最后讲解了一个为了实现逻辑const的技巧"
 +++
 相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ritchie讨论提出了Readonly机制，最初的Readonly机制简单的就是想利用操作系统的能力，提供一种可以使变量是只读的能力。Readonly通过被加进C语言的决议，并命名为const，但可能是标准委员会的官僚导致这项决议迟迟没有执行。后来Bjarne Stroustrup就自己把const加入进C++中（当时还不叫C++），并逐渐演变成现在的样子。

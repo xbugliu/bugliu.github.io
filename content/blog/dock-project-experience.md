@@ -2,7 +2,7 @@
 title = "Dock Project Experience"
 date = "2014-05-03"
 slug = "2014/05/03/dock-project-experience"
-Categories = ["程序人生","总结","工作","Dock"]
+tags =["程序人生","总结","工作","Dock"]
 description = "Dock项目个人总结"
 +++
 

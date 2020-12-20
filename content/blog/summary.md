@@ -2,7 +2,7 @@
 title = "Summary"
 date = "2013-09-15"
 slug = "2013/09/15/summary"
-Categories = ["总结","工作总结"]
+tags =["总结","工作总结"]
 description = "今年换工作后的总结，下一步的打算"
 +++
 > How Time Flies!

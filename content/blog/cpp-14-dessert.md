@@ -2,7 +2,7 @@
 title = "Cpp 14 Dessert"
 date = "2014-08-25"
 slug = "2014/08/25/cpp-14-dessert"
-Categories = ["C++14 范型lambda"]
+tags =["C++14 范型lambda"]
 description = ""
 +++
 

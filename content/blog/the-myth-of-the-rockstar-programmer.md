@@ -2,7 +2,7 @@
 title = "The Myth of the Rockstar Programmer"
 date = "2013-09-30"
 slug = "2013/09/30/the-myth-of-the-rockstar-programmer"
-Categories = ["工作","程序员","效率"]
+tags =["工作","程序员","效率"]
 description = "明星程序员只是个神话"
 +++
 

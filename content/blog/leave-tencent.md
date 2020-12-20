@@ -2,7 +2,8 @@
 title = "Leave Tencent"
 date = "2019-07-29"
 slug = "2019/07/29/leave-tencent"
-Categories = ["腾讯","离职"]
+categories = ["职场"]
+tags = ["腾讯","离职"]
 description = "我为什么从腾讯离职"
 +++
 

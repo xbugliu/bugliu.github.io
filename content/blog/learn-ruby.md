@@ -2,7 +2,7 @@
 title = "Learn Ruby"
 date = "2013-12-26"
 slug = "2013/12/26/learn-ruby"
-Categories = ["C++程序员学Ruby","Ruby学习"]
+tags =["C++程序员学Ruby","Ruby学习"]
 description = "开始学习Ruby"
 +++
 

@@ -2,7 +2,7 @@
 title = "Read Notes of Cpp Standard 1"
 date = "2013-12-18"
 slug = "2013/12/18/read-notes-of-cpp-standard-1"
-Categories = ["《C++标准库》笔记"]
+tags =["《C++标准库》笔记"]
 description = "《C++标准库第二版 上册》笔记"
 +++
 

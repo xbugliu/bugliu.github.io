@@ -2,7 +2,7 @@
 title = "Who Use Stl"
 date = "2014-04-18"
 slug = "2014/04/18/who-use-stl"
-Categories = ["C++","STL"]
+tags =["C++","STL"]
 description = "大家都知道STL，但为什么很少见人用它呢"
 +++
 
