@@ -1,5 +1,5 @@
 +++
-title = "Common Pitfalls in Writing Lock Free Algorithms"
+title = "实现无锁算法的常见陷阱"
 date = "2014-08-18"
 slug = "2014/08/18/common-pitfalls-in-writing-lock-free-algorithms"
 tags =["无锁编程"]

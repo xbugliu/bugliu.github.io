@@ -1,5 +1,5 @@
 +++
-title = "Bjarne Stroustrup Previews C Plus Plus 17"
+title = "Bjarne Stroustrup previews C++ 17"
 date = "2016-03-17"
 slug = "2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17"
 categories = ["翻译"]

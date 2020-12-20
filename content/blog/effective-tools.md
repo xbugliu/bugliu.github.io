@@ -1,5 +1,5 @@
 +++
-title = "Effective Tools"
+title = "Effective Tools - 多粘贴板 && 快速搜索"
 date = "2013-11-17"
 slug = "2013/11/17/effective-tools"
 tags =["多粘贴板","xclip","finder","极速搜索"]

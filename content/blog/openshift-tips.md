@@ -1,5 +1,5 @@
 +++
-title = "Openshift Tips"
+title = "Openshift小技巧-热部署"
 date = "2013-10-21"
 slug = "2013/10/21/openshift-tips"
 tags =["Openshift热部署"]

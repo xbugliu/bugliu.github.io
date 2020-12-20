@@ -1,5 +1,5 @@
 +++
-title = "Edward Chands"
+title = "C++手爱德华"
 date = "2013-09-23"
 slug = "2013/09/23/edward-chands"
 tags =["C++","C++陷阱","C++哲学"]

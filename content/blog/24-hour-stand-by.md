@@ -1,5 +1,5 @@
 +++
-title = "24 Hour Stand By"
+title = "互联网公司“24小时待命”的陋习"
 date = "2014-08-31"
 slug = "2014/08/31/24-hour-stand-by"
 categories = ["职场"]

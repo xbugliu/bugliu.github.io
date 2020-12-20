@@ -1,5 +1,5 @@
 +++
-title = "Windbg Dump Asso"
+title = "Windbg关联dmp文件"
 date = "2014-12-07"
 slug = "2014/12/07/windbg-dump-asso"
 tags =["windbg","dmp"]

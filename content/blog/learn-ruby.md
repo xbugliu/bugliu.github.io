@@ -1,5 +1,5 @@
 +++
-title = "Learn Ruby"
+title = "为什么要学Ruby"
 date = "2013-12-26"
 slug = "2013/12/26/learn-ruby"
 tags =["C++程序员学Ruby","Ruby学习"]

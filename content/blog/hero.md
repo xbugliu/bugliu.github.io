@@ -1,5 +1,5 @@
 +++
-title = "Hero"
+title = "论时势造英雄"
 date = "2019-08-22"
 slug = "2019/08/22/hero"
 tags =["英雄的产生"]

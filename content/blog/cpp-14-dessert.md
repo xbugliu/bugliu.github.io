@@ -1,5 +1,5 @@
 +++
-title = "Cpp 14 Dessert"
+title = "C++14-大餐后的甜点"
 date = "2014-08-25"
 slug = "2014/08/25/cpp-14-dessert"
 tags =["C++14 范型lambda"]

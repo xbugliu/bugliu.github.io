@@ -1,5 +1,5 @@
 +++
-title = "Mutexs Owned by Process"
+title = "获取进程打开的互斥量"
 date = "2013-07-25"
 slug = "2013/07/25/mutexs-owned-by-process"
 tags =["mutex","handle","process","互斥量","内核对象","句柄","线程"]

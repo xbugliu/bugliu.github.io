@@ -1,5 +1,5 @@
 +++
-title = "Read Notes of the Black Swan"
+title = "《黑天鹅—如何应对不可知的未来》读书笔记"
 date = "2013-12-11"
 slug = "2013/12/11/read-notes-of-the-black-swan"
 tags =["黑天鹅—如何应对不可知的未来 笔记"]

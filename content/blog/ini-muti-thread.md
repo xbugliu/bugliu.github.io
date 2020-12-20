@@ -1,5 +1,5 @@
 +++
-title = "Ini Muti Thread"
+title = "Windows提供的INI接口不是线程安全的"
 date = "2013-12-17"
 slug = "2013/12/17/ini-muti-thread"
 tags =["writeprivateprofilestring 线程安全","writeprivateprofilestring 多线程","INI 多线程"]

@@ -1,5 +1,5 @@
 +++
-title = "A Doggerel of Seven Years Ago"
+title = "七年前作的一首打油诗"
 date = "2013-08-17"
 slug = "2013/08/17/a-doggerel-of-seven-years-ago"
 categories = ["学生时代"]

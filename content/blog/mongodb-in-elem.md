@@ -1,5 +1,5 @@
 +++
-title = "Mongodb in Elem"
+title = "MongoDB中的$in和$elemMatch"
 date = "2015-01-14"
 slug = "2015/01/14/mongodb-in-elem"
 tags =["MongoDB 数组查询"]

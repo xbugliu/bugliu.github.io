@@ -1,5 +1,5 @@
 +++
-title = "The Myth of the Rockstar Programmer"
+title = "神级程序员的神话"
 date = "2013-09-30"
 slug = "2013/09/30/the-myth-of-the-rockstar-programmer"
 tags =["工作","程序员","效率"]

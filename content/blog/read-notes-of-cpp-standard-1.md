@@ -1,5 +1,5 @@
 +++
-title = "Read Notes of Cpp Standard 1"
+title = "《C++标准库第二版 上册》笔记"
 date = "2013-12-18"
 slug = "2013/12/18/read-notes-of-cpp-standard-1"
 tags =["《C++标准库》笔记"]

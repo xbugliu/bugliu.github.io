@@ -1,5 +1,5 @@
 +++
-title = "Octopress Custom 404"
+title = "octopress定制公益404页面"
 date = "2013-08-04"
 slug = "2013/08/04/octopress-custom-404"
 tags =["404","公益404","octopress","博客","blog"]
@@ -48,7 +48,7 @@ PAGES_INCLUDE_POSTS = ["index.html"]
 我选择的是[腾讯公益404][2]，进入这个[网站][2]拷贝其提供的JS代码，只需将其嵌入到我们的404页面(404.html)即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：
 ```bash
 +++
-title = "Octopress Custom 404"
+title = "octopress定制公益404页面"
 header: false
 date = "2013-08-04"
 slug = "2013/08/04/octopress-custom-404"

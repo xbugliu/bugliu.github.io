@@ -1,5 +1,5 @@
 +++
-title = "Shop Class as Soulcraft Notes"
+title = "读《摩托车修理店的未来工作哲学》"
 date = "2014-10-26"
 slug = "2014/10/26/shop-class-as-soulcraft-notes"
 tags =["工作的意义","摩托车修理店的未来工作哲学"]

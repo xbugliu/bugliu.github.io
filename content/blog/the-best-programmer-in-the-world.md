@@ -1,5 +1,5 @@
 +++
-title = "The Best Programmer in the World"
+title = "世界上最杰出的程序员是获得最大快乐的那个人"
 date = "2013-09-22"
 slug = "2013/09/22/the-best-programmer-in-the-world"
 tags =["程序员","快乐"]

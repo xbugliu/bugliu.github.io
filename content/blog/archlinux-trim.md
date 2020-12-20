@@ -1,5 +1,5 @@
 +++
-title = "Archlinux Trim"
+title = "Linux下开启TRIM"
 date = "2014-06-28"
 slug = "2014/06/28/archlinux-trim"
 categories = ["Linux"]

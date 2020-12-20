@@ -1,5 +1,5 @@
 +++
-title = "Read Notes Hacker and Painters"
+title = "《黑客与画家》阅读笔记"
 date = "2013-08-25"
 slug = "2013/08/25/read-notes-hacker-and-painters"
 tags =["黑客与画家","笔记"]

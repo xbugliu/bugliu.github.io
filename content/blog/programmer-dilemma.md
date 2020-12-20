@@ -1,5 +1,5 @@
 +++
-title = "Programmer Dilemma"
+title = "程序员的困境"
 date = "2013-08-16"
 slug = "2013/08/16/programmer-dilemma"
 tags =["程序员","困境","自我学习","进步"]

@@ -1,5 +1,5 @@
 +++
-title = "Improved Type Inference in Cpp11"
+title = "C++11系列-改进的类型推导：auto、decltype和新的函数语法"
 date = "2013-08-08"
 slug = "2013/08/08/improved-type-inference-in-cpp11"
 tags =["C++11","C++","auto","decltype","类型推导","自动类型"]

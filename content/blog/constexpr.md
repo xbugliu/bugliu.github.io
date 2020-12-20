@@ -1,5 +1,5 @@
 +++
-title = "Constexpr"
+title = "C++11系列-常量表达式"
 date = "2013-09-17"
 slug = "2013/09/17/constexpr"
 tags =["C++11","constexpr","常量表达式"]

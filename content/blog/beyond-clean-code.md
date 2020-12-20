@@ -1,5 +1,5 @@
 +++
-title = "Beyond Clean Code"
+title = "整洁代码之上"
 date = "2013-12-03"
 slug = "2013/12/03/beyond-clean-code"
 categories = ["翻译"]

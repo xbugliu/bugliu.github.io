@@ -1,5 +1,5 @@
 +++
-title = "Api Design for C Plus Plus Notes"
+title = "C++API设计 - 笔记"
 date = "2014-11-15"
 slug = "2014/11/15/api-design-for-c-plus-plus-notes"
 categories = ["阅读"]

@@ -1,5 +1,5 @@
 +++
-title = "Mac Shuo Review"
+title = "读：人生元编程"
 date = "2014-02-23"
 slug = "2014/02/23/mac-shuo-review"
 tags =["人生元编程读后感"]

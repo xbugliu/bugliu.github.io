@@ -1,5 +1,5 @@
 +++
-title = "Windbg Memory Leak"
+title = "Windbg定位内存泄露的一种简单方法"
 date = "2014-11-22"
 slug = "2014/11/22/windbg-memory-leak"
 tags =["windgb","内存泄露","tadb"]

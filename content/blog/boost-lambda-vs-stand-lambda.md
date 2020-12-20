@@ -1,5 +1,5 @@
 +++
-title = "Boost Lambda vs Stand Lambda"
+title = "Boost.Lambda与C++11.Lambda的用法对比"
 date = "2013-12-13"
 slug = "2013/12/13/boost-lambda-vs-stand-lambda"
 categories = ["开发"]

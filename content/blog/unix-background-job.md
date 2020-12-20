@@ -1,5 +1,5 @@
 +++
-title = "Unix Background Job"
+title = "Bg,Fg,&,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务"
 date = "2013-08-03"
 slug = "2013/08/03/unix-background-job"
 tags =["linux","backgroud","process","job","后台任务"]

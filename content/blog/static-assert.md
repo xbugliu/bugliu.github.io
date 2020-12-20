@@ -1,5 +1,5 @@
 +++
-title = "Static Assert"
+title = "C++中的静态断言"
 date = "2013-12-10"
 slug = "2013/12/10/static-assert"
 tags =["C++ 静态断言","C++ Static Assert","C++ static_assert","C++ 约束"]

@@ -1,5 +1,5 @@
 +++
-title = "This Pointer"
+title = "熟悉的陌生人-this指针(1)"
 date = "2013-09-01"
 slug = "2013/09/01/this-pointer"
 tags =["C++","this","this指针","thunk"]

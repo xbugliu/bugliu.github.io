@@ -1,5 +1,5 @@
 +++
-title = "Why I Quit Ths Job"
+title = "我为什么从同花顺离职"
 date = "2013-12-16"
 slug = "2013/12/16/why-i-quit-ths-job"
 tags =["我为什么从同花顺离职","你为什么从同花顺离职"]

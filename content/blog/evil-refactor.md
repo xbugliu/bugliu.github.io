@@ -1,5 +1,5 @@
 +++
-title = "Evil Refactor"
+title = "关于重构的一些想法"
 date = "2014-07-08"
 slug = "2014/07/08/evil-refactor"
 tags =["重构","项目管理","代码整洁"]

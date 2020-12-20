@@ -1,5 +1,5 @@
 +++
-title = "2013 Review"
+title = "2013年（下半年）个人总结"
 date = "2014-01-01"
 slug = "2014/01/01/2013-review"
 categories = ["职场"]

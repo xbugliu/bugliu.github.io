@@ -1,5 +1,5 @@
 +++
-title = "Things of Const"
+title = "const 二三事"
 date = "2013-08-21"
 slug = "2013/08/21/things-of-const"
 tags =["C++","const","常量"]

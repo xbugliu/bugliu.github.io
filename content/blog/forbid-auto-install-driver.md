@@ -1,5 +1,5 @@
 +++
-title = "Forbid Auto Install Driver"
+title = "暴力禁止windows自动安装驱动"
 date = "2013-08-03"
 slug = "2013/08/03/forbid-auto-install-driver"
 tags =["windows","driver","驱动"]

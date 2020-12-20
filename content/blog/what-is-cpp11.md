@@ -1,5 +1,5 @@
 +++
-title = "What Is Cpp11"
+title = "C++11系列-什么是C++11"
 date = "2013-08-01"
 slug = "2013/08/01/what-is-cpp11"
 tags =["C++11"]

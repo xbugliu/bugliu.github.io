@@ -1,5 +1,5 @@
 +++
-title = "Review Xzjy"
+title = "读《寻找家园》"
 date = "2014-07-21"
 slug = "2014/07/21/review-xzjy"
 tags =["高尔泰 寻找家园 读后感"]

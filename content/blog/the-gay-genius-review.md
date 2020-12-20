@@ -1,5 +1,5 @@
 +++
-title = "The Gay Genius Review"
+title = "读《苏东坡传》"
 date = "2014-04-27"
 slug = "2014/04/27/the-gay-genius-review"
 tags =["苏东坡","苏东坡传"]

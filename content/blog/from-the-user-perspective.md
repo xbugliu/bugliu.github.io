@@ -1,5 +1,5 @@
 +++
-title = "From the User Perspective"
+title = "驳‘做产品必须站在用户的角度考虑’"
 date = "2013-11-06"
 slug = "2013/11/06/from-the-user-perspective"
 tags =["产品","用户角度"]

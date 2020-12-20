@@ -1,5 +1,5 @@
 +++
-title = "Lambda Closures"
+title = "C++11系列-lambda函数"
 date = "2013-08-11"
 slug = "2013/08/11/lambda-closures"
 tags =["C++","C++11","lambda","匿名函数","闭包"]

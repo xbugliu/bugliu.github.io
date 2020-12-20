@@ -1,5 +1,5 @@
 +++
-title = "Book Review Surely You Are Joking Mr Feynman"
+title = "人生本应丰富多彩：《别逗了,费曼先生》读后感"
 date = "2013-08-12"
 slug = "2013/08/12/book-review-surely-you-are-joking-mr-feynman"
 tags =["费曼","Stackoverflow","读后感"]

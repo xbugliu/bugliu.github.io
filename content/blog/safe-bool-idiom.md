@@ -1,5 +1,5 @@
 +++
-title = "Safe Bool Idiom"
+title = "从Safe bool惯用法到explicit标识符"
 date = "2013-11-01"
 slug = "2013/11/01/safe-bool-idiom"
 tags =["C++惯用法safe bool与C++11中的显式操作符"]
