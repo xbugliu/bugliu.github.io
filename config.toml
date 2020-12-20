@@ -1,6 +1,6 @@
 baseURL = "http://towriting.com"
 languageCode = "zh-CN"
-defaultContentLanguage = "zh-CN"                           
+defaultContentLanguage = "zh-cn"                           
 title = "书写|记下人生痕迹"
 
 preserveTaxonomyNames = true
@@ -38,17 +38,17 @@ copyright = "bugliu 2020"            # default: author.name ↓        # 默认�
   name = "Archives"
   weight = 20
   identifier = "archives"
-  url = "/post/"
+  url = "/blog/"
 [[menu.main]]
   name = "Tags"
   weight = 30
   identifier = "tags"
   url = "/tags/"
-[[menu.mai
-  name = "Categories"
+[[menu.main]]
+  name = "About"
   weight = 40
-  identifier = "categories"
-  url = "/categories/"
+  identifier = "about"
+  url = "/about/"
 
 [params]
   version = "4.x"           # Used to give a friendly message when you have an incompatible update
