@@ -21,6 +21,9 @@ disqusShortname = ""      # disqus_shortname
 googleAnalytics = "UA-42601840-1"      # UA-XXXXXXXX-X
 copyright = "bugliu 2020"            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
+[permalinks]
+post = "/blog/:year/:month/:filename/"
+
 [author]                  # essential                     # 必需
   name = "bugliu"
 
