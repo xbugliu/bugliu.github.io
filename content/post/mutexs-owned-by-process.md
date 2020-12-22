@@ -9,16 +9,16 @@ description = "获取指定进程打开的互斥量的一种方法,也适用于�
 
     1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
 通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：
-{% codeblock lang:cpp %}
+```cpp
 typedef struct _SYSTEM_HANDLE_INFORMATION
 {
 	ULONG HandleCount; 
 	SYSTEM_HANDLE_TABLE_ENTRY_INFO Handles[1];
 } SYSTEM_HANDLE_INFORMATION, *PSYSTEM_HANDLE_INFORMATION;
-{% endcodeblock%}
+```
 
 其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构
-{% codeblock lang:cpp %}
+```cpp
 typedef struct _SYSTEM_HANDLE_TABLE_ENTRY_INFO
 {
 	ULONG ProcessId;
@@ -28,14 +28,14 @@ typedef struct _SYSTEM_HANDLE_TABLE_ENTRY_INFO
 	PVOID Object;
 	ACCESS_MASK GrantedAccess;
 } SYSTEM_HANDLE_TABLE_ENTRY_INFO, *PSYSTEM_HANDLE_TABLE_ENTRY_INFO;
-{% endcodeblock%}
+```
 
     2. 将句柄复制到当前进程
 想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。
 
     3. 获取句柄的类型信息
 由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：
-{% codeblock lang:cpp %}
+```cpp
 typedef struct _OBJECT_TYPE_INFORMATION
 {
 	UNICODE_STRING TypeName;
@@ -60,7 +60,7 @@ typedef struct _OBJECT_TYPE_INFORMATION
 	ULONG DefaultPagedPoolCharge;
 	ULONG DefaultNonPagedPoolCharge;
 } OBJECT_TYPE_INFORMATION, *POBJECT_TYPE_INFORMATION;
-{% endcodeblock%}
+```
 其中第一个成员TypeName即是句柄类型的类型名
 <!--more-->
 

@@ -9,13 +9,14 @@ categories = ["开发"]
 
 前两天接到一个反映进程内存占用过G的投诉。问题是必現的，一定是内存泄露，应该容易定位，一同事远程看过现场，使用gflags和windbg试图找到泄露的堆栈，同事是一步步按照[这篇文章的方法][1]来的，但在最后一步Windbg没有找到出问题的堆栈，用户给我们远程的时间很短，无法深究gflags+windbg不灵验的原因，只得另辟蹊径。
 
-##步骤如下：
+## 步骤如下：
 
 ### 0. 安装windbg, 设置symbols, 用windbg attach到发生内存泄露的进程
 
 ### 1. 打印出heap的使用情况
 
-{% codeblock lang:bash %}
+```bash
+
 0:003> !heap -s
 LFH Key : 0x7ce97b7b
 LFH Key : 0x7ce97b7b
@@ -32,7 +33,8 @@ Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast
 01db0000 00001002 64      12      64     2     3       1      0     0 
 021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH
 00810000 00001002 64      12      64     2     3       1      0     0 
-{% endcodeblock%}
+
+```
 
 很明显这一行：**021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH**是有异常的。
 
@@ -125,7 +127,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 
 ### 4. 最后甄别CallStack是否真正的发生内存泄露
 
-##总结
+## 总结
 
 此方法适宜，泄露亦重现，且泄露的size固定的情况
 

@@ -14,7 +14,7 @@ categories = ["翻译"]
 
 线程同步是多线程程序设计的核心，传统的做法上就是代码临界区上加锁。锁可以防止多个线程同一时间进入临界区代码。在高度并发的程序里，锁可能成为严重的性能瓶颈。无锁编程的目标是不用锁也能解决并发问题。无锁编程一般依赖的是原子操作，比如“compare-and-swap”[^1]原子的执行下面的操作：
 
-{% codeblock lang:cpp %}
+```cpp
 1 bool CompareAndSwap(Value* addr, Value oldVal, Value newVal){
 2     if(*addr == oldVal){
 3         *addr = newVal;
@@ -23,7 +23,7 @@ categories = ["翻译"]
 6         return false;
 7     }
 8 }
-{% endcodeblock%}
+```
 
 使用无锁算法的最大缺陷是：
 
@@ -36,7 +36,7 @@ categories = ["翻译"]
 
 C++代码如下： 
 
-{% codeblock lang:cpp %}
+```cpp
 
  1 template <class Entry>
  2 class LockFreeStack{
@@ -71,7 +71,7 @@ C++代码如下：
 31     }
 32 }
 
-{% endcodeblock%}
+```
 
 遗憾的是，这个无锁栈充满的错误：
 
@@ -165,18 +165,18 @@ C++11为原子操作提供了一种新的内存模型和内存序语义，以解
 看起来无锁更好？等等，锁一样可以达到好的性能，我们不用std::mutex，我们使用Sleep(250)的自旋锁：
 {% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart2.svg %}
 
-##结果
+## 结果
 大量数据时，额外的线程会降低吞吐量。Sleep可以降低操作冲突，增加吞吐量的同时减小处理器消耗。3个线程以上的性能没有变化。单线程是性能最佳的。
 
-##结论
+## 结论
 无锁不会阻碍进度，但也并不会提高效率。当你想在你的项目中使用无锁算法时，切记要衡量值不值的-性能还有复杂度。
 
 
-##代码
+## 代码
 
 加锁的：
 
-{% codeblock lang:cpp %}
+```cpp
  1 #include <mutex>
  2 #include <stack>
  3 
@@ -205,12 +205,12 @@ C++11为原子操作提供了一种新的内存模型和内存序语义，以解
 26     std::stack<T*> m_stack;
 27     std::mutex m_mutex;
 28 };
-{% endcodeblock%}
+```
 
 Lock-Free的：
 (垃圾收集相关的代码没贴出来）
 
-{% codeblock lang:cpp %}
+```cpp
  1 class LockFreeStack{
  2 public:
  3     // The elements we wish to store should inherit Node
@@ -307,7 +307,7 @@ Lock-Free的：
 94     boost::atomic<Node*> m_hazard[MAX_THREADS*8];
 95 };
 
-{% endcodeblock%}
+```
 
 [1]:http://blog.memsql.com/common-pitfalls-in-writing-lock-free-algorithms/
 [2]:http://software.intel.com/en-us/blogs/2007/11/30/volatile-almost-useless-for-multi-threaded-programming

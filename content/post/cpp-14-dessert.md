@@ -20,39 +20,39 @@ categories = ["开发"]
 
 在C++11下，如果你想要打印出一个数的平方，可能需要这样：
 
-{% codeblock lang:cpp %}
+```cpp
 auto square_int = [](int x) { return x * x; };
 auto square_double = [](double x) { return x * x; };
 
 std::cout<<square_int(10)<<std::endl;
 std::cout<<square_int(10.1)<<std::endl;
 
-{% endcodeblock%}
+```
 
 为了保持函数的局部性，我们才选择的lambda，但C++11的lambda却导致多个类型时代码膨胀且重复，此时我们需要回过头来借助全局的模板了。
 
 但C++14可以完美的解决上面的问题，因为C++14中lambda的参数可以用auto代替具体的类型：
 
-{% codeblock lang:cpp %}
+```cpp
 auto square = [](auto x) { return x * x; };
 
 std::cout<<square_int(10)<<std::endl;
 std::cout<<square_int(10.1)<<std::endl;
 
-{% endcodeblock%}
+```
 
 **auto返回类型**
 
 C++11支持auto关键字，用于变量的自动类型推导。但由于时间限制，C++标准委员会并没有让auto也支持函数的返回值类型自动推导，现在C++14支持了。这将会在返回类内部类型的成员函数书写上减少好多工作量：
 
-{% codeblock lang:cpp %}
+```cpp
 struct Wiget 
 {
   enum Status{show, hide}
   auto getStatus(); 
 };
 auto Wiget::getStatus() { return show; }
-{% endcodeblock%}
+```
 
 
 
