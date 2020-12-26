@@ -1,0 +1,29 @@
+digraph  {
+	            node [color=Red,fontname=Courier,shape=box];
+	            "myapp.apk" -> "libmysdk.so";
+                "libmysdk.so" -> OPENSSL[label="link with"];
+                "libmysdk.so" -> BORINGSSL[label="run with"];
+
+                subgraph cluster_level2 {
+                	label="pre android 6.0";
+
+                	OPENSSL [label ="openssl"];
+                	OPENSSL -> S1;
+                	OPENSSL -> C1;
+                	S1 [label="libssl.so"];
+                	C1 [label="libcrypto.so"];
+                }
+
+                subgraph cluster_level3 {
+                	label="android 6.0";
+                	BORINGSSL [label ="boringssl"];
+                	BORINGSSL -> S2;
+                	BORINGSSL -> C2;
+                    S2 [label="libssl.so"];
+                	C2 [label="libcrypto.so"];
+                }
+
+                BORINGSSL -> OPENSSL [label="不兼容的分支"];
+
+
+        }
