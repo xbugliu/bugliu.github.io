@@ -20,7 +20,7 @@ categories = ["开发"]
 此软件的定位是代替Windows系统粘帖版功能，我们知道Windows系统的粘帖板只能保存最后一个拷贝或剪切的内容，但这对于我们程序员来说是远远不够的，我们每天有大量的Ctrl+C\Ctrl+V操作，这款软件就是为程序员而生的，Clipx可以保存多个历史剪切\复制的内容（格式不限：文本、文件、图片等），并可以快速的选择粘贴：
 
 
-{% img /images/posts/effective-tools/clipx.jpg  %}
+![image](/images/posts/effective-tools/clipx.jpg)
 
 
 **Linux下也有类似软件，不过感觉不太好用：Glipper。**

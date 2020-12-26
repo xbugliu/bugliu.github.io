@@ -9,7 +9,7 @@ categories = ["开发"]
 
 最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：
 
-{% img /images/posts/windbg-dump-asso/windbg_dmp.png  %}
+![image](/images/posts/windbg-dump-asso/windbg_dmp.png )
 
 我设置了三种打开方式：
 

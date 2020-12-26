@@ -174,6 +174,7 @@ auto p_bar = const_foo(); // const int*
 上一篇：[什么是C++11][1]
 
 译者：[toWriting.com](/)；翻译自：[C++11 - Auto, Decltype and return values after functions - Cprogramming.com][2]
+
  [1]:/blog/2013/08/01/what-is-cpp11/
  [2]:http://www.cprogramming.com/c++11/c++11-auto-decltype-return-value-after-function.html
  [3]:/blog/2013/08/11/lambda-closures/

@@ -30,4 +30,4 @@ QQ: NTMyNDY5Mjc4=
 
 ### 勉励自己的格言
 
-{% img /images/favourite_quote.png 君子博学而日参省乎己，则志明而行无过矣 %}
+![image](/images/posts/about/favourite_quote.png "君子博学而日参省乎己，则志明而行无过矣")

@@ -21,8 +21,11 @@ description = "程序员跳槽可以增长见识"
 
 我与他工作年限相仿，技术起点一致，唯一不同的是，我离开了那家公司，所以**有机会学到或接触更多的技术知识，这可能就是跳槽的好处**。
 
+<!-- {{% center %}}
+![image](/images/posts/job-hopping/brid.jpg '良禽择木而栖' )
+{{% /center %}} -->
+
 简单梳理一下两次跳槽期间的收获，第一次：
-{% img pull-right /images/posts/job-hopping/brid.jpg '良禽择木而栖'%}
 
 * 正规的软件开发流程
 * Bug跟踪系统

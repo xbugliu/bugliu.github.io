@@ -101,7 +101,9 @@ C++标准并不保证new和delete是lock-free的。一个无锁的数据结构�
 ### Memory reordering
 印象中，代码会按照我们指定的顺序执行，最少也会满足”[happens before][3]“关系。不幸的是，不管理论还是实际上，下面代码的执行可能出现x,y都是0的结果。:
 
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/memory-reordering.png %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/memory-reordering.png)
+{{% /center %}}
 
 C++11以前标准对于多线程是讳莫如深的，所以编译器的优化是着眼于单线程的。上面的代码，交换执行顺序，并不会影响单线程中程序的语义。所以可能会产生这种结果。
 
@@ -139,31 +141,41 @@ C++11为原子操作提供了一种新的内存模型和内存序语义，以解
 ##性能
 到现在我们解决了所有的问题。让我们看一下性能。测试使用的是一台8核Intel(R) Xeon(R) 处理器。每个线程的工作是随机的执行数量几乎相等的Push和Pop操作。每个线程不加限制的执行机器可以处理的操作。
 
-
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart.svg %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart.svg)
+{{% /center %}}
 
 我们修改栈顶的次数越多，CompareAndSwap失败的次数也会越多。一个简单有效的减少失败的方法是失败后Sleep一下，这可以调节Stack可以高效的处理数据。下面是每次失败后Sleep(250)的数据：
 
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart1.svg %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart1.svg)
+{{% /center %}}
 
 太好了，增加Sleep后栈的吞吐量增加了7倍。并且Sleep减少的处理器的消耗。让我们看一下处理器的使用情况：
 
 加锁的栈：
 
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_mutex.png %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_mutex.png)
+{{% /center %}}
 
 无锁的栈，不加Sleep:
 
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_lockfree.png %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_lockfree.png )
+{{% /center %}}
 
 无锁的栈，Sleep(250):
 
-
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_usleep.png %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/htop_usleep.png )
+{{% /center %}}
 
 
 看起来无锁更好？等等，锁一样可以达到好的性能，我们不用std::mutex，我们使用Sleep(250)的自旋锁：
-{% img pull-right /images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart2.svg %}
+{{% center %}}
+![image](/images/posts/common-pitfalls-in-writing-lock-free-algorithms/chart2.svg )
+{{% /center %}}
 
 ## 结果
 大量数据时，额外的线程会降低吞吐量。Sleep可以降低操作冲突，增加吞吐量的同时减小处理器消耗。3个线程以上的性能没有变化。单线程是性能最佳的。

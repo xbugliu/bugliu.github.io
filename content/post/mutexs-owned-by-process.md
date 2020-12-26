@@ -62,7 +62,6 @@ typedef struct _OBJECT_TYPE_INFORMATION
 } OBJECT_TYPE_INFORMATION, *POBJECT_TYPE_INFORMATION;
 ```
 其中第一个成员TypeName即是句柄类型的类型名
-<!--more-->
 
     4. 获取句柄的名字
 调用函数NtQueryObject，指定获取ObjectNameInformation即可获取句柄的类型信息，获取到的句柄的名字数据结构是UNICODE_STRING类型。
@@ -70,7 +69,7 @@ typedef struct _OBJECT_TYPE_INFORMATION
     5. 找到当前进程占有的互斥量
 由获取的句柄的类型信息和句柄所在的进程ID，即可找到当前进程拥有的互斥量，同时我们也得到了互斥量的名字。
 
-###完整代码如下：
+### 完整代码如下：
 <pre><code>
 #include "stdafx.h"
 #include &lt;functional&gt;

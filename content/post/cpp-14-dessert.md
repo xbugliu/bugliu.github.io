@@ -9,7 +9,9 @@ categories = ["开发"]
 
 这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改动较小有关，C++之父Bjarne Stroustrup也说，相比与C++11来说，C++14的改动是[谨小甚微的][1]。相信C++14不会给我们带来像C++11那样的震撼，所以我们只能期待下一个版本C++17了。
 
-{% img pull-right /images/posts/cpp-14-dessert/wg21-timeline.png %}
+{{% center %}}
+![image](/images/posts/cpp-14-dessert/wg21-timeline.png)
+{{% /center %}}
 
 
 但Bjarne还说了，C++永远是心向开发者的，C++14将给开发者大开方面之门。关于C++14更详细的细节可以看维基百科:[C++14][2],这里讲下自己感兴趣的特性：

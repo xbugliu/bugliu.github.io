@@ -7,7 +7,7 @@ tags =["整洁代码","价值代码"]
 description = "整洁代码 VS 价值代码"
 +++
 
-##什么是整洁代码（What Is Clean Code）
+## 什么是整洁代码（What Is Clean Code）
 当你拿这个问题问不同的人，或采用不同的语气，你可能会得到不同的答案。但通常无外乎这些评判标准：
 
  * 自解释的命名
@@ -24,14 +24,14 @@ description = "整洁代码 VS 价值代码"
  
 不一而足，当然你也有自己评判整洁代码的标尺...
 
-##如何写出整洁的代码(How To Write Clean Code)
+## 如何写出整洁的代码(How To Write Clean Code)
 这是经久不衰的热议话题。我认为下面这幅画可以精辟地诠释如何写出整洁的代码：
 
-{% img /images/posts/beyond-clean-code/towriting.png  %}
+![image](/images/posts/beyond-clean-code/towriting.png )
 
 当然这有一点无厘头，但这是真的。大部分程序员没有写出整洁代码的时间。就此我们无可奈何！
 
-##切换视角（Change The Premise)
+## 切换视角（Change The Premise)
 我打算在这说点可能稍具争议、离经叛道的想法：
 
 > 这里只有两种代码。一种具有商业价值，另一种没有！
@@ -50,7 +50,7 @@ description = "整洁代码 VS 价值代码"
 
 所以，怎样才能专注于商业价值呢？
 
-##DIRTI方法（The DIRTI Method)
+## DIRTI方法（The DIRTI Method)
 我靠写DIRTI[^1]的代码来使代码专注于商业价值:
 
  1. **Develop** - 为解决某个（商业）问题而快速开发（Develop)出哪怕很烂的代码。不要担心代码格式、抽象及其他任何问题。就是要完成它。
@@ -67,7 +67,7 @@ description = "整洁代码 VS 价值代码"
 
 当你最终明白方案之前，你将一遍遍的开发，分离，重构。而一旦顿悟以后，你将花费更多的时间到下一阶段（重构，测试，集成）。
 
-##为什么这有效（Why This Works)
+## 为什么这有效（Why This Works)
 为什么我坐在这里给你讲DIRTI方法？因为它行之有效。DIRTI方法确实会帮助你知道你要写的代码。它会帮助你指出要解决的问题。
 
 更重要的是，它为你能做出英明决断提供力量和武器。你一定记得，具有商业价值的代码是好的代码。所以当你离开开发阶段，你的代码已经具有了商业价值，因为它已经可以解决最初要解决的问题。
@@ -88,5 +88,6 @@ description = "整洁代码 VS 价值代码"
 图片来自：[如何写出好代码][1]
 
 [^1]: 发音同Dirty
+
 [1]: http://www.aqee.net/how-to-write-good-code/
 [2]: http://blog.ircmaxell.com/2013/11/beyond-clean-code.html

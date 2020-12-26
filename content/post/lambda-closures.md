@@ -6,10 +6,10 @@ categories = ["翻译"]
 tags =["C++","C++11","lambda","匿名函数","闭包"]
 description = "C++11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项"
 +++
-{% img pull-left /images/posts/lambda-closures/lambda.png 66 90 'lambda'%}
+![image](/images/posts/lambda-closures/lambda.png 'lambda')
 C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数（通常也会传递给另外的函数，类似于仿函数或函数指针）。使用Lambda，创建机动函数会更简单，而以前你必须创建一个有名函数。在这篇文章中，我先用一些例子解释为什么lambda很酷，然后我会讲解可能会用到的关于lambda的所有细节。
 
-##为什么Lambda很酷
+## 为什么Lambda很酷
 想象你有一个地址簿类，并且你想要提供一个可供检索的函数。你可能会提供一个简单的函数，接受一个字符串然后返回满足所有字符串的地址。有时有些用户可能希望这样。不过假如他们只是想检索域名或者检索用户名并且忽略域名结果；或者检索出现在其他列表中的所有Email地址。这里可能有许多可能的检索方式。除了类中集成所有这些搜索选项，提供一个通用的查找方法，这个方法接受一个查找规则的函数，这样不是更好些吗？让我们叫这个函数findMatchingAddresses，它接受一个函数或仿函数对象。
 ```cpp
 #include <string>
@@ -311,6 +311,7 @@ lambda函数会不会出现在C++代码的各种地方？我觉得会。我开�
 上一篇：[如何用auto、decltype和新的函数语法编写更好的代码][1]
 
 译者：[toWriting.com](/)；翻译自：[C++11 - Lambda Closures, the Definitive Guide - Cprogramming.com][2]
+
  [1]:/blog/2013/08/08/improved-type-inference-in-cpp11/
  [2]:http://www.cprogramming.com/c++11/c++11-lambda-closures.html
  [3]:/blog/2013/08/20/ranged-for-loop/

@@ -10,7 +10,7 @@ description = "讲解了C++中的重要的const的历史，用法，用处及使
 
 窃以为尽一切可能的使用const是任何一个合格的C++程序员应该遵守的事情，就像开车要系安全带一样。但好像人们并不喜欢用const，在我有限的C++编程生涯中，我接触到的有意识的会尽量用const的，除了我好像只有一人。不喜欢用const的结果同样可能会和开车不系安全带是一样的，希望你不会出事！
 
-##const的作用
+## const的作用
  * 避免魔数
 
 ```cpp
@@ -74,7 +74,8 @@ int getMaxVal()
 ```
 
 如果不用const，例子里拼写错误导致的bug只能留待自测、QA或用户来发现了，如果maxVal是const，那编译器不会让你通过的，这样const帮助我们将这种错误绞杀于萌芽。
-##两种const
+
+## 两种const
 * 物理const
 
 物理const是Bjarne Stroustrup最初想要实现的Readonly。目的是把POD类型的变量存储进只读存储区，比如：
@@ -110,7 +111,7 @@ str1.push_back("!"); //无法调用非const成员函数
 ```
 const的对象只能调用const版的成员函数。例子中的str1调用了非const函数push_back会引起编译错误，因为const对象不应该改变对象的“值"。
 
-##鲜为人知的特性
+## 鲜为人知的特性
  * 内部链接
  
 大家知道全局变量的定义必须是唯一的，但const修饰的变量具有内部链接的属性，比如有两个编译单元文件test_const_one.cpp和test_const_ohter.cpp分别定义了全局变量g_var：
@@ -132,8 +133,9 @@ int testconst
 
 ```
 但编译是没有问题的，因为g_var只在本编译单元可见
-```cpp
-towriting.com@debian:~/workspace/snippets/cpp$g++ test_const_one.cpp test_const_other.cpp
+
+```bash
+debian:~/workspace/snippets/cpp$g++ test_const_one.cpp test_const_other.cpp
 ``` 
 
  * 影响虚函数的覆盖

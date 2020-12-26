@@ -11,7 +11,9 @@ categories = ["博客"]
 
 ##C++大牛的博客
 
-{% img pull-right /images/posts/cpp-blogs/BjarneStroustrup.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/BjarneStroustrup.jpg)
+{{% /center %}}
 
 * **Bjarne Stroustrup的博客**: [Bjarne Stroustrup's Homepage][10]
 
@@ -20,7 +22,9 @@ Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/ScottMeyers.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/ScottMeyers.jpg)
+{{% /center %}}
 
 * **Scott Meyers的博客**: [The View from Aristeia][15]
 
@@ -30,22 +34,27 @@ Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道�
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/stan_lippman.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/stan_lippman.jpg)
+{{% /center %}}
 
 * **Stanley B.Lippman的博客**: [Stan Lippman's BLog][17]
 
 Lippman，C++第一个编译器[Cfront][30]的实现者，最大的贡献是凭借其著作{% aproduct B00ESUIL0O*C++ Primer%}在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书{% aproduct B006QXQXTM*Inside The C++ Object Model%}让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。
 
 
-
-{% img pull-right /images/posts/cpp-blogs/HerbSutter.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/HerbSutter.jpg)
+{{% /center %}}
 
 * **Herb Sutter的博客**: [Sutter’s Mill: Herb Sutter on software, hardware, and concurrency][3]
 
 Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：{% aproduct B008CGKUBS*Exceptional C++*B004IUISIO*More Exceptional C++*B00114BFTO*Exceptional C++ Style%}, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/AndreiAlexandrescu.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/AndreiAlexandrescu.jpg)
+{{% /center %}}
 
 * **Andrei Alexandrescu的博客**: [Official website of Andrei Alexandrescu][18]
 
@@ -54,7 +63,10 @@ Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% apr
 <br/>
 <br/>
 <br/>
-{% img pull-right /images/posts/cpp-blogs/dave_abrahams.jpg 120 150%}
+
+{{% center %}}
+![image](/images/posts/cpp-blogs/dave_abrahams.jpg)
+{{% /center %}}
 
 * **David Abrahams的博客**: [Dave Abrahams: Home Page | Stuff I wrote, things I did, etc][4][已失效]
 
@@ -63,7 +75,9 @@ David Abrahams，美国人，C++标准委员会成员，将exception-safety加�
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/BartoszMilewski.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/BartoszMilewski.jpg)
+{{% /center %}}
 
 * **Bartosz Milewski的博客**：[Bartosz Milewski's Programming Cafe：Concurrency, Multicore, C++, Haskell][2]
 
@@ -73,7 +87,9 @@ Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于�
 <br/>
 
 
-{% img pull-right /images/posts/cpp-blogs/anthony_williams.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/anthony_williams.jpg )
+{{% /center %}}
 
 * **Anthony Williams的博客**：[Just Software Solutions][12]
 
@@ -83,7 +99,9 @@ Anthony Williams，英国人，一个记事起就开始写程序的人。[Boost.
 <br/>
 
 
-{% img pull-right /images/posts/cpp-blogs/AlexanderStepanov.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/AlexanderStepanov.jpg )
+{{% /center %}}
 
 * **Alexander A. Stepanov的博客**：[Collected Papers of Alexander A. Stepanov][20]
 
@@ -92,7 +110,9 @@ Alexander A. Stepanov，出生于莫斯科，STL之父，{% aproduct B006P7V73G*
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/austern.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/austern.jpg )
+{{% /center %}}
 
 * **Matt Austern的博客**: [Matt Austern's Home Page][19]
 
@@ -102,7 +122,9 @@ Matt Austern, 现任职于Google, 前C++标准委员会主席，SCG STL的最初
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/pjp.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/pjp.jpg)
+{{% /center %}}
 
 * **P.J. Plauger的博客**：[Collected Papers of Alexander A. Stepanov][20]
 
@@ -114,7 +136,9 @@ P.J. Plauger，这个名字可能不是每个人都听说过，但在Windows平�
 
 ##C++高手的博客
 
-{% img pull-right /images/posts/cpp-blogs/akrzemi1.jpeg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/akrzemi1.jpeg )
+{{% /center %}}
 
 * **Andrzej Krzemieński的博客**：[Andrzej's C++ blog Guidelines and thoughts about C++][5]
 
@@ -124,7 +148,9 @@ Andrzej Krzemieński，从名字看是波兰人，近期博客更新较快，表
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/SumantTambe.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/SumantTambe.jpg )
+{{% /center %}}
 
 * **Sumant Tambe的博客**： [c++ truths][6]
 
@@ -133,7 +159,9 @@ Sumant Tambe，印度人，美国范德堡大学的计算机博士，技术涉�
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/JeffPreshing.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/JeffPreshing.jpg )
+{{% /center %}}
 
 * **Jeff Preshing的博客**: [Preshing on Programming][11]
 
@@ -141,7 +169,9 @@ Jeff Preshing，加拿大人，自称游戏行业开发10数年，C++功力自�
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/Joaqu.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/Joaqu.jpg )
+{{% /center %}}
 
 * **Joaquín M López Muñoz的博客**: [Bannalia: trivial notes on themes diverse][8]
 
@@ -164,7 +194,9 @@ Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内
 
 ##中文C++名博
 
-{% img pull-right /images/posts/cpp-blogs/liuweipeng.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/liuweipeng.jpg )
+{{% /center %}}
 
 * **刘未鹏的博客**：[MindHacks-思维改变生活][1]
 
@@ -172,7 +204,9 @@ Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内
 
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/chenhao.jpg 120 150%}
+{{% center %}}
+![image](/images/posts/cpp-blogs/chenhao.jpg )
+{{% /center %}}
 
 * **陈皓的博客**：[酷壳-享受编程和技术所带来的快乐][23]
 
@@ -180,7 +214,10 @@ Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内
 <br/>
 <br/>
 
-{% img pull-right /images/posts/cpp-blogs/chenshuo.jpg 120 150%}
+
+{{% center %}}
+![image](/images/posts/cpp-blogs/chenshuo.jpg )
+{{% /center %}}
 
 * **陈硕的博客**：[陈硕的Blog][21]
 

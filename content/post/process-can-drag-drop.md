@@ -38,6 +38,7 @@ BOOL ChangeTokenIntegrity(HANDLE &hToken)
 上面第五行AllocateAndInitializeSid函数的第三个参数，这里取值SECURITY_MANDATORY_MEDIUM_RID是因为Explorer进程的Integrity一般是Medium。当然如果有必要也可以根据获取的Explorer进程的Integrity设置这个值。
 
 参考：[Windows Integrity Mechanism Design][3]
+
  [1]:/blog/2013/07/31/de-elevate-start-process/
  [2]:http://en.wikipedia.org/wiki/User_Interface_Privilege_Isolation
  [3]:http://msdn.microsoft.com/en-us/library/bb625963.aspx

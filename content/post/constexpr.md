@@ -10,7 +10,7 @@ C++11有一些这样的改善，这种改善保证写出的代码比以往任何
 
 常量表达式主要是允许一些计算发生在编译时，即发生在代码编译而不是运行的时候。这是很大的优化：假如有些事情可以在编译时做，它将只做一次，而不是每次程序运行时。需要计算一个编译时已知的常量，比如特定值的sine或cosin？确实你亦可以使用库函数sin或cos，但那样你必须花费运行时的开销。使用constexpr，你可以创建一个编译时的函数，它将为你计算出你需要的数值。用户的电脑将不需要做这些工作。
 
-###constexpr初探
+### constexpr初探
 为了使函数获取编译时计算的能力，你必须指定constexpr关键字到这个函数。
 
 ```cpp
@@ -32,7 +32,7 @@ constexpr int getDefaultArraySize (int multiplier)
  
 int my_array[ getDefaultArraySize( 3 ) ];
 ```
-##constexpr函数的限制
+## constexpr函数的限制
 一个constexpr有一些必须遵循的严格要求：
 
  * 函数中只能有一个return语句（有极少特例）
@@ -52,7 +52,7 @@ constexpr int factorial (int n)
 
 一个constexpr函数，只允许包含一行可执行代码。但允许包含typedefs、 using declaration && directives、静态断言等。
 
-##constexpr和运行时
+## constexpr和运行时
 一个声明为constexpr的函数同样可以在运行时被调用，当这个函数的参数是非常量的：
 ```cpp
 int n;
@@ -99,7 +99,7 @@ class Circle
         int _radius;
 };
 ```
-##constexpr vs const
+## constexpr vs const
 假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。
 ##constexpr和浮点数
 到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。
@@ -110,7 +110,7 @@ C++开发者早就深受修改一个头文件则引发重新编译导致编译�
 
 最后，标准允许编译器去限制递归函数的级数。这样可以限制深度递归的编译性能损耗。
 
-##编译器支持
+## 编译器支持
 constexpr需要编译器支持编译期的递归，所以也不奇怪支持constexpr的编译器并不多，就我所知只有G++4.7支持这一特性。[注：到我翻译时，intelC++13、Clang3.1也都支持了，不过Vs2013还是不支持]
 
 下一篇：右值引用和移动语义

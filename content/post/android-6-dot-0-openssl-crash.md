@@ -18,7 +18,7 @@ java.lang.unsatisfiedlinkerror dlopen failed cannot locate symbol "openssl_add_a
 ```
 
 你的产品依赖了openssl，而google在Android 6.0中使用了google自己的一个基于openssl分支boringssl，而这个分支在API和ABI上都不兼容openssl。
-{% img  /images/posts/android_6/openssl_crash.png %}
+![image]( /images/posts/android_6/openssl_crash.png)
 
 
 ## Google为什么切换openssl

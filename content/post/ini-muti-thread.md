@@ -67,47 +67,14 @@ int _tmain(int argc, _TCHAR* argv[])
 ```
 代码很简单，开60个线程同时往一个INI文件里写东西，让我们对比一下多线程操作INI和非多线程操作的结果，左侧是不使用多线程操作的结果（只贴出前50行）：
 
-{% img pull-left /images/posts/ini-muti-thread/result.png %}
 
-{% img pull-left /images/posts/ini-muti-thread/error_result.png %}
+![image](/images/posts/ini-muti-thread/result.png)
 
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
+
+![image](/images/posts/ini-muti-thread/error_result.png)
+
+
+
 
 结果一目了然。（多线程同时操作INI时，每次的结果可能都不一样的）。
 
