@@ -9,7 +9,7 @@ categories = ["博客"]
 
 现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的高手，有原创性的技术干货；三是中文世界里的C++牛人。
 
-##C++大牛的博客
+## C++大牛的博客
 
 {{% center %}}
 ![image](/images/posts/cpp-blogs/BjarneStroustrup.jpg)
@@ -17,7 +17,7 @@ categories = ["博客"]
 
 * **Bjarne Stroustrup的博客**: [Bjarne Stroustrup's Homepage][10]
 
-Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于[TAMU][29]。他的Homepage和他的书籍{% aproduct B003EIKI0C*The C++ Programming Language%}一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。
+Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们现在的饭碗。Bjarne Stroustrup是丹麦人，目前任教于[TAMU][29]。他的Homepage和他的书籍《The C++ Programming Language》一样，都是百科全书级的，如果你认真研究，你也会成为你同事或周围人的C++之父。
 
 <br/>
 <br/>
@@ -28,7 +28,7 @@ Bjarne Stroustrup，不认识的可以去面壁了，没有他，就没有我们
 
 * **Scott Meyers的博客**: [The View from Aristeia][15]
 
-Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道的名字，畅销书：{% aproduct B004G72P24*Effective C++*B004IP8BD6*More Effective C++%}的作者。博客长期更新，就凭Scott Meyers这个名字，就值得一读。
+Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道的名字，畅销书：《Effective C++》《More Effective C++》的作者。博客长期更新，就凭Scott Meyers这个名字，就值得一读。
 
 <br/>
 <br/>
@@ -40,7 +40,7 @@ Scott Meyers，不多介绍，世界上几乎每个C++程序员都应该知道�
 
 * **Stanley B.Lippman的博客**: [Stan Lippman's BLog][17]
 
-Lippman，C++第一个编译器[Cfront][30]的实现者，最大的贡献是凭借其著作{% aproduct B00ESUIL0O*C++ Primer%}在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书{% aproduct B006QXQXTM*Inside The C++ Object Model%}让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。
+Lippman，C++第一个编译器[Cfront][30]的实现者，最大的贡献是凭借其著作《C++ Primer》在世界范围内普及了C++。Lippman本人算是个励志故事，父母是蓝领移民，他为了融入美国主流社会而努力工作，终于取得了今日的成就，他的另一本书《inside The C++ Object Model》让我知道了C++代码编译后的样子，不过我不知他写该书时发生了什么事情，因为书中有大量的低级错误，与前一本书的严谨截然相反。列出他的博客，更多的是因为他是C++牛人中无法绕过的一个，而其博客久不更新，早已荒芜，而且是MSDN上的专栏，可能不太能提起人多大兴趣去读。
 
 
 {{% center %}}
@@ -49,7 +49,7 @@ Lippman，C++第一个编译器[Cfront][30]的实现者，最大的贡献是凭�
 
 * **Herb Sutter的博客**: [Sutter’s Mill: Herb Sutter on software, hardware, and concurrency][3]
 
-Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：{% aproduct B008CGKUBS*Exceptional C++*B004IUISIO*More Exceptional C++*B00114BFTO*Exceptional C++ Style%}, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。
+Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ Exceptional系列：《Exceptional C++》《More Exceptional C++》《Exceptional C++ Style》, 因封面头像蓄须，被国人称“小胡子”，不过貌似现在刮干净了。博客更新很快，内容杂乱，有技术亦有资讯，gotw系列个人感觉不错。
 <br/>
 
 {{% center %}}
@@ -58,7 +58,7 @@ Herb Sutter, C++标准委员会主席，目前就职于微软。代表作为C++ 
 
 * **Andrei Alexandrescu的博客**: [Official website of Andrei Alexandrescu][18]
 
-Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% aproduct 0201704315*Modern C++ Design: Generic Programming and Design Patterns Applied %}的作者，凭借此书使C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。
+Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书《Modern C++ Design: Generic Programming and Design Patterns Applied》的作者，凭借此书使C++社区认识到模板编程鬼斧神工之力。后来不满C++而转投D语言，是D语言的主要开发者。不过他的博客貌似好久不更新了，内容也大多学术气息浓厚。
 
 <br/>
 <br/>
@@ -70,7 +70,7 @@ Andrei Alexandrescu，罗马尼亚人，目前任职于FaceBook, C++天书{% apr
 
 * **David Abrahams的博客**: [Dave Abrahams: Home Page | Stuff I wrote, things I did, etc][4][已失效]
 
-David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，{% aproduct B002WB1J0U*C++ Template Metaprogramming%}的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。
+David Abrahams，美国人，C++标准委员会成员，将exception-safety加入标准，Boost.org的联合创始人，《C++ Template Metaprogramming》的作者。但博客内容一般，最后一篇内容更新时间是12年的，内容不多，也没有太多亮点，不过笑容却是感染了我。
 <br/>
 <br/>
 <br/>
@@ -81,7 +81,7 @@ David Abrahams，美国人，C++标准委员会成员，将exception-safety加�
 
 * **Bartosz Milewski的博客**：[Bartosz Milewski's Programming Cafe：Concurrency, Multicore, C++, Haskell][2]
 
-Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。{% aproduct B009TB3ZBW*c++ in action%}的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。
+Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于微软。《c++ in action》的作者。博客更新频繁，内容密实，观点前卫，对C++的不满流露于字里行间，多以Haskell对比C++的不足，然后实现一些函数式编程风格的C++代码。
 
 不才曾翻译过他的文章：[C++手爱德华][28]
 <br/>
@@ -93,7 +93,7 @@ Bartosz Milewski，波兰人，物理系毕业的计算机大牛，曾就职于�
 
 * **Anthony Williams的博客**：[Just Software Solutions][12]
 
-Anthony Williams，英国人，一个记事起就开始写程序的人。[Boost.Thread][31]的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：{% aproduct 1933988770*C++ Concurrency in Action%}，市面上第一本讲解C++11并发的权威书籍。
+Anthony Williams，英国人，一个记事起就开始写程序的人。[Boost.Thread][31]的作者，参与了C++11 Thread的标准化工作。博客有一部分技术文章，也有一些标准化和他自己维护的一些库的记录，对C++多线程感兴趣的可以读一下他的书：《C++ Concurrency in Action》，市面上第一本讲解C++11并发的权威书籍。
 
 <br/>
 <br/>
@@ -105,7 +105,7 @@ Anthony Williams，英国人，一个记事起就开始写程序的人。[Boost.
 
 * **Alexander A. Stepanov的博客**：[Collected Papers of Alexander A. Stepanov][20]
 
-Alexander A. Stepanov，出生于莫斯科，STL之父，{% aproduct B006P7V73G*编程原本%}的作者。Alexander A. Stepanov的这个博客如其名，是他个人学术论文的整理，学术价值应该是蛮高吧，不过像我这种低级程序员只能远观了。
+Alexander A. Stepanov，出生于莫斯科，STL之父，《编程原本》的作者。Alexander A. Stepanov的这个博客如其名，是他个人学术论文的整理，学术价值应该是蛮高吧，不过像我这种低级程序员只能远观了。
 
 <br/>
 <br/>
@@ -116,7 +116,7 @@ Alexander A. Stepanov，出生于莫斯科，STL之父，{% aproduct B006P7V73G*
 
 * **Matt Austern的博客**: [Matt Austern's Home Page][19]
 
-Matt Austern, 现任职于Google, 前C++标准委员会主席，SCG STL的最初实现者，{% aproduct 0201309564*Generic Programming and the STL%}的作者。Matt Austern的这个博客其实是个人主页，没有太多技术东西，只是一些生平和生活照片，无聊的看一下倒还行。
+Matt Austern, 现任职于Google, 前C++标准委员会主席，SCG STL的最初实现者，《Generic Programming and the STL》的作者。Matt Austern的这个博客其实是个人主页，没有太多技术东西，只是一些生平和生活照片，无聊的看一下倒还行。
 
 <br/>
 <br/>
@@ -192,7 +192,7 @@ Agustín Bergé，86年生阿根廷人，可能是这里面最年轻的，stacko
 
 Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内容主要涉及网络，asio相关，使用asio的可以去看看。
 
-##中文C++名博
+## 中文C++名博
 
 {{% center %}}
 ![image](/images/posts/cpp-blogs/liuweipeng.jpg )
@@ -200,7 +200,7 @@ Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内
 
 * **刘未鹏的博客**：[MindHacks-思维改变生活][1]
 
-刘未鹏，84年生人，现就职于微软，{% aproduct B008A4Y2R0*Imperfect C++*B00114BFTO*Exceptional C++ Style%}译者，大学时对C++有极大的学习兴趣，曾与C++之父邮件往来，记录在另一个博客[C++的卢浮宫][26]上。据闻刘未鹏现忙于育儿与心理学，所以博客更新较慢，但以往博客含金量高，很值得一读。博客内容偏重于学习方法，纯技术的C++文章少些。
+刘未鹏，84年生人，现就职于微软，《Imperfect C++》《Exceptional C++ Style》译者，大学时对C++有极大的学习兴趣，曾与C++之父邮件往来，记录在另一个博客[C++的卢浮宫][26]上。据闻刘未鹏现忙于育儿与心理学，所以博客更新较慢，但以往博客含金量高，很值得一读。博客内容偏重于学习方法，纯技术的C++文章少些。
 
 <br/>
 
@@ -221,7 +221,7 @@ Chris Kohlhoff，澳大利亚人，Boost.asio作者。博客更新到10年，内
 
 * **陈硕的博客**：[陈硕的Blog][21]
 
-陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作{% aproduct B00AYS2KL0*Linux多线程服务端编程:使用muduo C++网络库%}一本，译注若干。
+陈硕，国内少有的C++工程功底深厚，作风严谨且乐于分享的人。Muduo开源库的作者，有干货著作《Linux多线程服务端编程:使用muduo C++网络库》一本，译注若干。
 
 
 

@@ -9,7 +9,7 @@ description = "writeprivateprofilestring函数不是线程安全"
 INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这一点，这些函数比如[WritePrivateProfileString][1]的文档中并没有提到。
 据[这篇文章][2]介绍:
 
-##WritePrivateProfileString:
+## WritePrivateProfileString:
 
 * WritePrivateProfileString内部使用NtCreateFile访问文件，共享方式设置为：FILE_SHARE_DELETE | FILE_SHARE_READ | FILE_SHARE_WRITE。使用NtLockFile，FailImmediately设置为False，ExlusiveLock设置为True来锁定文件。
 * 这意味着WritePrivateProfileString是非线程安全的，是进程安全的（非远程机器）。
