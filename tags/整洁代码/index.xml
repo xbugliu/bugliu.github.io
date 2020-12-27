@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>整洁代码 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E6%95%B4%E6%B4%81%E4%BB%A3%E7%A0%81/</link>
+    <description>Recent content in 整洁代码 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Tue, 03 Dec 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E6%95%B4%E6%B4%81%E4%BB%A3%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>整洁代码之上</title>
+      <link>http://towriting.com/blog/2013/12/03/beyond-clean-code/</link>
+      <pubDate>Tue, 03 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/03/beyond-clean-code/</guid>
+      <description>什么是整洁代码（What Is Clean Code） 当你拿这个问题问不同的人，或采用不同的语气，你可能会得到不同的答案。但通常无外乎这些评判标准： 自解释的</description>
+    </item>
+    
+  </channel>
+</rss>

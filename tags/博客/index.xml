@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>博客 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E5%8D%9A%E5%AE%A2/</link>
+    <description>Recent content in 博客 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sun, 04 Aug 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>octopress定制公益404页面</title>
+      <link>http://towriting.com/blog/2013/08/04/octopress-custom-404/</link>
+      <pubDate>Sun, 04 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/04/octopress-custom-404/</guid>
+      <description>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下</description>
+    </item>
+    
+    <item>
+      <title>开始写博客</title>
+      <link>http://towriting.com/blog/2013/07/17/begin-writing-blog/</link>
+      <pubDate>Wed, 17 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/17/begin-writing-blog/</guid>
+      <description>离职的意外收获 今年离职有一个意外收获，合适的工作很难找，找工作的空白期间，买了个域名（towriting.com)，开了这个个人博客，自此可</description>
+    </item>
+    
+  </channel>
+</rss>

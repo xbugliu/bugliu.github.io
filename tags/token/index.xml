@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>token on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/token/</link>
+    <description>Recent content in token on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Wed, 31 Jul 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/token/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>降权启动进程</title>
+      <link>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</link>
+      <pubDate>Wed, 31 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</guid>
+      <description>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，</description>
+    </item>
+    
+  </channel>
+</rss>

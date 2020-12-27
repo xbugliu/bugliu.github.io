@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43;哲学 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;%E5%93%B2%E5%AD%A6/</link>
+    <description>Recent content in C&#43;&#43;哲学 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Mon, 23 Sep 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++%E5%93%B2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;手爱德华</title>
+      <link>http://towriting.com/blog/2013/09/23/edward-chands/</link>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/23/edward-chands/</guid>
+      <description>我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。 在这部电影中，可怜的家伙（J</description>
+    </item>
+    
+  </channel>
+</rss>

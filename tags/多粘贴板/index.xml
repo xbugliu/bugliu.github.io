@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多粘贴板 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E5%A4%9A%E7%B2%98%E8%B4%B4%E6%9D%BF/</link>
+    <description>Recent content in 多粘贴板 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sun, 17 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E5%A4%9A%E7%B2%98%E8%B4%B4%E6%9D%BF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Effective Tools - 多粘贴板 &amp;&amp; 快速搜索</title>
+      <link>http://towriting.com/blog/2013/11/17/effective-tools/</link>
+      <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/17/effective-tools/</guid>
+      <description>前两天买了一本《卓有成效的程序员》，看过几章后才明白为什么Stackoverflow里面人们会推荐这本书：它大抵是讲工具的，目的是为了提高程</description>
+    </item>
+    
+  </channel>
+</rss>

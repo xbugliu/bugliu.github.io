@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Thu, 17 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bjarne Stroustrup previews C&#43;&#43; 17</title>
+      <link>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</link>
+      <pubDate>Thu, 17 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</guid>
+      <description>本文是infoWorld关于C++17对C++之父进行的采访，原文见这里 InfoWorld:C++17什么时候可用? Stroustrup:C</description>
+    </item>
+    
+    <item>
+      <title>谁在用C&#43;&#43; STL？</title>
+      <link>http://towriting.com/blog/2014/04/18/who-use-stl/</link>
+      <pubDate>Fri, 18 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/04/18/who-use-stl/</guid>
+      <description>C++用了四年了，这两天才把 《Effective STL》看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;手爱德华</title>
+      <link>http://towriting.com/blog/2013/09/23/edward-chands/</link>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/23/edward-chands/</guid>
+      <description>我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。 在这部电影中，可怜的家伙（J</description>
+    </item>
+    
+    <item>
+      <title>熟悉的陌生人-this指针(1)</title>
+      <link>http://towriting.com/blog/2013/09/01/this-pointer/</link>
+      <pubDate>Sun, 01 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/01/this-pointer/</guid>
+      <description>this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不</description>
+    </item>
+    
+    <item>
+      <title>const 二三事</title>
+      <link>http://towriting.com/blog/2013/08/21/things-of-const/</link>
+      <pubDate>Wed, 21 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/21/things-of-const/</guid>
+      <description>相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ri</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-区间迭代</title>
+      <link>http://towriting.com/blog/2013/08/20/ranged-for-loop/</link>
+      <pubDate>Tue, 20 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/20/ranged-for-loop/</guid>
+      <description>在我前面介绍C++11的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-lambda函数</title>
+      <link>http://towriting.com/blog/2013/08/11/lambda-closures/</link>
+      <pubDate>Sun, 11 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/11/lambda-closures/</guid>
+      <description>C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-改进的类型推导：auto、decltype和新的函数语法</title>
+      <link>http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/</link>
+      <pubDate>Thu, 08 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/</guid>
+      <description>C++11引入了一些新的实用的类型推导能力，这意味着你可以花费更少的时间去写那些编译器已经知道的东西。当然有些时候你需要帮助编译器或者你的编</description>
+    </item>
+    
+    <item>
+      <title>Smart GetProcAddress之实现</title>
+      <link>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</link>
+      <pubDate>Sat, 20 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</guid>
+      <description>Windows下有过编程经验的朋友肯定用过这个函数：GetProcAddress，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>线程 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E7%BA%BF%E7%A8%8B/</link>
+    <description>Recent content in 线程 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Thu, 25 Jul 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E7%BA%BF%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>获取进程打开的互斥量</title>
+      <link>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</link>
+      <pubDate>Thu, 25 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</guid>
+      <description>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&amp;quot;拥有&amp;quot;的互斥量来区分这些进程。所以下面实现了获取指定进程&amp;qu</description>
+    </item>
+    
+  </channel>
+</rss>

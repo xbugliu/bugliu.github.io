@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>程序员 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/</link>
+    <description>Recent content in 程序员 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Thu, 20 Feb 2014 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>春节杂记</title>
+      <link>http://towriting.com/blog/2014/02/20/spring/</link>
+      <pubDate>Thu, 20 Feb 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/02/20/spring/</guid>
+      <description>今天正月二十一，按我们老家旧时的习俗，二月二&amp;quot;龙抬头&amp;quot;以后，才算过完年。今年过年在家里待了12天，算来不短，一年的忙碌终</description>
+    </item>
+    
+    <item>
+      <title>你们是勤劳还是懒惰的程序员？</title>
+      <link>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/</link>
+      <pubDate>Sun, 15 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/</guid>
+      <description>当人们从事体力劳动时，很容易判断他们的努力程度。你可以看到肢体运动和汗水。并且可以看到他们的劳动成果：高楼拔地，稻谷归仓...。承认和褒奖辛</description>
+    </item>
+    
+    <item>
+      <title>跳槽的好处</title>
+      <link>http://towriting.com/blog/2013/11/10/job-hopping/</link>
+      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/10/job-hopping/</guid>
+      <description>前两天和一个一年半多没联系过的前同事通了个电话，聊了个把小时。我对他现在的工作状态很感兴趣，因为他的工作状态就是我不离开那家公司的可能的状态</description>
+    </item>
+    
+    <item>
+      <title>神级程序员的神话</title>
+      <link>http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer/</link>
+      <pubDate>Mon, 30 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer/</guid>
+      <description>神级程序员1的神话不过就是个，神话！它是由一些可悲的原因形成的神话： 给普通人设置难以实现的预期 宣扬虚无的神级程序员打压团队 告诉某人是神级的并</description>
+    </item>
+    
+    <item>
+      <title>世界上最杰出的程序员是获得最大快乐的那个人</title>
+      <link>http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world/</guid>
+      <description>Colin停在我的办公室来叫我去看他最近的项目。他拆开了他的显示器切换器（用来在两台PC之间切换单个显示器），拆开的切换器就摊放在他的桌子上</description>
+    </item>
+    
+    <item>
+      <title>讲一讲程序员的办公用品</title>
+      <link>http://towriting.com/blog/2013/09/21/office-stuff/</link>
+      <pubDate>Sat, 21 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/21/office-stuff/</guid>
+      <description>高性能、舒适、充足的办公用品可以提高办公效率 讲一讲这四年来我所在过的公司都给我们程序员提供过怎样的装配，这些装备主要包括：计算机、椅子、文具</description>
+    </item>
+    
+    <item>
+      <title>程序员的困境</title>
+      <link>http://towriting.com/blog/2013/08/16/programmer-dilemma/</link>
+      <pubDate>Fri, 16 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/16/programmer-dilemma/</guid>
+      <description>译者：toWriting.com翻译自：Programmer’s dilemma 最近面试了数十个应聘内核开发职位的求职者。这些求职者都来自于芯片或嵌入式操</description>
+    </item>
+    
+  </channel>
+</rss>

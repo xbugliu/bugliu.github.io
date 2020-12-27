@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>重构 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E9%87%8D%E6%9E%84/</link>
+    <description>Recent content in 重构 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Tue, 08 Jul 2014 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E9%87%8D%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于重构的一些想法</title>
+      <link>http://towriting.com/blog/2014/07/08/evil-refactor/</link>
+      <pubDate>Tue, 08 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/07/08/evil-refactor/</guid>
+      <description>很早之前听说过这样一个故事： 一个漂亮的女子与马戏团的小丑坠入爱河，并迅速结婚。小丑十分珍惜得来的幸福，努力挣钱，瞒着女子做了整容手术，为了给</description>
+    </item>
+    
+  </channel>
+</rss>

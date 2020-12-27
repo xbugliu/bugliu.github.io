@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/categories/</link>
+    <description>Recent content in Categories on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Mon, 29 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>职场</title>
+      <link>http://towriting.com/categories/%E8%81%8C%E5%9C%BA/</link>
+      <pubDate>Mon, 29 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/%E8%81%8C%E5%9C%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>阅读</title>
+      <link>http://towriting.com/categories/%E9%98%85%E8%AF%BB/</link>
+      <pubDate>Sat, 23 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/%E9%98%85%E8%AF%BB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>翻译</title>
+      <link>http://towriting.com/categories/%E7%BF%BB%E8%AF%91/</link>
+      <pubDate>Thu, 17 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/%E7%BF%BB%E8%AF%91/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>开发</title>
+      <link>http://towriting.com/categories/%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/%E5%BC%80%E5%8F%91/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>http://towriting.com/categories/linux/</link>
+      <pubDate>Sat, 28 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>博客</title>
+      <link>http://towriting.com/categories/%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Thu, 12 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/%E5%8D%9A%E5%AE%A2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>学生时代</title>
+      <link>http://towriting.com/categories/%E5%AD%A6%E7%94%9F%E6%97%B6%E4%BB%A3/</link>
+      <pubDate>Sat, 17 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/categories/%E5%AD%A6%E7%94%9F%E6%97%B6%E4%BB%A3/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

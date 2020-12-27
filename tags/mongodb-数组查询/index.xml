@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MongoDB 数组查询 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/mongodb-%E6%95%B0%E7%BB%84%E6%9F%A5%E8%AF%A2/</link>
+    <description>Recent content in MongoDB 数组查询 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Wed, 14 Jan 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/mongodb-%E6%95%B0%E7%BB%84%E6%9F%A5%E8%AF%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MongoDB中的$in和$elemMatch</title>
+      <link>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</link>
+      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</guid>
+      <description>PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手</description>
+    </item>
+    
+  </channel>
+</rss>

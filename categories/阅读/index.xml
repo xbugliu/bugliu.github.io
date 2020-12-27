@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>阅读 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/categories/%E9%98%85%E8%AF%BB/</link>
+    <description>Recent content in 阅读 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sat, 23 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/categories/%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>读《长安十二时辰》</title>
+      <link>http://towriting.com/blog/2018/06/23/changan12/</link>
+      <pubDate>Sat, 23 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2018/06/23/changan12/</guid>
+      <description>近来一直加班，每日晚归几近凌晨，阅读的书籍越发少了。《长安十二时辰》这部小说是在端午休假之时读的，从晨光熹微读至夜深人静才读完。马伯庸这个作</description>
+    </item>
+    
+    <item>
+      <title>读&lt;程序员的呐喊&gt;</title>
+      <link>http://towriting.com/blog/2015/09/10/a-programmers-rantings/</link>
+      <pubDate>Thu, 10 Sep 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/09/10/a-programmers-rantings/</guid>
+      <description>又是一本国外技术圈的名人的博客整理成的书。作者steve yegge是google的程序员，06年之前的7年工作在amazon。丰富的编程经验</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;API设计 - 笔记</title>
+      <link>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/</link>
+      <pubDate>Sat, 15 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/</guid>
+      <description>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看</description>
+    </item>
+    
+    <item>
+      <title>人生本应丰富多彩：《别逗了,费曼先生》读后感</title>
+      <link>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/</link>
+      <pubDate>Mon, 12 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/</guid>
+      <description>知道这本书的时间应该不超过一年，至少是在经常逛stackoverflow以后，那至少是2011年以后的事了。stackoverflow中列出</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>backgroud on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/backgroud/</link>
+    <description>Recent content in backgroud on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sat, 03 Aug 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/backgroud/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bg,Fg,&amp;,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务</title>
+      <link>http://towriting.com/blog/2013/08/03/unix-background-job/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/03/unix-background-job/</guid>
+      <description>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。 在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换</description>
+    </item>
+    
+  </channel>
+</rss>

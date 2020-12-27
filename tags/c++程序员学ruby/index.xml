@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43;程序员学Ruby on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;%E7%A8%8B%E5%BA%8F%E5%91%98%E5%AD%A6ruby/</link>
+    <description>Recent content in C&#43;&#43;程序员学Ruby on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Thu, 26 Dec 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++%E7%A8%8B%E5%BA%8F%E5%91%98%E5%AD%A6ruby/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为什么要学Ruby</title>
+      <link>http://towriting.com/blog/2013/12/26/learn-ruby/</link>
+      <pubDate>Thu, 26 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/26/learn-ruby/</guid>
+      <description>最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不</description>
+    </item>
+    
+  </channel>
+</rss>

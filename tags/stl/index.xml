@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>STL on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/stl/</link>
+    <description>Recent content in STL on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Fri, 18 Apr 2014 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/stl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>谁在用C&#43;&#43; STL？</title>
+      <link>http://towriting.com/blog/2014/04/18/who-use-stl/</link>
+      <pubDate>Fri, 18 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/04/18/who-use-stl/</guid>
+      <description>C++用了四年了，这两天才把 《Effective STL》看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及</description>
+    </item>
+    
+  </channel>
+</rss>

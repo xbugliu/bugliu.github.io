@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;%E6%83%AF%E7%94%A8%E6%B3%95safe-bool%E4%B8%8Ec&#43;&#43;11%E4%B8%AD%E7%9A%84%E6%98%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%AC%A6/</link>
+    <description>Recent content in C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Fri, 01 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++%E6%83%AF%E7%94%A8%E6%B3%95safe-bool%E4%B8%8Ec++11%E4%B8%AD%E7%9A%84%E6%98%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%AC%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从Safe bool惯用法到explicit标识符</title>
+      <link>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</link>
+      <pubDate>Fri, 01 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</guid>
+      <description>C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：More C++ Idioms，虽凝聚了C++程序员的聪明才智，</description>
+    </item>
+    
+  </channel>
+</rss>

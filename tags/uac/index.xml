@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>uac on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/uac/</link>
+    <description>Recent content in uac on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Tue, 06 Aug 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/uac/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>创建支持拖拽的进程</title>
+      <link>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</link>
+      <pubDate>Tue, 06 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</guid>
+      <description>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管</description>
+    </item>
+    
+    <item>
+      <title>降权启动进程</title>
+      <link>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</link>
+      <pubDate>Wed, 31 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</guid>
+      <description>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，</description>
+    </item>
+    
+  </channel>
+</rss>

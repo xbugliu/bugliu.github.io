@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Android 6.0 openssl crash - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="Android 6.0 openssl Crash" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Android 6.0 openssl crash" />
+<meta property="og:description" content="Android 6.0 openssl Crash" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/" />
+<meta property="article:published_time" content="2015-10-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-10-11T00:00:00+00:00" />
+<meta itemprop="name" content="Android 6.0 openssl crash">
+<meta itemprop="description" content="Android 6.0 openssl Crash">
+<meta itemprop="datePublished" content="2015-10-11T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2015-10-11T00:00:00+00:00" />
+<meta itemprop="wordCount" content="756">
+
+
+
+<meta itemprop="keywords" content="Android 6.0 openssl Crash," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Android 6.0 openssl crash"/>
+<meta name="twitter:description" content="Android 6.0 openssl Crash"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Android 6.0 openssl crash</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2015-10-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
+            </div>
+          <span class="more-meta"> 756 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#crash的原因">Crash的原因：</a></li>
+        <li><a href="#google为什么切换openssl">Google为什么切换openssl</a></li>
+        <li><a href="#你的apk中招了吗">你的APK中招了吗?</a></li>
+        <li><a href="#解决方案">解决方案</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0更换了OpenSSL库而导致的一个Crash。</p>
+<h2 id="crash的原因">Crash的原因：</h2>
+<p>异常</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">java.lang.unsatisfiedlinkerror dlopen failed cannot locate symbol <span class="s2">&#34;openssl_add_all_algorithms_noconf&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>你的产品依赖了openssl，而google在Android 6.0中使用了google自己的一个基于openssl分支boringssl，而这个分支在API和ABI上都不兼容openssl。
+<img src="/images/posts/android_6/openssl_crash.png" alt="image"></p>
+<h2 id="google为什么切换openssl">Google为什么切换openssl</h2>
+<ol>
+<li>众所周知openssl存在着很多的问题，包括去年爆出的<a href="https://www.us-cert.gov/ncas/alerts/TA14-098A">Heartbleed</a>。目前依然有大量补丁没有被合入openssl主干，而google觉得其中很多补丁非常重要，所以google创建新的分支合入这些补丁。</li>
+<li>google以为这个改动很小，绝大多数开发者是不会受影响的。（但据说google自己的youtube一样受影响，可见google想当然了).</li>
+<li>google只对NDK标准接口负责，第三方库的接口，google是不保证的。</li>
+</ol>
+<h2 id="你的apk中招了吗">你的APK中招了吗?</h2>
+<p>是不是你还在窃喜自己没有基于NDK开发的so，所以没有依赖openSSL。但你可能使用了第三方的so库，而这些库可能用到了openSSL。所以你的产品可能直接或间接依赖openssl. 这里有一个在线检测工具，可以测试自己是否中招。<a href="https://searchlight.sourcedna.com/search">Find apps with the OpenSSL / Android M crash flaw</a>;</p>
+<h2 id="解决方案">解决方案</h2>
+<ol>
+<li>静态链接openssl。优点是一劳永逸的解决问题，缺点是APK的增大size。</li>
+<li>APK中打包libssl.so、libcrypto.so。如果你依赖的第三方库依赖了openssl, 而你没有权限去改它的代码，这是你唯一的解决方法。同样有size的问题。</li>
+<li>NDK中使用jni调用java层的加密相关代码，缺点是复杂。</li>
+</ol>
+<p>参考：</p>
+<ol>
+<li><a href="https://code.google.com/p/android-developer-preview/issues/detail?id=2410">Sygic and Waze navigation apps not working on Android M</a></li>
+<li><a href="https://sourcedna.com/blog/20150806/predicting-app-crashes-on-android-m.html">Finding a Hidden Flaw that Will Crash Apps on Android M</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/android-6.0-openssl-crash/">Android 6.0 openssl Crash</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Bjarne Stroustrup previews C&#43;&#43; 17</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2015/09/10/a-programmers-rantings/">
+            <span class="next-text nav-default">读&lt;程序员的呐喊&gt;</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

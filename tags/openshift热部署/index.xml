@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Openshift热部署 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/openshift%E7%83%AD%E9%83%A8%E7%BD%B2/</link>
+    <description>Recent content in Openshift热部署 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Mon, 21 Oct 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/openshift%E7%83%AD%E9%83%A8%E7%BD%B2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Openshift小技巧-热部署</title>
+      <link>http://towriting.com/blog/2013/10/21/openshift-tips/</link>
+      <pubDate>Mon, 21 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/10/21/openshift-tips/</guid>
+      <description>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github</description>
+    </item>
+    
+  </channel>
+</rss>

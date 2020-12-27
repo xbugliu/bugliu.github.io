@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>C&#43;&#43;11系列-区间迭代 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="本文详细讲解了C&#43;&#43;11中ranged for loop的用法" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2013/08/20/ranged-for-loop/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="C&#43;&#43;11系列-区间迭代" />
+<meta property="og:description" content="本文详细讲解了C&#43;&#43;11中ranged for loop的用法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2013/08/20/ranged-for-loop/" />
+<meta property="article:published_time" content="2013-08-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-08-20T00:00:00+00:00" />
+<meta itemprop="name" content="C&#43;&#43;11系列-区间迭代">
+<meta itemprop="description" content="本文详细讲解了C&#43;&#43;11中ranged for loop的用法">
+<meta itemprop="datePublished" content="2013-08-20T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-08-20T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1493">
+
+
+
+<meta itemprop="keywords" content="C&#43;&#43;,for,C&#43;&#43;11,算法,for_each," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="C&#43;&#43;11系列-区间迭代"/>
+<meta name="twitter:description" content="本文详细讲解了C&#43;&#43;11中ranged for loop的用法"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">C&#43;&#43;11系列-区间迭代</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2013-08-20 </span>
+        
+          <span class="more-meta"> 1493 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#修改vector的值">修改vector的值</a></li>
+        <li><a href="#区间意味着什么">区间意味着什么？</a></li>
+        <li><a href="#编译器支持">编译器支持</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。
+##区间迭代的基本语法
+近来，基本上所有现代编程语言都有一种对一个区间写for循环的便捷方式。最终，C++也有了相同的概念；你可以给循环提供一个容器，它帮你迭代。前面我们已经在<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a>中看到了一些简单的例子。让我们回忆一下区间迭代的样子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+<span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">10</span> <span class="p">);</span>
+<span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">20</span> <span class="p">);</span>
+ 
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span> <span class="p">)</span> 
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面代码打印一个名叫vec的vector的内容，用i去捕获vector里面的值，直至vector的最后。你也可以用auto代替类型便利的迭代复杂的数据结构。例如，迭代一个map:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span> <span class="k">auto</span> <span class="nl">address_entry</span> <span class="p">:</span> <span class="n">address_book</span> <span class="p">)</span>
+<span class="p">{</span>
+            <span class="n">cout</span>  <span class="o">&lt;&lt;</span> <span class="n">address_entry</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="s">&#34; &lt; &#34;</span> <span class="o">&lt;&lt;</span> <span class="n">address_entry</span><span class="p">.</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;&gt;&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span> 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="修改vector的值">修改vector的值</h2>
+<p>假如你想修改你正在迭代的容器的值，或者你想避免拷贝大对象，你可以用引用的变量遍历。比如，下面的迭代对一个整形vector中每个元素的值加1。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+<span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
+<span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">2</span> <span class="p">);</span>
+ 
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span> <span class="p">)</span> 
+<span class="p">{</span>
+    <span class="n">i</span><span class="o">++</span><span class="p">;</span> <span class="c1">// increments the value in the vector
+</span><span class="c1"></span><span class="p">}</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">vec</span> <span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// show that the values are updated
+</span><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="区间意味着什么">区间意味着什么？</h2>
+<p>Strings,arrays,和所有的STL容器可以被新的区间迭代方式迭代。但是如果你想让你自己的数据结构使用这个新语法怎么办？</p>
+<p>为了使这个数据结构可迭代，它必须类似于STL迭代器。</p>
+<ul>
+<li>这个数据结构必须要有begin和end方法，成员方法和独立函数都行，这两个方法分别返回开始和结束的迭代器</li>
+<li>迭代器支持*操作符、!=操作符、++方法（前缀形式，成员函数和独立函数都行）</li>
+</ul>
+<p>就这些！实现这五个函数，你就可以有一个支持区间迭代的数据结构。因为begin、end可以是非成员函数，你甚至可以适配现有数据结构而不用实现STL风格的迭代器。所有你要做的是创建你自己的支持*、前缀++和!=的迭代器，并且定义好自己的begin、end。</p>
+<p>区间迭代如此NICE。所以我怀疑大部分还不支持STL迭代模型的容器都会想添加某种适配方式以支持区间迭代。这里有一个小程序演示创建一个支持区间迭代的迭代器。这个例子里，我创建了一个固定Size是100的IntVector，并且可以被一个叫做Iter的类迭代。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="cp"></span> 
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+ 
+<span class="k">class</span> <span class="nc">IntVector</span><span class="p">;</span>
+ 
+<span class="k">class</span> <span class="nc">Iter</span>
+<span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+    <span class="n">Iter</span> <span class="p">(</span><span class="k">const</span> <span class="n">IntVector</span><span class="o">*</span> <span class="n">p_vec</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pos</span><span class="p">)</span>
+        <span class="o">:</span> <span class="n">_pos</span><span class="p">(</span> <span class="n">pos</span> <span class="p">)</span>
+        <span class="p">,</span> <span class="n">_p_vec</span><span class="p">(</span> <span class="n">p_vec</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="p">}</span>
+ 
+    <span class="c1">// 这三个方法组成支持区间迭代的迭代器的基础
+</span><span class="c1"></span>    <span class="kt">bool</span>
+    <span class="k">operator</span><span class="o">!=</span> <span class="p">(</span><span class="k">const</span> <span class="n">Iter</span><span class="o">&amp;</span> <span class="n">other</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_pos</span> <span class="o">!=</span> <span class="n">other</span><span class="p">.</span><span class="n">_pos</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="kt">int</span> <span class="k">operator</span><span class="o">*</span> <span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+ 
+    <span class="k">const</span> <span class="n">Iter</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">++</span> <span class="p">()</span>
+    <span class="p">{</span>
+        <span class="o">++</span><span class="n">_pos</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">*</span><span class="k">this</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="k">private</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">_pos</span><span class="p">;</span>
+    <span class="k">const</span> <span class="n">IntVector</span> <span class="o">*</span><span class="n">_p_vec</span><span class="p">;</span>
+<span class="p">};</span>
+ 
+<span class="k">class</span> <span class="nc">IntVector</span>
+<span class="p">{</span>
+    <span class="k">public</span><span class="o">:</span>
+    <span class="n">IntVector</span> <span class="p">()</span>
+    <span class="p">{</span>
+    <span class="p">}</span>
+ 
+    <span class="kt">int</span> <span class="nf">get</span> <span class="p">(</span><span class="kt">int</span> <span class="n">col</span><span class="p">)</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">_data</span><span class="p">[</span> <span class="n">col</span> <span class="p">];</span>
+    <span class="p">}</span>
+    <span class="n">Iter</span> <span class="nf">begin</span> <span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Iter</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
+    <span class="p">}</span>
+ 
+    <span class="n">Iter</span> <span class="nf">end</span> <span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="n">Iter</span><span class="p">(</span> <span class="k">this</span><span class="p">,</span> <span class="mi">100</span> <span class="p">);</span>
+    <span class="p">}</span>
+ 
+    <span class="kt">void</span> <span class="nf">set</span> <span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_data</span><span class="p">[</span> <span class="n">index</span> <span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+    <span class="p">}</span>
+ 
+    <span class="k">private</span><span class="o">:</span>
+   <span class="kt">int</span> <span class="n">_data</span><span class="p">[</span> <span class="mi">100</span> <span class="p">];</span>
+<span class="p">};</span>
+ 
+<span class="kt">int</span>
+<span class="n">Iter</span><span class="o">::</span><span class="k">operator</span><span class="o">*</span> <span class="p">()</span> <span class="k">const</span>
+<span class="p">{</span>
+     <span class="k">return</span> <span class="n">_p_vec</span><span class="o">-&gt;</span><span class="n">get</span><span class="p">(</span> <span class="n">_pos</span> <span class="p">);</span>
+<span class="p">}</span>
+ 
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">IntVector</span> <span class="n">v</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">v</span><span class="p">.</span><span class="n">set</span><span class="p">(</span> <span class="n">i</span> <span class="p">,</span> <span class="n">i</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span> <span class="kt">int</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">v</span> <span class="p">)</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意这段代码中区间迭代时，不允许以引用修改IntVector中的元素。这是为了不使代码变长而影响代码的主要结构，所以并没添加返回引用类型的函数。
+##区间迭代提升性能？
+在我使用GCC4.6的有限的测试中，我并没看到区间迭代相对于标准STL迭代的性能提升，但好像可以和STL中的for_each拥有同样的性能。</p>
+<h2 id="编译器支持">编译器支持</h2>
+<p>不幸的是，区间迭代的编译器支持的不好。MSVC11以后开始支持，GCC是4.6以后支持。</p>
+<p>下一篇：<a href="/blog/2013/09/17/constexpr/">常量表达式</a></p>
+<p>上一篇：<a href="/blog/2013/08/11/lambda-closures/">lambda表达式</a></p>
+<p>译者：<a href="/">toWriting.com</a>；翻译自：<a href="http://www.cprogramming.com/c++11/c++11-ranged-for-loop.html">Range-Based For Loops in C++11 - Cprogramming.com</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
+          <a href="/tags/for/">for</a>
+          <a href="/tags/c&#43;&#43;11/">C&#43;&#43;11</a>
+          <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+          <a href="/tags/for_each/">for_each</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2013/08/21/things-of-const/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">const 二三事</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2013/08/17/a-doggerel-of-seven-years-ago/">
+            <span class="next-text nav-default">七年前作的一首打油诗</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

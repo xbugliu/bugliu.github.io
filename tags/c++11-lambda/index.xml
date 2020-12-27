@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43;11 Lambda on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;11-lambda/</link>
+    <description>Recent content in C&#43;&#43;11 Lambda on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Fri, 13 Dec 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++11-lambda/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Boost.Lambda与C&#43;&#43;11.Lambda的用法对比</title>
+      <link>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</link>
+      <pubDate>Fri, 13 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</guid>
+      <description>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并</description>
+    </item>
+    
+  </channel>
+</rss>

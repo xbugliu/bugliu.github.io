@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>模板 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E6%A8%A1%E6%9D%BF/</link>
+    <description>Recent content in 模板 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sat, 20 Jul 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E6%A8%A1%E6%9D%BF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Smart GetProcAddress之实现</title>
+      <link>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</link>
+      <pubDate>Sat, 20 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</guid>
+      <description>Windows下有过编程经验的朋友肯定用过这个函数：GetProcAddress，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，</description>
+    </item>
+    
+  </channel>
+</rss>

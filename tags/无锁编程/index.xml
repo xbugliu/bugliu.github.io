@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>无锁编程 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/</link>
+    <description>Recent content in 无锁编程 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Mon, 18 Aug 2014 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>实现无锁算法的常见陷阱</title>
+      <link>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/</link>
+      <pubDate>Mon, 18 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/</guid>
+      <description>翻译自：Common Pitfalls in Writing Lock-Free Algorithms 通常，只要两个操作之间的步骤是有穷的，一个多线程算法就认为可以实现为无锁(lock-free)。理论上无锁算法</description>
+    </item>
+    
+  </channel>
+</rss>

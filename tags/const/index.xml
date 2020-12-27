@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>const on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/const/</link>
+    <description>Recent content in const on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Wed, 21 Aug 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/const/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>const 二三事</title>
+      <link>http://towriting.com/blog/2013/08/21/things-of-const/</link>
+      <pubDate>Wed, 21 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/21/things-of-const/</guid>
+      <description>相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ri</description>
+    </item>
+    
+  </channel>
+</rss>

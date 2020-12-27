@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>process on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/process/</link>
+    <description>Recent content in process on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sat, 03 Aug 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/process/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bg,Fg,&amp;,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务</title>
+      <link>http://towriting.com/blog/2013/08/03/unix-background-job/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/03/unix-background-job/</guid>
+      <description>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。 在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换</description>
+    </item>
+    
+    <item>
+      <title>降权启动进程</title>
+      <link>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</link>
+      <pubDate>Wed, 31 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</guid>
+      <description>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，</description>
+    </item>
+    
+    <item>
+      <title>获取进程打开的互斥量</title>
+      <link>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</link>
+      <pubDate>Thu, 25 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</guid>
+      <description>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&amp;quot;拥有&amp;quot;的互斥量来区分这些进程。所以下面实现了获取指定进程&amp;qu</description>
+    </item>
+    
+  </channel>
+</rss>

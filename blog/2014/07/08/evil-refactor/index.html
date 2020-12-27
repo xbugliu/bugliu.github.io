@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>关于重构的一些想法 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="大部分项目不宜重构" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2014/07/08/evil-refactor/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="关于重构的一些想法" />
+<meta property="og:description" content="大部分项目不宜重构" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2014/07/08/evil-refactor/" />
+<meta property="article:published_time" content="2014-07-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-07-08T00:00:00+00:00" />
+<meta itemprop="name" content="关于重构的一些想法">
+<meta itemprop="description" content="大部分项目不宜重构">
+<meta itemprop="datePublished" content="2014-07-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-07-08T00:00:00+00:00" />
+<meta itemprop="wordCount" content="962">
+
+
+
+<meta itemprop="keywords" content="重构,项目管理,代码整洁," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="关于重构的一些想法"/>
+<meta name="twitter:description" content="大部分项目不宜重构"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">关于重构的一些想法</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-07-08 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
+            </div>
+          <span class="more-meta"> 962 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>很早之前听说过这样一个故事：</p>
+<blockquote>
+<p>一个漂亮的女子与马戏团的小丑坠入爱河，并迅速结婚。小丑十分珍惜得来的幸福，努力挣钱，瞒着女子做了整容手术，为了给女子惊喜。整容后的小丑出现在女子眼前时，女子提出离婚，因为他喜欢的是原来长的并不帅的小丑。</p>
+</blockquote>
+<p>一个项目重构的动机(目的)无外乎两种：1. 给用户带来更好的体验、2. 项目代码失控（难以维护、添加新特性）。重构必然导致变化，用户接受现在的产品，重构后的版本并不一定喜欢。至于极端，哪怕重构后的版本比老版本好的多，也会有用户高声喊：给我老版本。这和小丑的故事一样了，哪怕整容帅的像郭德纲一样，女子照样甩一甩衣袖走了。</p>
+<p>现实生活中的重构往往是程序员自己发起的，Martin Fowler都有一本书起名为《重构》，并被许多程序员奉为圭臬。程序员的初衷是好的，但往往会低估重构的难度，项目越大耦合越多，往往牵一发而动全身，当老板跑过来问你进度时，你只能回以尴尬的笑，因为进度会进入无法掌控的地步。最近自己差点陷入这种进退维谷的境地，还好项目比较小，最后算是挺了过来。</p>
+<p>但大的项目移筋动骨的重构就真的很难成功了。记得在核新软件的时候，项目庞大臃肿，添加新功能困难，软件的开发与执行效率都很低。记得一段时间内，大家重构的呼声很高，不过最后不了了之，因为工程浩大、重构后的兼容性、重构后软件多长时间可以稳定、重构后版本的测试等等需要考虑的各种问题已不单单是几个开发可以掌控的了的。而同时产品的需求还是不会减少，因为产品根本不关心软件的技术架构、可靠性、可维护性等等。</p>
+<p>产品不关心重构是正常的。确实，一个可以正常运行，用户没有太多投诉、谨慎的编码也不会出太大问题的项目为什么要重构呢？假如某地发现了一个煤矿，第一批人来开采，一年时间采掉了50%的煤; 第二批人来了，煤已不那么好采，必须小心谨慎的对待，因为矿难不断，不过还好花了两年时间采到了30%的煤; 第三批人来了，矿上留下的全是前人留下的坑，无处落脚，须将前面的坑填掉，才能保证采得到煤，先花费了三年填坑，最后又花了一年时间采到了10%的煤。软件开发也一样，软件的生命期有限，是否需要花费人力将软件重构的完美值得商榷，可能重构完成之日，为项目终结之时，留下完美的架构与设计又有何用呢？</p>
+<p>既然程序员呼吁重构的理由是，项目代码难以维护，那为什么不从一开始写出易维护的代码？</p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E9%87%8D%E6%9E%84/">重构</a>
+          <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/">项目管理</a>
+          <a href="/tags/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81/">代码整洁</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2014/07/21/review-xzjy/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">读《寻找家园》</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2014/06/28/archlinux-trim/">
+            <span class="next-text nav-default">Linux下开启TRIM</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

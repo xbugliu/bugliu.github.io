@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; 静态断言 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;-%E9%9D%99%E6%80%81%E6%96%AD%E8%A8%80/</link>
+    <description>Recent content in C&#43;&#43; 静态断言 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Tue, 10 Dec 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++-%E9%9D%99%E6%80%81%E6%96%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;中的静态断言</title>
+      <link>http://towriting.com/blog/2013/12/10/static-assert/</link>
+      <pubDate>Tue, 10 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/10/static-assert/</guid>
+      <description>##什么是静态断言 断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，</description>
+    </item>
+    
+  </channel>
+</rss>

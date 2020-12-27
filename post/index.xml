@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/post/</link>
+    <description>Recent content in Posts on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Mon, 29 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>我为什么从腾讯离职</title>
+      <link>http://towriting.com/blog/2019/07/29/leave-tencent/</link>
+      <pubDate>Mon, 29 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2019/07/29/leave-tencent/</guid>
+      <description>现在是2019年7月29日，三天后我将离开工作近七年的腾讯，此时我的内心是平静的。 唯物辩证法中，事物的发展的主要动力来自内因。而我离职的内部</description>
+    </item>
+    
+    <item>
+      <title>读《长安十二时辰》</title>
+      <link>http://towriting.com/blog/2018/06/23/changan12/</link>
+      <pubDate>Sat, 23 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2018/06/23/changan12/</guid>
+      <description>近来一直加班，每日晚归几近凌晨，阅读的书籍越发少了。《长安十二时辰》这部小说是在端午休假之时读的，从晨光熹微读至夜深人静才读完。马伯庸这个作</description>
+    </item>
+    
+    <item>
+      <title>关于招聘和面试的个人感悟</title>
+      <link>http://towriting.com/blog/2018/03/03/interview/</link>
+      <pubDate>Sat, 03 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2018/03/03/interview/</guid>
+      <description>最近半年部门业务扩展求贤若渴，所以不停的在收集简历和面试，从面试的情况来看，大约有下列三求职者： 第一类：技术娴熟，沟通流畅，基础知识和业务知</description>
+    </item>
+    
+    <item>
+      <title>Bjarne Stroustrup previews C&#43;&#43; 17</title>
+      <link>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</link>
+      <pubDate>Thu, 17 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</guid>
+      <description>本文是infoWorld关于C++17对C++之父进行的采访，原文见这里 InfoWorld:C++17什么时候可用? Stroustrup:C</description>
+    </item>
+    
+    <item>
+      <title>Android 6.0 openssl crash</title>
+      <link>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</link>
+      <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</guid>
+      <description>Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0</description>
+    </item>
+    
+    <item>
+      <title>读&lt;程序员的呐喊&gt;</title>
+      <link>http://towriting.com/blog/2015/09/10/a-programmers-rantings/</link>
+      <pubDate>Thu, 10 Sep 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/09/10/a-programmers-rantings/</guid>
+      <description>又是一本国外技术圈的名人的博客整理成的书。作者steve yegge是google的程序员，06年之前的7年工作在amazon。丰富的编程经验</description>
+    </item>
+    
+    <item>
+      <title>MongoDB中的$in和$elemMatch</title>
+      <link>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</link>
+      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</guid>
+      <description>PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手</description>
+    </item>
+    
+    <item>
+      <title>Windbg关联dmp文件</title>
+      <link>http://towriting.com/blog/2014/12/07/windbg-dump-asso/</link>
+      <pubDate>Sun, 07 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/12/07/windbg-dump-asso/</guid>
+      <description>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg c</description>
+    </item>
+    
+    <item>
+      <title>Windbg定位内存泄露的一种简单方法</title>
+      <link>http://towriting.com/blog/2014/11/22/windbg-memory-leak/</link>
+      <pubDate>Sat, 22 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/11/22/windbg-memory-leak/</guid>
+      <description>前两天接到一个反映进程内存占用过G的投诉。问题是必現的，一定是内存泄露，应该容易定位，一同事远程看过现场，使用gflags和windbg试图</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;API设计 - 笔记</title>
+      <link>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/</link>
+      <pubDate>Sat, 15 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/</guid>
+      <description>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看</description>
+    </item>
+    
+    <item>
+      <title>读《摩托车修理店的未来工作哲学》</title>
+      <link>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/</link>
+      <pubDate>Sun, 26 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/</guid>
+      <description>&amp;lt;摩托车修理店的未来工作哲学&amp;gt;是一本大抵关于工作的书。 薪水的意义 记得刚毕业的头一年月薪虽少，但内心竟极不安：我每天干的这点事情配</description>
+    </item>
+    
+    <item>
+      <title>互联网公司“24小时待命”的陋习</title>
+      <link>http://towriting.com/blog/2014/08/31/24-hour-stand-by/</link>
+      <pubDate>Sun, 31 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/08/31/24-hour-stand-by/</guid>
+      <description>24小时待命可能有些夸张，但它确实是以一种不成文的规定存在于一部分互联网公司。记得去年培训时，来自深圳总部的培训老师，自豪的说TX许多部门里</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;14-大餐后的甜点</title>
+      <link>http://towriting.com/blog/2014/08/25/cpp-14-dessert/</link>
+      <pubDate>Mon, 25 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/08/25/cpp-14-dessert/</guid>
+      <description>这次C++标准委员会快速的通过了最新的C++标准:C++14，要知道C++11可是一再跳票后的产物。此次快速的发布的缘由可能和C++14的改</description>
+    </item>
+    
+    <item>
+      <title>实现无锁算法的常见陷阱</title>
+      <link>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/</link>
+      <pubDate>Mon, 18 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/</guid>
+      <description>翻译自：Common Pitfalls in Writing Lock-Free Algorithms 通常，只要两个操作之间的步骤是有穷的，一个多线程算法就认为可以实现为无锁(lock-free)。理论上无锁算法</description>
+    </item>
+    
+    <item>
+      <title>读《寻找家园》</title>
+      <link>http://towriting.com/blog/2014/07/21/review-xzjy/</link>
+      <pubDate>Mon, 21 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/07/21/review-xzjy/</guid>
+      <description>诚然，这是一本文辞优美的自传集。自以为博学杂收，但此前竟从未听说过高尔泰，概和主流媒介打压有关。80后的我，有幸避过了那段岁月，所以对于书中</description>
+    </item>
+    
+    <item>
+      <title>关于重构的一些想法</title>
+      <link>http://towriting.com/blog/2014/07/08/evil-refactor/</link>
+      <pubDate>Tue, 08 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/07/08/evil-refactor/</guid>
+      <description>很早之前听说过这样一个故事： 一个漂亮的女子与马戏团的小丑坠入爱河，并迅速结婚。小丑十分珍惜得来的幸福，努力挣钱，瞒着女子做了整容手术，为了给</description>
+    </item>
+    
+    <item>
+      <title>Linux下开启TRIM</title>
+      <link>http://towriting.com/blog/2014/06/28/archlinux-trim/</link>
+      <pubDate>Sat, 28 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/06/28/archlinux-trim/</guid>
+      <description>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。 首先要检测SSD是否支持</description>
+    </item>
+    
+    <item>
+      <title>Dock项目个人总结</title>
+      <link>http://towriting.com/blog/2014/05/03/dock-project-experience/</link>
+      <pubDate>Sat, 03 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/05/03/dock-project-experience/</guid>
+      <description>Dock说白了是电脑桌面上常驻的一个工作区，Dock的目的是占领用户的桌面，况且我们追赶的团队和追赶我们的团队都已做出Dock，所以应用宝必</description>
+    </item>
+    
+    <item>
+      <title>读《苏东坡传》</title>
+      <link>http://towriting.com/blog/2014/04/27/the-gay-genius-review/</link>
+      <pubDate>Sun, 27 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/04/27/the-gay-genius-review/</guid>
+      <description>昨天在kindle上读完了《苏东坡传》，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，</description>
+    </item>
+    
+    <item>
+      <title>谁在用C&#43;&#43; STL？</title>
+      <link>http://towriting.com/blog/2014/04/18/who-use-stl/</link>
+      <pubDate>Fri, 18 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/04/18/who-use-stl/</guid>
+      <description>C++用了四年了，这两天才把 《Effective STL》看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及</description>
+    </item>
+    
+    <item>
+      <title>入职一周年记</title>
+      <link>http://towriting.com/blog/2014/04/08/tencent-anniversary/</link>
+      <pubDate>Tue, 08 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/04/08/tencent-anniversary/</guid>
+      <description>现在是2014年4月8日，23点45分，一刻钟后，今天将永不存在。一个小时前，才离开公司，相信现在公司还有同事在吧。今早收到了系统发来的祝贺</description>
+    </item>
+    
+    <item>
+      <title>读：人生元编程</title>
+      <link>http://towriting.com/blog/2014/02/23/mac-shuo-review/</link>
+      <pubDate>Sun, 23 Feb 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/02/23/mac-shuo-review/</guid>
+      <description>《人生元编程》这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，</description>
+    </item>
+    
+    <item>
+      <title>春节杂记</title>
+      <link>http://towriting.com/blog/2014/02/20/spring/</link>
+      <pubDate>Thu, 20 Feb 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/02/20/spring/</guid>
+      <description>今天正月二十一，按我们老家旧时的习俗，二月二&amp;quot;龙抬头&amp;quot;以后，才算过完年。今年过年在家里待了12天，算来不短，一年的忙碌终</description>
+    </item>
+    
+    <item>
+      <title>2013年（下半年）个人总结</title>
+      <link>http://towriting.com/blog/2014/01/01/2013-review/</link>
+      <pubDate>Wed, 01 Jan 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/01/01/2013-review/</guid>
+      <description>人没有进步，和死鱼有什么区别！ 今天是西元2014年的第一天，最近一周内，网上随意浏览时各种关于个人或者行业的年度总结不时映入眼帘。当然行业大</description>
+    </item>
+    
+    <item>
+      <title>为什么要学Ruby</title>
+      <link>http://towriting.com/blog/2013/12/26/learn-ruby/</link>
+      <pubDate>Thu, 26 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/26/learn-ruby/</guid>
+      <description>最早是在09年知道Ruby的，大概是知道Python的同时。当然这里的知道是仅限于名字上的。那是上大学，偏机械的专业，某些同学到今天可都是不</description>
+    </item>
+    
+    <item>
+      <title>《C&#43;&#43;标准库第二版 上册》笔记</title>
+      <link>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/</link>
+      <pubDate>Wed, 18 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/</guid>
+      <description>p63 a pair&amp;lt;&amp;gt; using a type that has only a nonconstant copy constructor will no longer compile. p64 std::piecewise_construct is passed as the first argument is class Foo forced to use a constructor that takes the elements of the tuple rather than a tuple as a whole. p65 The make_pair() function template enables you to create a value pair without writing the types explicitly. p67 pair used in functions that</description>
+    </item>
+    
+    <item>
+      <title>Windows提供的INI接口不是线程安全的</title>
+      <link>http://towriting.com/blog/2013/12/17/ini-muti-thread/</link>
+      <pubDate>Tue, 17 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/17/ini-muti-thread/</guid>
+      <description>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这</description>
+    </item>
+    
+    <item>
+      <title>我为什么从同花顺离职</title>
+      <link>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/</link>
+      <pubDate>Mon, 16 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/</guid>
+      <description>最近知乎上很流行的一个问题是为什么从 X 离职，倒退一年快到自己决定离职的日子了，趁热闹，也说说自己为什么离职。 首先，照例发自肺腑的感谢一下同花</description>
+    </item>
+    
+    <item>
+      <title>你们是勤劳还是懒惰的程序员？</title>
+      <link>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/</link>
+      <pubDate>Sun, 15 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/</guid>
+      <description>当人们从事体力劳动时，很容易判断他们的努力程度。你可以看到肢体运动和汗水。并且可以看到他们的劳动成果：高楼拔地，稻谷归仓...。承认和褒奖辛</description>
+    </item>
+    
+    <item>
+      <title>Boost.Lambda与C&#43;&#43;11.Lambda的用法对比</title>
+      <link>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</link>
+      <pubDate>Fri, 13 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</guid>
+      <description>我们知道C++11已经支持了Lambda表达式，大部分新的编译器都已支持Lambda。但boost里面的Lambda还是有存在的必要，因为并</description>
+    </item>
+    
+    <item>
+      <title>那些C&#43;&#43;牛人的博客</title>
+      <link>http://towriting.com/blog/2013/12/12/cpp-blogs/</link>
+      <pubDate>Thu, 12 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/12/cpp-blogs/</guid>
+      <description>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的</description>
+    </item>
+    
+    <item>
+      <title>《黑天鹅—如何应对不可知的未来》读书笔记</title>
+      <link>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/</link>
+      <pubDate>Wed, 11 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/</guid>
+      <description>《黑天鹅—如何应对不可知的未来》上册的阅读笔记： 我们通过观察或经验获得的知识具有严重的局限性和脆弱性 为什么读报实际上降低了你对世界的认识呢 黑</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;中的静态断言</title>
+      <link>http://towriting.com/blog/2013/12/10/static-assert/</link>
+      <pubDate>Tue, 10 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/10/static-assert/</guid>
+      <description>##什么是静态断言 断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，</description>
+    </item>
+    
+    <item>
+      <title>从杭州雾霾谈起</title>
+      <link>http://towriting.com/blog/2013/12/08/from-smog/</link>
+      <pubDate>Sun, 08 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/08/from-smog/</guid>
+      <description>昨天，在简书上翻看了几篇文章，其中首页竟有两篇是谈论要每天写点东西的。其中有一个想法很好，是教人如何养成写东西的习惯的：每天抽出一刻钟以上的</description>
+    </item>
+    
+    <item>
+      <title>整洁代码之上</title>
+      <link>http://towriting.com/blog/2013/12/03/beyond-clean-code/</link>
+      <pubDate>Tue, 03 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/03/beyond-clean-code/</guid>
+      <description>什么是整洁代码（What Is Clean Code） 当你拿这个问题问不同的人，或采用不同的语气，你可能会得到不同的答案。但通常无外乎这些评判标准： 自解释的</description>
+    </item>
+    
+    <item>
+      <title>Effective Tools - 多粘贴板 &amp;&amp; 快速搜索</title>
+      <link>http://towriting.com/blog/2013/11/17/effective-tools/</link>
+      <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/17/effective-tools/</guid>
+      <description>前两天买了一本《卓有成效的程序员》，看过几章后才明白为什么Stackoverflow里面人们会推荐这本书：它大抵是讲工具的，目的是为了提高程</description>
+    </item>
+    
+    <item>
+      <title>跳槽的好处</title>
+      <link>http://towriting.com/blog/2013/11/10/job-hopping/</link>
+      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/10/job-hopping/</guid>
+      <description>前两天和一个一年半多没联系过的前同事通了个电话，聊了个把小时。我对他现在的工作状态很感兴趣，因为他的工作状态就是我不离开那家公司的可能的状态</description>
+    </item>
+    
+    <item>
+      <title>驳‘做产品必须站在用户的角度考虑’</title>
+      <link>http://towriting.com/blog/2013/11/06/from-the-user-perspective/</link>
+      <pubDate>Wed, 06 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/06/from-the-user-perspective/</guid>
+      <description>“要站在用户的角度考虑”是互联网软件的从业者几乎听的耳朵磨出茧子的一句话。站在用户的角度考虑才能做出好的产品，似乎是整个行业的共识，但对于这</description>
+    </item>
+    
+    <item>
+      <title>从Safe bool惯用法到explicit标识符</title>
+      <link>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</link>
+      <pubDate>Fri, 01 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</guid>
+      <description>C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：More C++ Idioms，虽凝聚了C++程序员的聪明才智，</description>
+    </item>
+    
+    <item>
+      <title>Openshift小技巧-热部署</title>
+      <link>http://towriting.com/blog/2013/10/21/openshift-tips/</link>
+      <pubDate>Mon, 21 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/10/21/openshift-tips/</guid>
+      <description>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github</description>
+    </item>
+    
+    <item>
+      <title>神级程序员的神话</title>
+      <link>http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer/</link>
+      <pubDate>Mon, 30 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer/</guid>
+      <description>神级程序员1的神话不过就是个，神话！它是由一些可悲的原因形成的神话： 给普通人设置难以实现的预期 宣扬虚无的神级程序员打压团队 告诉某人是神级的并</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;手爱德华</title>
+      <link>http://towriting.com/blog/2013/09/23/edward-chands/</link>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/23/edward-chands/</guid>
+      <description>我一直在寻找一种可以类比使用C++编程时心情的东西，直到我想起1900年Tim Burton的电影，剪刀手爱德华。 在这部电影中，可怜的家伙（J</description>
+    </item>
+    
+    <item>
+      <title>世界上最杰出的程序员是获得最大快乐的那个人</title>
+      <link>http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world/</guid>
+      <description>Colin停在我的办公室来叫我去看他最近的项目。他拆开了他的显示器切换器（用来在两台PC之间切换单个显示器），拆开的切换器就摊放在他的桌子上</description>
+    </item>
+    
+    <item>
+      <title>讲一讲程序员的办公用品</title>
+      <link>http://towriting.com/blog/2013/09/21/office-stuff/</link>
+      <pubDate>Sat, 21 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/21/office-stuff/</guid>
+      <description>高性能、舒适、充足的办公用品可以提高办公效率 讲一讲这四年来我所在过的公司都给我们程序员提供过怎样的装配，这些装备主要包括：计算机、椅子、文具</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-常量表达式</title>
+      <link>http://towriting.com/blog/2013/09/17/constexpr/</link>
+      <pubDate>Tue, 17 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/17/constexpr/</guid>
+      <description>C++11有一些这样的改善，这种改善保证写出的代码比以往任何时候的执行效率都要好。这种改善之一就是生成常量表达式，允许程序利用编译时的计算能</description>
+    </item>
+    
+    <item>
+      <title>癸巳年上半年总结</title>
+      <link>http://towriting.com/blog/2013/09/15/summary/</link>
+      <pubDate>Sun, 15 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/15/summary/</guid>
+      <description>How Time Flies! 标题中年份用的是农历，春节后回杭州，元宵后办理完交接离开同花顺，到二月廿八入职TX，从那时算起到今天亦有半年多了。 关于健康 先从李开复罹</description>
+    </item>
+    
+    <item>
+      <title>熟悉的陌生人-this指针(1)</title>
+      <link>http://towriting.com/blog/2013/09/01/this-pointer/</link>
+      <pubDate>Sun, 01 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/09/01/this-pointer/</guid>
+      <description>this指针想必每个C++程序员都是再熟悉不过的了，我们每天的编程工作都会用到它，我们以为它是最忠实的朋友，不会给我们惹麻烦，但其实它可能不</description>
+    </item>
+    
+    <item>
+      <title>《黑客与画家》阅读笔记</title>
+      <link>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/</link>
+      <pubDate>Sun, 25 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/</guid>
+      <description>整理下自己前段时间阅读《黑客与画家》后记下的精彩观点： 要读懂这本书，必须理解什么是黑客。hack指漂亮的解决方法，而hacker是指使用ha</description>
+    </item>
+    
+    <item>
+      <title>const 二三事</title>
+      <link>http://towriting.com/blog/2013/08/21/things-of-const/</link>
+      <pubDate>Wed, 21 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/21/things-of-const/</guid>
+      <description>相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ri</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-区间迭代</title>
+      <link>http://towriting.com/blog/2013/08/20/ranged-for-loop/</link>
+      <pubDate>Tue, 20 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/20/ranged-for-loop/</guid>
+      <description>在我前面介绍C++11的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲</description>
+    </item>
+    
+    <item>
+      <title>七年前作的一首打油诗</title>
+      <link>http://towriting.com/blog/2013/08/17/a-doggerel-of-seven-years-ago/</link>
+      <pubDate>Sat, 17 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/17/a-doggerel-of-seven-years-ago/</guid>
+      <description>令伊伤神赴荆门 狐死首丘怀故人 祝君安康序仲昆 晋地荒凉伤我心 州内琐忆感乾坤 二更如梦仿诸君 中北桑梓孤独魂 漂泊天涯无定坟 泊头火柴烟头灰 学海无涯岸边蹲</description>
+    </item>
+    
+    <item>
+      <title>程序员的困境</title>
+      <link>http://towriting.com/blog/2013/08/16/programmer-dilemma/</link>
+      <pubDate>Fri, 16 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/16/programmer-dilemma/</guid>
+      <description>译者：toWriting.com翻译自：Programmer’s dilemma 最近面试了数十个应聘内核开发职位的求职者。这些求职者都来自于芯片或嵌入式操</description>
+    </item>
+    
+    <item>
+      <title>人生本应丰富多彩：《别逗了,费曼先生》读后感</title>
+      <link>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/</link>
+      <pubDate>Mon, 12 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/</guid>
+      <description>知道这本书的时间应该不超过一年，至少是在经常逛stackoverflow以后，那至少是2011年以后的事了。stackoverflow中列出</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-lambda函数</title>
+      <link>http://towriting.com/blog/2013/08/11/lambda-closures/</link>
+      <pubDate>Sun, 11 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/11/lambda-closures/</guid>
+      <description>C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭包）。这意味着什么？一个Lambda函数是一个可以内联写在你代码中的函数</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-改进的类型推导：auto、decltype和新的函数语法</title>
+      <link>http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/</link>
+      <pubDate>Thu, 08 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/</guid>
+      <description>C++11引入了一些新的实用的类型推导能力，这意味着你可以花费更少的时间去写那些编译器已经知道的东西。当然有些时候你需要帮助编译器或者你的编</description>
+    </item>
+    
+    <item>
+      <title>创建支持拖拽的进程</title>
+      <link>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</link>
+      <pubDate>Tue, 06 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</guid>
+      <description>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管</description>
+    </item>
+    
+    <item>
+      <title>octopress定制公益404页面</title>
+      <link>http://towriting.com/blog/2013/08/04/octopress-custom-404/</link>
+      <pubDate>Sun, 04 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/04/octopress-custom-404/</guid>
+      <description>一向不认为自己是一个有社会责任感的人，但为什么要接入公益404页面？那是因为我的博客托管在Github上，有一次输错自己博客文章的链接，一下</description>
+    </item>
+    
+    <item>
+      <title>Bg,Fg,&amp;,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务</title>
+      <link>http://towriting.com/blog/2013/08/03/unix-background-job/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/03/unix-background-job/</guid>
+      <description>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。 在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换</description>
+    </item>
+    
+    <item>
+      <title>暴力禁止windows自动安装驱动</title>
+      <link>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/</guid>
+      <description>windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11系列-什么是C&#43;&#43;11</title>
+      <link>http://towriting.com/blog/2013/08/01/what-is-cpp11/</link>
+      <pubDate>Thu, 01 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/01/what-is-cpp11/</guid>
+      <description>什么是C++0x? C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9</description>
+    </item>
+    
+    <item>
+      <title>降权启动进程</title>
+      <link>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</link>
+      <pubDate>Wed, 31 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</guid>
+      <description>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，</description>
+    </item>
+    
+    <item>
+      <title>获取进程打开的互斥量</title>
+      <link>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</link>
+      <pubDate>Thu, 25 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</guid>
+      <description>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&amp;quot;拥有&amp;quot;的互斥量来区分这些进程。所以下面实现了获取指定进程&amp;qu</description>
+    </item>
+    
+    <item>
+      <title>Smart GetProcAddress之实现</title>
+      <link>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</link>
+      <pubDate>Sat, 20 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</guid>
+      <description>Windows下有过编程经验的朋友肯定用过这个函数：GetProcAddress，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，</description>
+    </item>
+    
+    <item>
+      <title>我曾读过的那些书</title>
+      <link>http://towriting.com/blog/2013/07/20/the-books-i-have-read/</link>
+      <pubDate>Sat, 20 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/20/the-books-i-have-read/</guid>
+      <description>在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。 2020年: 毛泽东选集第三卷</description>
+    </item>
+    
+    <item>
+      <title>开始写博客</title>
+      <link>http://towriting.com/blog/2013/07/17/begin-writing-blog/</link>
+      <pubDate>Wed, 17 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/17/begin-writing-blog/</guid>
+      <description>离职的意外收获 今年离职有一个意外收获，合适的工作很难找，找工作的空白期间，买了个域名（towriting.com)，开了这个个人博客，自此可</description>
+    </item>
+    
+  </channel>
+</rss>

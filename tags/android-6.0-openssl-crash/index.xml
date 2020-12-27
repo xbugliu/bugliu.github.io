@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android 6.0 openssl Crash on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/android-6.0-openssl-crash/</link>
+    <description>Recent content in Android 6.0 openssl Crash on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sun, 11 Oct 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/android-6.0-openssl-crash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Android 6.0 openssl crash</title>
+      <link>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</link>
+      <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</guid>
+      <description>Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0</description>
+    </item>
+    
+  </channel>
+</rss>

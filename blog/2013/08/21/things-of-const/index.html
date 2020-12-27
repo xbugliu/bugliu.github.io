@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>const 二三事 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="讲解了C&#43;&#43;中的重要的const的历史，用法，用处及使用过程中要注意的地方，最后讲解了一个为了实现逻辑const的技巧" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2013/08/21/things-of-const/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="const 二三事" />
+<meta property="og:description" content="讲解了C&#43;&#43;中的重要的const的历史，用法，用处及使用过程中要注意的地方，最后讲解了一个为了实现逻辑const的技巧" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2013/08/21/things-of-const/" />
+<meta property="article:published_time" content="2013-08-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-08-21T00:00:00+00:00" />
+<meta itemprop="name" content="const 二三事">
+<meta itemprop="description" content="讲解了C&#43;&#43;中的重要的const的历史，用法，用处及使用过程中要注意的地方，最后讲解了一个为了实现逻辑const的技巧">
+<meta itemprop="datePublished" content="2013-08-21T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-08-21T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2096">
+
+
+
+<meta itemprop="keywords" content="C&#43;&#43;,const,常量," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="const 二三事"/>
+<meta name="twitter:description" content="讲解了C&#43;&#43;中的重要的const的历史，用法，用处及使用过程中要注意的地方，最后讲解了一个为了实现逻辑const的技巧"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">const 二三事</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2013-08-21 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
+            </div>
+          <span class="more-meta"> 2096 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#const的作用">const的作用</a></li>
+        <li><a href="#两种const">两种const</a></li>
+        <li><a href="#鲜为人知的特性">鲜为人知的特性</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>相信任何一个C++程序员都听说并使用过const。const在最初的C语言中是没有的，后来Bjarne Stroustrup和Dennis Ritchie讨论提出了Readonly机制，最初的Readonly机制简单的就是想利用操作系统的能力，提供一种可以使变量是只读的能力。Readonly通过被加进C语言的决议，并命名为const，但可能是标准委员会的官僚导致这项决议迟迟没有执行。后来Bjarne Stroustrup就自己把const加入进C++中（当时还不叫C++），并逐渐演变成现在的样子。</p>
+<p>窃以为尽一切可能的使用const是任何一个合格的C++程序员应该遵守的事情，就像开车要系安全带一样。但好像人们并不喜欢用const，在我有限的C++编程生涯中，我接触到的有意识的会尽量用const的，除了我好像只有一人。不喜欢用const的结果同样可能会和开车不系安全带是一样的，希望你不会出事！</p>
+<h2 id="const的作用">const的作用</h2>
+<ul>
+<li>避免魔数</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">const</span> <span class="kt">int</span> <span class="n">max_path</span> <span class="o">=</span> <span class="mi">260</span><span class="p">;</span>
+<span class="kt">char</span> <span class="p">[</span><span class="n">max_path</span><span class="p">];</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用自解释的变量名声明const变量，代替魔数，会增加代码的可维护性，勿以善小而不为呀！</p>
+<ul>
+<li>
+<p>内存优化 对于POD类型的变量，const往往能将其优化到只读内存存储</p>
+</li>
+<li>
+<p>降低API的复杂度</p>
+</li>
+</ul>
+<p>比如有下面这样一个类</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Array</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="kt">int</span> <span class="n">getCount</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="k">private</span><span class="o">:</span>
+    <span class="c1">//etc
+</span><span class="c1"></span><span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>将成员函数getCount指定为const（const不能修饰非成员函数和static成员函数），可以使调用它的客户端代码相信Array的对象是没有变化的，函数的调用不会产生副作用。</p>
+<p>或者：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">getMaxValue</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">srcVec</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">fun</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    
+    <span class="kt">int</span> <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getMaxValue</span><span class="p">(</span><span class="n">vec</span><span class="p">);</span>    
+    
+    <span class="c1">//继续使用vec
+</span><span class="c1"></span>    <span class="k">auto</span> <span class="n">size</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>参数使用const修饰，可以逻辑上保证参数不会被调用的函数修改，一样是降低复杂度</p>
+<ul>
+<li>防止错误的发生</li>
+</ul>
+<p>看下面的例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">getMaxVal</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="kt">int</span> <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getMaxVal</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">maxCacheVal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">NeedFetchCache</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="c1">//etc
+</span><span class="c1"></span>        <span class="n">maxVal</span> <span class="o">=</span> <span class="n">getCacheMaxVal</span><span class="p">();</span><span class="c1">//拼写错误，本来该是maxCacheVal
+</span><span class="c1"></span>    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">max</span><span class="p">(</span><span class="n">maxCacheVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">);</span>
+     
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果不用const，例子里拼写错误导致的bug只能留待自测、QA或用户来发现了，如果maxVal是const，那编译器不会让你通过的，这样const帮助我们将这种错误绞杀于萌芽。</p>
+<h2 id="两种const">两种const</h2>
+<ul>
+<li>物理const</li>
+</ul>
+<p>物理const是Bjarne Stroustrup最初想要实现的Readonly。目的是把POD类型的变量存储进只读存储区，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"> <span class="k">const</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>i将被优化进只读内存，效果相当于C语言中的宏。</p>
+<ul>
+<li>逻辑const</li>
+</ul>
+<p>逻辑const，一般修饰成员函数，表明调用函数不用引起对象逻辑上的变化：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Array</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+    <span class="n">size_t</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="o">++</span><span class="n">m_calledCount</span><span class="p">;</span><span class="c1">//无法修改
+</span><span class="c1"></span>        <span class="k">return</span> <span class="n">m_size</span><span class="p">;</span>    
+    <span class="p">}</span>
+  <span class="k">private</span><span class="o">:</span>
+    <span class="n">size_t</span> <span class="n">m_size</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">m_calledCount</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面例子中的size()函数修饰为const，则表明调用它的过程中，对象一般是不能变化的，所以无法改变成员变量的值。</p>
+<p>逻辑const也指修饰非POD类型的变量，主要帮助编译器做语法检测：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str1</span> <span class="o">=</span> <span class="s">&#34;towriting.com&#34;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">size</span> <span class="o">=</span> <span class="n">str1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="n">str1</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">&#34;!&#34;</span><span class="p">);</span> <span class="c1">//无法调用非const成员函数
+</span></code></pre></td></tr></table>
+</div>
+</div><p>const的对象只能调用const版的成员函数。例子中的str1调用了非const函数push_back会引起编译错误，因为const对象不应该改变对象的“值&quot;。</p>
+<h2 id="鲜为人知的特性">鲜为人知的特性</h2>
+<ul>
+<li>内部链接</li>
+</ul>
+<p>大家知道全局变量的定义必须是唯一的，但const修饰的变量具有内部链接的属性，比如有两个编译单元文件test_const_one.cpp和test_const_ohter.cpp分别定义了全局变量g_var：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">//test_const_one.cpp
+</span><span class="c1"></span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">g_var</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">//something
+</span><span class="c1"></span><span class="p">}</span>
+
+<span class="c1">//test_const_other.cpp
+</span><span class="c1"></span><span class="k">const</span> <span class="kt">int</span> <span class="n">g_var</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">testconst</span>
+<span class="p">{</span>
+  <span class="c1">//something
+</span><span class="c1"></span><span class="p">}</span>
+
+</code></pre></td></tr></table>
+</div>
+</div><p>但编译是没有问题的，因为g_var只在本编译单元可见</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">debian:~/workspace/snippets/cpp<span class="nv">$g</span>++ test_const_one.cpp test_const_other.cpp
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>影响虚函数的覆盖</li>
+</ul>
+<p>比如有两个类，CSuperButton继承CButton，并且子类“重写”了基类的GetWidth()函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CButton</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+   <span class="k">virtual</span> <span class="kt">int</span> <span class="n">GetWidth</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span><span class="k">return</span> <span class="mi">100</span><span class="p">;}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">CSuperButton</span><span class="o">:</span> <span class="k">public</span> <span class="n">CButton</span>
+<span class="p">{</span>
+  <span class="k">public</span><span class="o">:</span>
+   <span class="k">virtual</span> <span class="kt">int</span> <span class="n">GetWidth</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="mi">0</span><span class="p">;}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="n">CButton</span> <span class="o">*</span><span class="n">pBtn</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSuperButton</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">pBtn</span><span class="o">-&gt;</span><span class="n">GetWidth</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果这是一道面试题，问输出的结果是多少时，我相性不少人会答错。不卖关子，结果是100，因为子类的GetWidth没有用const修饰而基类使用了const，所以无法覆盖。</p>
+<ul>
+<li>影响函数的重载</li>
+</ul>
+<p>影响函数的重载有两种，一种是通过const修饰成员函数，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CIntArray</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">int</span><span class="o">&amp;</span> <span class="n">At</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
+  <span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">At</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>CIntArray原本提供了一个非const的At函数用于获取内容，并且可以通过引用的返回值修改对象。但同时也要提供一个const版的At供const对象使用（如果返回成员变量，返回值也要用const）。</p>
+<p>另一种影响重载的是，通过修饰参数，比如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">doSomething</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">doSomething</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>&ldquo;浅&quot;const</li>
+</ul>
+<p>我们前面讲了成员const函数无法修改成员变量，但指针的成员变量为什么好像会被修改？</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CObj</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+  <span class="kt">void</span> <span class="n">doSomething</span><span class="p">()</span> <span class="k">const</span>
+  <span class="p">{</span>
+     <span class="o">*</span><span class="n">m_pointer</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="k">private</span><span class="o">:</span>
+  <span class="kt">int</span> <span class="o">*</span><span class="n">m_pointer</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的代码编译是没有问题的，const的成员函数doSomething好像&quot;修改&quot;了成员变量的值。指针的成员变量有什么特殊的吗，为什么可以这样？原因很简单，doSomething并没有修改m_pointer的值，m_pointer是指针，只是修改了指针指向的内容而已。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/c&#43;&#43;/">C&#43;&#43;</a>
+          <a href="/tags/const/">const</a>
+          <a href="/tags/%E5%B8%B8%E9%87%8F/">常量</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2013/08/25/read-notes-hacker-and-painters/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">《黑客与画家》阅读笔记</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2013/08/20/ranged-for-loop/">
+            <span class="next-text nav-default">C&#43;&#43;11系列-区间迭代</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

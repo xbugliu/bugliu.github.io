@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux trim on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/linux-trim/</link>
+    <description>Recent content in linux trim on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Sat, 28 Jun 2014 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/linux-trim/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux下开启TRIM</title>
+      <link>http://towriting.com/blog/2014/06/28/archlinux-trim/</link>
+      <pubDate>Sat, 28 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/06/28/archlinux-trim/</guid>
+      <description>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。 首先要检测SSD是否支持</description>
+    </item>
+    
+  </channel>
+</rss>

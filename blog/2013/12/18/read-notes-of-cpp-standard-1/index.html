@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《C&#43;&#43;标准库第二版 上册》笔记 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="《C&#43;&#43;标准库第二版 上册》笔记" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《C&#43;&#43;标准库第二版 上册》笔记" />
+<meta property="og:description" content="《C&#43;&#43;标准库第二版 上册》笔记" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/" />
+<meta property="article:published_time" content="2013-12-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-12-18T00:00:00+00:00" />
+<meta itemprop="name" content="《C&#43;&#43;标准库第二版 上册》笔记">
+<meta itemprop="description" content="《C&#43;&#43;标准库第二版 上册》笔记">
+<meta itemprop="datePublished" content="2013-12-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-12-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1627">
+
+
+
+<meta itemprop="keywords" content="《C&#43;&#43;标准库》笔记," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《C&#43;&#43;标准库第二版 上册》笔记"/>
+<meta name="twitter:description" content="《C&#43;&#43;标准库第二版 上册》笔记"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《C&#43;&#43;标准库第二版 上册》笔记</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2013-12-18 </span>
+        
+          <span class="more-meta"> 1627 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>p63 a pair&lt;&gt; using a type that has only a nonconstant copy constructor will no longer compile.</p>
+<p>p64 std::piecewise_construct is passed as the first argument is class Foo forced to use a constructor that takes the elements of the tuple rather than a tuple as a whole.</p>
+<p>p65 The make_pair() function template enables you to create a value pair without writing the types explicitly.</p>
+<p>p67 pair used in functions that return two values.</p>
+<p>p68 tuples extend the concept of pairs to an arbitrary number.we can access elements with the get&lt;&gt;() function template.</p>
+<p>p70 A tuple type can be a reference. For example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">string</span> <span class="n">s</span><span class="p">;</span>
+<span class="n">tuple</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&amp;&gt;</span> <span class="n">t</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>For element access, you must know the index of element at complier time.It is also a complier error if you pass a invalid index.
+Make_tuple can create tuple without special the type of element.
+By using references with make_tuple(), you can extract values of a tuple back to some other variables. e.g.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">float</span><span class="o">&gt;</span> <span class="n">t</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">float</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+<span class="n">make_tuple</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">ref</span><span class="p">(</span><span class="n">f</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>p72 std::tie() creates a tuple of references. the use of std::ignore allows ignoring tuple elements while parsing with tie()</p>
+<p>p75 You can initialize a two-element tuple with a pair.Also, you can assign a pair to a two-element tuple.</p>
+<p>p76 Tow types of smart pointer:</p>
+<ul>
+<li>shared_ptr. Multiple smart pointer can refer to the same object.</li>
+<li>unique_ptr. only one smart pointer can refer to this object at a time.</li>
+</ul>
+<p>p77 shared_ptr. you can define other ways to clean up object.</p>
+<p>p78 shared_ptr can&rsquo;t assign a new ordinary pointer. but can use reset function to reset the pointer.</p>
+<p>p79 assigning a nullptr to a shared_ptr would delete the ownship.</p>
+<p>p80 Smart pointer, when use new[] to create an array of object, you must define your own deleter.</p>
+<p>p85 weak_ptr allows sharing but not owning an object.</p>
+<p>p90 You should always directly initialize a smart pointer the moment you create the object with its associated resource.</p>
+<p>p95 Aliasing constructor,The constructor taking another shared_pointer and an additional raw pointer.</p>
+<p>p96 shared pointers are not thread safe.</p>
+<p>p101 You can&rsquo;t copy or assgin a unique pointer if you use the ordinary copy semantics, but can use move semantics.</p>
+<p>p102 assgining nullptr is also possible, which has the same effect as calling reset().</p>
+<p>p103 The Reason that no std::move is necessary in the return statement of source() is than according to the language rules of c++11, the compiler will try a move automaticallly.</p>
+<p>p105 The c++ stl provides a partial spartial specialization of class unique_ptr for array: std::unique_ptr<code>&lt;std::string[]&gt;</code></p>
+<p>p110 unique_ptr not necessarily defined as T*</p>
+<p>p115 The new concept of numeric limits has two advantages: first, it offers more type safety. second, it enables a programmer to write templates that evaluate these limits.</p>
+<p>p119 all members of numeric_limits are declared as constexpr.</p>
+<p>p121 you can query for any arbitrary type whether or not it has numeric limits defined.</p>
+<p>p125 Type Traits:</p>
+<ul>
+<li>Type Predicates</li>
+<li>Type Relations</li>
+<li>Type Modifiers</li>
+</ul>
+<p>p130 A reference to a constant type is not constant</p>
+<p>p136 Note that swap provides an exception specification</p>
+<p>p158 Not that time_t usually is just the number of seconds since the UNXI epoch. bu this is not guaranteed.</p>
+<p>p166 The marjor advantage of iterators is that they offer a small but common interface for any arbitrary container type.</p>
+<p>p166 The concept of STL is base on a separation of data and operations. The data is managed by container classes, and the operations are defined by configurable algorithms. iterators are the glue between these two components.</p>
+<p>p167 There are three general kinds of containers:</p>
+<ul>
+<li>Sequence contains are ordered collections in which every element has a certain postion.</li>
+<li>Associative containers are sorted collections in which the postion of an element depends on its value due to a certain sorting criterion: set multiset map multimap.</li>
+<li>Unorderd containers. neither the order of insertion nor the value of the inserted element has an influence on the postion of the element, and the position might change over the lifetime of the container: unordered_set,undered_multiset,undered_map,undered_multimap.</li>
+</ul>
+<p>p170 size() is provided for any container class execept singly linked lists(class forward_list)</p>
+<p>p170 deque rhymes with &ldquo;check&rdquo;</p>
+<p>p171 the push_front is not provided for vectors, because it would have a bad runtime for vectors, but is is possible to insert an element at the beginning of a vector.</p>
+<p>p171 using array. with a safer and more convenient interface.</p>
+<p>p176 forward_list is in principle just a limited list.</p>
+<p>p177 The major advantage of associative containers is that finding an element with a specific value is rather fast.</p>
+<p>p177 you can consider a set as a special kind of map, in which the value is identical to the key. in fact, all these are implemented by using the same basic implementation of a binary tree.</p>
+<p>p180 C++11 guarantees that newly inserted elements are inserted at the end of equivalent elements that multisets and multimaps already contain.</p>
+<p>p180 unordered containers are typically implemented as a hash table. the goal is that each element has its own position so that you have fast access to each element.</p>
+<p>p185 associative array: an array whose index is not an integer value.</p>
+<p>p188 an iterator is an object that can iterate over elements. iterators share the same interface but have different types.</p>
+<p>p189 every container defines two iterator types:</p>
+<ul>
+<li>container::iterator is provided to iterator over elements in read/write mode</li>
+<li>container::const_iterator is provided to iterator over elements in read mode</li>
+</ul>
+<p>p199 To write generic code you should not use special operations for random-access iterators.</p>
+<p>p199 Algorithms are not member functions of the container classer but instead are global functions that operator wich iterators. this concept reduces the amount of code and increases the power and the flexibility of the library.</p>
+<p>p208 Multiple Ranges, make sure that the second and additional ranges have at least as many elements as the first range.</p>
+<p>p209 associative and unordered containers cannot be used as a destination for overwriting algorithms.</p>
+<p>p210 Interator Adapters</p>
+<p>p210 Insert Interators solve the problem of algorithms that write to destination that does not have enough room.</p>
+<p>p212 general insertor call insert()</p>
+<p>p213 <code>istream_iterator&lt;string&gt;()</code> calls the default constructor of iterators that creates a so-called end-of-stream iterator.</p>
+<p>p214 reverse iterators rbegin()\rend()</p>
+<p>p220 distance if iterator were random-access, you could with &ldquo;-&rdquo;</p>
+<p>p221 to make agorithms as flexible as possible there are good reason not requrie that interator know their container.</p>
+<p>p223 a container might have member functions that provide much better performance that algorithms</p>
+<p>p226 predicates must stateless</p>
+<p>p232 Lambda no default constructor and no assignment operator.</p>
+<p>p235 function object are functions with states</p>
+<ul>
+<li>fnctction object has its own type</li>
+<li>function object may faster than ordinary functions.</li>
+</ul>
+<p>p241 Binder to combine predefined function objects with other values or use special cases.</p>
+<p>p248 it&rsquo;s turns out that exception specifications could cause performance penalties, so they were replaced by noexcept with c++11.</p>
+<p>p249 if you need a transaction-safe container, you should use a list.</p>
+<p>p254 container&rsquo;s operators are not safe in the sense that they check for every possible error.</p>
+<p>p257 since c++11 you can use move constructor</p>
+<p>p258 Move Sytax: The contents of the container on the right-hand side are undefined afterwared:</p>
+<p>p258 forware_list not provided size()</p>
+<p>p260 all containers except vectors and deques guarantee that iterators an references to elements remianing valid if other elemenets are deleteed.</p>
+<p>p262 array&lt;&gt; default initialized.</p>
+<p>p267 array you must not pass an iterator as the address of the first element.</p>
+<p>p271 vectors： capacity(), which returns the number of elements a vector could contain in its actual memory.</p>
+<p>p271 If the only reason for initialization is to reserve memory, you should use reserve()</p>
+<p>p271 it is not possible to call reserve for vectors to shrink the capacity.</p>
+<p>p282 For vector<bool> the return type of subscript operator is an auxiliary class.</p>
+<p>p283 Deque is typically implemented as a bunch of individual blocks.</p>
+<p>p284 Deque provide no support to control the capacity and the momnet of reallocation.Howerer reallocation may perform better than for vectors because according to their typical internal structure, deques don&rsquo;t have to copy all elemenets on reallocation.</p>
+<p>p284 Blocks of memory might get freed when they are no longer used(implementation specific)</p>
+<p>p286 You could say that lists are transaction safe.</p>
+<p>p301 The design goal to have &ldquo;zero space or time overhead relative to a hand-written C-stype single linked list.</p>
+<p>p303 forward_list provide no support size(), but you can use std::distance(list.begin(),list.end())</p>
+<p>p315 you cant change set&rsquo;s value from interator</p>
+<p>p316 not that the sorting criterion is also used to check for equivalence of two elements in the same container.</p>
+<p>p338 std::for_each(coll.begin(), coll.end(), [] (decltype(coll)::value_type &amp;elem) {}
+p342 piecewise_construct emplace.</p>
+<p>p345 [] is slower than the insert()</p>
+<p>p366 unorder container</p>
+<p>p366 unorder containers are optimized for fast searching of elements</p>
+<p>p386 using the noninvasive approach is simple, you need only objects that are able to iterate over the elements of an array by using the STL iterator interface.</p>
+<p>p386 Any Thing that behaves like an iterator is an iterator.</p>
+<p>p437 forward iterators, it is guaranteed that for two forward iterators that refor to the same elemnet, operator == yields true and that they will refer to the same value after both are incremented.</p>
+<p>p442 to be able to change container and iterator types, you should use advance</p>
+<p>p460 for insert iterator, a bad hint might even be worse than no hint.</p>
+<p>p471 writing user-defined iterators</p>
+<p>p476 each function object has its own type</p>
+<p>p479 by default, function objects are passed by value rather than by reference.</p>
+<p>p483 for_each can return a value</p>
+<p>p485 a predicate should always be stateless. you should declare operator() as const. but lambda not exist this problem.</p>
+<p>p494 bind also could bind data member.</p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/c&#43;&#43;%E6%A0%87%E5%87%86%E5%BA%93%E7%AC%94%E8%AE%B0/">《C&#43;&#43;标准库》笔记</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2013/12/26/learn-ruby/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">为什么要学Ruby</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2013/12/17/ini-muti-thread/">
+            <span class="next-text nav-default">Windows提供的INI接口不是线程安全的</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

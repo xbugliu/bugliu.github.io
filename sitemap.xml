@@ -1,0 +1,1600 @@
+<?xml-stylesheet type="text/xsl" href="http://towriting.com/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://towriting.com/categories/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/post/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2019/07/29/leave-tencent/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%A6%BB%E8%81%8C/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E8%81%8C%E5%9C%BA/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%85%BE%E8%AE%AF/</loc>
+    <lastmod>2019-07-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2018/06/23/changan12/</loc>
+    <lastmod>2018-06-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%95%BF%E5%AE%89%E5%8D%81%E4%BA%8C%E6%97%B6%E8%BE%B0/</loc>
+    <lastmod>2018-06-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%98%85%E8%AF%BB/</loc>
+    <lastmod>2018-06-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E9%98%85%E8%AF%BB/</loc>
+    <lastmod>2018-06-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%A9%AC%E4%BC%AF%E5%BA%B8/</loc>
+    <lastmod>2018-06-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2018/03/03/interview/</loc>
+    <lastmod>2018-03-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;17/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E7%BF%BB%E8%AF%91/</loc>
+    <lastmod>2016-03-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/android-6.0-openssl-crash/</loc>
+    <lastmod>2015-10-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</loc>
+    <lastmod>2015-10-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2015-10-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/a-programmers-rantings/</loc>
+    <lastmod>2015-09-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%91%90%E5%96%8A/</loc>
+    <lastmod>2015-09-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2015/09/10/a-programmers-rantings/</loc>
+    <lastmod>2015-09-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/mongodb-%E6%95%B0%E7%BB%84%E6%9F%A5%E8%AF%A2/</loc>
+    <lastmod>2015-01-14T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</loc>
+    <lastmod>2015-01-14T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/dmp/</loc>
+    <lastmod>2014-12-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/windbg/</loc>
+    <lastmod>2014-12-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/12/07/windbg-dump-asso/</loc>
+    <lastmod>2014-12-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/tadb/</loc>
+    <lastmod>2014-11-22T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/11/22/windbg-memory-leak/</loc>
+    <lastmod>2014-11-22T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/windgb/</loc>
+    <lastmod>2014-11-22T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2/</loc>
+    <lastmod>2014-11-22T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/api-design-for-c&#43;&#43;/</loc>
+    <lastmod>2014-11-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;api%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2014-11-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/</loc>
+    <lastmod>2014-11-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%84%8F%E4%B9%89/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%91%A9%E6%89%98%E8%BD%A6%E4%BF%AE%E7%90%86%E5%BA%97%E7%9A%84%E6%9C%AA%E6%9D%A5%E5%B7%A5%E4%BD%9C%E5%93%B2%E5%AD%A6/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/</loc>
+    <lastmod>2014-10-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/08/31/24-hour-stand-by/</loc>
+    <lastmod>2014-08-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%8A%A0%E7%8F%AD%E6%96%87%E5%8C%96/</loc>
+    <lastmod>2014-08-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;14-%E8%8C%83%E5%9E%8Blambda/</loc>
+    <lastmod>2014-08-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/08/25/cpp-14-dessert/</loc>
+    <lastmod>2014-08-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/</loc>
+    <lastmod>2014-08-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%97%A0%E9%94%81%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2014-08-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/07/21/review-xzjy/</loc>
+    <lastmod>2014-07-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%AB%98%E5%B0%94%E6%B3%B0-%E5%AF%BB%E6%89%BE%E5%AE%B6%E5%9B%AD-%E8%AF%BB%E5%90%8E%E6%84%9F/</loc>
+    <lastmod>2014-07-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%BB%A3%E7%A0%81%E6%95%B4%E6%B4%81/</loc>
+    <lastmod>2014-07-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/07/08/evil-refactor/</loc>
+    <lastmod>2014-07-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%87%8D%E6%9E%84/</loc>
+    <lastmod>2014-07-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2014-07-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/linux/</loc>
+    <lastmod>2014-06-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/linux-trim/</loc>
+    <lastmod>2014-06-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/06/28/archlinux-trim/</loc>
+    <lastmod>2014-06-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/ssd-trim/</loc>
+    <lastmod>2014-06-28T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/dock/</loc>
+    <lastmod>2014-05-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/05/03/dock-project-experience/</loc>
+    <lastmod>2014-05-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%B7%A5%E4%BD%9C/</loc>
+    <lastmod>2014-05-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2014-05-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E4%BA%BA%E7%94%9F/</loc>
+    <lastmod>2014-05-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%8B%8F%E4%B8%9C%E5%9D%A1/</loc>
+    <lastmod>2014-04-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%8B%8F%E4%B8%9C%E5%9D%A1%E4%BC%A0/</loc>
+    <lastmod>2014-04-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/04/27/the-gay-genius-review/</loc>
+    <lastmod>2014-04-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/stl/</loc>
+    <lastmod>2014-04-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/04/18/who-use-stl/</loc>
+    <lastmod>2014-04-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/04/08/tencent-anniversary/</loc>
+    <lastmod>2014-04-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%91%A8%E5%B9%B4/</loc>
+    <lastmod>2014-04-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%81%8C%E5%9C%BA/</loc>
+    <lastmod>2014-04-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%BA%BA%E7%94%9F%E5%85%83%E7%BC%96%E7%A8%8B%E8%AF%BB%E5%90%8E%E6%84%9F/</loc>
+    <lastmod>2014-02-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/02/23/mac-shuo-review/</loc>
+    <lastmod>2014-02-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%98%A5%E8%8A%82/</loc>
+    <lastmod>2014-02-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/02/20/spring/</loc>
+    <lastmod>2014-02-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/</loc>
+    <lastmod>2014-02-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/2013-%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2014-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2014/01/01/2013-review/</loc>
+    <lastmod>2014-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2014-01-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E7%A8%8B%E5%BA%8F%E5%91%98%E5%AD%A6ruby/</loc>
+    <lastmod>2013-12-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/ruby%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2013-12-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/26/learn-ruby/</loc>
+    <lastmod>2013-12-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E6%A0%87%E5%87%86%E5%BA%93%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2013-12-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/</loc>
+    <lastmod>2013-12-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/ini-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2013-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/17/ini-muti-thread/</loc>
+    <lastmod>2013-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/writeprivateprofilestring-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2013-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/writeprivateprofilestring-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2013-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%BD%A0%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BB%8E%E5%90%8C%E8%8A%B1%E9%A1%BA%E7%A6%BB%E8%81%8C/</loc>
+    <lastmod>2013-12-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BB%8E%E5%90%8C%E8%8A%B1%E9%A1%BA%E7%A6%BB%E8%81%8C/</loc>
+    <lastmod>2013-12-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/16/why-i-quit-ths-job/</loc>
+    <lastmod>2013-12-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/15/are-your-programmers-working-hard-or-are-they-lazy/</loc>
+    <lastmod>2013-12-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%8B%A4%E5%8A%B3/</loc>
+    <lastmod>2013-12-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%87%92%E6%83%B0/</loc>
+    <lastmod>2013-12-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/boost-lambda/</loc>
+    <lastmod>2013-12-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/boost-lambda%E5%AE%9E%E4%BE%8B/</loc>
+    <lastmod>2013-12-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/boost-lambda%E7%94%A8%E6%B3%95/</loc>
+    <lastmod>2013-12-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/</loc>
+    <lastmod>2013-12-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;-lambda/</loc>
+    <lastmod>2013-12-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;11-lambda/</loc>
+    <lastmod>2013-12-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2013-12-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E5%8D%9A%E5%AE%A2%E6%8E%A8%E8%8D%90/</loc>
+    <lastmod>2013-12-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E7%89%9B%E4%BA%BA%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2013-12-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E9%AB%98%E6%89%8B%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2013-12-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2013-12-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/12/cpp-blogs/</loc>
+    <lastmod>2013-12-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/</loc>
+    <lastmod>2013-12-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%BB%91%E5%A4%A9%E9%B9%85%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E4%B8%8D%E5%8F%AF%E7%9F%A5%E7%9A%84%E6%9C%AA%E6%9D%A5-%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2013-12-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;-static-assert/</loc>
+    <lastmod>2013-12-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;-static_assert/</loc>
+    <lastmod>2013-12-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;-%E7%BA%A6%E6%9D%9F/</loc>
+    <lastmod>2013-12-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;-%E9%9D%99%E6%80%81%E6%96%AD%E8%A8%80/</loc>
+    <lastmod>2013-12-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/10/static-assert/</loc>
+    <lastmod>2013-12-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/08/from-smog/</loc>
+    <lastmod>2013-12-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%9D%AD%E5%B7%9E%E9%9B%BE%E9%9C%BE/</loc>
+    <lastmod>2013-12-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%BB%B7%E5%80%BC%E4%BB%A3%E7%A0%81/</loc>
+    <lastmod>2013-12-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%95%B4%E6%B4%81%E4%BB%A3%E7%A0%81/</loc>
+    <lastmod>2013-12-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/12/03/beyond-clean-code/</loc>
+    <lastmod>2013-12-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/11/17/effective-tools/</loc>
+    <lastmod>2013-11-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/finder/</loc>
+    <lastmod>2013-11-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/xclip/</loc>
+    <lastmod>2013-11-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%A4%9A%E7%B2%98%E8%B4%B4%E6%9D%BF/</loc>
+    <lastmod>2013-11-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%9E%81%E9%80%9F%E6%90%9C%E7%B4%A2/</loc>
+    <lastmod>2013-11-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%A2%9E%E9%95%BF%E8%A7%81%E8%AF%86/</loc>
+    <lastmod>2013-11-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%B7%B3%E6%A7%BD/</loc>
+    <lastmod>2013-11-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/11/10/job-hopping/</loc>
+    <lastmod>2013-11-10T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%BA%A7%E5%93%81/</loc>
+    <lastmod>2013-11-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%94%A8%E6%88%B7%E8%A7%92%E5%BA%A6/</loc>
+    <lastmod>2013-11-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/11/06/from-the-user-perspective/</loc>
+    <lastmod>2013-11-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E6%83%AF%E7%94%A8%E6%B3%95safe-bool%E4%B8%8Ec&#43;&#43;11%E4%B8%AD%E7%9A%84%E6%98%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%AC%A6/</loc>
+    <lastmod>2013-11-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</loc>
+    <lastmod>2013-11-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/10/21/openshift-tips/</loc>
+    <lastmod>2013-10-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/openshift%E7%83%AD%E9%83%A8%E7%BD%B2/</loc>
+    <lastmod>2013-10-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%95%88%E7%8E%87/</loc>
+    <lastmod>2013-09-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/30/the-myth-of-the-rockstar-programmer/</loc>
+    <lastmod>2013-09-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E5%93%B2%E5%AD%A6/</loc>
+    <lastmod>2013-09-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/23/edward-chands/</loc>
+    <lastmod>2013-09-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;%E9%99%B7%E9%98%B1/</loc>
+    <lastmod>2013-09-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/22/the-best-programmer-in-the-world/</loc>
+    <lastmod>2013-09-22T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%BF%AB%E4%B9%90/</loc>
+    <lastmod>2013-09-22T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%8A%9E%E5%85%AC%E7%94%A8%E5%93%81/</loc>
+    <lastmod>2013-09-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%A4%85%E5%AD%90/</loc>
+    <lastmod>2013-09-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%94%B5%E8%84%91/</loc>
+    <lastmod>2013-09-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/21/office-stuff/</loc>
+    <lastmod>2013-09-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/c&#43;&#43;11/</loc>
+    <lastmod>2013-09-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/17/constexpr/</loc>
+    <lastmod>2013-09-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/constexpr/</loc>
+    <lastmod>2013-09-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%B8%B8%E9%87%8F%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
+    <lastmod>2013-09-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2013-09-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/15/summary/</loc>
+    <lastmod>2013-09-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/this/</loc>
+    <lastmod>2013-09-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/this%E6%8C%87%E9%92%88/</loc>
+    <lastmod>2013-09-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/thunk/</loc>
+    <lastmod>2013-09-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/09/01/this-pointer/</loc>
+    <lastmod>2013-09-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/</loc>
+    <lastmod>2013-08-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2013-08-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%BB%91%E5%AE%A2%E4%B8%8E%E7%94%BB%E5%AE%B6/</loc>
+    <lastmod>2013-08-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/const/</loc>
+    <lastmod>2013-08-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/21/things-of-const/</loc>
+    <lastmod>2013-08-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%B8%B8%E9%87%8F/</loc>
+    <lastmod>2013-08-21T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/20/ranged-for-loop/</loc>
+    <lastmod>2013-08-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/for/</loc>
+    <lastmod>2013-08-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/for_each/</loc>
+    <lastmod>2013-08-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2013-08-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%B8%83%E5%B9%B4/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/17/a-doggerel-of-seven-years-ago/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%90%8C%E5%AD%A6/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%A4%A7%E5%AD%A6/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E5%AD%A6%E7%94%9F%E6%97%B6%E4%BB%A3/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%9C%8B%E5%8F%8B/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%AB%98%E4%B8%AD/</loc>
+    <lastmod>2013-08-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%9B%B0%E5%A2%83/</loc>
+    <lastmod>2013-08-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/16/programmer-dilemma/</loc>
+    <lastmod>2013-08-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%87%AA%E6%88%91%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2013-08-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%BF%9B%E6%AD%A5/</loc>
+    <lastmod>2013-08-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/stackoverflow/</loc>
+    <lastmod>2013-08-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/12/book-review-surely-you-are-joking-mr-feynman/</loc>
+    <lastmod>2013-08-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%AF%BB%E5%90%8E%E6%84%9F/</loc>
+    <lastmod>2013-08-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%B4%B9%E6%9B%BC/</loc>
+    <lastmod>2013-08-12T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/11/lambda-closures/</loc>
+    <lastmod>2013-08-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/lambda/</loc>
+    <lastmod>2013-08-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0/</loc>
+    <lastmod>2013-08-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%97%AD%E5%8C%85/</loc>
+    <lastmod>2013-08-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/auto/</loc>
+    <lastmod>2013-08-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/</loc>
+    <lastmod>2013-08-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/decltype/</loc>
+    <lastmod>2013-08-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC/</loc>
+    <lastmod>2013-08-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%87%AA%E5%8A%A8%E7%B1%BB%E5%9E%8B/</loc>
+    <lastmod>2013-08-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/drag/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/drop/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/integrity/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/uac/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/windows/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%8B%96%E6%8B%BD/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%97%A0%E6%B3%95%E6%8B%96%E6%8B%BD/</loc>
+    <lastmod>2013-08-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/404/</loc>
+    <lastmod>2013-08-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/blog/</loc>
+    <lastmod>2013-08-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/octopress/</loc>
+    <lastmod>2013-08-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/04/octopress-custom-404/</loc>
+    <lastmod>2013-08-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%85%AC%E7%9B%8A404/</loc>
+    <lastmod>2013-08-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2013-08-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/backgroud/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/03/unix-background-job/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/driver/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/job/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/linux/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/process/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%90%8E%E5%8F%B0%E4%BB%BB%E5%8A%A1/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E9%A9%B1%E5%8A%A8/</loc>
+    <lastmod>2013-08-03T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/08/01/what-is-cpp11/</loc>
+    <lastmod>2013-08-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/token/</loc>
+    <lastmod>2013-07-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%BF%9B%E7%A8%8B/</loc>
+    <lastmod>2013-07-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</loc>
+    <lastmod>2013-07-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/handle/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/mutex/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%BA%92%E6%96%A5%E9%87%8F/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%86%85%E6%A0%B8%E5%AF%B9%E8%B1%A1/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E5%8F%A5%E6%9F%84/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</loc>
+    <lastmod>2013-07-25T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</loc>
+    <lastmod>2013-07-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%B9%A6%E7%B1%8D/</loc>
+    <lastmod>2013-07-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/07/20/the-books-i-have-read/</loc>
+    <lastmod>2013-07-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%A8%A1%E6%9D%BF/</loc>
+    <lastmod>2013-07-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E8%AE%B0%E5%BD%95/</loc>
+    <lastmod>2013-07-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E4%B9%A6%E5%86%99/</loc>
+    <lastmod>2013-07-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/about/</loc>
+    <lastmod>2013-07-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2013/07/17/begin-writing-blog/</loc>
+    <lastmod>2013-07-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/tags/%E6%80%9D%E8%80%83/</loc>
+    <lastmod>2013-07-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+</urlset>

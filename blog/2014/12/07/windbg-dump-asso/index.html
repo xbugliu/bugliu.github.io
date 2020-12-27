@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Windbg关联dmp文件 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="windbg设置dmp文件的关联" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2014/12/07/windbg-dump-asso/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Windbg关联dmp文件" />
+<meta property="og:description" content="windbg设置dmp文件的关联" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2014/12/07/windbg-dump-asso/" />
+<meta property="article:published_time" content="2014-12-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-12-07T00:00:00+00:00" />
+<meta itemprop="name" content="Windbg关联dmp文件">
+<meta itemprop="description" content="windbg设置dmp文件的关联">
+<meta itemprop="datePublished" content="2014-12-07T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-12-07T00:00:00+00:00" />
+<meta itemprop="wordCount" content="897">
+
+
+
+<meta itemprop="keywords" content="windbg,dmp," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Windbg关联dmp文件"/>
+<meta name="twitter:description" content="windbg设置dmp文件的关联"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Windbg关联dmp文件</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2014-12-07 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
+            </div>
+          <span class="more-meta"> 897 words </span>
+          <span class="more-meta"> 2 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#配置dmp关联的方法">配置dmp关联的方法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>最近一段时间和Crash斗争，每天必不可少的事情是分析dump，每天少则分析几个，多则分析几十个是常有的。而打开dump到进入windbg cmd窗口输入!analyze -v命令是机械枯燥的事情。Windbg是没有默认关联.dmp文件的，只能自己动手了。分享关联方法之前，看下我现在dump文件的打开方式：</p>
+<p><img src="/images/posts/windbg-dump-asso/windbg_dmp.png" alt="image"></p>
+<p>我设置了三种打开方式：</p>
+<ul>
+<li>直接使用Windbg打开dump</li>
+<li>使用windbg打开dump并进行分析</li>
+<li>使用windbg打开dump，切换到32位，然后分析（针对加载的wow64)</li>
+</ul>
+<h3 id="配置dmp关联的方法">配置dmp关联的方法</h3>
+<h4 id="1-设置dmp文件的关联">1. 设置dmp文件的关联</h4>
+<p>Windows下文件的关联指的是在explorer下，双击或通过右键打开文件时选择指定程序打开。文件的关联方式可以通过注册表进行配置，在HKEY_CLASSES_ROOT、HKEY_CURRENT_USER\Software\Classes、HKEY_LOCAL_MACHINE\Software\Classes有以 &ldquo;.文件格式&rdquo; 命名的键和另一个自定义的键里面保存具体的配置，用来配置这个文件格式的关联，比如我们要配置的dmp文件的关联，最终会是这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Classes
+   dmpfile
+     DefaultIcon
+       default = &#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34;,0
+     shell
+       Analyze with windbg
+           command
+              default=C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -c &#34;!analyze -v&#34; -z &#34;%1\&#34;
+       Analyze with windbg - wow64
+           command
+              default=&#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -c &#34;!wow64exts.sw; !analyze -v&#34; -z &#34;%1&#34;
+       open
+           command
+              default=&#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -z &#34;%1&#34;
+   .dmp
+     default = dmpfile
+</code></pre></td></tr></table>
+</div>
+</div><p>当然，更改HKEY_CURRENT_USER是对当前用户有效，HKEY_LOCAL_MACHINE是对所有用户有效，而HKEY_CLASSES_ROOT是兼容的产物，不推荐在直接配置HKEY_CLASSES_ROOT。</p>
+<h4 id="2-去除用户自定义的打开方式-自定义程序">2. 去除用户自定义的打开方式-自定义程序</h4>
+<p>如果你设置过打开方式里面的自定义程序，必须先删除这一项，否则我们上一步设置的文件关联将不会生效，打开方式自定义程序的配置也是保存在注册表中，具体位置在：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
+</code></pre></td></tr></table>
+</div>
+</div><p>将这个UserChoice键删除即可。</p>
+<h4 id="3-到这里就讲完了最后奉上一个bat">3. 到这里就讲完了，最后奉上一个bat:</h4>
+<pre><code>
+@echo off
+
+set dbgpath=\"C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe\"
+
+
+REG ADD "HKCU\Software\Classes\.dmp" /f /d dmpfile
+
+set val=%dbgpath%,0
+REG ADD "HKCU\Software\Classes\dmpfile\DefaultIcon" /f /d "%val%"
+
+set val=%dbgpath% -z \"%%1\"
+REG ADD "HKCU\Software\Classes\dmpfile\Shell\open\command" /f /d "%val%
+
+set val=%dbgpath% -c \"!wow64exts.sw; !analyze -v\" -z \"%%1\"
+REG ADD "HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg  - wow64\command" /f /d "%val%"
+
+set val=%dbgpath% -c \"!analyze -v\" -z \"%%1\"
+REG ADD "HKCU\Software\Classes\dmpfile\Shell\Analyze With Windbg\command" /f /d "%val%"
+
+REG DELETE "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice" /f
+
+set /p finish="finsh!"
+</code></pre>
+<p>参考：</p>
+<p><a href="http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx">http://msdn.microsoft.com/en-us/library/cc144158%28VS.85%29.aspx</a></p>
+<p><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx">http://msdn.microsoft.com/en-us/library/windows/hardware/ff561306.aspx</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/windbg/">windbg</a>
+          <a href="/tags/dmp/">dmp</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2015/01/14/mongodb-in-elem/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MongoDB中的$in和$elemMatch</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2014/11/22/windbg-memory-leak/">
+            <span class="next-text nav-default">Windbg定位内存泄露的一种简单方法</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

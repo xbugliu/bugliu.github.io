@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>获取进程打开的互斥量 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="获取进程打开的互斥量" />
+<meta property="og:description" content="获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/" />
+<meta property="article:published_time" content="2013-07-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-07-25T00:00:00+00:00" />
+<meta itemprop="name" content="获取进程打开的互斥量">
+<meta itemprop="description" content="获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象">
+<meta itemprop="datePublished" content="2013-07-25T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-07-25T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1556">
+
+
+
+<meta itemprop="keywords" content="mutex,handle,process,互斥量,内核对象,句柄,线程," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="获取进程打开的互斥量"/>
+<meta name="twitter:description" content="获取指定进程打开的互斥量的一种方法,也适用于检索其它内核对象"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">获取进程打开的互斥量</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2013-07-25 </span>
+        
+          <span class="more-meta"> 1556 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#完整代码如下">完整代码如下：</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&quot;拥有&quot;的互斥量来区分这些进程。所以下面实现了获取指定进程&quot;拥有&quot;哪些互斥量的方法，当然这种方法也适合各种内核对象（FILE、REG&hellip;)。</p>
+<pre><code>1. 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息：
+</code></pre>
+<p>通过SystemHandleInformation检索到的系统中所有句柄的数据结构是这样定义的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_SYSTEM_HANDLE_INFORMATION</span>
+<span class="p">{</span>
+	<span class="n">ULONG</span> <span class="n">HandleCount</span><span class="p">;</span> 
+	<span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span> <span class="n">Handles</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">SYSTEM_HANDLE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_INFORMATION</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中SYSTEM_HANDLE_TABLE_ENTRY_INFO是一个句柄信息的数据结构</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_SYSTEM_HANDLE_TABLE_ENTRY_INFO</span>
+<span class="p">{</span>
+	<span class="n">ULONG</span> <span class="n">ProcessId</span><span class="p">;</span>
+	<span class="n">BYTE</span> <span class="n">ObjectTypeNumber</span><span class="p">;</span>
+	<span class="n">BYTE</span> <span class="n">Flags</span><span class="p">;</span>
+	<span class="n">USHORT</span> <span class="n">Handle</span><span class="p">;</span>
+	<span class="n">PVOID</span> <span class="n">Object</span><span class="p">;</span>
+	<span class="n">ACCESS_MASK</span> <span class="n">GrantedAccess</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">,</span> <span class="o">*</span><span class="n">PSYSTEM_HANDLE_TABLE_ENTRY_INFO</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>2. 将句柄复制到当前进程
+</code></pre>
+<p>想要获取一个句柄的详细信息，必须将其拷贝到当前进程，对于一个句柄数据类型：SYSTEM_HANDLE_TABLE_ENTRY_INFO，我们可以使用其第四个成员Handle，然后使用DuplicateHandle将这个句柄复制到当前进程。</p>
+<pre><code>3. 获取句柄的类型信息
+</code></pre>
+<p>由2中获取的复制到当前进程的句柄，调用函数NtQueryObject，指定获取ObjectNameInformation(1)即可获取句柄的类型信息，获取到的句柄的类型信息结构是这样的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="k">struct</span> <span class="nc">_OBJECT_TYPE_INFORMATION</span>
+<span class="p">{</span>
+	<span class="n">UNICODE_STRING</span> <span class="n">TypeName</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">TotalNumberOfObjects</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">TotalNumberOfHandles</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">TotalPagedPoolUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">TotalNonPagedPoolUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">TotalNamePoolUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">TotalHandleTableUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">HighWaterNumberOfObjects</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">HighWaterNumberOfHandles</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">HighWaterPagedPoolUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">HighWaterNonPagedPoolUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">HighWaterNamePoolUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">HighWaterHandleTableUsage</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">InvalidAttributes</span><span class="p">;</span>
+	<span class="n">GENERIC_MAPPING</span> <span class="n">GenericMapping</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">ValidAccessMask</span><span class="p">;</span>
+	<span class="n">BOOLEAN</span> <span class="n">SecurityRequired</span><span class="p">;</span>
+	<span class="n">BOOLEAN</span> <span class="n">MaintainHandleCount</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">PoolType</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">DefaultPagedPoolCharge</span><span class="p">;</span>
+	<span class="n">ULONG</span> <span class="n">DefaultNonPagedPoolCharge</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">OBJECT_TYPE_INFORMATION</span><span class="p">,</span> <span class="o">*</span><span class="n">POBJECT_TYPE_INFORMATION</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中第一个成员TypeName即是句柄类型的类型名</p>
+<pre><code>4. 获取句柄的名字
+</code></pre>
+<p>调用函数NtQueryObject，指定获取ObjectNameInformation即可获取句柄的类型信息，获取到的句柄的名字数据结构是UNICODE_STRING类型。</p>
+<pre><code>5. 找到当前进程占有的互斥量
+</code></pre>
+<p>由获取的句柄的类型信息和句柄所在的进程ID，即可找到当前进程拥有的互斥量，同时我们也得到了互斥量的名字。</p>
+<h3 id="完整代码如下">完整代码如下：</h3>
+<pre><code>
+#include "stdafx.h"
+#include &lt;functional&gt;
+#include &lt;Windows.h&gt;
+#include &lt;winternl.h&gt;
+#include &lt;vector&gt;
+#include &lt;ntstatus.h&gt;
+#include &lt;iostream&gt;
+
+// NtQueryObject枚举出的内核对象的类型信息的结构
+typedef struct _OBJECT_TYPE_INFORMATION
+{
+	UNICODE_STRING TypeName;
+	ULONG TotalNumberOfObjects;
+	ULONG TotalNumberOfHandles;
+	ULONG TotalPagedPoolUsage;
+	ULONG TotalNonPagedPoolUsage;
+	ULONG TotalNamePoolUsage;
+	ULONG TotalHandleTableUsage;
+	ULONG HighWaterNumberOfObjects;
+	ULONG HighWaterNumberOfHandles;
+	ULONG HighWaterPagedPoolUsage;
+	ULONG HighWaterNonPagedPoolUsage;
+	ULONG HighWaterNamePoolUsage;
+	ULONG HighWaterHandleTableUsage;
+	ULONG InvalidAttributes;
+	GENERIC_MAPPING GenericMapping;
+	ULONG ValidAccessMask;
+	BOOLEAN SecurityRequired;
+	BOOLEAN MaintainHandleCount;
+	ULONG PoolType;
+	ULONG DefaultPagedPoolCharge;
+	ULONG DefaultNonPagedPoolCharge;
+} OBJECT_TYPE_INFORMATION, *POBJECT_TYPE_INFORMATION;
+
+// 一个句柄信息的数据结构
+typedef struct _SYSTEM_HANDLE_TABLE_ENTRY_INFO
+{
+	ULONG ProcessId;
+	BYTE ObjectTypeNumber;
+	BYTE Flags;
+	USHORT Handle;
+	PVOID Object;
+	ACCESS_MASK GrantedAccess;
+} SYSTEM_HANDLE_TABLE_ENTRY_INFO, *PSYSTEM_HANDLE_TABLE_ENTRY_INFO;
+
+// 获取一个句柄的详细信息
+// 可以获取类型名和内核对象的名字
+// bType - 获取句柄的类型名
+std::wstring QueryHandleNameInfo(HANDLE handle, BOOL bType)
+{
+	std::wstring strName;
+	const HMODULE hDll = LoadLibrary(_T("ntdll.dll"));
+	if (hDll == NULL)
+	{
+		return strName;
+	}
+	typedef NTSTATUS (NTAPI *NtQueryObjectFunc)(HANDLE, OBJECT_INFORMATION_CLASS, PVOID, ULONG, PULONG);
+	NtQueryObjectFunc NtQueryObject_ = (NtQueryObjectFunc)GetProcAddress(hDll, "NtQueryObject");
+
+	do 
+	{
+		if (NtQueryObject_ == NULL )
+		{
+			break;
+		}
+		// 获取信息
+		const DWORD ObjectNameInformation = 1;
+		OBJECT_INFORMATION_CLASS infoType = bType ? ObjectTypeInformation : 
+                                                            OBJECT_INFORMATION_CLASS(ObjectNameInformation);
+		std::vector&lt;BYTE&gt; objVec(256);
+		ULONG bytesOfRead = 0;	
+		NTSTATUS status = STATUS_UNSUCCESSFUL;
+		do 
+		{
+			status = NtQueryObject_(handle, infoType, (void*)objVec.data(), objVec.size(), &bytesOfRead);
+			if (STATUS_INFO_LENGTH_MISMATCH == status)
+			{
+				objVec.resize(objVec.size() * 2);
+				continue;
+			}
+			break;
+		} while (TRUE);
+		if (!NT_SUCCESS(status))
+		{
+			break;
+		}
+		objVec.resize(bytesOfRead);
+
+		if (bType)
+		{
+			const OBJECT_TYPE_INFORMATION *pObjType = 
+                                                       reinterpret_cast&lt;OBJECT_TYPE_INFORMATION*&gt;(objVec.data());
+			strName = std::wstring(pObjType-&gt;TypeName.Buffer, pObjType-&gt;TypeName.Length / sizeof(WCHAR));
+		}
+		else
+		{
+			const UNICODE_STRING *pObjName = reinterpret_cast&lt;UNICODE_STRING*&gt;(objVec.data());
+			strName = std::wstring(pObjName-&gt;Buffer, pObjName-&gt;Length / sizeof(WCHAR));
+		}
+
+	} while (FALSE);
+
+	FreeLibrary(hDll);
+	return strName;
+}
+
+// 遍历句柄辅助类
+class WalkHandleHelper
+{
+public:
+	WalkHandleHelper(const SYSTEM_HANDLE_TABLE_ENTRY_INFO& handleInfo, const HANDLE& handle)
+        :m_HandleInfo(handleInfo), m_Handle(handle){}
+	DWORD GetProcessID() const {return m_HandleInfo.ProcessId;}
+	std::wstring GetTypeName() const
+	{
+		return QueryHandleNameInfo(m_Handle, TRUE);
+	}
+	std::wstring GetObjectName() const
+	{
+		return QueryHandleNameInfo(m_Handle, FALSE);
+	}
+
+private:
+	const SYSTEM_HANDLE_TABLE_ENTRY_INFO& m_HandleInfo;
+	const HANDLE& m_Handle;
+};
+
+// 枚举系统的句柄
+void WalkHandle(const std::function&lt;void(const WalkHandleHelper&)&gt; &functor)
+{
+	const HMODULE hDll = LoadLibrary(_T("ntdll.dll"));
+	if (hDll == NULL)
+	{
+		return;
+	}
+
+	// 使用NtQuerySystemInformation检索SystemHandleInformation(16)即可获得系统中所有的句柄信息
+	const DWORD SystemHandleInformation = 16;		
+
+	// 通过SystemHandleInformation检索到的系统中所有句柄的数据结构
+	typedef struct _SYSTEM_HANDLE_INFORMATION
+	{
+		ULONG HandleCount; 
+		SYSTEM_HANDLE_TABLE_ENTRY_INFO Handles[1];
+	} SYSTEM_HANDLE_INFORMATION, *PSYSTEM_HANDLE_INFORMATION;
+
+
+	typedef NTSTATUS (NTAPI *NtQuerySystemInformationFunc)(ULONG, PVOID, ULONG, PULONG);
+	NtQuerySystemInformationFunc NtQuerySystemInformation_ = (NtQuerySystemInformationFunc)
+                                                                 GetProcAddress(hDll, "NtQuerySystemInformation");
+	const HANDLE hCurProcess = GetCurrentProcess();
+	do 
+	{
+		if (NULL == NtQuerySystemInformation_)
+		{
+			break;
+		}
+		// 获取系统句柄表
+		std::vector&lt;BYTE&gt; vecData(512);
+		ULONG bytesOfRead = 0;
+		NTSTATUS status;
+		do 
+		{
+			status = NtQuerySystemInformation_(SystemHandleInformation, vecData.data(), vecData.size(), &bytesOfRead);
+			if (STATUS_INFO_LENGTH_MISMATCH == status)
+			{
+				vecData.resize(vecData.size()*2);
+				continue;
+			}
+			break;
+		} while (TRUE);
+		if (!NT_SUCCESS(status))
+		{
+			break;
+		}
+		vecData.resize(bytesOfRead);
+
+		PSYSTEM_HANDLE_INFORMATION pSysHandleInfo = (PSYSTEM_HANDLE_INFORMATION)vecData.data();
+		for (int i=0; i&lt;pSysHandleInfo-&gt;HandleCount; ++i)
+		{
+			const HANDLE hOwnProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, 
+                                                               pSysHandleInfo-&gt;Handles[i].ProcessId);
+			if (NULL == hOwnProcess)
+			{
+				continue;
+			}
+			HANDLE hDuplicate = NULL;
+			// 必须把Handle放入自己的进程中，否则无法获取其他进程拥有Handle的信息
+			if (!DuplicateHandle(hOwnProcess, (HANDLE)pSysHandleInfo-&gt;Handles[i].Handle, hCurProcess, 
+                            &hDuplicate,0,0, DUPLICATE_SAME_ACCESS))
+			{
+				CloseHandle(hOwnProcess);
+				continue;
+			}
+			WalkHandleHelper helper(pSysHandleInfo-&gt;Handles[i], hDuplicate);
+			functor(helper);
+
+			CloseHandle(hDuplicate);
+			CloseHandle(hOwnProcess);
+		}
+
+	} while (FALSE);
+
+	FreeLibrary(hDll);
+}
+
+// 枚举当前进程的互斥量
+void EnumCurProcessMutex()
+{
+	std::wcout&lt;&lt;_T("Find The Mutex Opened By Current Process:")&lt;&lt;std::endl;
+	const DWORD dwCurProcess = GetCurrentProcessId();
+	WalkHandle([&](const WalkHandleHelper& helper)
+	{
+		const std::wstring strMutant(_T("Mutant"));
+		if (helper.GetProcessID() == dwCurProcess && helper.GetTypeName().compare(strMutant) == 0)
+		{			
+			std::wcout&lt;&lt;_T("ObjectName: ")&lt;&lt;helper.GetObjectName().c_str()&lt;&lt;std::endl;
+		}
+
+	});
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	CreateMutex(NULL, TRUE, NULL);
+	CreateMutex(NULL, TRUE, _T("TestMutex"));
+	CreateMutex(NULL, TRUE, _T("Global\\TestGlobalMutex"));
+	EnumCurProcessMutex();
+	return 0;
+}
+
+</code></pre>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/mutex/">mutex</a>
+          <a href="/tags/handle/">handle</a>
+          <a href="/tags/process/">process</a>
+          <a href="/tags/%E4%BA%92%E6%96%A5%E9%87%8F/">互斥量</a>
+          <a href="/tags/%E5%86%85%E6%A0%B8%E5%AF%B9%E8%B1%A1/">内核对象</a>
+          <a href="/tags/%E5%8F%A5%E6%9F%84/">句柄</a>
+          <a href="/tags/%E7%BA%BF%E7%A8%8B/">线程</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2013/07/31/de-elevate-start-process/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">降权启动进程</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2013/07/20/smart-getprocaddress/">
+            <span class="next-text nav-default">Smart GetProcAddress之实现</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2020<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

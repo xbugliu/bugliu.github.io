@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43;17 on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/c&#43;&#43;17/</link>
+    <description>Recent content in C&#43;&#43;17 on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2020</copyright>
+    <lastBuildDate>Thu, 17 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++17/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bjarne Stroustrup previews C&#43;&#43; 17</title>
+      <link>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</link>
+      <pubDate>Thu, 17 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2016/03/17/bjarne-stroustrup-previews-c-plus-plus-17/</guid>
+      <description>本文是infoWorld关于C++17对C++之父进行的采访，原文见这里 InfoWorld:C++17什么时候可用? Stroustrup:C</description>
+    </item>
+    
+  </channel>
+</rss>
