@@ -5,8 +5,14 @@ slug = "2013/07/20/the-books-i-have-read"
 tags =["书籍","记录","阅读"]
 description = "整理我这些年来读过的书籍"
 +++
-在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书们。
+在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书。
 
+## 2021年：
+* 邓小平时代 [review][11]
+* 网络是怎么连接的 微信读书
+* MySQL是怎样运行的
+* SQL必知必会
+* SER: google运维解密
 
 ## 2020年:
 
@@ -288,4 +294,6 @@ description = "整理我这些年来读过的书籍"
 [8]: /blog/2014/11/15/api-design-for-c-plus-plus-notes
 [9]: /blog/2015/09/10/a-programmers-rantings
 [10]: /blog/2018/06/23/changan12
+[11]: /blog/2021/03/05/dengxiaoping-review
+
 
