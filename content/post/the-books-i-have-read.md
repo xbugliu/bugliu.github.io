@@ -13,6 +13,7 @@ description = "整理我这些年来读过的书籍"
 * MySQL是怎样运行的
 * SQL必知必会
 * SER: google运维解密
+* 凤凰架构 [review][12]
 
 ## 2020年:
 
@@ -295,5 +296,6 @@ description = "整理我这些年来读过的书籍"
 [9]: /blog/2015/09/10/a-programmers-rantings
 [10]: /blog/2018/06/23/changan12
 [11]: /blog/2021/03/05/dengxiaoping-review
+[12]: /blog/2021/07/24/the-fenix-project
 
 
