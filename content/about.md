@@ -10,9 +10,7 @@ slug = "about"
 
 ### 联系我
 
-EMAIL: eHVlY2hvbmdsaXUgYXQgdGVuY2VudCBkb3QgY29t=
-
-QQ: NTMyNDY5Mjc4=
+EMAIL: eGJ1Z2xpdSBhdCBmb3htYWlsLmNvbQ==
 
 ### 工作小记
 诞于河北，2010年毕业于太原，修引信学，大学尝学Win32汇编，及各种零碎计算机知识。
