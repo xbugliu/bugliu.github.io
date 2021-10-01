@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2020</copyright>
-    <lastBuildDate>Sat, 24 Jul 2021 10:33:30 +0800</lastBuildDate><atom:link href="http://towriting.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Sep 2021 22:03:29 +0800</lastBuildDate><atom:link href="http://towriting.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>读 《置身事内》</title>
+      <link>http://towriting.com/blog/2021/09/19/zhishen/</link>
+      <pubDate>Sun, 19 Sep 2021 22:03:29 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/09/19/zhishen/</guid>
+      <description>《置身事内-中国政府与经济发展》是一部描述新中国经济发展与政策的书籍，涉及的范围宽广、并且贴近当下，语言生动，畅快的阅读中，让人能了解中国经</description>
+    </item>
+    
+    <item>
+      <title>谈一谈架构师这个称号</title>
+      <link>http://towriting.com/blog/2021/08/14/the-architect/</link>
+      <pubDate>Sat, 14 Aug 2021 14:16:55 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/08/14/the-architect/</guid>
+      <description>几年前规划自己的发展方向时，待选目标里面有： 后台系统架构师 技术专家。 按当年的理解：架构师偏向于技术的广度，要带领团队建设系统。技术专家偏技术</description>
+    </item>
+    
     <item>
       <title>读凤凰架构</title>
       <link>http://towriting.com/blog/2021/07/24/the-fenix-project/</link>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>谈一谈架构师这个称号 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="几年前规划自己的发展方向时，待选目标里面有： 后台系统架构师 技术专家。 按当年的理解：架构师偏向于技术的广度，要带领团队建设系统。技术专家偏技术" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.82.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2021/08/14/the-architect/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="谈一谈架构师这个称号" />
+<meta property="og:description" content="几年前规划自己的发展方向时，待选目标里面有： 后台系统架构师 技术专家。 按当年的理解：架构师偏向于技术的广度，要带领团队建设系统。技术专家偏技术" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2021/08/14/the-architect/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-08-14T14:16:55&#43;08:00" />
+<meta property="article:modified_time" content="2021-08-14T14:16:55&#43;08:00" />
+
+<meta itemprop="name" content="谈一谈架构师这个称号">
+<meta itemprop="description" content="几年前规划自己的发展方向时，待选目标里面有： 后台系统架构师 技术专家。 按当年的理解：架构师偏向于技术的广度，要带领团队建设系统。技术专家偏技术"><meta itemprop="datePublished" content="2021-08-14T14:16:55&#43;08:00" />
+<meta itemprop="dateModified" content="2021-08-14T14:16:55&#43;08:00" />
+<meta itemprop="wordCount" content="1021">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="谈一谈架构师这个称号"/>
+<meta name="twitter:description" content="几年前规划自己的发展方向时，待选目标里面有： 后台系统架构师 技术专家。 按当年的理解：架构师偏向于技术的广度，要带领团队建设系统。技术专家偏技术"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">谈一谈架构师这个称号</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-08-14 </span>
+        
+          <span class="more-meta"> 1021 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#什么是架构师">什么是架构师</a></li>
+            <li><a href="#为什么需要架构师">为什么需要架构师</a></li>
+            <li><a href="#架构师的目标">架构师的目标</a></li>
+            <li><a href="#架构师的能力要求">架构师的能力要求</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>几年前规划自己的发展方向时，待选目标里面有：</p>
+<ol>
+<li>后台系统架构师</li>
+<li>技术专家。</li>
+</ol>
+<p>按当年的理解：架构师偏向于技术的广度，要带领团队建设系统。技术专家偏技术的深度，更关心自己的一亩三分地。</p>
+<h3 id="什么是架构师">什么是架构师</h3>
+<p>但什么是架构师呢，似乎并没有清晰的职责描述，不像&quot;JAVA程序员&quot;这个职位一样，很明确的知道其岗位职责。从国内互联网公司的职业体系看，虽然招聘jd上会有架构师的岗位，但入职后，往往采用通道+职级的称呼方式，比如&quot;初级后台开发工程师&quot;, &ldquo;高级后台开发工程师&rdquo;，架构师不会经常提起。</p>
+<p>之所以出现这样的情况，是因为没有搞清楚这些称呼的真是含义。按我现在的理解：&ldquo;工程师&quot;是一种职业，类比军队行业的&quot;军人&rdquo;; &ldquo;初级后台开发工程师&rdquo;、&ldquo;高级后台开发工程师&quot;是一种职级，类比&quot;营长&rdquo;, &ldquo;团长&rdquo;；而&quot;架构师&quot;只是一种临时的、针对特定项目的头衔，类比于军队中的&quot;总指挥官&quot;也是针对特定战役的。所以说&quot;架构师&quot;是服务于一个特定产品或项目的，而充当架构师的往往是一些高级开发工程师，如果说招聘JD里面说招聘一名架构师，那潜台词已经表明招聘一名高级工程师了。</p>
+<p>到这里可以给出架构师的定义了：<strong>架构师，指的是某一项目或产品的架构设计者</strong>。</p>
+<p>举例说明，<a href="https://en.wikipedia.org/wiki/Anders_Hejlsberg">Anders Hejlsberg</a>在wikipedia中的一个称呼是：<code>the chief architect for the team that produced Delphi</code>。</p>
+<p>那一个项目的架构师应该架构哪些方面，其应该具备哪些架构能力，怎样衡量其是否完成架构呢？</p>
+<h3 id="为什么需要架构师">为什么需要架构师</h3>
+<p>如果一个规模很小的软件，一个人可以完成，则此时不需要架构师，只需要关注代码的结构。只有当项目规模复杂，涉及人员较多时，为了更好的完成项目，此时才需要架构师，其职责是：</p>
+<ol>
+<li>分层，拆解模块</li>
+<li>制定接口规范，中间件选型，统一术语</li>
+<li>推进开发进度，关注开发风险</li>
+<li>关注性能和扩展性问题</li>
+</ol>
+<h3 id="架构师的目标">架构师的目标</h3>
+<p>&ldquo;总指挥官&quot;的目标是通过指挥达到战役的胜利，架构师的目标当然是通过架构达到产品的成功。那怎样算成功呢？</p>
+<ol>
+<li>产品本身是积极向上的，是有益于社会的。</li>
+<li>产品的按时交付，为公司或组织完成了更高层次目的。</li>
+<li>产品的可持续性。</li>
+</ol>
+<h3 id="架构师的能力要求">架构师的能力要求</h3>
+<ol>
+<li>更高的视野</li>
+<li>了解团队的实际情况</li>
+<li>丰富的技术经验</li>
+<li>攻克难题的能力</li>
+<li>人才的传承</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2021/09/19/zhishen/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">读 《置身事内》</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2021/07/24/the-fenix-project/">
+            <span class="next-text nav-default">读凤凰架构</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>
