@@ -43,13 +43,13 @@ post = "/blog/:year/:month/:day/:filename/"
   identifier = "archives"
   url = "/post/"
 [[menu.main]]
-  name = "Tags"
+  name = "Books"
   weight = 30
-  identifier = "tags"
-  url = "/tags/"
+  identifier = "books"
+  url = "/blog/2013/07/20/the-books-i-have-read"
 [[menu.main]]
   name = "About"
-  weight = 40
+  weight = 0
   identifier = "about"
   url = "/about/"
 
