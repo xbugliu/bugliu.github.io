@@ -12,8 +12,14 @@ description = "整理我这些年来读过的书籍"
 * 网络是怎么连接的 微信读书
 * MySQL是怎样运行的
 * SQL必知必会
-* SER: google运维解密
+* SER: google运维解密 30%
+* 毛泽东文集 第一卷，第二卷
 * 凤凰架构 [review][12]
+* 计算机网络 - 谢希仁
+* 智慧的疆界：从图灵机到人工智能 8月，阅读70%
+* 置身事内：中国政府与经济发展 [review][13]
+* Kubernetes网络权威指南 - 杜军
+* 透过地理看历史 - 李不白
 
 ## 2020年:
 
@@ -297,5 +303,5 @@ description = "整理我这些年来读过的书籍"
 [10]: /blog/2018/06/23/changan12
 [11]: /blog/2021/03/05/dengxiaoping-review
 [12]: /blog/2021/07/24/the-fenix-project
-
+[13]: /blog/2021/09/19/zhishen
 
