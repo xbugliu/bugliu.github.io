@@ -373,7 +373,7 @@ vearch用document表示一条记录，记录中除了有特征(vector)以外，�
 }
 ```
 
-```
+```golang
 func (docService *docService) addDoc(ctx context.Context, args *vearchpb.AddRequest) *vearchpb.AddResponse {
 	reply := &vearchpb.AddResponse{Head: newOkHead()}
 	request := client.NewRouterRequest(ctx, docService.client)
@@ -474,7 +474,7 @@ int GammaEngine::AddOrUpdate(Doc &doc) {
 3. 46行vec_manager_->AddToStore将特征保存到rocksdb(或内存)，并同时将特征插入ivfpq索引
 
 
-```
+```cpp
 bool GammaIVFPQIndex::Add(int n, const uint8_t *vec) {
 
   ## 省略部分代码
@@ -542,13 +542,13 @@ GammaIVFPQIndex::Add是IVFPQ索引的添加过程，此时索引已经训练完�
 2. 第22行pq.compute_codes，计算PQ编码的值
 3. 第45行rt_invert_index_ptr_->AddKeys，将编码插入到ivfpq索引中去
 
-内存中IVFQP索引的布局如下图所示：
+内存中IVFQP倒排索引的布局如下图所示：
 ![image](/images/posts/vearch/ivfpq.png "ivfpq")
 
 
 **document删除**
 
-```
+```cpp
 int GammaEngine::Delete(std::string &key) {
   int docid = -1, ret = 0;
   ret = table_->GetDocIDByKey(key, docid);
@@ -570,6 +570,292 @@ int GammaEngine::Delete(std::string &key) {
 document的删除比较简单，只是用一个bitmap记录删除的docid, 并定期会将bitmap存盘。
 
 **检索** 
+
+```golang
+func (docService *docService) bulkSearch(ctx context.Context, args []*vearchpb.SearchRequest) *vearchpb.SearchResponse {
+
+	request := client.NewRouterRequest(ctx, docService.client)
+	request.SetMsgID().SetMethod(client.BulkSearchHandler).SetHead(args[0].Head).SetSpace().BulkSearchByPartitions(args)
+	if request.Err != nil {
+		return &vearchpb.SearchResponse{Head: setErrHead(request.Err)}
+	}
+
+	sortOrders := make([]sortorder.SortOrder, 0, len(args))
+	for _, req := range args {
+		sortOrder := make([]sortorder.Sort, 0, len(req.SortFields))
+		for _, sortF := range req.SortFields {
+			sortOrder = append(sortOrder, &sortorder.SortField{Field: sortF.Field, Desc: sortF.Type})
+		}
+		sortOrders = append(sortOrders, sortOrder)
+	}
+
+	searchResponse := request.BulkSearchSortExecute(sortOrders)
+
+	if searchResponse == nil {
+		return &vearchpb.SearchResponse{Head: setErrHead(request.Err)}
+	}
+	if searchResponse.Head == nil {
+		searchResponse.Head = newOkHead()
+	}
+	if searchResponse.Head.Err == nil {
+		searchResponse.Head.Err = newOkHead().Err
+	}
+
+	return searchResponse
+}
+```
+
+检索的入口在Router服务的docService.bulkSearch (对应vearch的Msearch接口，指多目标批量检索)，逻辑比较清晰，主要是根据检索的条件查询待检索的PS服务地址，然后将查询条件通过RPC传给PS实例，PS返回结果后合并后返回给调用者。
+
+```cpp
+int GammaEngine::Search(Request &request, Response &response_results) {
+
+## 省略非核心代码
+
+#ifndef BUILD_GPU
+  MultiRangeQueryResults range_query_result;
+  std::vector<struct RangeFilter> &range_filters = request.RangeFilters();
+  size_t range_filters_num = range_filters.size();
+
+  std::vector<struct TermFilter> &term_filters = request.TermFilters();
+  size_t term_filters_num = term_filters.size();
+  if (range_filters_num > 0 || term_filters_num > 0) {
+    int num = MultiRangeQuery(request, gamma_query.condition, response_results,
+                              &range_query_result);
+    if (num == 0) {
+      return 0;
+    }
+  }
+#ifdef PERFORMANCE_TESTING
+  gamma_query.condition->GetPerfTool().Perf("filter");
+#endif
+#endif
+
+  size_t vec_fields_num = vec_fields.size();
+  if (vec_fields_num > 0) {
+    GammaResult gamma_results[req_num];
+    int doc_num = GetDocsNum();
+
+    for (int i = 0; i < req_num; ++i) {
+      gamma_results[i].total = doc_num;
+    }
+
+    ret = vec_manager_->Search(gamma_query, gamma_results);
+    if (ret != 0) {
+      string msg = "search error [" + std::to_string(ret) + "]";
+      for (int i = 0; i < req_num; ++i) {
+        SearchResult result;
+        result.msg = msg;
+        result.result_code = SearchResultCode::SEARCH_ERROR;
+        response_results.AddResults(std::move(result));
+      }
+      return -3;
+    }
+
+#ifdef PERFORMANCE_TESTING
+    gamma_query.condition->GetPerfTool().Perf("search total");
+#endif
+    PackResults(gamma_results, response_results, request);
+#ifdef PERFORMANCE_TESTING
+    gamma_query.condition->GetPerfTool().Perf("pack results");
+#endif
+
+	## 省略非核心代码
+
+  return ret;
+}
+```
+
+经过一系列函数调用，最终会执行到gamma引擎中的GammaEngine::Search方法，此方法是PS节点中检索的主流程，关键过程非成三步：
+1. 13行MultiRangeQuery 首先是根据查询条件的标签进行过滤，其结果是过滤结果的bitmap。其过程类似于Mysql Innodb索引的查询过程，但不同的是多标签采用的是多个单个索引+结果合并的方式，而Mysql推荐的是联合索引。
+2. 33行是调用底层IVFPQ进行检索
+3. 后面的代码主要是根据结果的docid列表，获取document信息，打包返回。
+
+```cpp
+int GammaIVFPQIndex::Search(RetrievalContext *retrieval_context, int n,
+                            const uint8_t *x, int k, float *distances,
+                            idx_t *labels) {
+
+  ## 省略无关代码
+
+  if (retrieval_params->IvfFlat() == true) {
+    quantizer->search(n, xq, nprobe, coarse_dis.get(), idx.get());
+  } else {
+    quantizer->search(n, applied_xq, nprobe, coarse_dis.get(), idx.get());
+  }
+  this->invlists->prefetch_lists(idx.get(), n * nprobe);
+
+  if (retrieval_params->IvfFlat() == true) {
+    // just use xq
+    search_ivf_flat(retrieval_context, n, xq, k, idx.get(), coarse_dis.get(),
+                    distances, labels, nprobe, false);
+  } else {
+    search_preassigned(retrieval_context, n, xq, applied_xq, k, idx.get(), coarse_dis.get(),
+                       distances, labels, nprobe, false);
+  }
+  return 0;
+}
+
+void GammaIVFPQIndex::search_preassigned(
+    RetrievalContext *retrieval_context, int n, const float *x, const float *applied_x, int k,
+    const idx_t *keys, const float *coarse_dis, float *distances, idx_t *labels,
+    int nprobe, bool store_pairs, const faiss::IVFSearchParameters *params) {
+  
+
+  ## 省略非关键代码
+	// loop over probes
+	for (int ik = 0; ik < nprobe; ik++) {
+		nscan += scan_one_list(
+			scanner, keys[i * nprobe + ik], coarse_dis[i * nprobe + ik],
+			recall_simi, recall_idxi, recall_num, this->nlist, this->invlists,
+			store_pairs, retrieval_params->IvfFlat());
+
+		if (max_codes && nscan >= max_codes) break;
+	}
+
+	ndis += nscan;
+	compute_dis(k, vec_q + i * d, simi, idxi, recall_simi, recall_idxi, recall_num,
+				context->has_rank, metric_type, vector_, retrieval_context);
+	}
+}  // namespace tig_gamma
+
+
+size_t scan_one_list(GammaInvertedListScanner *scanner, idx_t key,
+                     float coarse_dis_i, float *simi, idx_t *idxi, int k,
+                     idx_t nlist, faiss::InvertedLists *invlists,
+                     bool store_pairs, bool ivf_flat,
+                     MemoryRawVector *mem_raw_vec = nullptr) {
+  if (key < 0) {
+    // not enough centroids for multiprobe
+    return 0;
+  }
+  if (key >= (idx_t)nlist) {
+    LOG(INFO) << "Invalid key=" << key << ", nlist=" << nlist;
+    return 0;
+  }
+
+  size_t list_size = invlists->list_size(key);
+
+  // don't waste time on empty lists
+  if (list_size == 0) {
+    return 0;
+  }
+
+  std::unique_ptr<faiss::InvertedLists::ScopedIds> sids;
+  const idx_t *ids = nullptr;
+
+  if (!store_pairs) {
+    sids.reset(new faiss::InvertedLists::ScopedIds(invlists, key));
+    ids = sids->get();
+  }
+
+  scanner->set_list(key, coarse_dis_i);
+
+  // scan_codes need uint8_t *
+  const uint8_t *codes = nullptr;
+
+  if (ivf_flat) {
+    codes = reinterpret_cast<uint8_t *>(mem_raw_vec);
+  } else {
+    faiss::InvertedLists::ScopedCodes scodes(invlists, key);
+    codes = scodes.get();
+  }
+  scanner->scan_codes(list_size, codes, ids, simi, idxi, k);
+
+  return list_size;
+};
+
+template <class SearchResultType>
+void scan_list_with_table(size_t ncode, const uint8_t *codes,
+                          SearchResultType &res) const {
+  size_t j = 0;
+  for (; j < ncode; j++) {
+    if (res.ids[j] & realtime::kDelIdxMask) {
+      codes += this->pq.M;
+      continue;
+    }
+
+    if (!retrieval_context_->IsValid(res.ids[j] &
+                                      realtime::kRecoverIdxMask)) {
+      codes += this->pq.M;
+      continue;
+    }
+
+    float dis = this->dis0;
+    const float *tab = this->sim_table;
+
+    for (size_t m = 0; m < this->pq.M; m++) {
+      dis += tab[*codes++];
+      tab += this->pq.ksub;
+    }
+
+    res.add(j, dis);
+  }
+  assert(j == ncode);
+}
+
+bool IsValid(int id) const override {
+  int docid = raw_vec->VidMgr()->VID2DocID(id);
+  if ((range_query_result != nullptr && not range_query_result->Has(docid)) ||
+      bitmap::test(docids_bitmap, docid) == true) {
+    return false;
+  }
+  return true;
+};
+
+
+
+```
+
+GammaIVFPQIndex::Search是IVFPQ的检索过程：
+1. 第10行，quantizer->search先进行一次基于桶的粗查询，返回和目标特征最近的nprobe个桶
+2. 第34行，scan_one_list去特定的桶里面去扫描topN（recall_num）的特征
+3. 第49行，scan_one_list函数体里面，能看到首先是取某个桶的PQ码表数据，然后开始扫描。
+4. 第95行，scan_list_with_table是扫描的过程，首先是retrieval_context_->IsValid判断docid是否是有效的，这个用到了前面标签过滤的结果bitmap(第124行)，然后113行是PQ的核心代码，查询PQ编码subvector中心点和目标特征的距离, 然后将他们累加求和，其值可以理解目标特征到当前特征的距离，最后将结果进行堆排序保留topN的docid。
+
+```cpp
+void compute_dis(int k, const float *xi, float *simi, idx_t *idxi,
+                 float *recall_simi, idx_t *recall_idxi, int recall_num,
+                 bool has_rank, faiss::MetricType metric_type,
+                 VectorReader *vec, RetrievalContext *retrieval_context) {
+  if (has_rank == true) {
+    ScopeVectors scope_vecs;
+    std::vector<idx_t> vids(recall_idxi, recall_idxi + recall_num);
+    vec->Gets(vids, scope_vecs);
+    int raw_d = vec->MetaInfo()->Dimension();
+    for (int j = 0; j < recall_num; j++) {
+      if (recall_idxi[j] == -1) continue;
+      float dis = 0;
+      const float *vec = reinterpret_cast<const float *>(scope_vecs.Get(j));
+      if (metric_type == faiss::METRIC_INNER_PRODUCT) {
+        dis = faiss::fvec_inner_product(xi, vec, raw_d);
+      } else {
+        dis = faiss::fvec_L2sqr(xi, vec, raw_d);
+      }
+
+      if (retrieval_context->IsSimilarScoreValid(dis) == true) {
+        if (metric_type == faiss::METRIC_INNER_PRODUCT) {
+          if (HeapForIP::cmp(simi[0], dis)) {
+            faiss::heap_pop<HeapForIP>(k, simi, idxi);
+            long id = recall_idxi[j];
+            faiss::heap_push<HeapForIP>(k, simi, idxi, dis, id);
+          }
+        } else {
+          if (HeapForL2::cmp(simi[0], dis)) {
+            faiss::heap_pop<HeapForL2>(k, simi, idxi);
+            long id = recall_idxi[j];
+            faiss::heap_push<HeapForL2>(k, simi, idxi, dis, id);
+          }
+        }
+      }
+    }
+    reorder_result(metric_type, k, simi, idxi);
+  } 
+}
+```
+
+IVFPQ检索的最后一步compute_dis方法是精确排序的过程，其主要目的是降低IVFPQ过程中精度损失的影响，其原理比较简单，根据前面返回的docid列表，取原始特征重新进行一次排序。
+
 
 ## 四、Vearch落地
 
@@ -594,7 +880,8 @@ document的删除比较简单，只是用一个bitmap记录删除的docid, 并�
 
 * 冷热隔离
 
-虽然IVFPQ之后内存占用相比原始特征已降低很多，但如果半年以上的数据都加载到内存中，还是不现实并浪费的，应该将一段时间之前的冷数据放在硬盘。
+虽然IVFPQ之后内存占用相比原始特征已降低很多，但如果半年以上的数据都加载到内存中，还是不现实并浪费的，应该将一段时间之前的冷数据放在硬盘。其方案如下：
+
 
 
 * 预训练
