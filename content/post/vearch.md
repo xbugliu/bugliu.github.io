@@ -49,13 +49,25 @@ IO和计算的密集型和检索速度是矛盾的，随着数据量的加大，
 * B-tree  基于页的，覆盖写入，读友好的文件存储算法，常用于关系数据库索引。
 * IVFPQ 一种ANN算法，核心的思路是分桶和降维，可以在可接受的精度损失下极大的提高检索的速度。
 * ACID 可靠存储要求的三个特性，原子性、隔离性、持久性。
+* WAL 保证单机场景数据的持久性。
+* Raft 分布式一致性协议，保证多机场景数据的一致性。
 
 ### 架构
 
+![image](/images/posts/vearch/arch.png "vearch的架构")
 
-* Router 特征操作接口层，将特征的增删改查都转发给PartitionServer（简称PS）, 并合并检索结果返回给调用者。不存储任何信息，无状态。
+
+* Router 接口层，将特征的增删改查都转发给PartitionServer（简称PS）, 并合并检索结果返回给调用者。不存储任何信息，无状态。
 * Master 元数据管理，通过etcd记录PS节点信息，database等信息
 * PartitionServer 数据存储检索服务，可以部署多个实例，Shared-Nothing架构。
+
+PS服务，采用golang+cpp编写，cpp编写的引擎名字叫做gamma, 属于vearch的核心，包括如下组件：
+1. vector_manager 特征管理，支持rocksdb、memory、mmap三种存储方式，rocksdb适用于海量特征的保存，比mmap更灵活，数据安全性更高。memory适用于小数据量特征的管理，会定期存盘。
+2. ivfpq_index ivfqp索引，基于faiss, 重新实现PQ倒排表部分代码，来支持实时索引。
+3. id_map 业务特征ID到vearch内部docid的映射表，基于hashmap。
+4. table-data 标签字段（比如时间戳）存储管理，基于mmap文件。
+5. field_range_index 标签索引，基于B-Tree，负责检索时标签过滤。
+6. del_bitmap 已删除特征管理，基于bitmap。
 
 ### 使用方法
 
@@ -67,7 +79,7 @@ vearch有database、space、document三种资源，分别对应于数据库的�
 * nprobe - 去多少个桶里面检索，nprobe越大，召回率越高
 * ncentroids - IVF时分桶的个数，不影响召回率，但桶越多，初始内存占用越大，QPS会更高
 * nsubvector - PQ切片的个数，nsubvector越大，内存占用越大，但精度损失越小，假设nsubvector为32，512个float被压缩为32个Byte, 相当于压缩了512*4/32=64倍。
-* bucket_init_size - PQ倒排索引，每个桶里面初始大小，IVFPA索引初始占用内存为 ncentroids*bucket_init_size*nsubvector
+* bucket_init_size - PQ倒排索引，每个桶里面初始大小，IVFPA索引初始占用内存为 `ncentroids*bucket_init_size*nsubvector`
 
 ```json
 {
@@ -118,9 +130,9 @@ vearch有database、space、document三种资源，分别对应于数据库的�
 }
 ```
 
-### 流程
+### 关键代码解析 (基于3.2.x)
 
-### 创建space
+**创建space**
 
 ```golang
 func (ca *clusterAPI) createSpace(c *gin.Context) {
@@ -257,14 +269,62 @@ int GammaEngine::CreateTable(TableInfo &table) {
     LOG(ERROR) << "vector and table should not be null!";
     return -1;
   }
-  int ret_vec = vec_manager_->CreateVectorTable(table);
-  int ret_table = table_->CreateTable(table);
 
+  ## 省略部分不重要的代码
+
+  int ret_vec = vec_manager_->CreateVectorTable(table, meta_jp);
+  TableParams disk_table_params;
+  if (meta_jp) {
+    utils::JsonParser table_jp;
+    meta_jp->GetObject("table", table_jp);
+    disk_table_params.Parse(table_jp);
+  }
+  int ret_table = table_->CreateTable(table, disk_table_params);
   indexing_size_ = table.IndexingSize();
-
   if (ret_vec != 0 || ret_table != 0) {
     LOG(ERROR) << "Cannot create table!";
     return -2;
+  }
+
+  af_exector_ = new AsyncFlushExecutor();
+  table_io_ = new TableIO(table_);
+  int ret = table_io_->Init();
+  if (ret) {
+    return ret;
+  }
+  af_exector_->Add(static_cast<AsyncFlusher *>(table_io_));
+
+  if (!meta_jp) {
+    utils::JsonParser dump_meta_;
+    dump_meta_.PutInt("version", 320);  // version=3.2.0
+
+    utils::JsonParser table_jp;
+    table_->GetDumpConfig()->ToJson(table_jp);
+    dump_meta_.PutObject("table", std::move(table_jp));
+
+    utils::JsonParser vectors_jp;
+    for (auto &it : vec_manager_->RawVectors()) {
+      DumpConfig *dc = it.second->GetDumpConfig();
+      if (dc) {
+        utils::JsonParser jp;
+        dc->ToJson(jp);
+        vectors_jp.PutObject(dc->name, std::move(jp));
+      }
+    }
+    dump_meta_.PutObject("vectors", std::move(vectors_jp));
+
+    utils::FileIO fio(dump_meta_path);
+    fio.Open("w");
+    string meta_str = dump_meta_.ToStr(true);
+    fio.Write(meta_str.c_str(), 1, meta_str.size());
+  }
+  for (auto &it : vec_manager_->RawVectors()) {
+    RawVectorIO *rio = it.second->GetIO();
+    if (rio == nullptr) continue;
+    AsyncFlusher *flusher = dynamic_cast<AsyncFlusher *>(rio);
+    if (flusher) {
+      af_exector_->Add(flusher);
+    }
   }
 
 #ifndef BUILD_GPU
@@ -280,10 +340,13 @@ int GammaEngine::CreateTable(TableInfo &table) {
 #endif
   std::string table_name = table.Name();
   std::string path = index_root_path_ + "/" + table_name + ".schema";
-  TableIO tio(path);  // rewrite it if the path is already existed
+  TableSchemaIO tio(path);  // rewrite it if the path is already existed
   if (tio.Write(table)) {
     LOG(ERROR) << "write table schema error, path=" << path;
   }
+
+  af_exector_->Start();
+
   LOG(INFO) << "create table [" << table_name << "] success!";
   created_table_ = true;
   return 0;
@@ -291,12 +354,222 @@ int GammaEngine::CreateTable(TableInfo &table) {
 ```
 创建table的流程在gamma引擎中的GammaEngine::CreateTable方法，里面初始化了vec_manager, table_data, field_range_index, vec_manager里面又初始化了rocksdb_vector和ivfpqindex。
 
-#### 特征插入
+**document插入**
+
+vearch用document表示一条记录，记录中除了有特征(vector)以外，还可以包含其他字段，一条document样子：
+
+```json
+{
+"taskid":14,
+"timestamp":1637487823,
+"feature0":{
+  "feature":[
+    0.88658684,
+    0.9873159,
+    0.68632215,
+    0.53622203
+  ]
+ }
+}
+```
+
+```
+func (docService *docService) addDoc(ctx context.Context, args *vearchpb.AddRequest) *vearchpb.AddResponse {
+	reply := &vearchpb.AddResponse{Head: newOkHead()}
+	request := client.NewRouterRequest(ctx, docService.client)
+	docs := make([]*vearchpb.Document, 0)
+	docs = append(docs, args.Doc)
+	request.SetMsgID().SetMethod(client.BatchHandler).SetHead(args.Head).SetSpace().SetDocs(docs).SetDocsField().PartitionDocs()
+	if request.Err != nil {
+		return &vearchpb.AddResponse{Head: setErrHead(request.Err)}
+	}
+	items := request.Execute()
+	reply.Head.Params = request.GetMD()
+	if len(items) < 1 {
+		return &vearchpb.AddResponse{Head: setErrHead(request.Err)}
+	}
+	if items[0].Err != nil {
+		reply.Head.Err = items[0].Err
+	}
+	reply.PrimaryKey = items[0].GetDoc().GetPKey()
+	return reply
+}
+```
+router服务中的docService.addDoc是添加document的入口，第6行的PartitionDocs里面会根据document的id寻找一个PS节点，然后在第10行将请求通过RPC发送给PS节点。
+
+```cpp
+int GammaEngine::AddOrUpdate(Doc &doc) {
+#ifdef PERFORMANCE_TESTING
+  double start = utils::getmillisecs();
+#endif
+  std::vector<struct Field> fields_table, fields_vec;
+  std::string key;
+
+  std::vector<struct Field> &fields = doc.Fields();
+  fields_table.reserve(fields.size());
+  for (auto &field : fields) {
+    if (field.datatype != DataType::VECTOR) {
+      const string &name = field.name;
+      if (name == "_id") {
+        key = field.value;
+      }
+      fields_table.emplace_back(std::move(field));
+    } else {
+      fields_vec.emplace_back(std::move(field));
+    }
+  }
+  // add fields into table
+  int docid = -1;
+  table_->GetDocIDByKey(key, docid);
+  if (docid == -1) {
+    int ret = table_->Add(fields_table, max_docid_);
+    if (ret != 0) return -2;
+#ifndef BUILD_GPU
+    for (size_t i = 0; i < fields_table.size(); ++i) {
+      struct Field &field = fields_table[i];
+      int idx = table_->GetAttrIdx(field.name);
+      field_range_index_->Add(max_docid_, idx);
+    }
+#endif  // BUILD_GPU
+  } else {
+    if (Update(docid, fields_table, fields_vec)) {
+      LOG(ERROR) << "update error, key=" << key << ", docid=" << docid;
+      return -3;
+    }
+    return 0;
+  }
+#ifdef PERFORMANCE_TESTING
+  double end_table = utils::getmillisecs();
+#endif
+
+  // add vectors by VectorManager
+  if (vec_manager_->AddToStore(max_docid_, fields_vec) != 0) {
+    return -4;
+  }
+  if (not b_running_ and index_status_ == UNINDEXED) {
+    if (max_docid_ >= indexing_size_) {
+      LOG(INFO) << "Begin indexing.";
+      this->BuildIndex();
+    }
+  }
+  ++max_docid_;
+#ifdef PERFORMANCE_TESTING
+  double end = utils::getmillisecs();
+  if (max_docid_ % 10000 == 0) {
+    LOG(INFO) << "table cost [" << end_table - start << "]ms, vec store cost ["
+              << end - end_table << "]ms";
+  }
+#endif
+  return 0;
+}
 
 
-#### 检索 
 
-#### 删除
+```
+
+经过一系列中间函数调用后，最终会执行到gamma引擎的GammaEngine::AddOrUpdate方法，这里面主要做了这些事情：
+
+1. 25行table_->Add 将标签字段数据写入table_data, 第二个参数max_docid_会作为这一条document的docid, docid是gamma内部ivfpq_index, table, field_index使用的id, 是一个从0开始递增的值，会通过id_map将业务的documentid与内部docid关联。
+2. 31行是将标签字段放入标签索引field_range_index中
+3. 46行vec_manager_->AddToStore将特征保存到rocksdb(或内存)，并同时将特征插入ivfpq索引
+
+
+```
+bool GammaIVFPQIndex::Add(int n, const uint8_t *vec) {
+
+  ## 省略部分代码
+
+  idx_t *idx0 = new idx_t[n];
+  quantizer->assign(n, applied_vec, idx0);
+  idx = idx0;
+  del_idx.set(idx);
+
+  uint8_t *xcodes = new uint8_t[n * code_size];
+  utils::ScopeDeleter<uint8_t> del_xcodes(xcodes);
+
+  const float *to_encode = nullptr;
+  utils::ScopeDeleter<float> del_to_encode;
+  
+  if (by_residual) {
+    to_encode = compute_residuals(quantizer, n, applied_vec, idx);
+    del_to_encode.set(to_encode);
+  } else {
+    to_encode = applied_vec;
+  }
+  pq.compute_codes(to_encode, xcodes, n);
+
+  size_t n_ignore = 0;
+  long vid = indexed_vec_count_;
+  for (int i = 0; i < n; i++) {
+    long key = idx[i];
+    assert(key < (long)nlist);
+    if (key < 0) {
+      n_ignore++;
+      continue;
+    }
+
+    // long id = (long)(indexed_vec_count_++);
+    uint8_t *code = xcodes + i * code_size;
+
+    new_keys[key].push_back(vid++);
+
+    size_t ofs = new_codes[key].size();
+    new_codes[key].resize(ofs + code_size);
+    memcpy((void *)(new_codes[key].data() + ofs), (void *)code, code_size);
+  }
+
+  /* stage 2 : add invert info to invert index */
+  if (!rt_invert_index_ptr_->AddKeys(new_keys, new_codes)) {
+    return false;
+  }
+  indexed_vec_count_ = vid;
+#ifdef PERFORMANCE_TESTING
+  add_count_ += n;
+  if (add_count_ >= 100000) {
+    double t1 = faiss::getmillisecs();
+    LOG(INFO) << "Add time [" << (t1 - t0) / n << "]ms, count "
+              << indexed_vec_count_;
+    // rt_invert_index_ptr_->PrintBucketSize();
+    add_count_ = 0;
+  }
+#endif
+  return true;
+}
+```
+
+GammaIVFPQIndex::Add是IVFPQ索引的添加过程，此时索引已经训练完成，这里面有关键的三步：
+1. 第6行quantizer->assign 根据特征值计算应该插入到哪个桶中
+2. 第22行pq.compute_codes，计算PQ编码的值
+3. 第45行rt_invert_index_ptr_->AddKeys，将编码插入到ivfpq索引中去
+
+内存中IVFQP索引的布局如下图所示：
+![image](/images/posts/vearch/ivfpq.png "ivfpq")
+
+
+**document删除**
+
+```
+int GammaEngine::Delete(std::string &key) {
+  int docid = -1, ret = 0;
+  ret = table_->GetDocIDByKey(key, docid);
+  if (ret != 0 || docid < 0) return -1;
+
+  if (bitmap::test(docids_bitmap_, docid)) {
+    return ret;
+  }
+  ++delete_num_;
+  bitmap::set(docids_bitmap_, docid);
+  table_->Delete(key);
+
+  vec_manager_->Delete(docid);
+
+  return ret;
+}
+```
+
+document的删除比较简单，只是用一个bitmap记录删除的docid, 并定期会将bitmap存盘。
+
+**检索** 
 
 ## 四、Vearch落地
 
@@ -325,6 +598,8 @@ int GammaEngine::CreateTable(TableInfo &table) {
 
 
 * 预训练
+
+
 * 支持2个向量
 
 
@@ -335,7 +610,7 @@ int GammaEngine::CreateTable(TableInfo &table) {
 1. 完善监控系统
 2. 友好错误码
 3. 支持ACID
-4. 删除能回收（服用）空间
+4. 删除能回收（复用）空间
 5. ivfpq索引文件支持增量更新
 
 ### 一些不足之处
