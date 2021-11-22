@@ -33,11 +33,11 @@ IO和计算的密集型和检索速度是矛盾的，随着数据量的加大，
 
 从前面向量检索系统的工程特点可知，一个优秀的向量检索系统需要具备**特征存储管理**和**检索**两项能力，并能应对**海量数据**的挑战。目前市面上主要方案如下：
 
-1. 暴力检索。部分小团队（包括我们在19年）会采用这种方案，其主要方式就是将特征和相关数据都写入一个（或多个）文件中，然后检索时加载到内存。此方案好在简单，坏在暴力，在总数据量在百万一下可以应付，但无法应对千万以上的数据，耗时会在数分钟，是完全不可接受的。
+1. 暴力检索。部分小团队（包括我们在19年）会采用这种方案，其主要方式就是将特征和相关数据都写入一个（或多个）文件中，然后检索时加载到内存。此方案好在简单，坏在暴力，在总数据量在百万以下可以应付，但无法应对千万以上的数据，耗时会在数分钟，是完全不可接受的。
 
 2. [最邻近搜索][3]。KNN或ANN, 有大量优秀的开源项目，比如[faiss][4]。这些开源项目主要是以库的形式存在，提供基础的检索接口，基于这些库进行简单的封装即可实现一个满足千万数据的单机检索系统，检索耗时相比暴力会有极大的提升。
 
-3. 分布式最邻近搜索。集成最邻近搜索库、特征存储管理、标签过滤、数据分区、数据备份、满足ACID的全功能、支持的多机部署的系统。能满足几十亿特征的管理和检索。此类的开源项目有[vearch][5], [milvus][6], 闭源的有阿里达摩院的[Proxima][7]
+3. 分布式最邻近搜索。集成最邻近搜索库、特征存储管理、标签过滤、数据分区、数据备份、满足ACID的全功能、支持多机部署的系统。能满足几十亿特征的管理和检索。此类的开源项目有[vearch][5], [milvus][6], 闭源的有阿里达摩院的[Proxima][7]
 
 ## 三、Vearch介绍
 
@@ -47,14 +47,14 @@ IO和计算的密集型和检索速度是矛盾的，随着数据量的加大，
 * Shared-Nothing  各子系统独立（数据、运算）的分布式方案。
 * LSM-Tree 内存排序，顺序写入段，追加更新，写吞吐量高的文件存储算法，RocksDB的底层算法。
 * B-tree  基于页的，覆盖写入，读友好的文件存储算法，常用于关系数据库索引。
-* IVFPQ 一种ANN算法，核心的思路是分桶和降维，可以在可接受的精度损失下极大的提高检索的速度。
+* IVFPQ 一种ANN算法，核心的思路是分桶和降维，在可接受的精度损失下极大的提高检索的速度。
 * ACID 可靠存储要求的三个特性，原子性、隔离性、持久性。
 * WAL 保证单机场景数据的持久性。
 * Raft 分布式一致性协议，保证多机场景数据的一致性。
 
 ### 架构
 
-![image](/images/posts/vearch/arch.png "vearch的架构")
+![image](d:\static\images\posts\vearch\arch.png "vearch的架构")
 
 
 * Router 接口层，将特征的增删改查都转发给PartitionServer（简称PS）, 并合并检索结果返回给调用者。不存储任何信息，无状态。
@@ -74,12 +74,12 @@ PS服务，采用golang+cpp编写，cpp编写的引擎名字叫做gamma, 属于v
 vearch有database、space、document三种资源，分别对应于数据库的库、表、条目。space不支持更改表结构。三种资源分别有增删改查的http[接口][8]。database和space访问的是master服务，document访问的是router服务。插入数据流程比较简单，先创建database, 然后创建space, 最后向space中插入document。检索接口调用的是router服务。接口都较简单，不再示例，另外我们内部使用的是grpc接口，此部分没有文档，需要自己看代码研究。
 
 下面是创建space的请求体，其中有几个参数需要特别说明：
-* retrieval_type - 索引类型，vearch支持多种索引，目前我们仅仅用到IVFPQ
+* retrieval_type - 索引类型，vearch支持多种索引，目前我们主要采用IVFPQ
 * partition_num - 分区的个数，一个space可以有多个分区
 * nprobe - 去多少个桶里面检索，nprobe越大，召回率越高
-* ncentroids - IVF时分桶的个数，不影响召回率，但桶越多，初始内存占用越大，QPS会更高
-* nsubvector - PQ切片的个数，nsubvector越大，内存占用越大，但精度损失越小，假设nsubvector为32，512个float被压缩为32个Byte, 相当于压缩了512*4/32=64倍。
-* bucket_init_size - PQ倒排索引，每个桶里面初始大小，IVFPA索引初始占用内存为 `ncentroids*bucket_init_size*nsubvector`
+* ncentroids - IVF时分桶的个数，不影响召回率，桶越多，检索QPS会越高，但初始内存占用越大
+* nsubvector - PQ切片的个数，nsubvector越大，精度损失越小，但内存占用越大。假设nsubvector为32，512个float被压缩为32个Byte, 相当于压缩了512*4/32=64倍。
+* bucket_init_size - PQ倒排索引，每个桶里面初始大小，IVFPQ索引初始占用内存为 `ncentroids*bucket_init_size*nsubvector`
 
 ```json
 {
@@ -148,7 +148,7 @@ func (ca *clusterAPI) createSpace(c *gin.Context) {
 }
 ```
 
-首先是gin实现的接口，接收到接口请求后，会调用masterService的createSpaceService方法。
+master服务的clusterAPI.createSpace是创建space的入口，其中会调用masterService的createSpaceService方法。
 
 ```golang
 // server/[serverAddr]:[serverBody]
@@ -207,7 +207,7 @@ func (ms *masterService) createSpaceService(ctx context.Context, dbName string, 
 }
 ```
 
-createSpaceService函数有关键的几个过程，filterAndSortServer和generatePartitionsInfo返回按拥有的Partition数从小到大排序的PS节点的地址，然后通过client.CreatePartition将请求发送到PS节点创建Partition，最后调用updateSpace将meta信息存储到etcd中。
+createSpaceService函数有关键的几个过程，filterAndSortServer和generatePartitionsInfo返回按包含Partition数从小到大排序的PS节点的地址，然后通过client.CreatePartition将请求发送到PS节点创建Partition，最后调用updateSpace将meta信息存储到etcd中。
 
 ```
 func (c *CreatePartitionHandler) Execute(ctx context.Context, req *vearchpb.PartitionData, reply *vearchpb.PartitionData) error {
@@ -543,7 +543,7 @@ GammaIVFPQIndex::Add是IVFPQ索引的添加过程，此时索引已经训练完�
 3. 第45行rt_invert_index_ptr_->AddKeys，将编码插入到ivfpq索引中去
 
 内存中IVFQP倒排索引的布局如下图所示：
-![image](/images/posts/vearch/ivfpq.png "ivfpq")
+![image](d:\static\images\posts\vearch\ivfpq.png "ivfpq索引内存布局")
 
 
 **document删除**
@@ -870,27 +870,107 @@ IVFPQ检索的最后一步compute_dis方法是精确排序的过程，其主要�
 
 ### 改造
 
-* 分库分表
+**分库分表**
 
 分库方案是基于算法维度，相同的算法放到一库中。分表有2个方案，第一种是基于业务，比如布控库是一个表。第二种分表方案是按天分表，主要针对数据量极大的实时摄像头数据，按天分表才能高效的滚动删除、冷热数据隔离、按天快速检索。
 
 分库分表不涉及对vearch代码的改动，仅是一种应用方案。
-![image](/images/posts/vearch/db_space.png "vearch的分库分表")
+![image](d:\static\images\posts\vearch\db_space.png "vearch的分库分表")
 
 
-* 冷热隔离
+**冷热隔离**
 
-虽然IVFPQ之后内存占用相比原始特征已降低很多，但如果半年以上的数据都加载到内存中，还是不现实并浪费的，应该将一段时间之前的冷数据放在硬盘。其方案如下：
+![image](d:\static\images\posts\vearch\memory.png "vearch内存占比")
+
+上图是vearch内存占比图，其中ivfpq和标签索引内存占比较大。虽然IVFPQ之后内存占用相比原始特征已降低很多，但如果数月的实时数据都加载到内存中，还是不现实并浪费的，应该将一段时间之前的冷数据放在硬盘。其方案如下：
+
+* table_data, MMap方案。table_data存储的是标签数据，其数据结构可以理解为数组，数组中的元素为标签的值，数组的index为docid, 这种结构很容易转换成MMap。
+* rocksdb_vector, 通过参数调整：1. open改成OpenForReadOnly 2. 减小block_cache 3. 减小max_open_file。通过参数控制rocksdb默认占用的内存大小和运行时占用的内存大小。
+* ivfpq-index, MMap方案。通过ivfpq索引内存布局可知，ivfqp的索引也是由数组构成，同样适宜切MMap。
+* id_map, id_map存放的是业务的documentid到docid的映射，采用的是内存HashMap库[libcuckoo][9], 这里的改造方案是切换到基于硬盘的B-Tree。
+* field_range_index, MMap方案。field_range_index基于Btree，主要的改造方案是把Btree里面原来存放在内存中的value，放到一个连续的MMap文件中，具体可以见下图：
+![image](d:\static\images\posts\vearch\fileld_index.png "vearch field_index")
 
 
+**预训练**
 
-* 预训练
+前面讲document的插入过程时，默认vearch已经训练完成，这里讲一下训练(train)，其核心是基于输入的样本，找到IVF桶的聚类中心点和PQ切片的聚类中心点。对于Vearch来说，每个Partition都需要单独的训练。训练是一个耗时很长的操作，因为我们采用按天分Space的方式，每天新的Space都要训练，训练的过程会持续数小时，此时只能走暴力检索，并且训练时CPU占用率极高，增加了系统负载。
 
+所以预训练应运而生，预训练的改造方案是：
+1. 导出基础索引文件，改造IVFPQ的Dump过程，只导出中心点，而不导出PQ编码数据。
+2. 加载基础索引文件，改造IVFPQ的Load过程，跳过训练，直接加载第一步训练好的。
 
-* 支持2个向量
+使用流程：
+1. 测试人员搭建环境，上传离线的视频文件，预处理后，插入到vearch中。
+2. 触发vearch的训练过程
+3. 训练完成后，使用dump_index工具，导出基础索引
+4. 将基础索引，随vearch镜像发布测试上线
+
+**支持2个向量**
+
+产生2个向量的原因是，1个向量的特征区分度不够，需要第2个向量来补充，距离计算公式为：`distance = sqrt(distance(feature1)) + alpha * sqrt(distance(feautre2))`，一种简单的加权。但ivfpq的原理是不支持2个特征的，需要将2个特征融合成一个特征，经过算法的推导，融合的方式为：`feature = feature1 + feature2 / sqrt(alpha)`，经验证排序结果和暴力计算一致。然后对vearch精确排序部分进行改造，保持计算出的分数可以和之前一致。
 
 
 ### 性能数据
+
+
+**插入document**：
+
+硬件环境：
+* CPU：intel 银牌 4110 * 2
+* 内存：256G
+* 硬盘：INTEL SSDSC2KB01 SSD * 3
+
+软件配置：
+* 特征维度：2048
+* 插入并发：5线程
+* vearch配置：1个router, 3个ps
+* space配置：nsubvector 128
+
+测试结果：
+* 插入耗时，平均：4.1ms, tp99: 437.6ms
+* 插入Tps: 2068
+* CPU占用率, ps: 800~900%, router：200%
+* 硬盘占用，硬盘写入带宽 < 50MBps, util负载 < 20%。
+* 内存占用，1600W数据量时，内存占用约6.5G
+
+测试结论：
+插入是一个CPU密集型操作，4110本身属于性能比较差的服务器CPU。升级CPU到金牌6230R插入耗时的tp99能降低到200+ms。 
+
+**检索document**
+
+硬件环境：
+* CPU：intel 银牌 6226R * 2
+* 内存：256G
+* 硬盘：INTEL SSDSC2KB01 SSD * 3
+
+软件配置：
+* 特征维度：512
+* vearch配置：1个router, 3个ps
+* space配置：nsubvector 32, ncentroids 2048，nprobe: 64
+* 检索参数：topN 60000
+* 总数据量：5000W
+
+测试结果：
+* 检索耗时：5000W全量检索耗时约为3.6s
+* 检索IO占用：磁盘带宽使用 1.4GB, 磁盘util> 95%
+* CPU占用：PS服务总CPU峰值约 1500%
+* 检索各阶段耗时占比：精排序读原始特征 60%，PQ扫描 20%, 标签过滤 15%
+* 相对暴力召回率：> 98%
+
+测试结论：
+
+* 检索是一个CPU密集型和IO密集型的操作
+* IO是检索耗时的瓶颈
+
+**内存占用**
+
+vearch的内存占用和space的配置有很大的关系，和数据的分布也有关系，我们目前在维度：512，nsubvector: 32, ncentroids为：2048时，2个Int类型的标签，每1000W的特征，内存占用约2.5~3G。
+
+**冷热隔离**
+
+1. 冷模式，每个Partition初始占用内存约400MB, 和数据量没有线性关系
+2. 冷模式，平均检索耗时为普通模式的5-10倍（此处测试人力原因，测试数据不充足，也未区分首次和非首次）
 
 ### 未来的优化
 
@@ -909,7 +989,7 @@ IVFPQ检索的最后一步compute_dis方法是精确排序的过程，其主要�
 * [深入理解大数据架构之——事务及其ACID特性](https://www.cnblogs.com/cciejh/p/acid.html)
 * [IVFPQ算法原理](https://zhou-yuxin.github.io/articles/2020/IVFPQ%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/index.html)
 * [Faiss索引文件格式详解](https://zhuanlan.zhihu.com/p/39803468)
-
+* [负样本为王：评Facebook的向量化召回算法](https://zhuanlan.zhihu.com/p/165064102)
 
 [1]: https://zh.wikipedia.org/zh-hans/%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E6%80%A7
 [2]: https://zh.wikipedia.org/zh-hans/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E8%B7%9D%E7%A6%BB
@@ -919,3 +999,4 @@ IVFPQ检索的最后一步compute_dis方法是精确排序的过程，其主要�
 [6]: https://github.com/milvus-io/milvus
 [7]: https://developer.aliyun.com/article/783110
 [8]: https://github.com/vearch/vearch/blob/master/docs/APILowLevel.md
+[9]: https://github.com/efficient/libcuckoo
