@@ -21,7 +21,7 @@ description = "整理我这些年来读过的书籍"
 * Kubernetes网络权威指南 - 杜军
 * 透过地理看历史 - 李不白
 * 毛泽东选集 第一卷，第二卷（第二遍）
-* 朱元璋传 吴晗
+* 朱元璋传 吴晗 [review][14]
 
 ## 2020年:
 
@@ -306,4 +306,5 @@ description = "整理我这些年来读过的书籍"
 [11]: /blog/2021/03/05/dengxiaoping-review
 [12]: /blog/2021/07/24/the-fenix-project
 [13]: /blog/2021/09/19/zhishen
+[14]: /blog/2021/11/24/zhu-yuan-zhang
 
