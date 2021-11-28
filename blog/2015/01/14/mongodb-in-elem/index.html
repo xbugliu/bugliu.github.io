@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2015/01/14/mongodb-in-elem/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="MongoDB数组查询in与elemMatch的比较" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2015/01/14/mongodb-in-elem/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2015-01-14T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2015-01-14T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2015-01-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2015-01-14T00:00:00+00:00" />
 
 <meta itemprop="name" content="MongoDB中的$in和$elemMatch">
-<meta itemprop="description" content="MongoDB数组查询in与elemMatch的比较"><meta itemprop="datePublished" content="2015-01-14T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2015-01-14T00:00:00&#43;00:00" />
+<meta itemprop="description" content="MongoDB数组查询in与elemMatch的比较"><meta itemprop="datePublished" content="2015-01-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2015-01-14T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1021">
 <meta itemprop="keywords" content="MongoDB 数组查询," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MongoDB中的$in和$elemMatch"/>
@@ -137,10 +137,10 @@
 <p>但高级些的用法还是需要细读官方文档，不然还是会出错，最近自己就在$in和$elemMatch上栽跟头，花费了大把时间。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">{ _id: 1, quote: &#34;不要着急，最好的总会在最不经意的时候出现&#34;, author: 泰戈尔, tags: [ &#34;哲理&#34;, &#34;人生&#34; ]}
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">{ _id: 1, quote: &#34;不要着急，最好的总会在最不经意的时候出现&#34;, author: 泰戈尔, tags: [ &#34;哲理&#34;, &#34;人生&#34; ]}
 </code></pre></td></tr></table>
 </div>
 </div><p>比如（上面的例子)，我需要根据tag<code>哲理</code>查找tags中包含<code>哲理</code>的记录，怎样写query语句呢？借助于万能的google，$in和$elemMatch很快进入了我的视线，从字面理解，$in是查询指定field是否在某个集合中，看mongo的官方文档$in的用法也确实是这样讲的：</p>
@@ -154,10 +154,10 @@
 <p>$elemMatch专门用于查询数组Field中元素是否满足指定的条件。看起来适合我们的需求，像这样：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"> db.items.find({&#34;tags&#34;: {$elemMatch: {$equal: &#34;哲理&#34;}}}) ;错误
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"> db.items.find({&#34;tags&#34;: {$elemMatch: {$equal: &#34;哲理&#34;}}}) ;错误
 </code></pre></td></tr></table>
 </div>
 </div><p>上面的用法是错误的，因为mongo并没有$equal查询指令, 所以我们无法用$elemMatch达成我们的需求。</p>
@@ -168,10 +168,10 @@
 <p>并且官方示例和自己的需求场景几乎一模一样，接着当然自己很快实现了按tag查找的功能：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">db.items.find({&#34;tags&#34;: {$in: [&#34;哲理&#34;]}})
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">db.items.find({&#34;tags&#34;: {$in: [&#34;哲理&#34;]}})
 </code></pre></td></tr></table>
 </div>
 </div><p>总结下$in和$elemMatch：</p>

@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="boost Lambda使用的几个例子" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2013/12/13/boost-lambda-vs-stand-lambda/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2013-12-13T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2013-12-13T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2013-12-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-12-13T00:00:00+00:00" />
 
 <meta itemprop="name" content="Boost.Lambda与C&#43;&#43;11.Lambda的用法对比">
-<meta itemprop="description" content="boost Lambda使用的几个例子"><meta itemprop="datePublished" content="2013-12-13T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2013-12-13T00:00:00&#43;00:00" />
+<meta itemprop="description" content="boost Lambda使用的几个例子"><meta itemprop="datePublished" content="2013-12-13T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-12-13T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1667">
 <meta itemprop="keywords" content="C&#43;&#43;11 Lambda,C&#43;&#43; Lambda,boost Lambda,boost Lambda实例,boost Lambda用法," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Boost.Lambda与C&#43;&#43;11.Lambda的用法对比"/>
@@ -161,7 +161,7 @@
 <p>boost.Lambda的使用是基于placeholder: <code>boost::Lambda::_1</code>,<code>boost::Lambda::_2</code>,<code>boost::Lambda::_3</code>可以理解为Lambda表达式的第一、第二、第三个参数。Lambda的出现利索地解决了STL算法库函数的使用不便。让我们首先看一个最简单的boost.Lambda与std::for_each结合的例子:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -171,7 +171,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vecIn</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vecIn</span><span class="p">;</span>
 <span class="n">vecIn</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">vecIn</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 <span class="n">vecIn</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
@@ -186,7 +186,7 @@
 <h3 id="1b-c11lambda构造一个functor">1.b C++11.Lambda：构造一个functor</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -199,7 +199,7 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vecIn</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vecIn</span><span class="p">;</span>
 <span class="n">vecIn</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 <span class="n">vecIn</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
 <span class="n">vecIn</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
@@ -217,13 +217,13 @@
 <p>上面的例子，我们使用Lambda表达式，借助于for_each，对vector中的元素进行了访问，那我们可以修改vector的内容吗？</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;the values in vecIn after Square：&#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;the values in vecIn after Square：&#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">vecIn</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vecIn</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">boost</span><span class="o">::</span><span class="n">Lambda</span><span class="o">::</span><span class="n">_1</span> <span class="o">*=</span> <span class="n">boost</span><span class="o">::</span><span class="n">Lambda</span><span class="o">::</span><span class="n">_1</span><span class="p">);</span>
 <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">vecIn</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vecIn</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">boost</span><span class="o">::</span><span class="n">Lambda</span><span class="o">::</span><span class="n">_1</span><span class="o">&lt;&lt;</span><span class="s">&#34;,&#34;</span><span class="p">);</span><span class="c1">//打印
 </span><span class="c1"></span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -234,7 +234,7 @@
 <p>修改1.b函数定义为引用即可</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -247,7 +247,7 @@
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;the values in vecIn after Square：&#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;the values in vecIn after Square：&#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">vecIn</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vecIn</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="kt">int</span> <span class="o">&amp;</span> <span class="n">val</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="n">val</span> <span class="o">*=</span> <span class="n">val</span><span class="p">;</span>
@@ -264,13 +264,13 @@
 <p>boost.Lambda可以很方便的以引用的方式捕获local变量，看例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;the sum of values in vecIn：&#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">vecIn</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vecIn</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">sum</span> <span class="o">+=</span> <span class="n">boost</span><span class="o">::</span><span class="n">Lambda</span><span class="o">::</span><span class="n">_1</span><span class="p">);</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">sum</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -280,7 +280,7 @@
 <p>C++11捕获变量，可控性更强，我们可以指定捕获方式：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -289,7 +289,7 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;the sum of values in vecIn：&#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">vecIn</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vecIn</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">sum</span><span class="p">](</span><span class="kt">int</span> <span class="o">&amp;</span> <span class="n">val</span><span class="p">)</span>
 <span class="p">{</span>
@@ -302,12 +302,12 @@
 <p>有时需要匿名函数返回结果，比如作为std::find_if类似函数的Predicate函数时，这种能力boost.Lambda当然也是胜任的，整个Lambda表达式的结果，即是函数的返回值。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">boost</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">IsOdd</span> <span class="o">=</span> <span class="n">boost</span><span class="o">::</span><span class="n">Lambda</span><span class="o">::</span><span class="n">_1</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> 
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">boost</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">IsOdd</span> <span class="o">=</span> <span class="n">boost</span><span class="o">::</span><span class="n">Lambda</span><span class="o">::</span><span class="n">_1</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;</span> 
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;100 is Odd？ &#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&lt;&lt;</span><span class="n">IsOdd</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </code></pre></td></tr></table>
@@ -317,12 +317,12 @@
 <p>C++11的返回值，必须使用return语句，返回值的类型有些时候也需要显示指定。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">IsOdd</span> <span class="o">=</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span><span class="p">)[](</span><span class="kt">int</span> <span class="n">val</span><span class="p">){</span><span class="k">return</span> <span class="n">val</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;};</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">IsOdd</span> <span class="o">=</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span><span class="p">)[](</span><span class="kt">int</span> <span class="n">val</span><span class="p">){</span><span class="k">return</span> <span class="n">val</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">;};</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&#34;100 is Odd？ &#34;</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">boolalpha</span><span class="o">&lt;&lt;</span><span class="n">IsOdd</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 </code></pre></td></tr></table>

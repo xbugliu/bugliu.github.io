@@ -3,14 +3,35 @@
   
   <url>
     <loc>http://towriting.com/post/</loc>
-    <lastmod>2021-09-19T22:03:29+08:00</lastmod>
+    <lastmod>2021-11-24T20:38:19+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/</loc>
-    <lastmod>2021-09-19T22:03:29+08:00</lastmod>
+    <lastmod>2021-11-24T20:38:19+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2021/11/24/zhu-yuan-zhang/</loc>
+    <lastmod>2021-11-24T20:38:19+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2021/11/20/tech-manager/</loc>
+    <lastmod>2021-11-20T19:09:06+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2021/10/07/vearch/</loc>
+    <lastmod>2021-10-07T19:29:25+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

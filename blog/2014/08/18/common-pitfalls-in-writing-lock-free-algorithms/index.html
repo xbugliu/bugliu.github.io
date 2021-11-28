@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,13 +43,13 @@
 <meta property="og:description" content="实现无锁算法的常见陷阱" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2014/08/18/common-pitfalls-in-writing-lock-free-algorithms/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2014-08-18T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2014-08-18T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2014-08-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-08-18T00:00:00+00:00" />
 
 <meta itemprop="name" content="实现无锁算法的常见陷阱">
-<meta itemprop="description" content="实现无锁算法的常见陷阱"><meta itemprop="datePublished" content="2014-08-18T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-08-18T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3843">
+<meta itemprop="description" content="实现无锁算法的常见陷阱"><meta itemprop="datePublished" content="2014-08-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-08-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3864">
 <meta itemprop="keywords" content="无锁编程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="实现无锁算法的常见陷阱"/>
 <meta name="twitter:description" content="实现无锁算法的常见陷阱"/>
@@ -122,7 +122,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BF%BB%E8%AF%91/"> 翻译 </a>
             </div>
-          <span class="more-meta"> 3843 words </span>
+          <span class="more-meta"> 3864 words </span>
           <span class="more-meta"> 8 mins read </span>
         
       </div>
@@ -164,7 +164,7 @@
 <p>线程同步是多线程程序设计的核心，传统的做法上就是代码临界区上加锁。锁可以防止多个线程同一时间进入临界区代码。在高度并发的程序里，锁可能成为严重的性能瓶颈。无锁编程的目标是不用锁也能解决并发问题。无锁编程一般依赖的是原子操作，比如“compare-and-swap”<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>原子的执行下面的操作：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -174,7 +174,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="mi">1</span> <span class="kt">bool</span> <span class="nf">CompareAndSwap</span><span class="p">(</span><span class="n">Value</span><span class="o">*</span> <span class="n">addr</span><span class="p">,</span> <span class="n">Value</span> <span class="n">oldVal</span><span class="p">,</span> <span class="n">Value</span> <span class="n">newVal</span><span class="p">){</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="mi">1</span> <span class="kt">bool</span> <span class="nf">CompareAndSwap</span><span class="p">(</span><span class="n">Value</span><span class="o">*</span> <span class="n">addr</span><span class="p">,</span> <span class="n">Value</span> <span class="n">oldVal</span><span class="p">,</span> <span class="n">Value</span> <span class="n">newVal</span><span class="p">){</span>
 <span class="mi">2</span>     <span class="k">if</span><span class="p">(</span><span class="o">*</span><span class="n">addr</span> <span class="o">==</span> <span class="n">oldVal</span><span class="p">){</span>
 <span class="mi">3</span>         <span class="o">*</span><span class="n">addr</span> <span class="o">=</span> <span class="n">newVal</span><span class="p">;</span>
 <span class="mi">4</span>         <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
@@ -194,7 +194,7 @@
 <p>C++代码如下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -230,7 +230,7 @@
 </span><span class="lnt">34
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp">
  <span class="mi">1</span> <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Entry</span><span class="o">&gt;</span>
  <span class="mi">2</span> <span class="k">class</span> <span class="nc">LockFreeStack</span><span class="p">{</span>
  <span class="mi">3</span>     <span class="k">struct</span> <span class="nc">Node</span><span class="p">{</span>
@@ -346,7 +346,7 @@
 <p>加锁的：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -376,7 +376,7 @@
 </span><span class="lnt">28
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"> <span class="mi">1</span> <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">mutex</span><span class="o">&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"> <span class="mi">1</span> <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">mutex</span><span class="o">&gt;</span>
  <span class="mi">2</span> <span class="err">#</span><span class="n">include</span> <span class="o">&lt;</span><span class="n">stack</span><span class="o">&gt;</span>
  <span class="mi">3</span> 
  <span class="mi">4</span> <span class="k">template</span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
@@ -410,7 +410,7 @@
 (垃圾收集相关的代码没贴出来）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -508,7 +508,7 @@
 </span><span class="lnt">96
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"> <span class="mi">1</span> <span class="k">class</span> <span class="nc">LockFreeStack</span><span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"> <span class="mi">1</span> <span class="k">class</span> <span class="nc">LockFreeStack</span><span class="p">{</span>
  <span class="mi">2</span> <span class="k">public</span><span class="o">:</span>
  <span class="mi">3</span>     <span class="c1">// The elements we wish to store should inherit Node
 </span><span class="c1"></span> <span class="mi">4</span>     <span class="c1">//
@@ -610,7 +610,7 @@
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>硬件相关，Windows已提供函数InterlockedCompareExchange <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>硬件相关，Windows已提供函数InterlockedCompareExchange&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>

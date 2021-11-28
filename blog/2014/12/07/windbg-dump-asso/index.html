@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/12/07/windbg-dump-asso/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="windbg设置dmp文件的关联" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2014/12/07/windbg-dump-asso/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2014-12-07T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2014-12-07T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2014-12-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-12-07T00:00:00+00:00" />
 
 <meta itemprop="name" content="Windbg关联dmp文件">
-<meta itemprop="description" content="windbg设置dmp文件的关联"><meta itemprop="datePublished" content="2014-12-07T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-12-07T00:00:00&#43;00:00" />
+<meta itemprop="description" content="windbg设置dmp文件的关联"><meta itemprop="datePublished" content="2014-12-07T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-12-07T00:00:00+00:00" />
 <meta itemprop="wordCount" content="897">
 <meta itemprop="keywords" content="windbg,dmp," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Windbg关联dmp文件"/>
@@ -160,7 +160,7 @@
 <p>Windows下文件的关联指的是在explorer下，双击或通过右键打开文件时选择指定程序打开。文件的关联方式可以通过注册表进行配置，在HKEY_CLASSES_ROOT、HKEY_CURRENT_USER\Software\Classes、HKEY_LOCAL_MACHINE\Software\Classes有以 &ldquo;.文件格式&rdquo; 命名的键和另一个自定义的键里面保存具体的配置，用来配置这个文件格式的关联，比如我们要配置的dmp文件的关联，最终会是这样：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -178,7 +178,7 @@
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Classes
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Classes
    dmpfile
      DefaultIcon
        default = &#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34;,0
@@ -201,10 +201,10 @@
 <p>如果你设置过打开方式里面的自定义程序，必须先删除这一项，否则我们上一步设置的文件关联将不会生效，打开方式自定义程序的配置也是保存在注册表中，具体位置在：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
 </code></pre></td></tr></table>
 </div>
 </div><p>将这个UserChoice键删除即可。</p>

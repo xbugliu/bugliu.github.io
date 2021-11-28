@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/09/23/edward-chands/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,13 +43,13 @@
 <meta property="og:description" content="C&#43;&#43;的哲学决定其不适应于并发编程" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2013/09/23/edward-chands/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2013-09-23T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2013-09-23T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2013-09-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-09-23T00:00:00+00:00" />
 
 <meta itemprop="name" content="C&#43;&#43;手爱德华">
-<meta itemprop="description" content="C&#43;&#43;的哲学决定其不适应于并发编程"><meta itemprop="datePublished" content="2013-09-23T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2013-09-23T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="4291">
+<meta itemprop="description" content="C&#43;&#43;的哲学决定其不适应于并发编程"><meta itemprop="datePublished" content="2013-09-23T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-09-23T00:00:00+00:00" />
+<meta itemprop="wordCount" content="4312">
 <meta itemprop="keywords" content="C&#43;&#43;,C&#43;&#43;陷阱,C&#43;&#43;哲学," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;手爱德华"/>
 <meta name="twitter:description" content="C&#43;&#43;的哲学决定其不适应于并发编程"/>
@@ -122,7 +122,7 @@
         <div class="post-category">
             <a href="/categories/%E7%BF%BB%E8%AF%91/"> 翻译 </a>
             </div>
-          <span class="more-meta"> 4291 words </span>
+          <span class="more-meta"> 4312 words </span>
           <span class="more-meta"> 9 mins read </span>
         
       </div>
@@ -162,7 +162,7 @@
 <p>一个人所共知的禁忌是不要使用malloc动态分配内存，不要使用free释放内存。malloc接受一个size并返回一个void*，你必须把它转换成其它有用的类型。很难实现一个比这更糟糕的内存分配API。这有一段真的很糟的代码（但一般是运行正确的，假如不可能出现空指针解引用的话）：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -176,7 +176,7 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
     <span class="kt">int</span> <span class="o">*</span> <span class="n">counters</span><span class="p">;</span>
 <span class="p">};</span>
@@ -194,7 +194,7 @@
 <p>C++通过替换malloc和free为new和delete&quot;解决&quot;了多余的强转和易出错的size计算。正确的C++代码应该这样：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -208,7 +208,7 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
     <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
     <span class="kt">int</span> <span class="o">*</span> <span class="n">counters</span><span class="p">;</span>
 <span class="p">};</span>
@@ -225,7 +225,7 @@
 </div><p>顺便说一下，空指针引用的问题同样被解决了，因为如果系统内存耗尽，new总是会抛出异常。但这里在第二个new的地方还是有几率发生内存泄漏，所以这是现实中正确的代码：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -239,7 +239,7 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Snd</span> <span class="p">{</span> <span class="c1">// Sophisticated New Data
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Snd</span> <span class="p">{</span> <span class="c1">// Sophisticated New Data
 </span><span class="c1"></span><span class="k">public</span><span class="o">:</span>
     <span class="n">Snd</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="o">:</span> <span class="n">_count</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">_counters</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="p">{}</span>
     <span class="o">~</span><span class="n">Snd</span> <span class="p">()</span> <span class="p">{</span> <span class="k">delete</span> <span class="p">[]</span> <span class="n">_counters</span><span class="p">;</span> <span class="p">}</span>
@@ -284,7 +284,7 @@
 <hr>
 <ol>
 <li id="fn:1" role="doc-endnote">
-<p>Adobe公司的首席科学家和移动数字图像组的架构师 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>Adobe公司的首席科学家和移动数字图像组的架构师&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </section>

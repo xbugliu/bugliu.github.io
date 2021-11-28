@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/11/22/windbg-memory-leak/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="Windbg定位内存泄露的一直简单方法" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2014/11/22/windbg-memory-leak/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2014-11-22T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2014-11-22T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2014-11-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-11-22T00:00:00+00:00" />
 
 <meta itemprop="name" content="Windbg定位内存泄露的一种简单方法">
-<meta itemprop="description" content="Windbg定位内存泄露的一直简单方法"><meta itemprop="datePublished" content="2014-11-22T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-11-22T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Windbg定位内存泄露的一直简单方法"><meta itemprop="datePublished" content="2014-11-22T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-11-22T00:00:00+00:00" />
 <meta itemprop="wordCount" content="782">
 <meta itemprop="keywords" content="windgb,内存泄露,tadb," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Windbg定位内存泄露的一种简单方法"/>
@@ -158,7 +158,7 @@
 <h3 id="1-打印出heap的使用情况">1. 打印出heap的使用情况</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -178,7 +178,7 @@
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">
 0:003&gt; !heap -s
 LFH Key : 0x7ce97b7b
 LFH Key : 0x7ce97b7b
@@ -202,7 +202,7 @@ Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast
 <h3 id="2-显示异常heap的信息">2. 显示异常heap的信息</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -212,7 +212,7 @@ Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">0:003&gt; !heap -stat -h 021f0000
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">0:003&gt; !heap -stat -h 021f0000
 heap @ 021f0000
 heap @ 021f0000
 group-by: TOTSIZE max-display: 20
@@ -226,7 +226,7 @@ group-by: TOTSIZE max-display: 20
 <h3 id="3-根据泄露内存的size找到callstack">3. 根据泄露内存的Size找到CallStack</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -296,7 +296,7 @@ group-by: TOTSIZE max-display: 20
 </span><span class="lnt">68
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">0:003&gt; bp ntdll!RtlAllocateHeap &#34;j(poi(@esp+c) = 0x0a45c) &#39;k&#39;;&#39;gc&#39;&#34;
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">0:003&gt; bp ntdll!RtlAllocateHeap &#34;j(poi(@esp+c) = 0x0a45c) &#39;k&#39;;&#39;gc&#39;&#34;
 0:003&gt; g
 0:003&gt; g
 Unable to deliver callback, Unable to deliver callback, 3131

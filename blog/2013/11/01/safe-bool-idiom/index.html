@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/11/01/safe-bool-idiom/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符简介" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2013/11/01/safe-bool-idiom/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2013-11-01T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2013-11-01T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2013-11-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-11-01T00:00:00+00:00" />
 
 <meta itemprop="name" content="从Safe bool惯用法到explicit标识符">
-<meta itemprop="description" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符简介"><meta itemprop="datePublished" content="2013-11-01T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2013-11-01T00:00:00&#43;00:00" />
+<meta itemprop="description" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符简介"><meta itemprop="datePublished" content="2013-11-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-11-01T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1402">
 <meta itemprop="keywords" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="从Safe bool惯用法到explicit标识符"/>
@@ -157,7 +157,7 @@
 <p>方法有二，第一种简单直白，提供一个返回bool类型的函数，比如下面的isValid成员函数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -172,7 +172,7 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CData</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CData</span>
 <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
   <span class="kt">bool</span> <span class="n">IsValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
@@ -190,7 +190,7 @@
 </div><p>这是直观而不易出错的。但多多少少有些强迫症的人会说，如果能像检测内置bool类型一样检测data对象不是更好的保证了代码的语法一致性？</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -200,7 +200,7 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
   <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -213,7 +213,7 @@
 </div><p>同时他又急于向人们展示，&ldquo;我会使用操作符重载哦“。于是第二种方法出来了，重载bool类型转化操作符：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -228,7 +228,7 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CData</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CData</span>
 <span class="p">{</span>
  <span class="k">public</span><span class="o">:</span>
   <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
@@ -248,7 +248,7 @@
 <p>假使有一个简单的指针外敷类：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -274,7 +274,7 @@
 </span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="k">class</span> <span class="nc">CPtr</span>
 <span class="p">{</span>
   <span class="n">T</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
@@ -306,7 +306,7 @@
 <p>Safe Bool正式的提出是这里：<a href="http://www.artima.com/cppsource/safebool.html">The Safe Bool Idiom</a>，方法就是写一个类型转化操作符，这个操作符返回一个可以进行 <strong>if</strong> 判断的特有类型：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -351,7 +351,7 @@
 </span><span class="lnt">43
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Testable</span> 
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Testable</span> 
 <span class="p">{</span>
     <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
     <span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">Testable</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
@@ -403,7 +403,7 @@
 C++11的基因支持safe bool，方法就是使用<a href="http://en.cppreference.com/w/cpp/language/explicit">explicit</a>修饰operator：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -418,7 +418,7 @@ C++11的基因支持safe bool，方法就是使用<a href="http://en.cppreferenc
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Testable</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Testable</span>
 <span class="p">{</span>
     <span class="k">explicit</span> <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
           <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>

@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/08/11/lambda-closures/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="C&#43;&#43;11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2013/08/11/lambda-closures/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2013-08-11T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2013-08-11T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2013-08-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-08-11T00:00:00+00:00" />
 
 <meta itemprop="name" content="C&#43;&#43;11系列-lambda函数">
-<meta itemprop="description" content="C&#43;&#43;11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项"><meta itemprop="datePublished" content="2013-08-11T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2013-08-11T00:00:00&#43;00:00" />
+<meta itemprop="description" content="C&#43;&#43;11的lambda简明教程，介绍了lambda为什么会出现，lambda的基本语、用处、用法、如何实现及各种注意事项"><meta itemprop="datePublished" content="2013-08-11T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-08-11T00:00:00+00:00" />
 <meta itemprop="wordCount" content="5885">
 <meta itemprop="keywords" content="C&#43;&#43;,C&#43;&#43;11,lambda,匿名函数,闭包," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;11系列-lambda函数"/>
@@ -157,7 +157,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 <p>想象你有一个地址簿类，并且你想要提供一个可供检索的函数。你可能会提供一个简单的函数，接受一个字符串然后返回满足所有字符串的地址。有时有些用户可能希望这样。不过假如他们只是想检索域名或者检索用户名并且忽略域名结果；或者检索出现在其他列表中的所有Email地址。这里可能有许多可能的检索方式。除了类中集成所有这些搜索选项，提供一个通用的查找方法，这个方法接受一个查找规则的函数，这样不是更好些吗？让我们叫这个函数findMatchingAddresses，它接受一个函数或仿函数对象。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -184,7 +184,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="k">class</span> <span class="nc">AddressBook</span>
@@ -216,7 +216,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 在我们解决这个问题之前，让我们看一下真实的lambda基本语法。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -227,7 +227,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
@@ -245,7 +245,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 让我们看看怎样将lambda应用到我们地址簿例子里，首先我们创建一个查找包含“.org&quot;的email地址的简单函数。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -256,7 +256,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">AddressBook</span> <span class="n">global_address_book</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">AddressBook</span> <span class="n">global_address_book</span><span class="p">;</span>
 
 <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">findAddressesFromOrgs</span> <span class="p">()</span>
 <span class="p">{</span>
@@ -273,7 +273,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 虽然这些简单的lambda用法也不错，但变量捕获才是成就lambda卓越的秘方。假如你想创建一个查找包含指定名字的短函数。如果可以写出这样的代码是不是非常不错？</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -282,7 +282,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// read in the name from a user, which we want to search
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// read in the name from a user, which we want to search
 </span><span class="c1"></span><span class="n">string</span> <span class="n">name</span><span class="p">;</span>
 <span class="n">cin</span><span class="o">&gt;&gt;</span> <span class="n">name</span><span class="p">;</span>
 <span class="k">return</span> <span class="n">global_address_book</span><span class="p">.</span><span class="n">findMatchingAddresses</span><span class="p">(</span> 
@@ -296,12 +296,12 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 <p>只是好玩，我们想查找email地址小于某个特殊长度的地址。我们可以再一次轻松实现：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">min_len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">min_len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">min_len</span><span class="p">;</span>
 <span class="k">return</span> <span class="n">global_address_book</span><span class="p">.</span><span class="n">find</span><span class="p">(</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">addr</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">addr</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">min_len</span><span class="p">;</span> <span class="p">}</span> <span class="p">);</span>
 </code></pre></td></tr></table>
@@ -311,7 +311,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 毋庸质疑，lambda最大的一个优势是在使用STL中的算法(algorithms)库时。以前使用像for_each这样的算法是个体力活。然而现在使用for_each或其他STL算法就好像自己写普通循环一样。对比一下：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -321,7 +321,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
 <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
 <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">2</span> <span class="p">);</span>
 <span class="c1">//...
@@ -334,7 +334,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </div><p>和：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -344,7 +344,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
 <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">1</span> <span class="p">);</span>
 <span class="n">v</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span> <span class="mi">2</span> <span class="p">);</span>
 <span class="c1">//...
@@ -360,16 +360,16 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 其实参数列表像返回值一样都是可选的，如果你想创建一个不带参数的函数的话。或许最短的lambda是这样的：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[]{}</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[]{}</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>这是一个即没有参数又什么也不干的函数。一个稍有内容的函数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -378,7 +378,7 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 <span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
@@ -392,30 +392,30 @@ C++11一个最激动人心的特性是支持创建lambda函数（有时称为闭
 <p>如果你的lambda函数没有return语句，则默认返回void。假如你有一个简单的返回语句，编译器将推导返回值的类型：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[](){</span><span class="k">return</span> <span class="mi">1</span><span class="p">;}</span> <span class="c1">//编译器知道这是返回一个整型
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[](){</span><span class="k">return</span> <span class="mi">1</span><span class="p">;}</span> <span class="c1">//编译器知道这是返回一个整型
 </span></code></pre></td></tr></table>
 </div>
 </div><p>假如你写一个更复杂些的lambda函数，不止一个返回值，你应该指定返回类型（有些编译器，像GCC，即使你有多于一个返回值也不需要你这样做，但标准不保证这一点）。
 Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C++11可选的新返回值语法</a>将返回值放在函数的后边。事实上假如你想指定返回类型，你一定要这样做。这里有一个显式指定返回值类型的简单例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[]</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// 现在你告诉编译器你想要什么
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[]</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span> <span class="p">}</span> <span class="c1">// 现在你告诉编译器你想要什么
 </span></code></pre></td></tr></table>
 </div>
 </div><h3 id="抛异常指示throw">抛异常指示（throw)</h3>
 <p>虽然C++标准委员会决定不赞成使用throw指示符，但throw还没被移除C++。这里有许多检测throw指示符的静态代码检测工具，像PC link。假如你使用这些工具中的一个去进行编译时异常检测，你肯定想知道你的lambda函数会抛出什么异常。这样做的主要原因可能是当你传递一个lambda函数到另一个函数中，而这个函数期望你的lambda只能抛出指定的异常。给你的lambda函数添加一个异常指示，将允许PC link这样的工具去帮你检测。如果你想这样做是可以的。这有一个无参且不抛出异常的lambda函数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[]</span> <span class="p">()</span> <span class="k">throw</span> <span class="p">()</span> <span class="p">{</span> <span class="cm">/* 你不希望抛出异常*/</span> <span class="p">}</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="p">[]</span> <span class="p">()</span> <span class="k">throw</span> <span class="p">()</span> <span class="p">{</span> <span class="cm">/* 你不希望抛出异常*/</span> <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>##Lambda函数是如何实现的？
@@ -431,7 +431,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <p>注意最后一个捕获选项，如果你已经指定了一个默认的捕获（=或者&amp;）那么也包含this。但是能捕获this指针的能力非常重要，这意味着写函数时你不需要区分局部变量和类属性的不同，两者都可以获取到。酷的是你不需显式指定this指针。它真的像你在写一个内联函数。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -452,7 +452,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Foo</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Foo</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
     <span class="n">Foo</span> <span class="p">()</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="p">{}</span>
@@ -481,7 +481,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <p>新的std::function是传递lambda函数的最好的方式，不管是传递参数还是返回值。它允许你在模板中指定参数列表和返回值的确切类型。这里有AddressBook的例子，这次我们使用std::function代替模板。注意我们用到了&rsquo;functional&rsquo;头文件。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -506,7 +506,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="k">class</span> <span class="nc">AddressBook</span>
@@ -535,7 +535,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <p>假如你想检测std::function是否含有一个有效的函数，把它当作boolean就可以了：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -544,7 +544,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span> <span class="p">()</span><span class="o">&gt;</span> <span class="n">func</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span> <span class="p">()</span><span class="o">&gt;</span> <span class="n">func</span><span class="p">;</span>
 <span class="c1">// 检测是否包含函数
 </span><span class="c1"></span><span class="k">if</span> <span class="p">(</span> <span class="n">func</span> <span class="p">)</span> 
 <span class="p">{</span>
@@ -557,12 +557,12 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <p>在最终的C++11标准中，假如你有一个指定空捕获列表的lambda函数，那它将像普通函数一样并可以被赋值到一个函数指针。这有一个作为指针使用空捕获列表lambda的例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)();</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)();</span>
 <span class="n">func</span> <span class="n">f</span> <span class="o">=</span> <span class="p">[]</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">int</span> <span class="p">{</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span> <span class="p">};</span>
 <span class="n">f</span><span class="p">();</span>
 </code></pre></td></tr></table>
@@ -573,7 +573,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 <p>让我们看一个例子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -597,7 +597,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class="lnt">22
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
 </span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="k">class</span> <span class="nc">EmailProcessor</span>
@@ -624,7 +624,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </div><p>这是注册回调函数到类里的很典型的模式，当感兴趣的事情发生时会调用回调函数。接着我们希望另一个类负责跟踪最长的消息（为什么这么做，或许你是一个无聊的管理员）。总之我们创建了如下的类：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -647,7 +647,7 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </span><span class="lnt">21
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
 </span><span class="cp"></span>
 <span class="k">class</span> <span class="nc">MessageSizeStore</span>
 <span class="p">{</span>
@@ -673,12 +673,12 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </div><p>如果我们想让checkMessage在消息来时被调用，我们该怎么做？我们不能只传进checkMessage自己。它是个成员方法，所以它需要一个对象。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">EmailProcessor</span> <span class="n">processor</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">EmailProcessor</span> <span class="n">processor</span><span class="p">;</span>
 <span class="n">MessageSizeStore</span> <span class="n">size_store</span><span class="p">;</span>
 <span class="n">processor</span><span class="p">.</span><span class="n">setHandlerFunc</span><span class="p">(</span> <span class="n">checkMessage</span> <span class="p">);</span> <span class="c1">// 这行不通
 </span></code></pre></td></tr></table>
@@ -686,14 +686,14 @@ Lambda函数利用<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">C
 </div><p>我们需要绑定setHandleFunc和size_store变量的方法。恩，听起来是lambda的拿手好戏！</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">EmailProcessor</span> <span class="n">processor</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">EmailProcessor</span> <span class="n">processor</span><span class="p">;</span>
 <span class="n">MessageSizeStore</span> <span class="n">size_store</span><span class="p">;</span>
 <span class="n">processor</span><span class="p">.</span><span class="n">setHandlerFunc</span><span class="p">(</span> 
         <span class="p">[</span><span class="o">&amp;</span><span class="p">]</span> <span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">message</span><span class="p">)</span> <span class="p">{</span> <span class="n">size_store</span><span class="p">.</span><span class="n">checkMessage</span><span class="p">(</span> <span class="n">message</span> <span class="p">);</span> <span class="p">}</span> 

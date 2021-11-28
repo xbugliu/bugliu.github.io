@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>开源分布式向量检索系统Vearch解剖 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="一、向量检索的工程特点 图像AI领域，其检索一般是基于特征。项目落地如何衡量优劣呢？主要关注两类指标，一类是算法效果，包括准确率、召回率等，一" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2021/10/07/vearch/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="开源分布式向量检索系统Vearch解剖" />
+<meta property="og:description" content="一、向量检索的工程特点 图像AI领域，其检索一般是基于特征。项目落地如何衡量优劣呢？主要关注两类指标，一类是算法效果，包括准确率、召回率等，一" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2021/10/07/vearch/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-07T19:29:25+08:00" />
+<meta property="article:modified_time" content="2021-10-07T19:29:25+08:00" />
+
+<meta itemprop="name" content="开源分布式向量检索系统Vearch解剖">
+<meta itemprop="description" content="一、向量检索的工程特点 图像AI领域，其检索一般是基于特征。项目落地如何衡量优劣呢？主要关注两类指标，一类是算法效果，包括准确率、召回率等，一"><meta itemprop="datePublished" content="2021-10-07T19:29:25+08:00" />
+<meta itemprop="dateModified" content="2021-10-07T19:29:25+08:00" />
+<meta itemprop="wordCount" content="9825">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="开源分布式向量检索系统Vearch解剖"/>
+<meta name="twitter:description" content="一、向量检索的工程特点 图像AI领域，其检索一般是基于特征。项目落地如何衡量优劣呢？主要关注两类指标，一类是算法效果，包括准确率、召回率等，一"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">开源分布式向量检索系统Vearch解剖</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-07 </span>
+        
+          <span class="more-meta"> 9825 words </span>
+          <span class="more-meta"> 20 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#一向量检索的工程特点">一、向量检索的工程特点</a>
+          <ul>
+            <li><a href="#1-单个特征size较大">1. 单个特征Size较大</a></li>
+            <li><a href="#2-海量的冷数据">2. 海量的冷数据</a></li>
+            <li><a href="#3-检索任务耗时敏感读io密集型计算密集型">3. 检索任务：耗时敏感、读IO密集型、计算密集型</a></li>
+            <li><a href="#4-特征存储顺序写入不会修改低频删除低频回查">4. 特征存储：顺序写入、不会修改、低频删除、低频回查</a></li>
+          </ul>
+        </li>
+        <li><a href="#二向量检索系统方案">二、向量检索系统方案</a></li>
+        <li><a href="#三vearch介绍">三、Vearch介绍</a>
+          <ul>
+            <li><a href="#术语">术语</a></li>
+            <li><a href="#架构">架构</a></li>
+            <li><a href="#使用方法">使用方法</a></li>
+            <li><a href="#关键代码解析-基于32x">关键代码解析 (基于3.2.x)</a></li>
+          </ul>
+        </li>
+        <li><a href="#四vearch实战">四、Vearch实战</a>
+          <ul>
+            <li><a href="#bugfix">Bugfix</a></li>
+            <li><a href="#改造">改造</a></li>
+            <li><a href="#性能数据">性能数据</a></li>
+            <li><a href="#对vearch未来的期望">对Vearch未来的期望</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="一向量检索的工程特点">一、向量检索的工程特点</h2>
+<p>图像AI领域，其检索一般是基于特征。项目落地如何衡量优劣呢？主要关注两类指标，一类是算法效果，包括准确率、召回率等，一类是<strong>工程效果</strong>，包括耗时、资源占用。</p>
+<h3 id="1-单个特征size较大">1. 单个特征Size较大</h3>
+<p>具体到我们的形体算法，为了达到一个好的算法效果，采用了较高的维度，这带来了单个特征Size较大(2K)，并且形体特征的不稳定性导致无法像人脸特征一样合并相同的特征。</p>
+<h3 id="2-海量的冷数据">2. 海量的冷数据</h3>
+<p>从统计规律看，平均每路摄像头每天10W左右的特征数量(形体抓拍)。假如一个千路的项目，则每天产生的特征的大小为：<code>1000 * 10W * 512 * sizeof(float) = 200G</code>，数据需要保存6个月，算一下是36T的特征，这个数据量是<strong>海量</strong>的。虽然总数据很大，但用户一般仅仅会检索最近7天的数据，而半个月前的数据往往是一直沉寂不用的。</p>
+<h3 id="3-检索任务耗时敏感读io密集型计算密集型">3. 检索任务：耗时敏感、读IO密集型、计算密集型</h3>
+<p>检索是用户高频操作主流程，其速度直接关乎用户的体验。千万数据的检索可以1秒完成才算合格的产品体验。</p>
+<p>检索的主要原理是从海量特征中对比查找和目标特征最相近的TopN的特征，而海量的数据导致检索任务：</p>
+<ul>
+<li>IO密集型，因为海量的数据注定不会全部加载内存，必然存在特征的按需从硬盘中加载。</li>
+<li>计算密集型，特征的两两比对，一般采用<a href="https://zh.wikipedia.org/zh-hans/%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E6%80%A7">余弦距离</a>或者<a href="https://zh.wikipedia.org/zh-hans/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E8%B7%9D%E7%A6%BB">欧式距离</a>，其算法复杂度和特征维度成O(N)的关系。而特征的检索，又和特征的总量成O(N)的关系。</li>
+</ul>
+<p>IO和计算的密集型和检索速度是矛盾的，随着数据量的加大，势必严重制约着检索的速度。另外除了特征比对以外，检索需要支持<strong>标签过滤</strong>，能按一些业务维度比如时间、摄像头进行过滤。</p>
+<h3 id="4-特征存储顺序写入不会修改低频删除低频回查">4. 特征存储：顺序写入、不会修改、低频删除、低频回查</h3>
+<p>特征写入的TPS, 按实测数据每路摄像头1.2TPS, 峰值约为4TPS，千路的均值和峰值分别为1200TPS和4000TPS。单个特征大小2K, 千路的均值和峰值写入吞吐量分别为20Mbps和64Mbps。特征前后之间没有任何顺序关系，所以我们通过常规的缓存+顺序写入的方式是很容易满足性能要求的。</p>
+<p>公安业务特征主要来自实时摄像头，特征不会修改，但需要删除，回收空间。业务上需要回查特征满足检索等产品需求。</p>
+<h2 id="二向量检索系统方案">二、向量检索系统方案</h2>
+<p>从前面向量检索系统的工程特点可知，一个优秀的向量检索系统需要具备<strong>特征存储管理</strong>和<strong>检索</strong>两项能力，并能应对<strong>海量数据</strong>的挑战。目前市面上主要方案如下：</p>
+<ol>
+<li>
+<p>暴力检索。部分小团队会采用这种方案，其主要方式就是将特征和相关数据都写入一个（或多个）文件中，然后检索时加载到内存算距离。此方案好在简单，坏在暴力，在总数据量在百万以下可以应付，但无法应对千万以上的数据，耗时会在数分钟，是完全不可接受的。</p>
+</li>
+<li>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E9%82%BB%E8%BF%91%E6%90%9C%E7%B4%A2">最邻近搜索</a>。KNN或ANN, 有大量优秀的开源项目，比如<a href="https://github.com/facebookresearch/faiss">faiss</a>。这些开源项目主要是以库的形式存在，提供基础的检索接口，基于这些库进行简单的封装即可实现一个满足千万数据的单机检索系统，检索耗时相比暴力会有极大的提升。</p>
+</li>
+<li>
+<p>分布式最邻近搜索。集成最邻近搜索库、特征存储管理、标签过滤、数据分区、数据备份、满足ACID的全功能、支持多机部署的系统。能满足几十亿特征的管理和检索。此类的开源项目有<a href="https://developer.aliyun.com/article/783110">vearch</a>, <a href="https://github.com/milvus-io/milvus">milvus</a>, 闭源的有阿里达摩院的<a href="https://developer.aliyun.com/article/783110">Proxima</a></p>
+</li>
+</ol>
+<h2 id="三vearch介绍">三、Vearch介绍</h2>
+<h3 id="术语">术语</h3>
+<ul>
+<li>Shared-Nothing  各子系统独立（数据、运算）的分布式方案。</li>
+<li>LSM-Tree 内存排序，顺序写入段，追加更新，写吞吐量高的文件存储算法，RocksDB的底层算法。</li>
+<li>B-tree  基于页的，覆盖写入，读友好的文件存储算法，常用于关系数据库索引。</li>
+<li>IVFPQ 一种ANN算法，核心的思路是分桶和降维，在可接受的精度损失下极大的提高检索的速度。</li>
+<li>ACID 可靠存储要求的三个特性，原子性、隔离性、持久性。</li>
+<li>WAL 保证单机场景数据的持久性。</li>
+<li>Raft 分布式一致性协议，保证多机场景数据的一致性。</li>
+</ul>
+<h3 id="架构">架构</h3>
+<p><img src="/images/posts/vearch/arch.png" alt="image" title="vearch的架构"></p>
+<ul>
+<li>Router 接口层，将特征的增删改查都转发给PartitionServer（简称PS）, 并合并检索结果返回给调用者。不存储任何信息，无状态。</li>
+<li>Master 元数据管理，通过etcd记录PS节点信息，database等信息</li>
+<li>PartitionServer 数据存储检索服务，可以部署多个实例，Shared-Nothing架构。</li>
+</ul>
+<p>PS服务，采用golang+cpp编写，cpp编写的引擎名字叫做gamma, 属于vearch的核心，包括如下组件：</p>
+<ol>
+<li>vector_manager 特征管理，支持rocksdb、memory、mmap三种存储方式，rocksdb适用于海量特征的保存，比mmap更灵活，数据安全性更高。memory适用于小数据量特征的管理，会定期存盘。</li>
+<li>ivfpq_index ivfqp索引，基于faiss, 重新实现PQ倒排表部分代码，来支持实时索引。</li>
+<li>id_map 业务特征ID到vearch内部docid的映射表，基于hashmap。</li>
+<li>table-data 标签字段（比如时间戳）存储管理，基于mmap文件。</li>
+<li>field_range_index 标签索引，基于B-Tree，负责检索时标签过滤。</li>
+<li>del_bitmap 已删除特征管理，基于bitmap。</li>
+</ol>
+<h3 id="使用方法">使用方法</h3>
+<p>vearch有database、space、document三种资源，分别对应于数据库的库、表、条目。space不支持更改表结构。三种资源分别有增删改查的http<a href="https://github.com/vearch/vearch/blob/master/docs/APILowLevel.md">接口</a>。database和space访问的是master服务，document访问的是router服务。插入数据流程比较简单，先创建database, 然后创建space, 最后向space中插入document。检索接口调用的是router服务。接口都较简单，不再示例，另外我们内部使用的是grpc接口，此部分没有文档，需要自己看代码研究。</p>
+<p>下面是创建space的请求体，其中有几个参数需要特别说明：</p>
+<ul>
+<li>retrieval_type - 索引类型，vearch支持多种索引，目前我们主要采用IVFPQ</li>
+<li>partition_num - 分区的个数，一个space可以有多个分区</li>
+<li>nprobe - 去多少个桶里面检索，nprobe越大，召回率越高</li>
+<li>ncentroids - IVF时分桶的个数，不影响召回率，桶越多，检索QPS会越高，但初始内存占用越大</li>
+<li>nsubvector - PQ切片的个数，nsubvector越大，精度损失越小，但内存占用越大。假设nsubvector为32，512个float被压缩为32个Byte, 相当于压缩了512*4/32=64倍。</li>
+<li>bucket_init_size - PQ倒排索引，每个桶里面初始大小，IVFPQ索引初始占用内存为 <code>ncentroids*bucket_init_size*nsubvector</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;{{.name}}&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;partition_num&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="nt">&#34;replica_num&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&#34;engine&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;gamma&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;id_type&#34;</span><span class="p">:</span> <span class="s2">&#34;Long&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;index_size&#34;</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+        <span class="nt">&#34;max_size&#34;</span><span class="p">:</span> <span class="mi">100000000</span><span class="p">,</span>
+        <span class="nt">&#34;nprobe&#34;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="nt">&#34;retrieval_type&#34;</span><span class="p">:</span> <span class="s2">&#34;IVFPQ&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;retrieval_param&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;metric_type&#34;</span><span class="p">:</span> <span class="s2">&#34;{{.metric_type}}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;ncentroids&#34;</span><span class="p">:</span> <span class="mi">2048</span><span class="p">,</span>
+            <span class="nt">&#34;nsubvector&#34;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="nt">&#34;bucket_init_size&#34;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+            <span class="nt">&#34;bucket_max_size&#34;</span><span class="p">:</span> <span class="mi">40960000</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="nt">&#34;properties&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;integer&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;groupid&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;integer&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;objectid&#34;</span><span class="p">:{</span>
+                <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;long&#34;</span><span class="p">,</span>
+                <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="kc">false</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;extra&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;integer&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;index&#34;</span><span class="p">:</span> <span class="kc">false</span>
+        <span class="p">},</span>
+        <span class="nt">&#34;feature&#34;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;vector&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;dimension&#34;</span><span class="p">:</span> <span class="s2">&#34;{{.dimension}}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;store_type&#34;</span><span class="p">:</span> <span class="s2">&#34;{{.store_type}}&#34;</span><span class="p">,</span>
+            <span class="nt">&#34;store_param&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;cache_size&#34;</span><span class="p">:</span> <span class="mi">1000</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="关键代码解析-基于32x">关键代码解析 (基于3.2.x)</h3>
+<p><strong>创建space</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="kd">func</span> <span class="p">(</span><span class="nx">ca</span> <span class="o">*</span><span class="nx">clusterAPI</span><span class="p">)</span> <span class="nf">createSpace</span><span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">gin</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="err">##</span> <span class="nx">省略准备工作</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Debug</span><span class="p">(</span><span class="s">&#34;create space, db: %s&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Param</span><span class="p">(</span><span class="nx">dbName</span><span class="p">))</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ca</span><span class="p">.</span><span class="nx">masterService</span><span class="p">.</span><span class="nf">createSpaceService</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span> <span class="nx">dbName</span><span class="p">,</span> <span class="nx">space</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Debug</span><span class="p">(</span><span class="s">&#34;create space, db: %s&#34;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nf">Param</span><span class="p">(</span><span class="nx">dbName</span><span class="p">))</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="s">&#34;createSpaceService err: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="nx">ginutil</span><span class="p">.</span><span class="nf">NewAutoMehtodName</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nf">SendJsonHttpReplyError</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="nx">ginutil</span><span class="p">.</span><span class="nf">NewAutoMehtodName</span><span class="p">(</span><span class="nx">c</span><span class="p">).</span><span class="nf">SendJsonHttpReplySuccess</span><span class="p">(</span><span class="nx">space</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>master服务的clusterAPI.createSpace是创建space的入口，其中会调用masterService的createSpaceService方法。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="c1">// server/[serverAddr]:[serverBody]
+</span><span class="c1">// spaceKeys &#34;space/[dbId]/[spaceId]:[spaceBody]&#34;
+</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">ms</span> <span class="o">*</span><span class="nx">masterService</span><span class="p">)</span> <span class="nf">createSpaceService</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">dbName</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">space</span> <span class="o">*</span><span class="nx">entity</span><span class="p">.</span><span class="nx">Space</span><span class="p">)</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	
+    <span class="err">##</span> <span class="nx">省略准备工作</span>
+
+	<span class="c1">//find all servers for create space
+</span><span class="c1"></span>	<span class="nx">servers</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ms</span><span class="p">.</span><span class="nf">Master</span><span class="p">().</span><span class="nf">QueryServers</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+
+	<span class="nx">serverPartitions</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ms</span><span class="p">.</span><span class="nf">filterAndSortServer</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">space</span><span class="p">,</span> <span class="nx">servers</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+
+	
+	<span class="c1">//peak servers for space
+</span><span class="c1"></span>	<span class="kd">var</span> <span class="nx">paddrs</span> <span class="p">[][]</span><span class="kt">string</span>
+	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">space</span><span class="p">.</span><span class="nx">Partitions</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="nx">addrs</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ms</span><span class="p">.</span><span class="nf">generatePartitionsInfo</span><span class="p">(</span><span class="nx">servers</span><span class="p">,</span> <span class="nx">serverPartitions</span><span class="p">,</span> <span class="nx">space</span><span class="p">.</span><span class="nx">ReplicaNum</span><span class="p">,</span> <span class="nx">space</span><span class="p">.</span><span class="nx">Partitions</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">err</span>
+		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+			<span class="nx">paddrs</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">paddrs</span><span class="p">,</span> <span class="nx">addrs</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="kd">var</span> <span class="nx">errChain</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">error</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+	<span class="c1">//send create space to every space
+</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="nx">space</span><span class="p">.</span><span class="nx">Partitions</span><span class="p">);</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">addrs</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">partition</span> <span class="o">*</span><span class="nx">entity</span><span class="p">.</span><span class="nx">Partition</span><span class="p">)</span> <span class="p">{</span>
+			<span class="c1">//send request for all server
+</span><span class="c1"></span>			<span class="k">defer</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="nx">r</span> <span class="o">:=</span> <span class="nb">recover</span><span class="p">();</span> <span class="nx">r</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+					<span class="nx">err</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;create partition err: %v &#34;</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span>
+					<span class="nx">errChain</span> <span class="o">&lt;-</span> <span class="nx">err</span>
+					<span class="nx">log</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
+				<span class="p">}</span>
+			<span class="p">}()</span>
+			<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">addr</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">addrs</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">CreatePartition</span><span class="p">(</span><span class="nx">addr</span><span class="p">,</span> <span class="nx">space</span><span class="p">,</span> <span class="nx">partition</span><span class="p">.</span><span class="nx">Id</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+					<span class="nx">err</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;create partition err: %s &#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
+					<span class="nx">errChain</span> <span class="o">&lt;-</span> <span class="nx">err</span>
+					<span class="nx">log</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nf">Error</span><span class="p">())</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}(</span><span class="nx">paddrs</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">space</span><span class="p">.</span><span class="nx">Partitions</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+	<span class="p">}</span>
+
+    <span class="c1">//update version
+</span><span class="c1"></span>	<span class="nx">err</span> <span class="p">=</span> <span class="nx">ms</span><span class="p">.</span><span class="nf">updateSpace</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">space</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>createSpaceService函数有关键的几个过程，filterAndSortServer和generatePartitionsInfo返回按包含Partition数从小到大排序的PS节点的地址，然后通过client.CreatePartition将请求发送到PS节点创建Partition，最后调用updateSpace将meta信息存储到etcd中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">func (c *CreatePartitionHandler) Execute(ctx context.Context, req *vearchpb.PartitionData, reply *vearchpb.PartitionData) error {
+	reply.Err = &amp;vearchpb.Error{Code: vearchpb.ErrorEnum_SUCCESS}
+	space := new(entity.Space)
+	err := cbjson.Unmarshal(req.Data, space)
+	if err != nil {
+		log.Error(&#34;Create partition failed, err: [%s]&#34;, err.Error())
+		return vearchpb.NewError(vearchpb.ErrorEnum_RPC_PARAM_ERROR, err)
+	}
+	c.server.partitions.Range(func(key, value interface{}) bool {
+		fmt.Print(key, value)
+		return true
+	})
+
+	if partitionStore := c.server.GetPartition(req.PartitionID); partitionStore != nil {
+		return vearchpb.NewError(vearchpb.ErrorEnum_PARTITION_DUPLICATE, nil)
+	}
+
+	if err := c.server.CreatePartition(ctx, space, req.PartitionID); err != nil {
+		c.server.DeletePartition(req.PartitionID)
+		return err
+	}
+	return nil
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>client.CreatePartition通过RPC会调用到PS实例的CreatePartitionHandler.Execute方法, Execute中会调用server.CreatePartition，创建Partition</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">// Start start the store.
+func (s *Store) Start() (err error) {
+	s.Engine, err = register.Build(s.Space.Engine.Name, register.EngineConfig{
+		Path:        s.DataPath,
+		Space:       s.Space,
+		PartitionID: s.Partition.Id,
+		DWPTNum:     config.Conf().PS.EngineDWPTNum,
+	})
+	if err != nil {
+		return err
+	}
+
+	raftStore, err := wal.NewStorage(s.RaftPath, nil)
+	if err != nil {
+		s.Engine.Close()
+		return fmt.Errorf(&#34;start partition[%d] open raft store engine error: %s&#34;, s.Partition.Id, err.Error())
+	}
+
+
+	return nil
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>创建Partition主流程在raftstore.Store.Start函数，里面有2个主要步骤，通过register.Build创建table和创建raftServer。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">GammaEngine</span><span class="o">::</span><span class="n">CreateTable</span><span class="p">(</span><span class="n">TableInfo</span> <span class="o">&amp;</span><span class="n">table</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">vec_manager_</span> <span class="o">||</span> <span class="o">!</span><span class="n">table_</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;vector and table should not be null!&#34;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="cp">## 省略部分不重要的代码
+</span><span class="cp"></span>
+  <span class="kt">int</span> <span class="n">ret_vec</span> <span class="o">=</span> <span class="n">vec_manager_</span><span class="o">-&gt;</span><span class="n">CreateVectorTable</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">meta_jp</span><span class="p">);</span>
+  <span class="n">TableParams</span> <span class="n">disk_table_params</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">meta_jp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">utils</span><span class="o">::</span><span class="n">JsonParser</span> <span class="n">table_jp</span><span class="p">;</span>
+    <span class="n">meta_jp</span><span class="o">-&gt;</span><span class="n">GetObject</span><span class="p">(</span><span class="s">&#34;table&#34;</span><span class="p">,</span> <span class="n">table_jp</span><span class="p">);</span>
+    <span class="n">disk_table_params</span><span class="p">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">table_jp</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="kt">int</span> <span class="n">ret_table</span> <span class="o">=</span> <span class="n">table_</span><span class="o">-&gt;</span><span class="n">CreateTable</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">disk_table_params</span><span class="p">);</span>
+  <span class="n">indexing_size_</span> <span class="o">=</span> <span class="n">table</span><span class="p">.</span><span class="n">IndexingSize</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret_vec</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">ret_table</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Cannot create table!&#34;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">af_exector_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">AsyncFlushExecutor</span><span class="p">();</span>
+  <span class="n">table_io_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TableIO</span><span class="p">(</span><span class="n">table_</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">table_io_</span><span class="o">-&gt;</span><span class="n">Init</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">af_exector_</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="n">AsyncFlusher</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">table_io_</span><span class="p">));</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">meta_jp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">utils</span><span class="o">::</span><span class="n">JsonParser</span> <span class="n">dump_meta_</span><span class="p">;</span>
+    <span class="n">dump_meta_</span><span class="p">.</span><span class="n">PutInt</span><span class="p">(</span><span class="s">&#34;version&#34;</span><span class="p">,</span> <span class="mi">320</span><span class="p">);</span>  <span class="c1">// version=3.2.0
+</span><span class="c1"></span>
+    <span class="n">utils</span><span class="o">::</span><span class="n">JsonParser</span> <span class="n">table_jp</span><span class="p">;</span>
+    <span class="n">table_</span><span class="o">-&gt;</span><span class="n">GetDumpConfig</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">ToJson</span><span class="p">(</span><span class="n">table_jp</span><span class="p">);</span>
+    <span class="n">dump_meta_</span><span class="p">.</span><span class="n">PutObject</span><span class="p">(</span><span class="s">&#34;table&#34;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">table_jp</span><span class="p">));</span>
+
+    <span class="n">utils</span><span class="o">::</span><span class="n">JsonParser</span> <span class="n">vectors_jp</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">it</span> <span class="p">:</span> <span class="n">vec_manager_</span><span class="o">-&gt;</span><span class="n">RawVectors</span><span class="p">())</span> <span class="p">{</span>
+      <span class="n">DumpConfig</span> <span class="o">*</span><span class="n">dc</span> <span class="o">=</span> <span class="n">it</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">GetDumpConfig</span><span class="p">();</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">dc</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">utils</span><span class="o">::</span><span class="n">JsonParser</span> <span class="n">jp</span><span class="p">;</span>
+        <span class="n">dc</span><span class="o">-&gt;</span><span class="n">ToJson</span><span class="p">(</span><span class="n">jp</span><span class="p">);</span>
+        <span class="n">vectors_jp</span><span class="p">.</span><span class="n">PutObject</span><span class="p">(</span><span class="n">dc</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">jp</span><span class="p">));</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">dump_meta_</span><span class="p">.</span><span class="n">PutObject</span><span class="p">(</span><span class="s">&#34;vectors&#34;</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">vectors_jp</span><span class="p">));</span>
+
+    <span class="n">utils</span><span class="o">::</span><span class="n">FileIO</span> <span class="n">fio</span><span class="p">(</span><span class="n">dump_meta_path</span><span class="p">);</span>
+    <span class="n">fio</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="s">&#34;w&#34;</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">meta_str</span> <span class="o">=</span> <span class="n">dump_meta_</span><span class="p">.</span><span class="n">ToStr</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+    <span class="n">fio</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">meta_str</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">meta_str</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">it</span> <span class="p">:</span> <span class="n">vec_manager_</span><span class="o">-&gt;</span><span class="n">RawVectors</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">RawVectorIO</span> <span class="o">*</span><span class="n">rio</span> <span class="o">=</span> <span class="n">it</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">GetIO</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rio</span> <span class="o">==</span> <span class="k">nullptr</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+    <span class="n">AsyncFlusher</span> <span class="o">*</span><span class="n">flusher</span> <span class="o">=</span> <span class="k">dynamic_cast</span><span class="o">&lt;</span><span class="n">AsyncFlusher</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">rio</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">flusher</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">af_exector_</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="n">flusher</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="cp">#ifndef BUILD_GPU
+</span><span class="cp"></span>  <span class="n">field_range_index_</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MultiFieldsRangeIndex</span><span class="p">(</span><span class="n">index_root_path_</span><span class="p">,</span> <span class="n">table_</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">((</span><span class="k">nullptr</span> <span class="o">==</span> <span class="n">field_range_index_</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">AddNumIndexFields</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;add numeric index fields error!&#34;</span><span class="p">;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">auto</span> <span class="n">func_build_field_index</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="o">&amp;</span><span class="n">GammaEngine</span><span class="o">::</span><span class="n">BuildFieldIndex</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="kr">thread</span> <span class="n">t</span><span class="p">(</span><span class="n">func_build_field_index</span><span class="p">);</span>
+  <span class="n">t</span><span class="p">.</span><span class="n">detach</span><span class="p">();</span>
+<span class="cp">#endif
+</span><span class="cp"></span>  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">table_name</span> <span class="o">=</span> <span class="n">table</span><span class="p">.</span><span class="n">Name</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">path</span> <span class="o">=</span> <span class="n">index_root_path_</span> <span class="o">+</span> <span class="s">&#34;/&#34;</span> <span class="o">+</span> <span class="n">table_name</span> <span class="o">+</span> <span class="s">&#34;.schema&#34;</span><span class="p">;</span>
+  <span class="n">TableSchemaIO</span> <span class="nf">tio</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>  <span class="c1">// rewrite it if the path is already existed
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">tio</span><span class="p">.</span><span class="n">Write</span><span class="p">(</span><span class="n">table</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;write table schema error, path=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">path</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">af_exector_</span><span class="o">-&gt;</span><span class="n">Start</span><span class="p">();</span>
+
+  <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;create table [&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">table_name</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;] success!&#34;</span><span class="p">;</span>
+  <span class="n">created_table_</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>创建table的流程在gamma引擎中的GammaEngine::CreateTable方法，里面初始化了vec_manager, table_data, field_range_index, vec_manager里面又初始化了rocksdb_vector和ivfpqindex。</p>
+<p><strong>document插入</strong></p>
+<p>vearch用document表示一条记录，记录中除了有特征(vector)以外，还可以包含其他字段，一条document样子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+<span class="nt">&#34;taskid&#34;</span><span class="p">:</span><span class="mi">14</span><span class="p">,</span>
+<span class="nt">&#34;timestamp&#34;</span><span class="p">:</span><span class="mi">1637487823</span><span class="p">,</span>
+<span class="nt">&#34;feature0&#34;</span><span class="p">:{</span>
+  <span class="nt">&#34;feature&#34;</span><span class="p">:[</span>
+    <span class="mf">0.88658684</span><span class="p">,</span>
+    <span class="mf">0.9873159</span><span class="p">,</span>
+    <span class="mf">0.68632215</span><span class="p">,</span>
+    <span class="mf">0.53622203</span>
+  <span class="p">]</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="kd">func</span> <span class="p">(</span><span class="nx">docService</span> <span class="o">*</span><span class="nx">docService</span><span class="p">)</span> <span class="nf">addDoc</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">args</span> <span class="o">*</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">AddRequest</span><span class="p">)</span> <span class="o">*</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">AddResponse</span> <span class="p">{</span>
+	<span class="nx">reply</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">AddResponse</span><span class="p">{</span><span class="nx">Head</span><span class="p">:</span> <span class="nf">newOkHead</span><span class="p">()}</span>
+	<span class="nx">request</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">NewRouterRequest</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">docService</span><span class="p">.</span><span class="nx">client</span><span class="p">)</span>
+	<span class="nx">docs</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="o">*</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">Document</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="nx">docs</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">docs</span><span class="p">,</span> <span class="nx">args</span><span class="p">.</span><span class="nx">Doc</span><span class="p">)</span>
+	<span class="nx">request</span><span class="p">.</span><span class="nf">SetMsgID</span><span class="p">().</span><span class="nf">SetMethod</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">BatchHandler</span><span class="p">).</span><span class="nf">SetHead</span><span class="p">(</span><span class="nx">args</span><span class="p">.</span><span class="nx">Head</span><span class="p">).</span><span class="nf">SetSpace</span><span class="p">().</span><span class="nf">SetDocs</span><span class="p">(</span><span class="nx">docs</span><span class="p">).</span><span class="nf">SetDocsField</span><span class="p">().</span><span class="nf">PartitionDocs</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">request</span><span class="p">.</span><span class="nx">Err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">AddResponse</span><span class="p">{</span><span class="nx">Head</span><span class="p">:</span> <span class="nf">setErrHead</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">Err</span><span class="p">)}</span>
+	<span class="p">}</span>
+	<span class="nx">items</span> <span class="o">:=</span> <span class="nx">request</span><span class="p">.</span><span class="nf">Execute</span><span class="p">()</span>
+	<span class="nx">reply</span><span class="p">.</span><span class="nx">Head</span><span class="p">.</span><span class="nx">Params</span> <span class="p">=</span> <span class="nx">request</span><span class="p">.</span><span class="nf">GetMD</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">items</span><span class="p">)</span> <span class="p">&lt;</span> <span class="mi">1</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">AddResponse</span><span class="p">{</span><span class="nx">Head</span><span class="p">:</span> <span class="nf">setErrHead</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">Err</span><span class="p">)}</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">reply</span><span class="p">.</span><span class="nx">Head</span><span class="p">.</span><span class="nx">Err</span> <span class="p">=</span> <span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Err</span>
+	<span class="p">}</span>
+	<span class="nx">reply</span><span class="p">.</span><span class="nx">PrimaryKey</span> <span class="p">=</span> <span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">GetDoc</span><span class="p">().</span><span class="nf">GetPKey</span><span class="p">()</span>
+	<span class="k">return</span> <span class="nx">reply</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>router服务中的docService.addDoc是添加document的入口，第6行的PartitionDocs里面会根据document的id寻找一个PS节点，然后在第10行将请求通过RPC发送给PS节点。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">GammaEngine</span><span class="o">::</span><span class="n">AddOrUpdate</span><span class="p">(</span><span class="n">Doc</span> <span class="o">&amp;</span><span class="n">doc</span><span class="p">)</span> <span class="p">{</span>
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>  <span class="kt">double</span> <span class="n">start</span> <span class="o">=</span> <span class="n">utils</span><span class="o">::</span><span class="n">getmillisecs</span><span class="p">();</span>
+<span class="cp">#endif
+</span><span class="cp"></span>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="k">struct</span> <span class="nc">Field</span><span class="o">&gt;</span> <span class="n">fields_table</span><span class="p">,</span> <span class="n">fields_vec</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">key</span><span class="p">;</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="k">struct</span> <span class="nc">Field</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">fields</span> <span class="o">=</span> <span class="n">doc</span><span class="p">.</span><span class="n">Fields</span><span class="p">();</span>
+  <span class="n">fields_table</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">fields</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">field</span> <span class="p">:</span> <span class="n">fields</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">datatype</span> <span class="o">!=</span> <span class="n">DataType</span><span class="o">::</span><span class="n">VECTOR</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">name</span> <span class="o">=</span> <span class="n">field</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#34;_id&#34;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">field</span><span class="p">.</span><span class="n">value</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="n">fields_table</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">field</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">fields_vec</span><span class="p">.</span><span class="n">emplace_back</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">field</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// add fields into table
+</span><span class="c1"></span>  <span class="kt">int</span> <span class="n">docid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="n">table_</span><span class="o">-&gt;</span><span class="n">GetDocIDByKey</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">docid</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">docid</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">table_</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="n">fields_table</span><span class="p">,</span> <span class="n">max_docid_</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span>
+<span class="cp">#ifndef BUILD_GPU
+</span><span class="cp"></span>    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fields_table</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">struct</span> <span class="nc">Field</span> <span class="o">&amp;</span><span class="n">field</span> <span class="o">=</span> <span class="n">fields_table</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+      <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">table_</span><span class="o">-&gt;</span><span class="n">GetAttrIdx</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">name</span><span class="p">);</span>
+      <span class="n">field_range_index_</span><span class="o">-&gt;</span><span class="n">Add</span><span class="p">(</span><span class="n">max_docid_</span><span class="p">,</span> <span class="n">idx</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="cp">#endif  </span><span class="c1">// BUILD_GPU
+</span><span class="c1"></span>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">Update</span><span class="p">(</span><span class="n">docid</span><span class="p">,</span> <span class="n">fields_table</span><span class="p">,</span> <span class="n">fields_vec</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">LOG</span><span class="p">(</span><span class="n">ERROR</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;update error, key=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;, docid=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">docid</span><span class="p">;</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>  <span class="kt">double</span> <span class="n">end_table</span> <span class="o">=</span> <span class="n">utils</span><span class="o">::</span><span class="n">getmillisecs</span><span class="p">();</span>
+<span class="cp">#endif
+</span><span class="cp"></span>
+  <span class="c1">// add vectors by VectorManager
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">vec_manager_</span><span class="o">-&gt;</span><span class="n">AddToStore</span><span class="p">(</span><span class="n">max_docid_</span><span class="p">,</span> <span class="n">fields_vec</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">4</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">not</span> <span class="n">b_running_</span> <span class="n">and</span> <span class="n">index_status_</span> <span class="o">==</span> <span class="n">UNINDEXED</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">max_docid_</span> <span class="o">&gt;=</span> <span class="n">indexing_size_</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Begin indexing.&#34;</span><span class="p">;</span>
+      <span class="k">this</span><span class="o">-&gt;</span><span class="n">BuildIndex</span><span class="p">();</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="o">++</span><span class="n">max_docid_</span><span class="p">;</span>
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>  <span class="kt">double</span> <span class="n">end</span> <span class="o">=</span> <span class="n">utils</span><span class="o">::</span><span class="n">getmillisecs</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">max_docid_</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;table cost [&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">end_table</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;]ms, vec store cost [&#34;</span>
+              <span class="o">&lt;&lt;</span> <span class="n">end</span> <span class="o">-</span> <span class="n">end_table</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;]ms&#34;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="cp">#endif
+</span><span class="cp"></span>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>经过一系列中间函数调用后，最终会执行到gamma引擎的GammaEngine::AddOrUpdate方法，这里面主要做了这些事情：</p>
+<ol>
+<li>25行table_-&gt;Add 将标签字段数据写入table_data, 第二个参数max_docid_会作为这一条document的docid, docid是gamma内部ivfpq_index, table, field_index使用的id, 是一个从0开始递增的值，会通过id_map将业务的documentid与内部docid关联。</li>
+<li>31行是将标签字段放入标签索引field_range_index中</li>
+<li>46行vec_manager_-&gt;AddToStore将特征保存到rocksdb(或内存)，并同时将特征插入ivfpq索引</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">bool</span> <span class="n">GammaIVFPQIndex</span><span class="o">::</span><span class="n">Add</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">vec</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="cp">## 省略部分代码
+</span><span class="cp"></span>
+  <span class="n">idx_t</span> <span class="o">*</span><span class="n">idx0</span> <span class="o">=</span> <span class="k">new</span> <span class="n">idx_t</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+  <span class="n">quantizer</span><span class="o">-&gt;</span><span class="n">assign</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">applied_vec</span><span class="p">,</span> <span class="n">idx0</span><span class="p">);</span>
+  <span class="n">idx</span> <span class="o">=</span> <span class="n">idx0</span><span class="p">;</span>
+  <span class="n">del_idx</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="n">idx</span><span class="p">);</span>
+
+  <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">xcodes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">uint8_t</span><span class="p">[</span><span class="n">n</span> <span class="o">*</span> <span class="n">code_size</span><span class="p">];</span>
+  <span class="n">utils</span><span class="o">::</span><span class="n">ScopeDeleter</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span> <span class="n">del_xcodes</span><span class="p">(</span><span class="n">xcodes</span><span class="p">);</span>
+
+  <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">to_encode</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+  <span class="n">utils</span><span class="o">::</span><span class="n">ScopeDeleter</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">del_to_encode</span><span class="p">;</span>
+  
+  <span class="k">if</span> <span class="p">(</span><span class="n">by_residual</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">to_encode</span> <span class="o">=</span> <span class="n">compute_residuals</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">applied_vec</span><span class="p">,</span> <span class="n">idx</span><span class="p">);</span>
+    <span class="n">del_to_encode</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="n">to_encode</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">to_encode</span> <span class="o">=</span> <span class="n">applied_vec</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">pq</span><span class="p">.</span><span class="n">compute_codes</span><span class="p">(</span><span class="n">to_encode</span><span class="p">,</span> <span class="n">xcodes</span><span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+
+  <span class="n">size_t</span> <span class="n">n_ignore</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kt">long</span> <span class="n">vid</span> <span class="o">=</span> <span class="n">indexed_vec_count_</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">long</span> <span class="n">key</span> <span class="o">=</span> <span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">key</span> <span class="o">&lt;</span> <span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">nlist</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">n_ignore</span><span class="o">++</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// long id = (long)(indexed_vec_count_++);
+</span><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">code</span> <span class="o">=</span> <span class="n">xcodes</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">code_size</span><span class="p">;</span>
+
+    <span class="n">new_keys</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">push_back</span><span class="p">(</span><span class="n">vid</span><span class="o">++</span><span class="p">);</span>
+
+    <span class="n">size_t</span> <span class="n">ofs</span> <span class="o">=</span> <span class="n">new_codes</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">size</span><span class="p">();</span>
+    <span class="n">new_codes</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">resize</span><span class="p">(</span><span class="n">ofs</span> <span class="o">+</span> <span class="n">code_size</span><span class="p">);</span>
+    <span class="n">memcpy</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)(</span><span class="n">new_codes</span><span class="p">[</span><span class="n">key</span><span class="p">].</span><span class="n">data</span><span class="p">()</span> <span class="o">+</span> <span class="n">ofs</span><span class="p">),</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">code</span><span class="p">,</span> <span class="n">code_size</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="cm">/* stage 2 : add invert info to invert index */</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rt_invert_index_ptr_</span><span class="o">-&gt;</span><span class="n">AddKeys</span><span class="p">(</span><span class="n">new_keys</span><span class="p">,</span> <span class="n">new_codes</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">indexed_vec_count_</span> <span class="o">=</span> <span class="n">vid</span><span class="p">;</span>
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>  <span class="n">add_count_</span> <span class="o">+=</span> <span class="n">n</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">add_count_</span> <span class="o">&gt;=</span> <span class="mi">100000</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">double</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">::</span><span class="n">getmillisecs</span><span class="p">();</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Add time [&#34;</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;]ms, count &#34;</span>
+              <span class="o">&lt;&lt;</span> <span class="n">indexed_vec_count_</span><span class="p">;</span>
+    <span class="c1">// rt_invert_index_ptr_-&gt;PrintBucketSize();
+</span><span class="c1"></span>    <span class="n">add_count_</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="cp">#endif
+</span><span class="cp"></span>  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>GammaIVFPQIndex::Add是IVFPQ索引的添加过程，此时索引已经训练完成，这里面有关键的三步：</p>
+<ol>
+<li>第6行quantizer-&gt;assign 根据特征值计算应该插入到哪个桶中</li>
+<li>第22行pq.compute_codes，计算PQ编码的值</li>
+<li>第45行rt_invert_index_ptr_-&gt;AddKeys，将编码插入到ivfpq索引中去</li>
+</ol>
+<p>内存中IVFQP倒排索引的布局如下图所示：
+<img src="/images/posts/vearch/ivfpq.png" alt="image" title="ivfpq索引内存布局"></p>
+<p><strong>document删除</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">GammaEngine</span><span class="o">::</span><span class="n">Delete</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">docid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">table_</span><span class="o">-&gt;</span><span class="n">GetDocIDByKey</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">docid</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">docid</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">bitmap</span><span class="o">::</span><span class="n">test</span><span class="p">(</span><span class="n">docids_bitmap_</span><span class="p">,</span> <span class="n">docid</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="o">++</span><span class="n">delete_num_</span><span class="p">;</span>
+  <span class="n">bitmap</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="n">docids_bitmap_</span><span class="p">,</span> <span class="n">docid</span><span class="p">);</span>
+  <span class="n">table_</span><span class="o">-&gt;</span><span class="n">Delete</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+
+  <span class="n">vec_manager_</span><span class="o">-&gt;</span><span class="n">Delete</span><span class="p">(</span><span class="n">docid</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>document的删除比较简单，只是用一个bitmap记录删除的docid, 并定期会将bitmap存盘。</p>
+<p><strong>检索</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-golang" data-lang="golang"><span class="kd">func</span> <span class="p">(</span><span class="nx">docService</span> <span class="o">*</span><span class="nx">docService</span><span class="p">)</span> <span class="nf">bulkSearch</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">args</span> <span class="p">[]</span><span class="o">*</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">SearchRequest</span><span class="p">)</span> <span class="o">*</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">SearchResponse</span> <span class="p">{</span>
+
+	<span class="nx">request</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">NewRouterRequest</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span> <span class="nx">docService</span><span class="p">.</span><span class="nx">client</span><span class="p">)</span>
+	<span class="nx">request</span><span class="p">.</span><span class="nf">SetMsgID</span><span class="p">().</span><span class="nf">SetMethod</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">BulkSearchHandler</span><span class="p">).</span><span class="nf">SetHead</span><span class="p">(</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">Head</span><span class="p">).</span><span class="nf">SetSpace</span><span class="p">().</span><span class="nf">BulkSearchByPartitions</span><span class="p">(</span><span class="nx">args</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">request</span><span class="p">.</span><span class="nx">Err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">SearchResponse</span><span class="p">{</span><span class="nx">Head</span><span class="p">:</span> <span class="nf">setErrHead</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">Err</span><span class="p">)}</span>
+	<span class="p">}</span>
+
+	<span class="nx">sortOrders</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">sortorder</span><span class="p">.</span><span class="nx">SortOrder</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">args</span><span class="p">))</span>
+	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">req</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">args</span> <span class="p">{</span>
+		<span class="nx">sortOrder</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">sortorder</span><span class="p">.</span><span class="nx">Sort</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">SortFields</span><span class="p">))</span>
+		<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">sortF</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">req</span><span class="p">.</span><span class="nx">SortFields</span> <span class="p">{</span>
+			<span class="nx">sortOrder</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">sortOrder</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">sortorder</span><span class="p">.</span><span class="nx">SortField</span><span class="p">{</span><span class="nx">Field</span><span class="p">:</span> <span class="nx">sortF</span><span class="p">.</span><span class="nx">Field</span><span class="p">,</span> <span class="nx">Desc</span><span class="p">:</span> <span class="nx">sortF</span><span class="p">.</span><span class="nx">Type</span><span class="p">})</span>
+		<span class="p">}</span>
+		<span class="nx">sortOrders</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">sortOrders</span><span class="p">,</span> <span class="nx">sortOrder</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="nx">searchResponse</span> <span class="o">:=</span> <span class="nx">request</span><span class="p">.</span><span class="nf">BulkSearchSortExecute</span><span class="p">(</span><span class="nx">sortOrders</span><span class="p">)</span>
+
+	<span class="k">if</span> <span class="nx">searchResponse</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="o">&amp;</span><span class="nx">vearchpb</span><span class="p">.</span><span class="nx">SearchResponse</span><span class="p">{</span><span class="nx">Head</span><span class="p">:</span> <span class="nf">setErrHead</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">Err</span><span class="p">)}</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">searchResponse</span><span class="p">.</span><span class="nx">Head</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">searchResponse</span><span class="p">.</span><span class="nx">Head</span> <span class="p">=</span> <span class="nf">newOkHead</span><span class="p">()</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="nx">searchResponse</span><span class="p">.</span><span class="nx">Head</span><span class="p">.</span><span class="nx">Err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">searchResponse</span><span class="p">.</span><span class="nx">Head</span><span class="p">.</span><span class="nx">Err</span> <span class="p">=</span> <span class="nf">newOkHead</span><span class="p">().</span><span class="nx">Err</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">searchResponse</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>检索的入口在Router服务的docService.bulkSearch (对应vearch的Msearch接口，指多目标批量检索)，逻辑比较清晰，主要是根据检索的条件查询待检索的PS服务地址，然后将查询条件通过RPC传给PS实例，PS返回结果后合并后返回给调用者。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">GammaEngine</span><span class="o">::</span><span class="n">Search</span><span class="p">(</span><span class="n">Request</span> <span class="o">&amp;</span><span class="n">request</span><span class="p">,</span> <span class="n">Response</span> <span class="o">&amp;</span><span class="n">response_results</span><span class="p">)</span> <span class="p">{</span>
+
+<span class="cp">## 省略非核心代码
+</span><span class="cp"></span>
+<span class="cp">#ifndef BUILD_GPU
+</span><span class="cp"></span>  <span class="n">MultiRangeQueryResults</span> <span class="n">range_query_result</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="k">struct</span> <span class="nc">RangeFilter</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">range_filters</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">RangeFilters</span><span class="p">();</span>
+  <span class="n">size_t</span> <span class="n">range_filters_num</span> <span class="o">=</span> <span class="n">range_filters</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="k">struct</span> <span class="nc">TermFilter</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">term_filters</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">TermFilters</span><span class="p">();</span>
+  <span class="n">size_t</span> <span class="n">term_filters_num</span> <span class="o">=</span> <span class="n">term_filters</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">range_filters_num</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">term_filters_num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">num</span> <span class="o">=</span> <span class="n">MultiRangeQuery</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">gamma_query</span><span class="p">.</span><span class="n">condition</span><span class="p">,</span> <span class="n">response_results</span><span class="p">,</span>
+                              <span class="o">&amp;</span><span class="n">range_query_result</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>  <span class="n">gamma_query</span><span class="p">.</span><span class="n">condition</span><span class="o">-&gt;</span><span class="n">GetPerfTool</span><span class="p">().</span><span class="n">Perf</span><span class="p">(</span><span class="s">&#34;filter&#34;</span><span class="p">);</span>
+<span class="cp">#endif
+</span><span class="cp">#endif
+</span><span class="cp"></span>
+  <span class="n">size_t</span> <span class="n">vec_fields_num</span> <span class="o">=</span> <span class="n">vec_fields</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">vec_fields_num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">GammaResult</span> <span class="n">gamma_results</span><span class="p">[</span><span class="n">req_num</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">doc_num</span> <span class="o">=</span> <span class="n">GetDocsNum</span><span class="p">();</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">req_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">gamma_results</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">total</span> <span class="o">=</span> <span class="n">doc_num</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">vec_manager_</span><span class="o">-&gt;</span><span class="n">Search</span><span class="p">(</span><span class="n">gamma_query</span><span class="p">,</span> <span class="n">gamma_results</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="s">&#34;search error [&#34;</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#34;]&#34;</span><span class="p">;</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">req_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">SearchResult</span> <span class="n">result</span><span class="p">;</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">;</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">result_code</span> <span class="o">=</span> <span class="n">SearchResultCode</span><span class="o">::</span><span class="n">SEARCH_ERROR</span><span class="p">;</span>
+        <span class="n">response_results</span><span class="p">.</span><span class="n">AddResults</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">result</span><span class="p">));</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>    <span class="n">gamma_query</span><span class="p">.</span><span class="n">condition</span><span class="o">-&gt;</span><span class="n">GetPerfTool</span><span class="p">().</span><span class="n">Perf</span><span class="p">(</span><span class="s">&#34;search total&#34;</span><span class="p">);</span>
+<span class="cp">#endif
+</span><span class="cp"></span>    <span class="n">PackResults</span><span class="p">(</span><span class="n">gamma_results</span><span class="p">,</span> <span class="n">response_results</span><span class="p">,</span> <span class="n">request</span><span class="p">);</span>
+<span class="cp">#ifdef PERFORMANCE_TESTING
+</span><span class="cp"></span>    <span class="n">gamma_query</span><span class="p">.</span><span class="n">condition</span><span class="o">-&gt;</span><span class="n">GetPerfTool</span><span class="p">().</span><span class="n">Perf</span><span class="p">(</span><span class="s">&#34;pack results&#34;</span><span class="p">);</span>
+<span class="cp">#endif
+</span><span class="cp"></span>
+	<span class="cp">## 省略非核心代码
+</span><span class="cp"></span>
+  <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>经过一系列函数调用，最终会执行到gamma引擎中的GammaEngine::Search方法，此方法是PS节点中检索的主流程，关键过程非成三步：</p>
+<ol>
+<li>13行MultiRangeQuery 首先是根据查询条件的标签进行过滤，其结果是过滤结果的bitmap。其过程类似于Mysql Innodb索引的查询过程，但不同的是多标签采用的是多个单个索引+结果合并的方式，而Mysql推荐的是联合索引。</li>
+<li>33行是调用底层IVFPQ进行检索</li>
+<li>后面的代码主要是根据结果的docid列表，获取document信息，打包返回。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">GammaIVFPQIndex</span><span class="o">::</span><span class="n">Search</span><span class="p">(</span><span class="n">RetrievalContext</span> <span class="o">*</span><span class="n">retrieval_context</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span>
+                            <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">distances</span><span class="p">,</span>
+                            <span class="n">idx_t</span> <span class="o">*</span><span class="n">labels</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="cp">## 省略无关代码
+</span><span class="cp"></span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">retrieval_params</span><span class="o">-&gt;</span><span class="n">IvfFlat</span><span class="p">()</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">quantizer</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">xq</span><span class="p">,</span> <span class="n">nprobe</span><span class="p">,</span> <span class="n">coarse_dis</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">idx</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">quantizer</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">applied_xq</span><span class="p">,</span> <span class="n">nprobe</span><span class="p">,</span> <span class="n">coarse_dis</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">idx</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="o">-&gt;</span><span class="n">invlists</span><span class="o">-&gt;</span><span class="n">prefetch_lists</span><span class="p">(</span><span class="n">idx</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">n</span> <span class="o">*</span> <span class="n">nprobe</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">retrieval_params</span><span class="o">-&gt;</span><span class="n">IvfFlat</span><span class="p">()</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// just use xq
+</span><span class="c1"></span>    <span class="n">search_ivf_flat</span><span class="p">(</span><span class="n">retrieval_context</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">xq</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">idx</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">coarse_dis</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span>
+                    <span class="n">distances</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">nprobe</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">search_preassigned</span><span class="p">(</span><span class="n">retrieval_context</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">xq</span><span class="p">,</span> <span class="n">applied_xq</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">idx</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">coarse_dis</span><span class="p">.</span><span class="n">get</span><span class="p">(),</span>
+                       <span class="n">distances</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">nprobe</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">GammaIVFPQIndex</span><span class="o">::</span><span class="n">search_preassigned</span><span class="p">(</span>
+    <span class="n">RetrievalContext</span> <span class="o">*</span><span class="n">retrieval_context</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">applied_x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span>
+    <span class="k">const</span> <span class="n">idx_t</span> <span class="o">*</span><span class="n">keys</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">coarse_dis</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">distances</span><span class="p">,</span> <span class="n">idx_t</span> <span class="o">*</span><span class="n">labels</span><span class="p">,</span>
+    <span class="kt">int</span> <span class="n">nprobe</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">store_pairs</span><span class="p">,</span> <span class="k">const</span> <span class="n">faiss</span><span class="o">::</span><span class="n">IVFSearchParameters</span> <span class="o">*</span><span class="n">params</span><span class="p">)</span> <span class="p">{</span>
+  
+
+  <span class="cp">## 省略非关键代码
+</span><span class="cp"></span>	<span class="c1">// loop over probes
+</span><span class="c1"></span>	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">ik</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">ik</span> <span class="o">&lt;</span> <span class="n">nprobe</span><span class="p">;</span> <span class="n">ik</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">nscan</span> <span class="o">+=</span> <span class="n">scan_one_list</span><span class="p">(</span>
+			<span class="n">scanner</span><span class="p">,</span> <span class="n">keys</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">nprobe</span> <span class="o">+</span> <span class="n">ik</span><span class="p">],</span> <span class="n">coarse_dis</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">nprobe</span> <span class="o">+</span> <span class="n">ik</span><span class="p">],</span>
+			<span class="n">recall_simi</span><span class="p">,</span> <span class="n">recall_idxi</span><span class="p">,</span> <span class="n">recall_num</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">nlist</span><span class="p">,</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">invlists</span><span class="p">,</span>
+			<span class="n">store_pairs</span><span class="p">,</span> <span class="n">retrieval_params</span><span class="o">-&gt;</span><span class="n">IvfFlat</span><span class="p">());</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">max_codes</span> <span class="o">&amp;&amp;</span> <span class="n">nscan</span> <span class="o">&gt;=</span> <span class="n">max_codes</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">ndis</span> <span class="o">+=</span> <span class="n">nscan</span><span class="p">;</span>
+	<span class="n">compute_dis</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">vec_q</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">,</span> <span class="n">recall_simi</span><span class="p">,</span> <span class="n">recall_idxi</span><span class="p">,</span> <span class="n">recall_num</span><span class="p">,</span>
+				<span class="n">context</span><span class="o">-&gt;</span><span class="n">has_rank</span><span class="p">,</span> <span class="n">metric_type</span><span class="p">,</span> <span class="n">vector_</span><span class="p">,</span> <span class="n">retrieval_context</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>  <span class="c1">// namespace tig_gamma
+</span><span class="c1"></span>
+
+<span class="n">size_t</span> <span class="nf">scan_one_list</span><span class="p">(</span><span class="n">GammaInvertedListScanner</span> <span class="o">*</span><span class="n">scanner</span><span class="p">,</span> <span class="n">idx_t</span> <span class="n">key</span><span class="p">,</span>
+                     <span class="kt">float</span> <span class="n">coarse_dis_i</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">simi</span><span class="p">,</span> <span class="n">idx_t</span> <span class="o">*</span><span class="n">idxi</span><span class="p">,</span> <span class="kt">int</span> <span class="n">k</span><span class="p">,</span>
+                     <span class="n">idx_t</span> <span class="n">nlist</span><span class="p">,</span> <span class="n">faiss</span><span class="o">::</span><span class="n">InvertedLists</span> <span class="o">*</span><span class="n">invlists</span><span class="p">,</span>
+                     <span class="kt">bool</span> <span class="n">store_pairs</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">ivf_flat</span><span class="p">,</span>
+                     <span class="n">MemoryRawVector</span> <span class="o">*</span><span class="n">mem_raw_vec</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// not enough centroids for multiprobe
+</span><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">idx_t</span><span class="p">)</span><span class="n">nlist</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">LOG</span><span class="p">(</span><span class="n">INFO</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;Invalid key=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;, nlist=&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">nlist</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">size_t</span> <span class="n">list_size</span> <span class="o">=</span> <span class="n">invlists</span><span class="o">-&gt;</span><span class="n">list_size</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+
+  <span class="c1">// don&#39;t waste time on empty lists
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="n">list_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">faiss</span><span class="o">::</span><span class="n">InvertedLists</span><span class="o">::</span><span class="n">ScopedIds</span><span class="o">&gt;</span> <span class="n">sids</span><span class="p">;</span>
+  <span class="k">const</span> <span class="n">idx_t</span> <span class="o">*</span><span class="n">ids</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">store_pairs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sids</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="k">new</span> <span class="n">faiss</span><span class="o">::</span><span class="n">InvertedLists</span><span class="o">::</span><span class="n">ScopedIds</span><span class="p">(</span><span class="n">invlists</span><span class="p">,</span> <span class="n">key</span><span class="p">));</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">sids</span><span class="o">-&gt;</span><span class="n">get</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="n">scanner</span><span class="o">-&gt;</span><span class="n">set_list</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">coarse_dis_i</span><span class="p">);</span>
+
+  <span class="c1">// scan_codes need uint8_t *
+</span><span class="c1"></span>  <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">codes</span> <span class="o">=</span> <span class="k">nullptr</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">ivf_flat</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">codes</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">mem_raw_vec</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">faiss</span><span class="o">::</span><span class="n">InvertedLists</span><span class="o">::</span><span class="n">ScopedCodes</span> <span class="n">scodes</span><span class="p">(</span><span class="n">invlists</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+    <span class="n">codes</span> <span class="o">=</span> <span class="n">scodes</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+  <span class="p">}</span>
+  <span class="n">scanner</span><span class="o">-&gt;</span><span class="n">scan_codes</span><span class="p">(</span><span class="n">list_size</span><span class="p">,</span> <span class="n">codes</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">list_size</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">SearchResultType</span><span class="o">&gt;</span>
+<span class="kt">void</span> <span class="n">scan_list_with_table</span><span class="p">(</span><span class="n">size_t</span> <span class="n">ncode</span><span class="p">,</span> <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">codes</span><span class="p">,</span>
+                          <span class="n">SearchResultType</span> <span class="o">&amp;</span><span class="n">res</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="n">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">ncode</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">ids</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">realtime</span><span class="o">::</span><span class="n">kDelIdxMask</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">codes</span> <span class="o">+=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">pq</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">retrieval_context_</span><span class="o">-&gt;</span><span class="n">IsValid</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">ids</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span>
+                                      <span class="n">realtime</span><span class="o">::</span><span class="n">kRecoverIdxMask</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">codes</span> <span class="o">+=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">pq</span><span class="p">.</span><span class="n">M</span><span class="p">;</span>
+      <span class="k">continue</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">float</span> <span class="n">dis</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">dis0</span><span class="p">;</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">tab</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">sim_table</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">pq</span><span class="p">.</span><span class="n">M</span><span class="p">;</span> <span class="n">m</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">dis</span> <span class="o">+=</span> <span class="n">tab</span><span class="p">[</span><span class="o">*</span><span class="n">codes</span><span class="o">++</span><span class="p">];</span>
+      <span class="n">tab</span> <span class="o">+=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">pq</span><span class="p">.</span><span class="n">ksub</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">res</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">dis</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">ncode</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">IsValid</span><span class="p">(</span><span class="kt">int</span> <span class="n">id</span><span class="p">)</span> <span class="k">const</span> <span class="k">override</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">docid</span> <span class="o">=</span> <span class="n">raw_vec</span><span class="o">-&gt;</span><span class="n">VidMgr</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">VID2DocID</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">range_query_result</span> <span class="o">!=</span> <span class="k">nullptr</span> <span class="o">&amp;&amp;</span> <span class="n">not</span> <span class="n">range_query_result</span><span class="o">-&gt;</span><span class="n">Has</span><span class="p">(</span><span class="n">docid</span><span class="p">))</span> <span class="o">||</span>
+      <span class="n">bitmap</span><span class="o">::</span><span class="n">test</span><span class="p">(</span><span class="n">docids_bitmap</span><span class="p">,</span> <span class="n">docid</span><span class="p">)</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p>GammaIVFPQIndex::Search是IVFPQ的检索过程：</p>
+<ol>
+<li>第10行，quantizer-&gt;search先进行一次基于桶的粗查询，返回和目标特征最近的nprobe个桶</li>
+<li>第34行，scan_one_list去特定的桶里面去扫描topN（recall_num）的特征</li>
+<li>第49行，scan_one_list函数体里面，能看到首先是取某个桶的PQ码表数据，然后开始扫描。</li>
+<li>第95行，scan_list_with_table是扫描的过程，首先是retrieval_context_-&gt;IsValid判断docid是否是有效的，这个用到了前面标签过滤的结果bitmap(第124行)，然后113行是PQ的核心代码，查询PQ编码subvector中心点和目标特征的距离, 然后将他们累加求和，其值可以理解目标特征到当前特征的距离，最后将结果进行堆排序保留topN的docid。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="nf">compute_dis</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span><span class="p">,</span> <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">xi</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">simi</span><span class="p">,</span> <span class="n">idx_t</span> <span class="o">*</span><span class="n">idxi</span><span class="p">,</span>
+                 <span class="kt">float</span> <span class="o">*</span><span class="n">recall_simi</span><span class="p">,</span> <span class="n">idx_t</span> <span class="o">*</span><span class="n">recall_idxi</span><span class="p">,</span> <span class="kt">int</span> <span class="n">recall_num</span><span class="p">,</span>
+                 <span class="kt">bool</span> <span class="n">has_rank</span><span class="p">,</span> <span class="n">faiss</span><span class="o">::</span><span class="n">MetricType</span> <span class="n">metric_type</span><span class="p">,</span>
+                 <span class="n">VectorReader</span> <span class="o">*</span><span class="n">vec</span><span class="p">,</span> <span class="n">RetrievalContext</span> <span class="o">*</span><span class="n">retrieval_context</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">has_rank</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ScopeVectors</span> <span class="n">scope_vecs</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">idx_t</span><span class="o">&gt;</span> <span class="n">vids</span><span class="p">(</span><span class="n">recall_idxi</span><span class="p">,</span> <span class="n">recall_idxi</span> <span class="o">+</span> <span class="n">recall_num</span><span class="p">);</span>
+    <span class="n">vec</span><span class="o">-&gt;</span><span class="n">Gets</span><span class="p">(</span><span class="n">vids</span><span class="p">,</span> <span class="n">scope_vecs</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">raw_d</span> <span class="o">=</span> <span class="n">vec</span><span class="o">-&gt;</span><span class="n">MetaInfo</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Dimension</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">recall_num</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">recall_idxi</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+      <span class="kt">float</span> <span class="n">dis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">vec</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="kt">float</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">scope_vecs</span><span class="p">.</span><span class="n">Get</span><span class="p">(</span><span class="n">j</span><span class="p">));</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">metric_type</span> <span class="o">==</span> <span class="n">faiss</span><span class="o">::</span><span class="n">METRIC_INNER_PRODUCT</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">dis</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">::</span><span class="n">fvec_inner_product</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">raw_d</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">dis</span> <span class="o">=</span> <span class="n">faiss</span><span class="o">::</span><span class="n">fvec_L2sqr</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">raw_d</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="n">retrieval_context</span><span class="o">-&gt;</span><span class="n">IsSimilarScoreValid</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span> <span class="o">==</span> <span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">metric_type</span> <span class="o">==</span> <span class="n">faiss</span><span class="o">::</span><span class="n">METRIC_INNER_PRODUCT</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">HeapForIP</span><span class="o">::</span><span class="n">cmp</span><span class="p">(</span><span class="n">simi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dis</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">faiss</span><span class="o">::</span><span class="n">heap_pop</span><span class="o">&lt;</span><span class="n">HeapForIP</span><span class="o">&gt;</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">);</span>
+            <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">recall_idxi</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="n">faiss</span><span class="o">::</span><span class="n">heap_push</span><span class="o">&lt;</span><span class="n">HeapForIP</span><span class="o">&gt;</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="n">HeapForL2</span><span class="o">::</span><span class="n">cmp</span><span class="p">(</span><span class="n">simi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dis</span><span class="p">))</span> <span class="p">{</span>
+            <span class="n">faiss</span><span class="o">::</span><span class="n">heap_pop</span><span class="o">&lt;</span><span class="n">HeapForL2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">);</span>
+            <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">recall_idxi</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+            <span class="n">faiss</span><span class="o">::</span><span class="n">heap_push</span><span class="o">&lt;</span><span class="n">HeapForL2</span><span class="o">&gt;</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">,</span> <span class="n">dis</span><span class="p">,</span> <span class="n">id</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">reorder_result</span><span class="p">(</span><span class="n">metric_type</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">simi</span><span class="p">,</span> <span class="n">idxi</span><span class="p">);</span>
+  <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>IVFPQ检索的最后一步compute_dis方法是精确排序的过程，其主要目的是降低IVFPQ过程中精度损失的影响，其原理比较简单，根据前面返回的docid列表，取原始特征重新进行一次排序。</p>
+<h2 id="四vearch实战">四、Vearch实战</h2>
+<h3 id="bugfix">Bugfix</h3>
+<p>虽然vearch的整体架构是可以满足我们的需求，但存在着一些Bug，这些Bug分成三类：</p>
+<ol>
+<li>
+<p>数据破坏问题。 PS进程异常退出有概率数据破坏，大部分表现为启动时Crash。根源是代码未支持ACID中的原子性和持久性。我们分别遇到Raft日志文件破坏、Table数据和Vector数据不一致、索引文件破坏、ps meta文件破坏等问题，针对这些问题我们进行了修复，但仅保证了原子性，暂未保证持久性。</p>
+</li>
+<li>
+<p>功能逻辑问题，这一类问题遇到的包括，范围索引出错、无法召回自己、批量删除无效等问题，相关问题已fix，部分代码提交官方。</p>
+</li>
+<li>
+<p>性能问题，主要存在特征入倒排索引慢，检索接口Response部分数据采用json导致OOM问题，日志写文件高频flush导致磁盘负载高。</p>
+</li>
+</ol>
+<h3 id="改造">改造</h3>
+<p><strong>分库分表</strong></p>
+<p>分库方案是基于算法维度，相同的算法放到一库中。分表有2个方案，第一种是基于业务，比如常住人口是一个表。第二种分表方案是按天分表，主要针对数据量极大的实时摄像头数据，按天分表才能高效的滚动删除、冷热数据隔离、按天快速检索。分库分表不涉及对vearch代码的改动，仅是一种应用方案。</p>
+<p><strong>冷热隔离</strong></p>
+<p><img src="/images/posts/vearch/memory.png" alt="image" title="vearch内存占比"></p>
+<p>上图是vearch内存占比图，其中ivfpq和标签索引内存占比较大。虽然IVFPQ之后内存占用相比原始特征已降低很多，但如果数月的实时数据都加载到内存中，还是不现实并浪费的，应该将一段时间之前的冷数据放在硬盘。其方案如下：</p>
+<ul>
+<li>table_data, MMap方案。table_data存储的是标签数据，其数据结构可以理解为数组，数组中的元素为标签的值，数组的index为docid, 这种结构很容易转换成MMap。</li>
+<li>rocksdb_vector, 通过参数调整：1. open改成OpenForReadOnly 2. 减小block_cache 3. 减小max_open_file。通过参数控制rocksdb默认占用的内存大小和运行时占用的内存大小。</li>
+<li>ivfpq-index, MMap方案。通过ivfpq索引内存布局可知，ivfqp的索引也是由数组构成，同样适宜切MMap。</li>
+<li>id_map, id_map存放的是业务的documentid到docid的映射，采用的是内存HashMap库<a href="https://github.com/efficient/libcuckoo">libcuckoo</a>, 这里的改造方案是切换到基于硬盘的B-Tree。</li>
+<li>field_range_index, MMap方案。field_range_index基于Btree，主要的改造方案是把Btree里面原来存放在内存中的value，放到一个连续的MMap文件中，具体可以见下图：
+<img src="/images/posts/vearch/fileld_index.png" alt="image" title="vearch field_index"></li>
+</ul>
+<p><strong>预训练</strong></p>
+<p>前面讲document的插入过程时，默认vearch已经训练完成，这里讲一下训练(train)，其核心是基于输入的样本，找到IVF桶的聚类中心点和PQ切片的聚类中心点。对于Vearch来说，每个Partition都需要单独的训练。训练是一个耗时很长的操作，因为我们采用按天分Space的方式，每天新的Space都要训练，训练的过程会持续数小时，此时只能走暴力检索，并且训练时CPU占用率极高，增加了系统负载。</p>
+<p>所以预训练应运而生，预训练的改造方案是：</p>
+<ol>
+<li>导出基础索引文件，改造IVFPQ的Dump过程，只导出中心点，而不导出PQ编码数据。</li>
+<li>加载基础索引文件，改造IVFPQ的Load过程，跳过训练，直接加载第一步训练好的。</li>
+</ol>
+<p><strong>支持2个向量</strong></p>
+<p>产生2个向量的原因是，1个向量的特征区分度不够，需要第2个向量来补充，距离计算公式为：<code>distance = sqrt(distance(feature1)) + alpha * sqrt(distance(feautre2))</code>，一种简单的加权。但ivfpq的原理是不支持2个特征的，需要将2个特征融合成一个特征，经过算法的推导，融合的方式为：<code>feature = feature1 + feature2 / sqrt(alpha)</code>，经验证排序结果和暴力计算一致。然后对vearch精确排序部分进行改造，保持计算出的分数可以和之前一致。</p>
+<h3 id="性能数据">性能数据</h3>
+<p><strong>插入document</strong>：</p>
+<p>硬件环境：</p>
+<ul>
+<li>CPU：intel 银牌 4110 * 2</li>
+<li>内存：256G</li>
+<li>硬盘：INTEL 企业 SSD * 3</li>
+</ul>
+<p>软件配置：</p>
+<ul>
+<li>特征维度：2048</li>
+<li>插入并发：5线程</li>
+<li>vearch配置：1个router, 3个ps</li>
+<li>space配置：nsubvector 128</li>
+</ul>
+<p>测试结果：</p>
+<ul>
+<li>插入耗时，平均：4.1ms, tp99: 437.6ms</li>
+<li>插入Tps: 2068</li>
+<li>CPU占用率, ps: 800~900%, router：200%</li>
+<li>硬盘占用，硬盘写入带宽 &lt; 50MBps, util负载 &lt; 20%。</li>
+<li>内存占用，1600W数据量时，内存占用约6.5G</li>
+</ul>
+<p>测试结论：
+插入是一个CPU密集型操作，4110本身属于性能比较差的服务器CPU。升级CPU到金牌6230R插入耗时的tp99能降低到200+ms。</p>
+<p><strong>检索document</strong></p>
+<p>硬件环境：</p>
+<ul>
+<li>CPU：intel 金牌 6226R * 2</li>
+<li>内存：256G</li>
+<li>硬盘：INTEL 企业 SSD * 3</li>
+</ul>
+<p>软件配置：</p>
+<ul>
+<li>特征维度：512</li>
+<li>vearch配置：1个router, 3个ps</li>
+<li>space配置：nsubvector 32, ncentroids 2048，nprobe: 64</li>
+<li>检索参数：topN 60000</li>
+<li>总数据量：5000W</li>
+</ul>
+<p>测试结果：</p>
+<ul>
+<li>检索耗时：5000W全量检索耗时约为3.6s</li>
+<li>检索IO占用：磁盘带宽使用 1.4GB, 磁盘util&gt; 95%</li>
+<li>CPU占用：PS服务总CPU峰值约 1500%</li>
+<li>检索各阶段耗时占比：精排序读原始特征 60%，PQ扫描 20%, 标签过滤 15%</li>
+<li>相对暴力召回率：&gt; 98%</li>
+</ul>
+<p>测试结论：</p>
+<ul>
+<li>检索是一个CPU密集型和IO密集型的操作</li>
+<li>IO是检索耗时的瓶颈</li>
+</ul>
+<p><strong>内存占用</strong></p>
+<p>vearch的内存占用和space的配置有很大的关系，和数据的分布也有关系，维度：512，nsubvector: 32, ncentroids为：2048时，2个Int类型的标签，每1000W的特征，内存占用约2.5~3G。</p>
+<p><strong>冷热隔离</strong></p>
+<ol>
+<li>冷模式，每个Partition初始占用内存约400MB, 和数据量没有线性关系</li>
+<li>冷模式，平均检索耗时为普通模式的5-10倍</li>
+</ol>
+<h3 id="对vearch未来的期望">对Vearch未来的期望</h3>
+<ol>
+<li>完善监控系统</li>
+<li>友好错误码</li>
+<li>支持ACID</li>
+<li>删除能回收（复用）空间</li>
+<li>ivfpq索引文件支持增量更新</li>
+</ol>
+<p><strong>参考</strong>:</p>
+<ul>
+<li><a href="https://www.infoq.cn/article/rb1dzi4t69ivvqfvjco7">蚂蚁金服 ZSearch 在向量检索上的探索</a></li>
+<li><a href="https://www.cnblogs.com/cciejh/p/acid.html">深入理解大数据架构之——事务及其ACID特性</a></li>
+<li><a href="https://zhou-yuxin.github.io/articles/2020/IVFPQ%E7%AE%97%E6%B3%95%E5%8E%9F%E7%90%86/index.html">IVFPQ算法原理</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/39803468">Faiss索引文件格式详解</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/165064102">负样本为王：评Facebook的向量化召回算法</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2021/11/20/tech-manager/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">技术组长管理经验总结</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2021/09/19/zhishen/">
+            <span class="next-text nav-default">读 《置身事内》</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2020</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

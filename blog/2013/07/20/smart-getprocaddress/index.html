@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/07/20/smart-getprocaddress/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="尝试一种更智能实现GetProcAddress的方式" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2013/07/20/smart-getprocaddress/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2013-07-20T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2013-07-20T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2013-07-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-07-20T00:00:00+00:00" />
 
 <meta itemprop="name" content="Smart GetProcAddress之实现">
-<meta itemprop="description" content="尝试一种更智能实现GetProcAddress的方式"><meta itemprop="datePublished" content="2013-07-20T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2013-07-20T00:00:00&#43;00:00" />
+<meta itemprop="description" content="尝试一种更智能实现GetProcAddress的方式"><meta itemprop="datePublished" content="2013-07-20T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-07-20T00:00:00+00:00" />
 <meta itemprop="wordCount" content="745">
 <meta itemprop="keywords" content="C&#43;&#43;,模板," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Smart GetProcAddress之实现"/>
@@ -137,18 +137,18 @@
 <p>DLL导出函数的头文件:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
 <span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>动态加载DLL调用上面两个函数:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -156,7 +156,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC1</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
 <span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">WINAPI</span> <span class="o">*</span><span class="n">FUNC2</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
 <span class="n">FUNC1</span> <span class="n">func1</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC1</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&#34;func1&#34;</span><span class="p">);</span>
 <span class="n">FUNC2</span> <span class="n">func2</span> <span class="o">=</span> <span class="p">(</span><span class="n">FUNC2</span><span class="p">)</span><span class="n">GetProcAddress</span><span class="p">(</span><span class="n">hDLL</span><span class="p">,</span> <span class="n">_T</span><span class="p">(</span><span class="s">&#34;func2&#34;</span><span class="p">);</span>
@@ -172,18 +172,18 @@
 <p>LL导出函数的头文件：fun2的参数变成了三个，调用非出错不可。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
 <span class="kt">void</span> <span class="n">WINAPI</span> <span class="nf">func2</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>好，问题来了，如何避免？使用模板，方案1：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -194,7 +194,7 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 封装一个智能GetProcAddress
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 封装一个智能GetProcAddress
 </span><span class="c1"></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
 <span class="p">{</span>
@@ -209,7 +209,7 @@
 <p>方案2：使用decltype</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -220,7 +220,7 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 封装一个智能GetProcAddress
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 封装一个智能GetProcAddress
 </span><span class="c1"></span><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
 <span class="n">T</span> <span class="n">SmartGetProcAddress</span><span class="p">(</span><span class="n">HModule</span> <span class="n">hModule</span><span class="p">,</span> <span class="n">TChar</span><span class="o">*</span> <span class="n">pFuncName</span><span class="p">)</span>
 <span class="p">{</span>

@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/08/25/cpp-14-dessert/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="这次C&#43;&#43;标准委员会快速的通过了最新的C&#43;&#43;标准:C&#43;&#43;14，要知道C&#43;&#43;11可是一再跳票后的产物。此次快速的发布的缘由可能和C&#43;&#43;14的改" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2014/08/25/cpp-14-dessert/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2014-08-25T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2014-08-25T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2014-08-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-08-25T00:00:00+00:00" />
 
 <meta itemprop="name" content="C&#43;&#43;14-大餐后的甜点">
-<meta itemprop="description" content="这次C&#43;&#43;标准委员会快速的通过了最新的C&#43;&#43;标准:C&#43;&#43;14，要知道C&#43;&#43;11可是一再跳票后的产物。此次快速的发布的缘由可能和C&#43;&#43;14的改"><meta itemprop="datePublished" content="2014-08-25T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-08-25T00:00:00&#43;00:00" />
+<meta itemprop="description" content="这次C&#43;&#43;标准委员会快速的通过了最新的C&#43;&#43;标准:C&#43;&#43;14，要知道C&#43;&#43;11可是一再跳票后的产物。此次快速的发布的缘由可能和C&#43;&#43;14的改"><meta itemprop="datePublished" content="2014-08-25T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-08-25T00:00:00+00:00" />
 <meta itemprop="wordCount" content="743">
 <meta itemprop="keywords" content="C&#43;&#43;14 范型lambda," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;14-大餐后的甜点"/>
@@ -158,7 +158,7 @@
 <p>在C++11下，如果你想要打印出一个数的平方，可能需要这样：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -166,7 +166,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">square_int</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">square_int</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
 <span class="k">auto</span> <span class="n">square_double</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">double</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -178,14 +178,14 @@
 <p>但C++14可以完美的解决上面的问题，因为C++14中lambda的参数可以用auto代替具体的类型：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">square</span> <span class="o">=</span> <span class="p">[](</span><span class="k">auto</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">;</span> <span class="p">};</span>
 
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">square_int</span><span class="p">(</span><span class="mf">10.1</span><span class="p">)</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
@@ -196,7 +196,7 @@
 <p>C++11支持auto关键字，用于变量的自动类型推导。但由于时间限制，C++标准委员会并没有让auto也支持函数的返回值类型自动推导，现在C++14支持了。这将会在返回类内部类型的成员函数书写上减少好多工作量：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -204,7 +204,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Wiget</span> 
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Wiget</span> 
 <span class="p">{</span>
   <span class="k">enum</span> <span class="nc">Status</span><span class="p">{</span><span class="n">show</span><span class="p">,</span> <span class="n">hide</span><span class="p">}</span>
   <span class="k">auto</span> <span class="nf">getStatus</span><span class="p">();</span> 

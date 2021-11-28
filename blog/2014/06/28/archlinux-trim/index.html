@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/06/28/archlinux-trim/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="linux ssd trim" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2014/06/28/archlinux-trim/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2014-06-28T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2014-06-28T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2014-06-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2014-06-28T00:00:00+00:00" />
 
 <meta itemprop="name" content="Linux下开启TRIM">
-<meta itemprop="description" content="linux ssd trim"><meta itemprop="datePublished" content="2014-06-28T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2014-06-28T00:00:00&#43;00:00" />
+<meta itemprop="description" content="linux ssd trim"><meta itemprop="datePublished" content="2014-06-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2014-06-28T00:00:00+00:00" />
 <meta itemprop="wordCount" content="320">
 <meta itemprop="keywords" content="linux trim,ssd trim," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux下开启TRIM"/>
@@ -152,10 +152,10 @@
 <p>首先要检测SSD是否支持TRIM:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&#34;TRIM supported&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&#34;TRIM supported&#34;</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>如果支持则会出现：&ldquo;Data Set Management TRIM supported&rdquo;</p>
@@ -163,10 +163,10 @@
 <h3 id="方法1修改fstab1-添加discard属性">方法1：修改<a href="http://en.wikipedia.org/wiki/Fstab">fstab</a>, 添加discard属性</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">sudo vim /etc/fstab
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo vim /etc/fstab
 </code></pre></td></tr></table>
 </div>
 </div><p>下面是我机器上fstab的配置</p>
@@ -180,12 +180,12 @@
 <p>以我用的archlinux为例，首先安装并运行<a href="http://en.wikipedia.org/wiki/Cron">cron</a>服务：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">sudo pacman -S cronie
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo pacman -S cronie
 sudo systemctl start cronie
 sudo systemctl <span class="nb">enable</span> cronie
 </code></pre></td></tr></table>
@@ -193,23 +193,23 @@ sudo systemctl <span class="nb">enable</span> cronie
 </div><p>然后创建一个任务配置:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">sudo gedit /etc/cron.daily/trim
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo gedit /etc/cron.daily/trim
 </code></pre></td></tr></table>
 </div>
 </div><p>并将下面的内容拷贝到里面：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
 </span><span class="cp"></span><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
 <span class="nb">echo</span> <span class="s2">&#34;*** </span><span class="k">$(</span>date -R<span class="k">)</span><span class="s2"> ***&#34;</span> &gt;&gt; <span class="nv">$LOG</span>
 fstrim -v / &gt;&gt; <span class="nv">$LOG</span>

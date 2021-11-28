@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.82.0 with theme even" />
+<meta name="generator" content="Hugo 0.88.1 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/09/17/constexpr/" />
@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.08e0708eca455a140b204891cafe5cbc24963361a814303009bf0a08751b7855.css" rel="stylesheet">
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -43,12 +43,12 @@
 <meta property="og:description" content="如何使用constexpr编写编译时常量函数" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2013/09/17/constexpr/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2013-09-17T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2013-09-17T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2013-09-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2013-09-17T00:00:00+00:00" />
 
 <meta itemprop="name" content="C&#43;&#43;11系列-常量表达式">
-<meta itemprop="description" content="如何使用constexpr编写编译时常量函数"><meta itemprop="datePublished" content="2013-09-17T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2013-09-17T00:00:00&#43;00:00" />
+<meta itemprop="description" content="如何使用constexpr编写编译时常量函数"><meta itemprop="datePublished" content="2013-09-17T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2013-09-17T00:00:00+00:00" />
 <meta itemprop="wordCount" content="2129">
 <meta itemprop="keywords" content="C&#43;&#43;11,constexpr,常量表达式," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;11系列-常量表达式"/>
@@ -157,7 +157,7 @@
 <p>为了使函数获取编译时计算的能力，你必须指定constexpr关键字到这个函数。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -166,7 +166,7 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">multiply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">multiply</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
 <span class="p">}</span>
@@ -178,7 +178,7 @@
 </div><p>除了编译时计算的性能优化，constexpr的另外一个优势是，它允许函数被应用在以前调用宏的所有场合。例如，你想要一个计算数组size的函数，size是10的倍数。如果不用constexpr，你需要创建一个宏或者使用模板，因为你不能用函数的返回值去声明数组的大小。但是用constexpr，你就可以调用一个constexpr函数去声明一个数组。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -186,7 +186,7 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">getDefaultArraySize</span> <span class="p">(</span><span class="kt">int</span> <span class="n">multiplier</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">getDefaultArraySize</span> <span class="p">(</span><span class="kt">int</span> <span class="n">multiplier</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">;</span>
 <span class="p">}</span>
@@ -204,13 +204,13 @@
 <p>注意递归并不受限制。但只允许一个返回语句，那如何实现递归呢？可以使用三元运算符（?:)。例如，计算n的阶乘：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">factorial</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="kt">int</span> <span class="nf">factorial</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">n</span> <span class="o">*</span> <span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
 <span class="p">}</span>
@@ -223,12 +223,12 @@
 <p>一个声明为constexpr的函数同样可以在运行时被调用，当这个函数的参数是非常量的：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
 <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
 <span class="n">factorial</span><span class="p">(</span> <span class="n">n</span> <span class="p">);</span>
 </code></pre></td></tr></table>
@@ -238,7 +238,7 @@
 假如你有一个Circle类：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -253,7 +253,7 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Circle</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Circle</span>
 <span class="p">{</span>
     <span class="k">public</span><span class="o">:</span>
     <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
@@ -271,18 +271,18 @@
 </div><p>你希望在编译期构造一个Circle接着算出他的面积。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="n">Circle</span> <span class="nf">c</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">constexpr</span> <span class="n">Circle</span> <span class="nf">c</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span> <span class="p">);</span>
 <span class="k">constexpr</span> <span class="kt">double</span> <span class="n">area</span> <span class="o">=</span> <span class="n">c</span><span class="p">.</span><span class="n">getArea</span><span class="p">();</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>事实证明你可以给Circle类做一些小的修改以完成这件事。首先，我们需要将构造函数声明为constexpr，接着我们需要将getarea函数声明为constexpr。将构造函数声明为constexpr则运行构造函数在编译期运行，只要这个构造函数的参数为常量，且构造函数仅仅包含成员变量的constexpr构造（所以默认构造可以看成constexpr，只要成员变量都有constexpr构造）。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -297,7 +297,7 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Circle</span>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Circle</span>
 <span class="p">{</span>
     <span class="k">public</span><span class="o">:</span>
     <span class="k">constexpr</span> <span class="n">Circle</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">,</span> <span class="kt">int</span> <span class="n">radius</span><span class="p">)</span> <span class="o">:</span> <span class="n">_x</span><span class="p">(</span> <span class="n">x</span> <span class="p">),</span> <span class="n">_y</span><span class="p">(</span> <span class="n">y</span> <span class="p">),</span> <span class="n">_radius</span><span class="p">(</span> <span class="n">radius</span> <span class="p">)</span> <span class="p">{}</span>
