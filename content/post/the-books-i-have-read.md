@@ -22,6 +22,7 @@ description = "整理我这些年来读过的书籍"
 * 透过地理看历史 - 李不白
 * 毛泽东选集 第一卷，第二卷（第二遍）
 * 朱元璋传 吴晗 [review][14]
+* 我的情报与外交生涯 [review][15]
 
 ## 2020年:
 
@@ -307,4 +308,5 @@ description = "整理我这些年来读过的书籍"
 [12]: /blog/2021/07/24/the-fenix-project
 [13]: /blog/2021/09/19/zhishen
 [14]: /blog/2021/11/24/zhu-yuan-zhang
+[15]: /blog/2021/12/03/xiong-xiang-hui/
 
