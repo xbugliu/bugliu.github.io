@@ -6,7 +6,7 @@
     <description>Recent content in MongoDB 数组查询 on 书写|记下人生痕迹</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <copyright>bugliu 2020</copyright>
+    <copyright>bugliu 2021</copyright>
     <lastBuildDate>Wed, 14 Jan 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/mongodb-%E6%95%B0%E7%BB%84%E6%9F%A5%E8%AF%A2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MongoDB中的$in和$elemMatch</title>

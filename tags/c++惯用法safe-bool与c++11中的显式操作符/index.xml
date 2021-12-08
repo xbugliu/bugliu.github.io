@@ -6,7 +6,7 @@
     <description>Recent content in C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符 on 书写|记下人生痕迹</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <copyright>bugliu 2020</copyright>
+    <copyright>bugliu 2021</copyright>
     <lastBuildDate>Fri, 01 Nov 2013 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/tags/c++%E6%83%AF%E7%94%A8%E6%B3%95safe-bool%E4%B8%8Ec++11%E4%B8%AD%E7%9A%84%E6%98%BE%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%AC%A6/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>从Safe bool惯用法到explicit标识符</title>
