@@ -17,9 +17,9 @@ pygmentsCodefencesGuessSyntax = true
 
 hasCJKLanguage = true     # has chinese/japanese/korean ? # 自动检测是否包含 中文\日文\韩文
 paginate = 6                                              # 首页每页显示的文章数
-disqusShortname = "towriting9"      # disqus_shortname
+disqusShortname = ""      # disqus_shortname
 googleAnalytics = "UA-42601840-1"      # UA-XXXXXXXX-X
-copyright = "bugliu 2020"            # default: author.name ↓        # 默认为下面配置的author.name ↓
+copyright = "bugliu 2021"            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
 [permalinks]
 post = "/blog/:year/:month/:day/:filename/"
