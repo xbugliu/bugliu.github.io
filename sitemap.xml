@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://towriting.com/post/</loc>
+    <lastmod>2022-03-01T19:33:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/</loc>
+    <lastmod>2022-03-01T19:33:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2022/03/01/multi-arch-image/</loc>
+    <lastmod>2022-03-01T19:33:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://towriting.com/blog/2022/01/05/2021-review/</loc>
     <lastmod>2022-01-05T20:10:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -23,21 +44,7 @@
   </url>
   
   <url>
-    <loc>http://towriting.com/post/</loc>
-    <lastmod>2022-01-05T20:10:24+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>http://towriting.com/tags/</loc>
-    <lastmod>2022-01-05T20:10:24+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://towriting.com/</loc>
     <lastmod>2022-01-05T20:10:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
