@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/11/22/windbg-memory-leak/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Windbg定位内存泄露的一种简单方法">
 <meta itemprop="description" content="Windbg定位内存泄露的一直简单方法"><meta itemprop="datePublished" content="2014-11-22T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2014-11-22T00:00:00+00:00" />
-<meta itemprop="wordCount" content="782">
+<meta itemprop="wordCount" content="781">
 <meta itemprop="keywords" content="windgb,内存泄露,tadb," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Windbg定位内存泄露的一种简单方法"/>
 <meta name="twitter:description" content="Windbg定位内存泄露的一直简单方法"/>
@@ -122,7 +122,7 @@
         <div class="post-category">
             <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
             </div>
-          <span class="more-meta"> 782 words </span>
+          <span class="more-meta"> 781 words </span>
           <span class="more-meta"> 2 mins read </span>
         
       </div>
@@ -175,28 +175,26 @@
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
-</span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">
-0:003&gt; !heap -s
-LFH Key : 0x7ce97b7b
-LFH Key : 0x7ce97b7b
-Termination on corruption : ENABLED
-Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast 
-                  <span class="o">(</span>k<span class="o">)</span>    <span class="o">(</span>k<span class="o">)</span>     <span class="o">(</span>k<span class="o">)</span>    <span class="o">(</span>k<span class="o">)</span>    length  blocks cont. heap 
------------------------------------------------------------------------------
-002c0000 <span class="m">00000002</span> <span class="m">1024</span>    <span class="m">372</span>     <span class="m">1024</span>   <span class="m">54</span>    <span class="m">13</span>      <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
-<span class="m">00010000</span> <span class="m">00008000</span> <span class="m">64</span>      <span class="m">4</span>       <span class="m">64</span> <span class="m">2</span>   <span class="m">1</span>     <span class="m">1</span>       <span class="m">0</span>      <span class="m">0</span>  
-<span class="m">00020000</span> <span class="m">00008000</span> <span class="m">64</span>      <span class="m">64</span>      <span class="m">64</span>     <span class="m">62</span>    <span class="m">1</span>       <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span> 
-004d0000 <span class="m">00001002</span> <span class="m">1088</span>    <span class="m">152</span>     <span class="m">1088</span>   <span class="m">7</span>     <span class="m">4</span>       <span class="m">2</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
-007c0000 <span class="m">00001002</span> <span class="m">1088</span>    <span class="m">188</span>     <span class="m">1088</span>   <span class="m">18</span>    <span class="m">7</span>       <span class="m">2</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
-<span class="m">00880000</span> <span class="m">00001002</span> <span class="m">1280</span>    <span class="m">276</span>     <span class="m">1280</span>   <span class="m">14</span>    <span class="m">5</span>       <span class="m">2</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
-01db0000 <span class="m">00001002</span> <span class="m">64</span>      <span class="m">12</span>      <span class="m">64</span>     <span class="m">2</span>     <span class="m">3</span>       <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span> 
-021f0000 <span class="m">00001002</span> <span class="m">15488</span>   <span class="m">12024</span>   <span class="m">15488</span>  <span class="m">144</span>   <span class="m">7</span>       <span class="m">5</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
-<span class="m">00810000</span> <span class="m">00001002</span> <span class="m">64</span>      <span class="m">12</span>      <span class="m">64</span>     <span class="m">2</span>     <span class="m">3</span>       <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span> 
-
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0:003&gt; !heap -s
+</span></span><span class="line"><span class="cl">LFH Key : 0x7ce97b7b
+</span></span><span class="line"><span class="cl">LFH Key : 0x7ce97b7b
+</span></span><span class="line"><span class="cl">Termination on corruption : ENABLED
+</span></span><span class="line"><span class="cl">Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast 
+</span></span><span class="line"><span class="cl">                  <span class="o">(</span>k<span class="o">)</span>    <span class="o">(</span>k<span class="o">)</span>     <span class="o">(</span>k<span class="o">)</span>    <span class="o">(</span>k<span class="o">)</span>    length  blocks cont. heap 
+</span></span><span class="line"><span class="cl">-----------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">002c0000 <span class="m">00000002</span> <span class="m">1024</span>    <span class="m">372</span>     <span class="m">1024</span>   <span class="m">54</span>    <span class="m">13</span>      <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
+</span></span><span class="line"><span class="cl"><span class="m">00010000</span> <span class="m">00008000</span> <span class="m">64</span>      <span class="m">4</span>       <span class="m">64</span> <span class="m">2</span>   <span class="m">1</span>     <span class="m">1</span>       <span class="m">0</span>      <span class="m">0</span>  
+</span></span><span class="line"><span class="cl"><span class="m">00020000</span> <span class="m">00008000</span> <span class="m">64</span>      <span class="m">64</span>      <span class="m">64</span>     <span class="m">62</span>    <span class="m">1</span>       <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span> 
+</span></span><span class="line"><span class="cl">004d0000 <span class="m">00001002</span> <span class="m">1088</span>    <span class="m">152</span>     <span class="m">1088</span>   <span class="m">7</span>     <span class="m">4</span>       <span class="m">2</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
+</span></span><span class="line"><span class="cl">007c0000 <span class="m">00001002</span> <span class="m">1088</span>    <span class="m">188</span>     <span class="m">1088</span>   <span class="m">18</span>    <span class="m">7</span>       <span class="m">2</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
+</span></span><span class="line"><span class="cl"><span class="m">00880000</span> <span class="m">00001002</span> <span class="m">1280</span>    <span class="m">276</span>     <span class="m">1280</span>   <span class="m">14</span>    <span class="m">5</span>       <span class="m">2</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
+</span></span><span class="line"><span class="cl">01db0000 <span class="m">00001002</span> <span class="m">64</span>      <span class="m">12</span>      <span class="m">64</span>     <span class="m">2</span>     <span class="m">3</span>       <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span> 
+</span></span><span class="line"><span class="cl">021f0000 <span class="m">00001002</span> <span class="m">15488</span>   <span class="m">12024</span>   <span class="m">15488</span>  <span class="m">144</span>   <span class="m">7</span>       <span class="m">5</span>      <span class="m">0</span>     <span class="m">0</span>    LFH
+</span></span><span class="line"><span class="cl"><span class="m">00810000</span> <span class="m">00001002</span> <span class="m">64</span>      <span class="m">12</span>      <span class="m">64</span>     <span class="m">2</span>     <span class="m">3</span>       <span class="m">1</span>      <span class="m">0</span>     <span class="m">0</span> 
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>很明显这一行：<strong>021f0000 00001002 15488   12024   15488  144   7       5      0     0    LFH</strong>是有异常的。</p>
 <h3 id="2-显示异常heap的信息">2. 显示异常heap的信息</h3>
@@ -212,15 +210,15 @@ Heap     Flags    Reserv Commit  Virt   Free   List    UCR    Virt  Lock Fast
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">0:003&gt; !heap -stat -h 021f0000
-heap @ 021f0000
-heap @ 021f0000
-group-by: TOTSIZE max-display: 20
-  size   #blocks  total  ( %) (percent of total busy bytes)
-  a45c   11d   -  b6fa6c (99.75)
-  75a8   1     -  75a8   (0.25)
-  20     1     -  20     (0.00)
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0:003&gt; !heap -stat -h 021f0000
+</span></span><span class="line"><span class="cl">heap @ 021f0000
+</span></span><span class="line"><span class="cl">heap @ 021f0000
+</span></span><span class="line"><span class="cl">group-by: TOTSIZE max-display: 20
+</span></span><span class="line"><span class="cl">  size   #blocks  total  ( %) (percent of total busy bytes)
+</span></span><span class="line"><span class="cl">  a45c   11d   -  b6fa6c (99.75)
+</span></span><span class="line"><span class="cl">  75a8   1     -  75a8   (0.25)
+</span></span><span class="line"><span class="cl">  20     1     -  20     (0.00)
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面11d块size为a45c的内存极有可能是泄露的内存。</p>
 <h3 id="3-根据泄露内存的size找到callstack">3. 根据泄露内存的Size找到CallStack</h3>
@@ -296,75 +294,75 @@ group-by: TOTSIZE max-display: 20
 </span><span class="lnt">68
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">0:003&gt; bp ntdll!RtlAllocateHeap &#34;j(poi(@esp+c) = 0x0a45c) &#39;k&#39;;&#39;gc&#39;&#34;
-0:003&gt; g
-0:003&gt; g
-Unable to deliver callback, Unable to deliver callback, 3131
-
-ChildEBPChildEBP RetAddrRetAddr
-
-
-0021de54 1000ba7e 0021de54 1000ba7e ntdll!RtlAllocateHeapntdll!RtlAllocateHeap
-
-
-WARNING: Stack unwind information not available. Following frames may be wrong.
-WARNING: Stack unwind information not available. Following frames may be wrong.
-0021de6c 1000bbcc 0021de6c 1000bbcc mfnspstd32mfnspstd32++0xba7e0xba7e
-
-
-0021de8c 1000beb1 0021de8c 1000beb1 mfnspstd32mfnspstd32++0xbbcc0xbbcc
-
-
-0021deb8 1000ea4d 0021deb8 1000ea4d mfnspstd32mfnspstd32++0xbeb10xbeb1
-
-
-0021dee4 75de9986 0021dee4 75de9986 mfnspstd32!WSPStartupmfnspstd32!WSPStartup++0x9d0x9d
-
-
-0021e3b8 75de975b 0021e3b8 75de975b WS2_32!DPROVIDER::InitializeWS2_32!DPROVIDER::Initialize++0x1850x185
-
-
-0021e3d8 75df5a2f 0021e3d8 75df5a2f WS2_32!DCATALOG::LoadProviderWS2_32!DCATALOG::LoadProvider++0x6d0x6d
-
-
-0021e678 75df5fe8 0021e678 75df5fe8 WS2_32!DCATALOG::FindIFSProviderForSocketWS2_32!DCATALOG::FindIFSProviderForSocket++0x630x63
-
-
-0021e68c 75de4204 0021e68c 75de4204 WS2_32!DSOCKET::FindIFSSocketWS2_32!DSOCKET::FindIFSSocket++0x370x37
-
-
-0021e6cc 00d48444 0021e6cc 00d48444 WS2_32!setsockoptWS2_32!setsockopt++0xb00xb0
-
-
-0021e6ec 00d4900c 0021e6ec 00d4900c t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x7c140x7c14
-
-
-0021e71c 00d3e50c 0021e71c 00d3e50c t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x87dc0x87dc
-
-
-0021e738 00d4a654 0021e738 00d4a654 t**b++0x4e50c0x4e50c
-
-
-0021e768 00d44f79 0021e768 00d44f79 t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x9e240x9e24
-
-
-0021f8c8 00d4a6a4 0021f8c8 00d4a6a4 t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x47490x4749
-
-
-0021f8d8 00cfb1f7 0021f8d8 00cfb1f7 t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x9e740x9e74
-
-
-0021f91c 7700ee1c 0021f91c 7700ee1c t**b++0xb1f70xb1f7
-
-
-0021f928 7731377b 0021f928 7731377b kernel32!BaseThreadInitThunkkernel32!BaseThreadInitThunk++0xe0xe
-
-
-0021f968 7731374e 0021f968 7731374e ntdll!__RtlUserThreadStartntdll!__RtlUserThreadStart++0x700x70
-
-
-0021f980 00000000 0021f980 00000000 ntdll!_RtlUserThreadStartntdll!_RtlUserThreadStart++0x1b0x1b
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0:003&gt; bp ntdll!RtlAllocateHeap &#34;j(poi(@esp+c) = 0x0a45c) &#39;k&#39;;&#39;gc&#39;&#34;
+</span></span><span class="line"><span class="cl">0:003&gt; g
+</span></span><span class="line"><span class="cl">0:003&gt; g
+</span></span><span class="line"><span class="cl">Unable to deliver callback, Unable to deliver callback, 3131
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ChildEBPChildEBP RetAddrRetAddr
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021de54 1000ba7e 0021de54 1000ba7e ntdll!RtlAllocateHeapntdll!RtlAllocateHeap
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">WARNING: Stack unwind information not available. Following frames may be wrong.
+</span></span><span class="line"><span class="cl">WARNING: Stack unwind information not available. Following frames may be wrong.
+</span></span><span class="line"><span class="cl">0021de6c 1000bbcc 0021de6c 1000bbcc mfnspstd32mfnspstd32++0xba7e0xba7e
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021de8c 1000beb1 0021de8c 1000beb1 mfnspstd32mfnspstd32++0xbbcc0xbbcc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021deb8 1000ea4d 0021deb8 1000ea4d mfnspstd32mfnspstd32++0xbeb10xbeb1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021dee4 75de9986 0021dee4 75de9986 mfnspstd32!WSPStartupmfnspstd32!WSPStartup++0x9d0x9d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e3b8 75de975b 0021e3b8 75de975b WS2_32!DPROVIDER::InitializeWS2_32!DPROVIDER::Initialize++0x1850x185
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e3d8 75df5a2f 0021e3d8 75df5a2f WS2_32!DCATALOG::LoadProviderWS2_32!DCATALOG::LoadProvider++0x6d0x6d
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e678 75df5fe8 0021e678 75df5fe8 WS2_32!DCATALOG::FindIFSProviderForSocketWS2_32!DCATALOG::FindIFSProviderForSocket++0x630x63
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e68c 75de4204 0021e68c 75de4204 WS2_32!DSOCKET::FindIFSSocketWS2_32!DSOCKET::FindIFSSocket++0x370x37
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e6cc 00d48444 0021e6cc 00d48444 WS2_32!setsockoptWS2_32!setsockopt++0xb00xb0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e6ec 00d4900c 0021e6ec 00d4900c t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x7c140x7c14
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e71c 00d3e50c 0021e71c 00d3e50c t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x87dc0x87dc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e738 00d4a654 0021e738 00d4a654 t**b++0x4e50c0x4e50c
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021e768 00d44f79 0021e768 00d44f79 t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x9e240x9e24
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021f8c8 00d4a6a4 0021f8c8 00d4a6a4 t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x47490x4749
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021f8d8 00cfb1f7 0021f8d8 00cfb1f7 t**b!OPENSSL_Applinktadb!OPENSSL_Applink++0x9e740x9e74
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021f91c 7700ee1c 0021f91c 7700ee1c t**b++0xb1f70xb1f7
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021f928 7731377b 0021f928 7731377b kernel32!BaseThreadInitThunkkernel32!BaseThreadInitThunk++0xe0xe
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021f968 7731374e 0021f968 7731374e ntdll!__RtlUserThreadStartntdll!__RtlUserThreadStart++0x700x70
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">0021f980 00000000 0021f980 00000000 ntdll!_RtlUserThreadStartntdll!_RtlUserThreadStart++0x1b0x1b
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="4-最后甄别callstack是否真正的发生内存泄露">4. 最后甄别CallStack是否真正的发生内存泄露</h3>
 <h2 id="总结">总结</h2>
@@ -447,7 +445,7 @@ WARNING: Stack unwind information not available. Following frames may be wrong.
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

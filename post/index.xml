@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2021</copyright>
-    <lastBuildDate>Tue, 01 Mar 2022 19:33:37 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Mar 2022 19:55:14 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust初体验</title>
+      <link>http://towriting.com/blog/2022/03/19/learn-rust/</link>
+      <pubDate>Sat, 19 Mar 2022 19:55:14 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/03/19/learn-rust/</guid>
+      <description>这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze</description>
+    </item>
+    
     <item>
       <title>多架构镜像的构建</title>
       <link>http://towriting.com/blog/2022/03/01/multi-arch-image/</link>
@@ -15,6 +24,15 @@
       
       <guid>http://towriting.com/blog/2022/03/01/multi-arch-image/</guid>
       <description>多架构的镜像 我们在Docker Hub官网上会看的有些镜像的Tag是支持多个OS/ARCH的，比如nginx: 这样的好处是: 在不同的架构(ar</description>
+    </item>
+    
+    <item>
+      <title>21年春节杂记</title>
+      <link>http://towriting.com/blog/2022/02/13/2021-chunjie/</link>
+      <pubDate>Sun, 13 Feb 2022 19:04:52 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/02/13/2021-chunjie/</guid>
+      <description>今年腊月十五就回老家了。父亲骨折手术，陪他去医院复查。他19年股骨头手术，才恢复好，又出意外，心情不佳。腊月十七去的医院，大姑父陪同帮忙，这</description>
     </item>
     
     <item>
@@ -671,7 +689,7 @@
       <pubDate>Sat, 20 Jul 2013 00:00:00 +0000</pubDate>
       
       <guid>http://towriting.com/blog/2013/07/20/the-books-i-have-read/</guid>
-      <description>在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书。 2022年: 一本书读懂财报 20</description>
+      <description>在我心中读书一直是一件很高雅的事情：束发读诗书，修德兼修身，仰观与俯查，韬略胸中存。在此记录下自己曾读过的书。 2022年 一本书读懂财报 1月 毛</description>
     </item>
     
     <item>

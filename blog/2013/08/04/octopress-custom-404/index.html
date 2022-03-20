@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/08/04/octopress-custom-404/" />
@@ -141,8 +141,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">rake new_page<span class="o">[</span>error/404.html<span class="o">]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rake new_page<span class="o">[</span>error/404.html<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>创建一个新的目录error专门保存错误页面，有两个好处。1是存储结构清晰，2是可以在robots.txt将整个目录Disallow掉。</p>
 <p>但后来看到github自定义404页面的<a href="https://help.github.com/articles/custom-404-pages">说明</a>，404页面必须放在网站根目录下，所以必须将404页面创建到source目录下：</p>
@@ -151,8 +151,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">rake new_page<span class="o">[</span>404.html<span class="o">]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rake new_page<span class="o">[</span>404.html<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>##2. Robots文件隐藏404页面
 404页面异常页面，所谓家丑不可外扬，此页面无需搜索引擎爬虫知道。编辑robots.txt文件，添加404页面的Disallow：</p>
@@ -166,13 +166,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">+++
-+++
-User-agent: *
-Disallow: /404.html
-
-Sitemap: <span class="o">{{</span> site.url <span class="o">}}</span>/sitemap.xml 
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">User-agent: *
+</span></span><span class="line"><span class="cl">Disallow: /404.html
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Sitemap: <span class="o">{{</span> site.url <span class="o">}}</span>/sitemap.xml 
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>##3. 网站地图中隐藏掉404页面
 同样网站地图也不需要包含添加404页面。打开plugins/sitemap_generator.rb，找到EXCLUDED_FILES，然后添加404.html。</p>
@@ -190,17 +190,17 @@ Sitemap: <span class="o">{{</span> site.url <span class="o">}}</span>/sitemap.xm
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="c1"># Change SITEMAP_FILE_NAME if you would like your sitemap file</span>
-<span class="c1"># to be called something else</span>
-<span class="no">SITEMAP_FILE_NAME</span> <span class="o">=</span> <span class="s2">&#34;sitemap.xml&#34;</span>
-
-<span class="c1"># Any files to exclude from being included in the sitemap.xml</span>
-<span class="no">EXCLUDED_FILES</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;atom.xml&#34;</span><span class="p">,</span> <span class="s2">&#34;404.html&#34;</span><span class="o">]</span>
-
-<span class="c1"># Any files that include posts, so that when a new post is added, the last</span>
-<span class="c1"># modified date of these pages should take that into account</span>
-<span class="no">PAGES_INCLUDE_POSTS</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;index.html&#34;</span><span class="o">]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-ruby" data-lang="ruby"><span class="line"><span class="cl"><span class="c1"># Change SITEMAP_FILE_NAME if you would like your sitemap file</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># to be called something else</span>
+</span></span><span class="line"><span class="cl"><span class="no">SITEMAP_FILE_NAME</span> <span class="o">=</span> <span class="s2">&#34;sitemap.xml&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Any files to exclude from being included in the sitemap.xml</span>
+</span></span><span class="line"><span class="cl"><span class="no">EXCLUDED_FILES</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;atom.xml&#34;</span><span class="p">,</span> <span class="s2">&#34;404.html&#34;</span><span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Any files that include posts, so that when a new post is added, the last</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># modified date of these pages should take that into account</span>
+</span></span><span class="line"><span class="cl"><span class="no">PAGES_INCLUDE_POSTS</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&#34;index.html&#34;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>##4. 定制公益404页面
 我选择的是<a href="http://www.qq.com/404/">腾讯公益404</a>，进入这个<a href="http://www.qq.com/404/">网站</a>拷贝其提供的JS代码，只需将其嵌入到我们的404页面(404.html)即可。下面是我修改过的404页面，把header、footer、comments等都去掉，只显示一个标题和公益广告：</p>
@@ -218,17 +218,17 @@ Sitemap: <span class="o">{{</span> site.url <span class="o">}}</span>/sitemap.xm
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">+++
-<span class="nv">title</span> <span class="o">=</span> <span class="s2">&#34;octopress定制公益404页面&#34;</span>
-header: <span class="nb">false</span>
-<span class="nv">date</span> <span class="o">=</span> <span class="s2">&#34;2013-08-04&#34;</span>
-<span class="nv">slug</span> <span class="o">=</span> <span class="s2">&#34;2013/08/04/octopress-custom-404&#34;</span>
-sharing: <span class="nb">false</span>
-footer: <span class="nb">false</span>
-+++
-&lt;center&gt;&lt;h1&gt;ToWriting.com 404!&lt;/h1&gt;&lt;/center&gt;
-&lt;script <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;text/javascript&#34;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;http://www.qq.com/404/search_children.js?edition=small&#34;</span> <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span>&gt;&lt;/script&gt;
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl"><span class="nv">title</span> <span class="o">=</span> <span class="s2">&#34;octopress定制公益404页面&#34;</span>
+</span></span><span class="line"><span class="cl">header: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl"><span class="nv">date</span> <span class="o">=</span> <span class="s2">&#34;2013-08-04&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">slug</span> <span class="o">=</span> <span class="s2">&#34;2013/08/04/octopress-custom-404&#34;</span>
+</span></span><span class="line"><span class="cl">sharing: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">footer: <span class="nb">false</span>
+</span></span><span class="line"><span class="cl">+++
+</span></span><span class="line"><span class="cl">&lt;center&gt;&lt;h1&gt;ToWriting.com 404!&lt;/h1&gt;&lt;/center&gt;
+</span></span><span class="line"><span class="cl">&lt;script <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;text/javascript&#34;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;http://www.qq.com/404/search_children.js?edition=small&#34;</span> <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span>&gt;&lt;/script&gt;
+</span></span></code></pre></td></tr></table>
 </div>
 </div>
     </div>
@@ -310,7 +310,7 @@ footer: <span class="nb">false</span>
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

@@ -3,14 +3,21 @@
   
   <url>
     <loc>http://towriting.com/post/</loc>
-    <lastmod>2022-03-01T19:33:37+08:00</lastmod>
+    <lastmod>2022-03-19T19:55:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2022/03/19/learn-rust/</loc>
+    <lastmod>2022-03-19T19:55:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/</loc>
-    <lastmod>2022-03-01T19:33:37+08:00</lastmod>
+    <lastmod>2022-03-19T19:55:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -18,6 +25,13 @@
   <url>
     <loc>http://towriting.com/blog/2022/03/01/multi-arch-image/</loc>
     <lastmod>2022-03-01T19:33:37+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2022/02/13/2021-chunjie/</loc>
+    <lastmod>2022-02-13T19:04:52+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/08/01/what-is-cpp11/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="C&#43;&#43;11系列-什么是C&#43;&#43;11">
 <meta itemprop="description" content="介绍了什么是C&#43;&#43;11"><meta itemprop="datePublished" content="2013-08-01T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-08-01T00:00:00+00:00" />
-<meta itemprop="wordCount" content="2310">
+<meta itemprop="wordCount" content="2316">
 <meta itemprop="keywords" content="C&#43;&#43;11," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;11系列-什么是C&#43;&#43;11"/>
 <meta name="twitter:description" content="介绍了什么是C&#43;&#43;11"/>
@@ -122,7 +122,7 @@
         <div class="post-category">
             <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
             </div>
-          <span class="more-meta"> 2310 words </span>
+          <span class="more-meta"> 2316 words </span>
           <span class="more-meta"> 5 mins read </span>
         
       </div>
@@ -168,9 +168,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>编译器可以推导出y的类型是int。当然，这不是一个证明auto有用的一个闪亮的例子。当使用模板特别是STL时auto很好用。为什么这么说，想象使用一个迭代器(iterator):</p>
 <div class="highlight"><div class="chroma">
@@ -180,10 +180,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
-<span class="n">address_book</span><span class="p">[</span><span class="s">&#34;Alex&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;webmaster@towriting.com&#34;</span><span class="p">;</span>
-<span class="c1">//add a bunch of people to address_book
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">address_book</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">address_book</span><span class="p">[</span><span class="s">&#34;Alex&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;webmaster@towriting.com&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//add a bunch of people to address_book
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>现在你想遍历address_book中的元素，要这样做，你需要一个迭代器：</p>
 <div class="highlight"><div class="chroma">
@@ -191,8 +191,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这是一个恐怖的长类型声明，当你已经知道这个类型的时候。这样是不是简洁多了：</p>
 <div class="highlight"><div class="chroma">
@@ -200,8 +200,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">address_book</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>代码变得更简单明了，我觉得可读性也更高了，因为模板语法使这一行其它内容变模糊了。这是我特别喜欢的一个特性，我发现它消除了许多头疼和难以追踪的编译错误，节省了时间而没有丢掉表达式的意思。</p>
 <h4 id="区间迭代range-based-for-loop">区间迭代（range-based for loop)</h4>
@@ -218,15 +218,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-<span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
-<span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="nl">i</span><span class="p">:</span> <span class="n">vec</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">vec</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="nl">i</span><span class="p">:</span> <span class="n">vec</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>你需要做的就是给出一个变量和要迭代的区间。但是如果你想迭代一个map怎么办？你怎么设置map中值的类型？你知道vector值的类型是int。但map的值类型是pair，通过.first和.second给你提供键和值。但是用auto，你根本无需关心确切类型，你可以简单的写成：</p>
 <div class="highlight"><div class="chroma">
@@ -237,11 +237,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">address_entry</span><span class="p">:</span> <span class="n">address_book</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">first</span><span class="o">&lt;&lt;</span><span class="s">&#34; &#34;</span><span class="o">&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">second</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">address_entry</span><span class="p">:</span> <span class="n">address_book</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">first</span><span class="o">&lt;&lt;</span><span class="s">&#34; &#34;</span><span class="o">&lt;</span><span class="n">address_entry</span><span class="p">.</span><span class="n">second</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这将打印出：</p>
 <div class="highlight"><div class="chroma">
@@ -249,8 +249,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">Alex webmaster@towriting.com
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Alex webmaster@towriting.com
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这是一个不错的C++11新特性组合用法吧？</p>
 <h4 id="right-angle-brackets">&raquo;(right angle brackets)</h4>
@@ -260,17 +260,17 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
-</div><p>你必须在结束的两个'&gt;&lsquo;之间添加空格。这不仅烦人，而且当你写成&raquo;而没有空格时，你将得到困惑和误导的编译错误信息。产生这种行为的原因是C++词法分析的最大匹配原则（<a href="http://en.wikipedia.org/wiki/Maximal_munch">maximal munch rule</a>)。一个好消息是从今往后，你再也不用担心了：</p>
+</div><p>你必须在结束的两个&rsquo;&gt;&lsquo;之间添加空格。这不仅烦人，而且当你写成&raquo;而没有空格时，你将得到困惑和误导的编译错误信息。产生这种行为的原因是C++词法分析的最大匹配原则（<a href="http://en.wikipedia.org/wiki/Maximal_munch">maximal munch rule</a>)。一个好消息是从今往后，你再也不用担心了：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">vector_of_int_vectors</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>对，这确实是个小东西，不过却是人工代码克服机器工具的胜利。另外，这样写就不那么丑了。</p>
 <h4 id="多线程">多线程</h4>
@@ -367,7 +367,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

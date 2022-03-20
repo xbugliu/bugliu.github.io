@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/06/28/archlinux-trim/" />
@@ -155,8 +155,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&#34;TRIM supported&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo hdparm -I /dev/sda <span class="p">|</span> grep <span class="s2">&#34;TRIM supported&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>如果支持则会出现：&ldquo;Data Set Management TRIM supported&rdquo;</p>
 <p>如果SSD支持TRIM, 则可以开启TRIM了, 这里介绍常用的两种方法。</p>
@@ -166,8 +166,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo vim /etc/fstab
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo vim /etc/fstab
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>下面是我机器上fstab的配置</p>
 <blockquote>
@@ -185,10 +185,10 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo pacman -S cronie
-sudo systemctl start cronie
-sudo systemctl <span class="nb">enable</span> cronie
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo pacman -S cronie
+</span></span><span class="line"><span class="cl">sudo systemctl start cronie
+</span></span><span class="line"><span class="cl">sudo systemctl <span class="nb">enable</span> cronie
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>然后创建一个任务配置:</p>
 <div class="highlight"><div class="chroma">
@@ -196,8 +196,8 @@ sudo systemctl <span class="nb">enable</span> cronie
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo gedit /etc/cron.daily/trim
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo gedit /etc/cron.daily/trim
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>并将下面的内容拷贝到里面：</p>
 <div class="highlight"><div class="chroma">
@@ -209,12 +209,12 @@ sudo systemctl <span class="nb">enable</span> cronie
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
-</span><span class="cp"></span><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
-<span class="nb">echo</span> <span class="s2">&#34;*** </span><span class="k">$(</span>date -R<span class="k">)</span><span class="s2"> ***&#34;</span> &gt;&gt; <span class="nv">$LOG</span>
-fstrim -v / &gt;&gt; <span class="nv">$LOG</span>
-fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">LOG</span><span class="o">=</span>/var/log/trim.log
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;*** </span><span class="k">$(</span>date -R<span class="k">)</span><span class="s2"> ***&#34;</span> &gt;&gt; <span class="nv">$LOG</span>
+</span></span><span class="line"><span class="cl">fstrim -v / &gt;&gt; <span class="nv">$LOG</span>
+</span></span><span class="line"><span class="cl">fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>参考：</p>
 <ol>
@@ -302,7 +302,7 @@ fstrim -v /home &gt;&gt; <span class="nv">$LOG</span>
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

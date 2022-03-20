@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/12/17/ini-muti-thread/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Windows提供的INI接口不是线程安全的">
 <meta itemprop="description" content="writeprivateprofilestring函数不是线程安全"><meta itemprop="datePublished" content="2013-12-17T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-12-17T00:00:00+00:00" />
-<meta itemprop="wordCount" content="655">
+<meta itemprop="wordCount" content="654">
 <meta itemprop="keywords" content="writeprivateprofilestring 线程安全,writeprivateprofilestring 多线程,INI 多线程," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Windows提供的INI接口不是线程安全的"/>
 <meta name="twitter:description" content="writeprivateprofilestring函数不是线程安全"/>
@@ -120,7 +120,7 @@
       <div class="post-meta">
         <span class="post-time"> 2013-12-17 </span>
         
-          <span class="more-meta"> 655 words </span>
+          <span class="more-meta"> 654 words </span>
           <span class="more-meta"> 2 mins read </span>
         
       </div>
@@ -197,57 +197,55 @@
 </span><span class="lnt">44
 </span><span class="lnt">45
 </span><span class="lnt">46
-</span><span class="lnt">47
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&#34;stdafx.h&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;Windows.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;process.h&gt;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">GetIniName</span><span class="p">()</span>
-<span class="p">{</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strIniName</span><span class="p">;</span>
-	<span class="n">strIniName</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">MAX_PATH</span><span class="p">);</span>
-	<span class="n">strIniName</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">GetModuleFileName</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">TCHAR</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">strIniName</span><span class="p">.</span><span class="n">data</span><span class="p">()),</span> <span class="n">strIniName</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
-	<span class="n">strIniName</span> <span class="o">+=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&#34;.ini&#34;</span><span class="p">);</span>
-	<span class="k">return</span> <span class="n">strIniName</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">void</span> <span class="nf">WriteIniInThread</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">pText</span><span class="p">)</span>
-<span class="p">{</span>
-	<span class="k">const</span> <span class="n">TCHAR</span> <span class="o">*</span><span class="n">pSec</span> <span class="o">=</span> <span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span><span class="p">)</span><span class="n">pText</span><span class="p">;</span>
-	<span class="n">assert</span><span class="p">(</span><span class="n">pSec</span><span class="p">);</span>
-
-	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strVal</span><span class="p">;</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strIni</span> <span class="o">=</span> <span class="n">GetIniName</span><span class="p">();</span>
-	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-	<span class="p">{</span>
-		<span class="n">strVal</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_wstring</span><span class="p">(</span><span class="n">_Longlong</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
-		<span class="n">WritePrivateProfileString</span><span class="p">(</span><span class="n">pSec</span><span class="p">,</span> <span class="n">strVal</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">strVal</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">strIni</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
-	<span class="p">}</span>
-
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">wstring</span><span class="o">&gt;</span> <span class="n">threadTexts</span><span class="p">;</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">HANDLE</span><span class="o">&gt;</span> <span class="n">threadHandles</span><span class="p">;</span>
-	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">60</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-	<span class="p">{</span>
-		<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strText</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&#34;Thread&#34;</span><span class="p">);</span>
-		<span class="n">strText</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_wstring</span><span class="p">(</span><span class="n">_Longlong</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
-		<span class="n">threadTexts</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">strText</span><span class="p">);</span>
-		<span class="n">threadHandles</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">HANDLE</span><span class="p">(</span><span class="n">_beginthread</span><span class="p">(</span><span class="n">WriteIniInThread</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">threadTexts</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">())));</span>
-	<span class="p">}</span>
-
-	<span class="n">WaitForMultipleObjects</span><span class="p">(</span><span class="n">threadHandles</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">threadHandles</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">INFINITE</span><span class="p">);</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&#34;stdafx.h&#34;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;Windows.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;process.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cassert&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">GetIniName</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strIniName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">strIniName</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">MAX_PATH</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">strIniName</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">GetModuleFileName</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="k">const_cast</span><span class="o">&lt;</span><span class="n">TCHAR</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">strIniName</span><span class="p">.</span><span class="n">data</span><span class="p">()),</span> <span class="n">strIniName</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
+</span></span><span class="line"><span class="cl">	<span class="n">strIniName</span> <span class="o">+=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&#34;.ini&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">strIniName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">WriteIniInThread</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">pText</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">const</span> <span class="n">TCHAR</span> <span class="o">*</span><span class="n">pSec</span> <span class="o">=</span> <span class="p">(</span><span class="n">TCHAR</span><span class="o">*</span><span class="p">)</span><span class="n">pText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">assert</span><span class="p">(</span><span class="n">pSec</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strVal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strIni</span> <span class="o">=</span> <span class="n">GetIniName</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">1000</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">strVal</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_wstring</span><span class="p">(</span><span class="n">_Longlong</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">WritePrivateProfileString</span><span class="p">(</span><span class="n">pSec</span><span class="p">,</span> <span class="n">strVal</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">strVal</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">strIni</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">wstring</span><span class="o">&gt;</span> <span class="n">threadTexts</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">HANDLE</span><span class="o">&gt;</span> <span class="n">threadHandles</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">60</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">std</span><span class="o">::</span><span class="n">wstring</span> <span class="n">strText</span> <span class="o">=</span> <span class="n">_T</span><span class="p">(</span><span class="s">&#34;Thread&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">strText</span> <span class="o">+=</span> <span class="n">std</span><span class="o">::</span><span class="n">to_wstring</span><span class="p">(</span><span class="n">_Longlong</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">		<span class="n">threadTexts</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">strText</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">		<span class="n">threadHandles</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">HANDLE</span><span class="p">(</span><span class="n">_beginthread</span><span class="p">(</span><span class="n">WriteIniInThread</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">threadTexts</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">())));</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">WaitForMultipleObjects</span><span class="p">(</span><span class="n">threadHandles</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">threadHandles</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">INFINITE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>代码很简单，开60个线程同时往一个INI文件里写东西，让我们对比一下多线程操作INI和非多线程操作的结果，左侧是不使用多线程操作的结果（只贴出前50行）：</p>
 <p><img src="/images/posts/ini-muti-thread/result.png" alt="image"></p>
@@ -332,7 +330,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

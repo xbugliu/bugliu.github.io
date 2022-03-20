@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2014/12/07/windbg-dump-asso/" />
@@ -178,23 +178,23 @@
 </span><span class="lnt">16
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Classes
-   dmpfile
-     DefaultIcon
-       default = &#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34;,0
-     shell
-       Analyze with windbg
-           command
-              default=C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -c &#34;!analyze -v&#34; -z &#34;%1\&#34;
-       Analyze with windbg - wow64
-           command
-              default=&#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -c &#34;!wow64exts.sw; !analyze -v&#34; -z &#34;%1&#34;
-       open
-           command
-              default=&#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -z &#34;%1&#34;
-   .dmp
-     default = dmpfile
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HKEY_CURRENT_USER\Software\Classes
+</span></span><span class="line"><span class="cl">   dmpfile
+</span></span><span class="line"><span class="cl">     DefaultIcon
+</span></span><span class="line"><span class="cl">       default = &#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34;,0
+</span></span><span class="line"><span class="cl">     shell
+</span></span><span class="line"><span class="cl">       Analyze with windbg
+</span></span><span class="line"><span class="cl">           command
+</span></span><span class="line"><span class="cl">              default=C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -c &#34;!analyze -v&#34; -z &#34;%1\&#34;
+</span></span><span class="line"><span class="cl">       Analyze with windbg - wow64
+</span></span><span class="line"><span class="cl">           command
+</span></span><span class="line"><span class="cl">              default=&#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -c &#34;!wow64exts.sw; !analyze -v&#34; -z &#34;%1&#34;
+</span></span><span class="line"><span class="cl">       open
+</span></span><span class="line"><span class="cl">           command
+</span></span><span class="line"><span class="cl">              default=&#34;C:\Program Files (x86)\Debugging Tools for Windows (x86)\windbg.exe&#34; -z &#34;%1&#34;
+</span></span><span class="line"><span class="cl">   .dmp
+</span></span><span class="line"><span class="cl">     default = dmpfile
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>当然，更改HKEY_CURRENT_USER是对当前用户有效，HKEY_LOCAL_MACHINE是对所有用户有效，而HKEY_CLASSES_ROOT是兼容的产物，不推荐在直接配置HKEY_CLASSES_ROOT。</p>
 <h4 id="2-去除用户自定义的打开方式-自定义程序">2. 去除用户自定义的打开方式-自定义程序</h4>
@@ -204,8 +204,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dmp\UserChoice
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>将这个UserChoice键删除即可。</p>
 <h4 id="3-到这里就讲完了最后奉上一个bat">3. 到这里就讲完了，最后奉上一个bat:</h4>
@@ -313,7 +313,7 @@ set /p finish="finsh!"
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

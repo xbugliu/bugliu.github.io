@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/08/03/unix-background-job/" />
@@ -157,8 +157,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ find / -ctime -1 &gt; /tmp/changed-file-list.txt <span class="p">&amp;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ find / -ctime -1 &gt; /tmp/changed-file-list.txt <span class="p">&amp;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="2-通过ctrl-z和bg命令将当前任务切换到后台">2. 通过CTRL-Z和bg命令将当前任务切换到后台</h2>
 <p>你也可以将一个已经运行的前台任务切换到后台：</p>
@@ -177,13 +177,13 @@
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ find / -ctime -1 &gt; /tmp/changed-file-list.txt
-
-$ <span class="o">[</span>CTRL-Z<span class="o">]</span>
-<span class="o">[</span>2<span class="o">]</span>+  Stopped                 find / -ctime -1 &gt; /tmp/changed-file-list.txt
-
-$ <span class="nb">bg</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ find / -ctime -1 &gt; /tmp/changed-file-list.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ <span class="o">[</span>CTRL-Z<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span>+  Stopped                 find / -ctime -1 &gt; /tmp/changed-file-list.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ <span class="nb">bg</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="3-使用jobs命令查看所有后台任务">3. 使用jobs命令查看所有后台任务</h2>
 <p>你可以使用<strong>jobs</strong>命令列出所有后台任务。一个jobs命令的可能输出如下：</p>
@@ -195,11 +195,11 @@ $ <span class="nb">bg</span>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">jobs</span>
-<span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
-<span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
-<span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">jobs</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="4-通过fg命令将后台任务切换到前台">4. 通过fg命令将后台任务切换到前台</h2>
 <p>你可以通过<strong>fg</strong>命令将后台任务切换到前台。如果执行fg命令不带参数，则将最近的后台任务切换到前台。</p>
@@ -208,8 +208,8 @@ $ <span class="nb">bg</span>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">fg</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">fg</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>假如你有多个后台任务，你又想将指定任务切换到前台，那你可以先执行jobs命令列出所有任务号和对应命令。下面的例子，fg %1将一号任务(download-file.sh)切换到前台。</p>
 <div class="highlight"><div class="chroma">
@@ -222,13 +222,13 @@ $ <span class="nb">bg</span>
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">jobs</span>
-<span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
-<span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
-<span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
-
-$ <span class="nb">fg</span> %1
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">jobs</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span>   Running                 bash download-file.sh <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span>-  Running                 evolution <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>3<span class="o">]</span>+  Done                    nautilus .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ <span class="nb">fg</span> %1
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="5-通过kill-结束指定的后台任务">5. 通过kill %结束指定的后台任务</h2>
 <p>假如你想杀死指定的后台任务，用<strong>kill</strong> %任务号就行了。下面是杀死2号任务的例子：</p>
@@ -237,8 +237,8 @@ $ <span class="nb">fg</span> %1
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">kill</span> %2
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">kill</span> %2
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>译者：<a href="http://toWriting.com">toWriting.com</a>；翻译自：<a href="http://www.thegeekstuff.com/2010/05/unix-background-job/">Bg, Fg, &amp;, Ctrl-Z – 5 Examples to Manage Unix Background Jobs</a></p>
 
@@ -321,7 +321,7 @@ $ <span class="nb">fg</span> %1
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

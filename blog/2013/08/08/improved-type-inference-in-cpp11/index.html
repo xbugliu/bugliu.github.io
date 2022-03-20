@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/08/08/improved-type-inference-in-cpp11/" />
@@ -141,8 +141,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>现在可以这样写：</p>
 <div class="highlight"><div class="chroma">
@@ -150,8 +150,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这当然不是auto预期的用途！它会在模板和迭代器的配合使用中闪耀光芒：</p>
 <div class="highlight"><div class="chroma">
@@ -160,9 +160,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
-<span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">iterator</span><span class="p">();</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vec</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">vec</span><span class="p">.</span><span class="n">iterator</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>其它时候auto也会非常有用。比如，你有一些下面格式的代码：</p>
 <div class="highlight"><div class="chroma">
@@ -176,14 +176,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">BuiltType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
-<span class="kt">void</span>
-<span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">BuiltType</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
-    <span class="c1">// do stuff with val
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">BuiltType</span><span class="p">,</span> <span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span>
+</span></span><span class="line"><span class="cl"><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">BuiltType</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// do stuff with val
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面的代码，我们看到这里需要两个模板参数：一个是Builder对象的类型，另一个是Builder创建出的对象的类型。糟糕的是创建出的类型无法被推导出，所以每次你必须这样调用：</p>
 <div class="highlight"><div class="chroma">
@@ -192,9 +192,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
-<span class="n">makeAndProcessObject</span><span class="o">&lt;</span><span class="n">MyObj</span><span class="o">&gt;</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">makeAndProcessObject</span><span class="o">&lt;</span><span class="n">MyObj</span><span class="o">&gt;</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>但是auto立即将丑陋的代码一扫无余，当Builder创建对象时不用写特殊代码了，你可以让C++帮你做：</p>
 <div class="highlight"><div class="chroma">
@@ -208,14 +208,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
-<span class="kt">void</span>
-<span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
-    <span class="c1">// do stuff with val
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span>
+</span></span><span class="line"><span class="cl"><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// do stuff with val
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>现在你仅需一个模板参数，而且这个参数可以在函数调用的时候轻松推导：</p>
 <div class="highlight"><div class="chroma">
@@ -224,9 +224,9 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
-<span class="n">makeAndProcessObject</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">MyObjBuilder</span> <span class="n">builder</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">makeAndProcessObject</span><span class="p">(</span> <span class="n">builder</span> <span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这样更易调用了，并且没丢失可读性，却更清晰了。
 ##decltype和新的返回值语法
@@ -238,8 +238,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>在C++11中，你可以把返回类型放在函数声明的后面，用auto代替前面的返回类型，像这样：</p>
 <div class="highlight"><div class="chroma">
@@ -247,8 +247,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="nf">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="nf">multiply</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">int</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>但是为什么我要这样用？让我们看一个证明这个语法好处的例子。一个包含枚举的类：</p>
 <div class="highlight"><div class="chroma">
@@ -264,16 +264,16 @@
 </span><span class="lnt">9
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Person</span>
-<span class="p">{</span>
-<span class="k">public</span><span class="o">:</span>
-    <span class="k">enum</span> <span class="nc">PersonType</span> <span class="p">{</span> <span class="n">ADULT</span><span class="p">,</span> <span class="n">CHILD</span><span class="p">,</span> <span class="n">SENIOR</span> <span class="p">};</span>
-    <span class="kt">void</span> <span class="nf">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">);</span>
-    <span class="n">PersonType</span> <span class="nf">getPersonType</span> <span class="p">();</span>
-<span class="k">private</span><span class="o">:</span>
-    <span class="n">PersonType</span> <span class="n">_person_type</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Person</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">enum</span> <span class="nc">PersonType</span> <span class="p">{</span> <span class="n">ADULT</span><span class="p">,</span> <span class="n">CHILD</span><span class="p">,</span> <span class="n">SENIOR</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PersonType</span> <span class="nf">getPersonType</span> <span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">PersonType</span> <span class="n">_person_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们写了一个简单的类，里面有一个类型PersonType表明Person是小孩、成人和老人。不做特殊考虑，我们定义这些成员方法时会发生什么？
 第一个设置方法，很简单，你可以使用枚举类型PersonType而不会有错误：</p>
@@ -285,11 +285,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">void</span> <span class="n">Person</span><span class="o">::</span><span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">_person_type</span> <span class="o">=</span> <span class="n">person_type</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">Person</span><span class="o">::</span><span class="n">setPersonType</span> <span class="p">(</span><span class="n">PersonType</span> <span class="n">person_type</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_person_type</span> <span class="o">=</span> <span class="n">person_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>而第二个方法却是一团糟。简单的代码却编译不过：</p>
 <div class="highlight"><div class="chroma">
@@ -301,12 +301,12 @@
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// 编译器不知道PersonType是什么，因为PersonType会在Person类之外使用
-</span><span class="c1"></span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="c1">// 编译器不知道PersonType是什么，因为PersonType会在Person类之外使用
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>你必须要这样写，才能使返回值正常工作</p>
 <div class="highlight"><div class="chroma">
@@ -317,11 +317,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">Person</span><span class="o">::</span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Person</span><span class="o">::</span><span class="n">PersonType</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这可能不算大问题，不过会容易出错，尤其是牵连进模板的时候。</p>
 <p>这就是新的返回值语法引进的原因。因为函数的返回值出现在函数的最后，而不是前面，你不需要补全类作用域。当编译器解析到返回值的时候，它已经知道返回值属于Person类，所以它也知道PersonType是什么。</p>
@@ -333,11 +333,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">auto</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PersonType</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">Person</span><span class="o">::</span><span class="n">getPersonType</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PersonType</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_person_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>好，这确实不错，但它真的能帮助我们什么吗？我们还不能使用新的返回值语法去解决我们之前的问题，我们能吗？不能，让我们介绍新的概念：decltype。
 ##decltype
@@ -348,9 +348,9 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="k">decltype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 相当于 auto y = x;
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">decltype</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// 相当于 auto y = x;
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>可以对基本上任何类型使用decltype，包括函数的返回值。嗯，听起来像个熟悉的问题，假如我们这样写：</p>
 <div class="highlight"><div class="chroma">
@@ -358,8 +358,8 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们将得到makeObject的返回值类型，这能让我们指定makeAndProcessObject的返回类型。我们可以整合进新的返回值语法：</p>
 <div class="highlight"><div class="chroma">
@@ -374,15 +374,15 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
-<span class="k">auto</span>
-<span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
-    <span class="c1">// do stuff with val
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Builder</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span>
+</span></span><span class="line"><span class="cl"><span class="n">makeAndProcessObject</span> <span class="p">(</span><span class="k">const</span> <span class="n">Builder</span><span class="o">&amp;</span> <span class="n">builder</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">decltype</span><span class="p">(</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">()</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">auto</span> <span class="n">val</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">makeObject</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// do stuff with val
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这仅适用于新的返回值语法，因为旧的语法下，我们在声明函数返回值的时候无法引用函数参数，而新语法，所有的参数都是可访问的。
 ##auto：引用、指针和常量
@@ -394,10 +394,10 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
-
-<span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp; or int?
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp; or int?
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>答案是在C++11中，auto处理引用时默认是值类型，所以下面的代码bar是int。不过你可以指定&amp;作为修饰符强制它作为引用：</p>
 <div class="highlight"><div class="chroma">
@@ -408,11 +408,11 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
-
-<span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int
-</span><span class="c1"></span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp;
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int&amp;
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>不过，假如你有一个指针auto则自动获取指针类型：</p>
 <div class="highlight"><div class="chroma">
@@ -422,10 +422,10 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
-
-<span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>但是你也可以显式指定表明变量是一个指针：</p>
 <div class="highlight"><div class="chroma">
@@ -434,9 +434,9 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
-<span class="k">auto</span> <span class="o">*</span><span class="n">p_baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">auto</span> <span class="o">*</span><span class="n">p_baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// int*
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>当处理引用时，你一样可以标记const，如果需要的话：</p>
 <div class="highlight"><div class="chroma">
@@ -446,10 +446,10 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
-
-<span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int&amp;
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">&amp;</span> <span class="n">foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">baz</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int&amp;
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>或者指针：</p>
 <div class="highlight"><div class="chroma">
@@ -460,11 +460,11 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
-<span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="nf">const_foo</span><span class="p">();</span>
-<span class="k">const</span> <span class="k">auto</span><span class="o">*</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int*
-</span><span class="c1"></span><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">const_foo</span><span class="p">();</span> <span class="c1">// const int*
-</span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span><span class="o">*</span> <span class="nf">foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span><span class="o">*</span> <span class="nf">const_foo</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="k">auto</span><span class="o">*</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">foo</span><span class="p">();</span> <span class="c1">// const int*
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">auto</span> <span class="n">p_bar</span> <span class="o">=</span> <span class="n">const_foo</span><span class="p">();</span> <span class="c1">// const int*
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>所有这些都很自然，并且这遵循C++模板中类型推导的规则。</p>
 <p>下一篇：<a href="/blog/2013/08/11/lambda-closures/">Lambda表达式简明教程</a></p>
@@ -551,7 +551,7 @@ decltype是auto的反面兄弟。auto让你声明了一个指定类型的变量�
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

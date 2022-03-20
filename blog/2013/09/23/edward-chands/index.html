@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/09/23/edward-chands/" />
@@ -176,19 +176,19 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="o">*</span> <span class="n">counters</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-<span class="n">Pod</span> <span class="o">*</span> <span class="n">pod</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pod</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="n">Pod</span><span class="p">);</span>
-<span class="n">pod</span><span class="o">-&gt;</span><span class="n">count</span> <span class="o">=</span> <span class="n">n</span>
-<span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
-<span class="p">...</span>
-<span class="n">free</span> <span class="p">(</span><span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span><span class="p">);</span>
-<span class="n">free</span> <span class="p">(</span><span class="n">pod</span><span class="p">);</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span> <span class="n">counters</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Pod</span> <span class="o">*</span> <span class="n">pod</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pod</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="n">Pod</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">pod</span><span class="o">-&gt;</span><span class="n">count</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl"><span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span> <span class="n">malloc</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">free</span> <span class="p">(</span><span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">free</span> <span class="p">(</span><span class="n">pod</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我希望人们不会写出这样的代码，但我确信现实世界的好多程序的代码中有这样的结构。</p>
 <p>C++通过替换malloc和free为new和delete&quot;解决&quot;了多余的强转和易出错的size计算。正确的C++代码应该这样：</p>
@@ -208,19 +208,19 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="o">*</span> <span class="n">counters</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
-<span class="n">Pod</span> <span class="o">*</span> <span class="n">pod</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Pod</span><span class="p">;</span>
-<span class="n">pod</span><span class="o">-&gt;</span><span class="n">count</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-<span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="n">n</span><span class="p">];</span>
-<span class="p">...</span>
-<span class="k">delete</span> <span class="p">[]</span> <span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span><span class="p">;</span>
-<span class="k">delete</span> <span class="n">pod</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Pod</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span> <span class="n">counters</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">Pod</span> <span class="o">*</span> <span class="n">pod</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Pod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">pod</span><span class="o">-&gt;</span><span class="n">count</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="n">n</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">delete</span> <span class="p">[]</span> <span class="n">pod</span><span class="o">-&gt;</span><span class="n">counters</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">delete</span> <span class="n">pod</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>顺便说一下，空指针引用的问题同样被解决了，因为如果系统内存耗尽，new总是会抛出异常。但这里在第二个new的地方还是有几率发生内存泄漏，所以这是现实中正确的代码：</p>
 <div class="highlight"><div class="chroma">
@@ -239,19 +239,19 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Snd</span> <span class="p">{</span> <span class="c1">// Sophisticated New Data
-</span><span class="c1"></span><span class="k">public</span><span class="o">:</span>
-    <span class="n">Snd</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="o">:</span> <span class="n">_count</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">_counters</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="p">{}</span>
-    <span class="o">~</span><span class="n">Snd</span> <span class="p">()</span> <span class="p">{</span> <span class="k">delete</span> <span class="p">[]</span> <span class="n">_counters</span><span class="p">;</span> <span class="p">}</span>
-<span class="k">private</span><span class="o">:</span>
-    <span class="kt">int</span> <span class="n">_count</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="o">*</span> <span class="n">_counters</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="n">Snd</span> <span class="o">*</span> <span class="n">snd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Snd</span> <span class="p">(</span><span class="mi">10</span><span class="p">);</span>
-<span class="p">...</span>
-<span class="k">delete</span> <span class="n">snd</span><span class="p">;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Snd</span> <span class="p">{</span> <span class="c1">// Sophisticated New Data
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Snd</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="o">:</span> <span class="n">_count</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">_counters</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span> <span class="p">[</span><span class="n">n</span><span class="p">])</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="o">~</span><span class="n">Snd</span> <span class="p">()</span> <span class="p">{</span> <span class="k">delete</span> <span class="p">[]</span> <span class="n">_counters</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">_count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="o">*</span> <span class="n">_counters</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">Snd</span> <span class="o">*</span> <span class="n">snd</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Snd</span> <span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="k">delete</span> <span class="n">snd</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>我们做完了吗？才没呢！这段代码不是异常安全的。</p>
 <p>C++的基本准则是避免裸指针、避免数组、避免delete。所以医治malloc的良药new也是不应使用的，它会返回危险的指针。</p>
@@ -366,7 +366,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

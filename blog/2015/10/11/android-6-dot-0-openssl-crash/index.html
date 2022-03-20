@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/" />
@@ -154,8 +154,8 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">java.lang.unsatisfiedlinkerror dlopen failed cannot locate symbol <span class="s2">&#34;openssl_add_all_algorithms_noconf&#34;</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java.lang.unsatisfiedlinkerror dlopen failed cannot locate symbol <span class="s2">&#34;openssl_add_all_algorithms_noconf&#34;</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>你的产品依赖了openssl，而google在Android 6.0中使用了google自己的一个基于openssl分支boringssl，而这个分支在API和ABI上都不兼容openssl。
 <img src="/images/posts/android_6/openssl_crash.png" alt="image"></p>
@@ -254,7 +254,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

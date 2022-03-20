@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Rust初体验 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2022/03/19/learn-rust/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Rust初体验" />
+<meta property="og:description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2022/03/19/learn-rust/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-03-19T19:55:14+08:00" />
+<meta property="article:modified_time" content="2022-03-19T19:55:14+08:00" />
+
+<meta itemprop="name" content="Rust初体验">
+<meta itemprop="description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze"><meta itemprop="datePublished" content="2022-03-19T19:55:14+08:00" />
+<meta itemprop="dateModified" content="2022-03-19T19:55:14+08:00" />
+<meta itemprop="wordCount" content="1062">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Rust初体验"/>
+<meta name="twitter:description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Rust初体验</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-03-19 </span>
+        
+          <span class="more-meta"> 1062 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#工具链">工具链</a></li>
+        <li><a href="#str和string">&amp;str和String</a></li>
+        <li><a href="#异常处理resultt-error">异常处理Result&lt;T, Error&gt;</a></li>
+        <li><a href="#derive">derive</a></li>
+        <li><a href="#宏函数">宏函数</a></li>
+        <li><a href="#异步asyncawait">异步async、await</a></li>
+        <li><a href="#库">库</a></li>
+        <li><a href="#rust-build">rust-build</a></li>
+      </ul>
+    </li>
+    <li><a href="#结论">结论</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>这两天用Rust写了一个通过Gitee拉取Github仓库的工具<a href="https://github.com/xbugliu/rusgit">Rusgit</a>，初步了解了Rust的一些特性。</p>
+<ul>
+<li>工具链：rust-analyzer, cargo等</li>
+<li>一些内置类型，&amp;str和String</li>
+<li>异常处理机制 Result<T></li>
+<li>继承 #derive</li>
+<li>宏 print!</li>
+<li>异步async、await和tokio</li>
+<li>命令行解析 clap</li>
+<li>http请求 hyper</li>
+<li>json反序列化 serde</li>
+<li>文件读写 std::io</li>
+<li>启动进程 std::process</li>
+<li>交叉构建 rust-build.action</li>
+</ul>
+<h2 id="工具链">工具链</h2>
+<ul>
+<li>rust-analyzer是vscode下面的一个rust插件，补全、跳转、语法高亮、错误检测、智能提示。</li>
+<li>cargo负责包管理和编译。</li>
+</ul>
+<p>整体使用顺畅，但涉及&quot;Updating crates.io&quot;时会有卡顿，是网络问题，可以通过更改国内的源来规避。</p>
+<h2 id="str和string">&amp;str和String</h2>
+<ul>
+<li>str是内置类型，&amp;str在Rust中是borrow，类似于指向字符串字面量（string literal）或者String的一个指针，是只读的。</li>
+<li>String是一个类。String的内存是分配在堆上的。</li>
+</ul>
+<h2 id="异常处理resultt-error">异常处理Result&lt;T, Error&gt;</h2>
+<p>Rust的异常处理很特殊，不同于C++里面的返回错误码或者捕获异常，使用一个Result的枚举，成功则返回结果T, 失败返回Error。看起来和Golang里面返回多值一样，但实际用起来还是有很大不同。异常可以通过<code>?</code>传递的特性，减少了出错时的异常判断，还有可以用except\unwrap来处理非正常逻辑，都是其方便之处。但假如异常类型不匹配则需要写match，又稍显繁琐。</p>
+<h2 id="derive">derive</h2>
+<p>使用#derive来标记继承，enum和struct都可以derive。</p>
+<h2 id="宏函数">宏函数</h2>
+<p>print!、write!等带<code>!</code>的都是宏函数。print!作为宏函数的优势：1. 避免了print变量时lifetime问题 2. 编译时format和参数检查，避免了C++中不匹配导致的内存溢出问题。</p>
+<h2 id="异步asyncawait">异步async、await</h2>
+<p>async可以标记一个函数为异步函数，await或者join使async函数执行。这些是Rust官方提供的关键字和函数。而tokio是社区的异步框架，来驱动async函数的运行。有一定的侵入性。</p>
+<h2 id="库">库</h2>
+<p>官方的库和三方库都有很多，结合cargo包管理，方便。</p>
+<h2 id="rust-build">rust-build</h2>
+<p>构建速度目前代码很小，没有明显的慢。跨平台交叉构建，没有Golang方便，需要自行安装toolchain。musl静态编译的版本好像用的多。RusGit在Windows正常执行，Linux下竟然Crash了，定位到openssl在musl下冲突，需要static link。</p>
+<h1 id="结论">结论</h1>
+<p>设计新颖，安全性高，会持续关注和学习。</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://stackoverflow.com/questions/67509637/what-benefits-are-there-with-making-println-a-macro">what-benefits-are-there-with-making-println-a-macro</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/blog/2022/03/01/multi-arch-image/">
+            <span class="next-text nav-default">多架构镜像的构建</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2021</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

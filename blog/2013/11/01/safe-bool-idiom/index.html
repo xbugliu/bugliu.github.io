@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2013/11/01/safe-bool-idiom/" />
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="从Safe bool惯用法到explicit标识符">
 <meta itemprop="description" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符简介"><meta itemprop="datePublished" content="2013-11-01T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-11-01T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1402">
+<meta itemprop="wordCount" content="1400">
 <meta itemprop="keywords" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="从Safe bool惯用法到explicit标识符"/>
 <meta name="twitter:description" content="C&#43;&#43;惯用法safe bool与C&#43;&#43;11中的显式操作符简介"/>
@@ -120,7 +120,7 @@
       <div class="post-meta">
         <span class="post-time"> 2013-11-01 </span>
         
-          <span class="more-meta"> 1402 words </span>
+          <span class="more-meta"> 1400 words </span>
           <span class="more-meta"> 3 mins read </span>
         
       </div>
@@ -172,20 +172,20 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CData</span>
-<span class="p">{</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="kt">bool</span> <span class="n">IsValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">IsValid</span><span class="p">())</span>
-  <span class="p">{</span>
-   <span class="c1">//dosomething
-</span><span class="c1"></span>  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">CData</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="kt">bool</span> <span class="n">IsValid</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">IsValid</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//dosomething
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这是直观而不易出错的。但多多少少有些强迫症的人会说，如果能像检测内置bool类型一样检测data对象不是更好的保证了代码的语法一致性？</p>
 <div class="highlight"><div class="chroma">
@@ -200,15 +200,15 @@
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
-  <span class="p">{</span>
-   <span class="c1">//dosomething
-</span><span class="c1"></span>  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//dosomething
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>同时他又急于向人们展示，&ldquo;我会使用操作符重载哦“。于是第二种方法出来了，重载bool类型转化操作符：</p>
 <div class="highlight"><div class="chroma">
@@ -228,20 +228,20 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">CData</span>
-<span class="p">{</span>
- <span class="k">public</span><span class="o">:</span>
-  <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
-<span class="p">};</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
-  <span class="p">{</span>
-   <span class="c1">//dosomething
-</span><span class="c1"></span>  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">CData</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">  <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CData</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//dosomething
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>漂亮的外表后面的东西可能是有毒的，比如毒蘑菇、巫婆的毒苹果和传说中的红颜祸水们。软件开发也概莫能外，这个漂亮的解决方案后面有问题。</p>
 <h3 id="bool操作符的副作用">bool操作符的副作用</h3>
@@ -271,34 +271,32 @@
 </span><span class="lnt">21
 </span><span class="lnt">22
 </span><span class="lnt">23
-</span><span class="lnt">24
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
-<span class="k">class</span> <span class="nc">CPtr</span>
-<span class="p">{</span>
-  <span class="n">T</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
-  <span class="k">public</span><span class="o">:</span>
-   <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> 
-   <span class="p">{</span>
-    <span class="k">return</span> <span class="n">ptr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">;</span>
-   <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">p1</span><span class="p">;</span>
-  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>   <span class="n">p2</span><span class="p">;</span>
-  
-  <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span><span class="p">)</span> 
-  <span class="p">{</span>
-   <span class="c1">//天知道会怎样
-</span><span class="c1"></span>   <span class="c1">//something 
-</span><span class="c1"></span>  <span class="p">}</span>
-  
-<span class="p">}</span>
-
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">CPtr</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">T</span> <span class="o">*</span><span class="n">ptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">   <span class="k">operator</span> <span class="kt">bool</span><span class="p">()</span> <span class="k">const</span> 
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">ptr</span> <span class="o">!=</span> <span class="k">nullptr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">p1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">CPtr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span>   <span class="n">p2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="o">==</span> <span class="n">p2</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//天知道会怎样
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="c1">//something 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>有人不小心拿两个不同类型的类对象来比较，不幸的是编译器并没有报错，因为17行隐式调用了operator==(bool,bool)，后面的结果真真天知道。
 这可如何是好？C++社区里最不缺人才，很快有人想出解决方案：</p>
@@ -348,53 +346,51 @@
 </span><span class="lnt">40
 </span><span class="lnt">41
 </span><span class="lnt">42
-</span><span class="lnt">43
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">class</span> <span class="nc">Testable</span> 
-<span class="p">{</span>
-    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
-    <span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">Testable</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
-  <span class="k">public</span><span class="o">:</span>
-    <span class="k">explicit</span> <span class="n">Testable</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
-
-    <span class="k">operator</span> <span class="nf">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="nb">true</span> <span class="o">?</span> 
-        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="nl">this_type_does_not_support_comparisons</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="k">class</span> <span class="nc">TestableOther</span> 
-<span class="p">{</span>
-    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
-    <span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">TestableOther</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
-    <span class="kt">void</span> <span class="nf">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
-  <span class="k">public</span><span class="o">:</span>
-    <span class="k">explicit</span> <span class="n">TestableOther</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
-
-    <span class="k">operator</span> <span class="nf">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="nb">true</span> <span class="o">?</span> 
-        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="nl">this_type_does_not_support_comparisons</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">Testable</span> <span class="n">testable</span><span class="p">;</span>
-  <span class="n">TestableOther</span> <span class="n">testableother</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="c1">//something
-</span><span class="c1"></span>  <span class="p">}</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span> <span class="o">==</span> <span class="n">testableother</span><span class="p">)</span> <span class="c1">//编译错误
-</span><span class="c1"></span>  <span class="p">{</span>
-   
-  <span class="p">}</span>
-  
-<span class="p">}</span>
-
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Testable</span> 
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">Testable</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">explicit</span> <span class="n">Testable</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">operator</span> <span class="nf">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="nb">true</span> <span class="o">?</span> 
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="nl">this_type_does_not_support_comparisons</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TestableOther</span> 
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">ok_</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">typedef</span> <span class="nf">void</span> <span class="p">(</span><span class="n">TestableOther</span><span class="o">::*</span><span class="n">bool_type</span><span class="p">)()</span> <span class="k">const</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">this_type_does_not_support_comparisons</span><span class="p">()</span> <span class="k">const</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">explicit</span> <span class="n">TestableOther</span><span class="p">(</span><span class="kt">bool</span> <span class="n">b</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span><span class="o">:</span><span class="n">ok_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">operator</span> <span class="nf">bool_type</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">return</span> <span class="n">ok_</span><span class="o">==</span><span class="nb">true</span> <span class="o">?</span> 
+</span></span><span class="line"><span class="cl">        <span class="o">&amp;</span><span class="n">Testable</span><span class="o">::</span><span class="nl">this_type_does_not_support_comparisons</span> <span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Testable</span> <span class="n">testable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">TestableOther</span> <span class="n">testableother</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//something
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">testable</span> <span class="o">==</span> <span class="n">testableother</span><span class="p">)</span> <span class="c1">//编译错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>上面代码，利用的是bool_type是函数指针类型，所以可以进行 <strong>if</strong> 判断，且不同类的bool_type是不同的，直接比较会编译错误。
 这就是safe bool Idiom，详细的代码可以参看这里：<a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/">More C++ Idioms/Safe bool</a>。
@@ -418,20 +414,20 @@ C++11的基因支持safe bool，方法就是使用<a href="http://en.cppreferenc
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">Testable</span>
-<span class="p">{</span>
-    <span class="k">explicit</span> <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
-          <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span>
- 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-  <span class="n">Testable</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span>      <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>  
-  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>  <span class="c1">// 编译错误
-</span><span class="c1"></span><span class="p">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Testable</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">explicit</span> <span class="k">operator</span> <span class="nf">bool</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="n">Testable</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span>      <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>  
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="cm">/*do something*/</span> <span class="p">}</span>  <span class="c1">// 编译错误
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>explicit</strong> 在C++11以前是只能用于修饰构造函数，但在C++11中可以用来修饰操作符，上面代码中的operator bool（）加上<strong>explicit</strong>表式其无法隐式转化为bool。
 这个解决方案，干净漂亮，无副作用。</p>
@@ -513,7 +509,7 @@ C++11前后的两种Safe Bool的解决方案比较，优劣立现。站在实用
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">

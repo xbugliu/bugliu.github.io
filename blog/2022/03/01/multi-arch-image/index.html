@@ -23,7 +23,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.88.1 with theme even" />
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
 <link rel="canonical" href="http://towriting.com/blog/2022/03/01/multi-arch-image/" />
@@ -184,14 +184,14 @@
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">1. 进入容器: docker run -ti --rm -v /data/source:/data/source dockcross/linux-arm64 bash
-
-2. 安装三方库（option）
-
-3. <span class="nb">cd</span> /data/source
-
-4. make
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">1. 进入容器: docker run -ti --rm -v /data/source:/data/source dockcross/linux-arm64 bash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2. 安装三方库（option）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">3. <span class="nb">cd</span> /data/source
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">4. make
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="镜像构建">镜像构建</h2>
 <p>多架构的程序编译出来后，下面是将其打包成镜像的过程，这里面有2中方法：</p>
@@ -227,32 +227,32 @@
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># step1: 分别构建多平台镜像，并推送
-
-# AMD64
-$ docker build -t your-username/multiarch-example:manifest-amd64 --build-arg ARCH=amd64/ .
-$ docker push your-username/multiarch-example:manifest-amd64
-
-# ARM32V7
-$ docker build -t your-username/multiarch-example:manifest-arm32v7 --build-arg ARCH=arm32v7/ .
-$ docker push your-username/multiarch-example:manifest-arm32v7
-
-# ARM64V8
-$ docker build -t your-username/multiarch-example:manifest-arm64v8 --build-arg ARCH=arm64v8/ .
-$ docker push your-username/multiarch-example:manifest-arm64v8
-
-# step2: 设置多架构的manifest
-
-$ docker manifest create \
-your-username/multiarch-example:manifest-latest \
---amend your-username/multiarch-example:manifest-amd64 \
---amend your-username/multiarch-example:manifest-arm32v7 \
---amend your-username/multiarch-example:manifest-arm64v8
-
-# step3: 推送manifest
-
-docker manifest push your-username/multiarch-example:manifest-latest
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># step1: 分别构建多平台镜像，并推送
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># AMD64
+</span></span><span class="line"><span class="cl">$ docker build -t your-username/multiarch-example:manifest-amd64 --build-arg ARCH=amd64/ .
+</span></span><span class="line"><span class="cl">$ docker push your-username/multiarch-example:manifest-amd64
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># ARM32V7
+</span></span><span class="line"><span class="cl">$ docker build -t your-username/multiarch-example:manifest-arm32v7 --build-arg ARCH=arm32v7/ .
+</span></span><span class="line"><span class="cl">$ docker push your-username/multiarch-example:manifest-arm32v7
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># ARM64V8
+</span></span><span class="line"><span class="cl">$ docker build -t your-username/multiarch-example:manifest-arm64v8 --build-arg ARCH=arm64v8/ .
+</span></span><span class="line"><span class="cl">$ docker push your-username/multiarch-example:manifest-arm64v8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># step2: 设置多架构的manifest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ docker manifest create \
+</span></span><span class="line"><span class="cl">your-username/multiarch-example:manifest-latest \
+</span></span><span class="line"><span class="cl">--amend your-username/multiarch-example:manifest-amd64 \
+</span></span><span class="line"><span class="cl">--amend your-username/multiarch-example:manifest-arm32v7 \
+</span></span><span class="line"><span class="cl">--amend your-username/multiarch-example:manifest-arm64v8
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># step3: 推送manifest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker manifest push your-username/multiarch-example:manifest-latest
+</span></span></code></pre></td></tr></table>
 </div>
 </div><ol start="2">
 <li>docker buildx</li>
@@ -265,11 +265,11 @@ docker manifest push your-username/multiarch-example:manifest-latest
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">  $ docker buildx build \
---push \
---platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
---tag your-username/multiarch-example:buildx-latest .
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  $ docker buildx build \
+</span></span><span class="line"><span class="cl">--push \
+</span></span><span class="line"><span class="cl">--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
+</span></span><span class="line"><span class="cl">--tag your-username/multiarch-example:buildx-latest .
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>2种方法对比，明显buildx操作更简洁，也是我们推荐的方法，下面详细讲解一下注意事项。</p>
 <h2 id="docker-buildx">Docker Buildx</h2>
@@ -294,18 +294,18 @@ docker manifest push your-username/multiarch-example:manifest-latest
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"># 配置模拟器
-docker run --privileged --rm tonistiigi/binfmt --install all
-
-# 配置buildx环境
-
-export DOCKER_CLI_EXPERIMENTAL=enabled
-docker buildx create --use --name mybuilder
-
-# 查看buildx配置
-
-docker buildx ls
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 配置模拟器
+</span></span><span class="line"><span class="cl">docker run --privileged --rm tonistiigi/binfmt --install all
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 配置buildx环境
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">export DOCKER_CLI_EXPERIMENTAL=enabled
+</span></span><span class="line"><span class="cl">docker buildx create --use --name mybuilder
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 查看buildx配置
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">docker buildx ls
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="准备makefile">准备Makefile</h3>
 <div class="highlight"><div class="chroma">
@@ -316,11 +316,11 @@ docker buildx ls
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">FROM alpine
-ARG TARGETARCH
-
-COPY /out/${TARGETARCH}/myapp /bin/
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">FROM alpine
+</span></span><span class="line"><span class="cl">ARG TARGETARCH
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">COPY /out/${TARGETARCH}/myapp /bin/
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>这里面<code>TARGETARCH</code>是关键，表示buildx传进来的架构(amd64、arm64), 可以控制构建过程。</p>
 <h3 id="build">build</h3>
@@ -332,11 +332,11 @@ COPY /out/${TARGETARCH}/myapp /bin/
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">export DOCKER_CLI_EXPERIMENTAL=enabled
-$ docker buildx build \
---push \
---platform linux/arm64,linux/amd64 --tag your-username/multiarch-example:buildx-latest .
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">export DOCKER_CLI_EXPERIMENTAL=enabled
+</span></span><span class="line"><span class="cl">$ docker buildx build \
+</span></span><span class="line"><span class="cl">--push \
+</span></span><span class="line"><span class="cl">--platform linux/arm64,linux/amd64 --tag your-username/multiarch-example:buildx-latest .
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>参考：https://www.docker.com/blog/multi-arch-build-and-images-the-simple-way/</p>
 
@@ -353,9 +353,13 @@ $ docker buildx build \
 <footer class="post-footer">
       
       <nav class="post-nav">
-        
-        <a class="next" href="/blog/2022/01/05/2021-review/">
-            <span class="next-text nav-default">2021年工作总结</span>
+        <a class="prev" href="/blog/2022/03/19/learn-rust/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Rust初体验</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2022/02/13/2021-chunjie/">
+            <span class="next-text nav-default">21年春节杂记</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -409,7 +413,7 @@ $ docker buildx build \
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
 
 
 <script type="application/javascript">
