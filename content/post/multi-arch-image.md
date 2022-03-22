@@ -111,7 +111,7 @@ docker buildx create --use --name mybuilder
 docker buildx ls
 ```
 
-### 准备Makefile
+### 准备Dockerfile
 
 ```txt
 FROM alpine
