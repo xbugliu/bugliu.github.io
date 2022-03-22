@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Rust初体验 - 书写|记下人生痕迹</title>
+  <title>Kubernetes三种探针的使用场景 - 书写|记下人生痕迹</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="bugliu" /><meta name="description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+<meta name="author" content="bugliu" /><meta name="description" content="Liveness Probe Liveness最好理解，是保活探针。如果发现容器僵死（如：死锁、死循环）则Kill掉容器，达到重启容器的效果。Liveness会在整个" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.95.0 with theme even" />
 
 
-<link rel="canonical" href="http://towriting.com/blog/2022/03/19/learn-rust/" />
+<link rel="canonical" href="http://towriting.com/blog/2022/03/22/k8s-probe/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Rust初体验" />
-<meta property="og:description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze" />
+<meta property="og:title" content="Kubernetes三种探针的使用场景" />
+<meta property="og:description" content="Liveness Probe Liveness最好理解，是保活探针。如果发现容器僵死（如：死锁、死循环）则Kill掉容器，达到重启容器的效果。Liveness会在整个" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://towriting.com/blog/2022/03/19/learn-rust/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-03-19T19:55:14+08:00" />
-<meta property="article:modified_time" content="2022-03-19T19:55:14+08:00" />
+<meta property="og:url" content="http://towriting.com/blog/2022/03/22/k8s-probe/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-03-22T18:34:25+08:00" />
+<meta property="article:modified_time" content="2022-03-22T18:34:25+08:00" />
 
-<meta itemprop="name" content="Rust初体验">
-<meta itemprop="description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze"><meta itemprop="datePublished" content="2022-03-19T19:55:14+08:00" />
-<meta itemprop="dateModified" content="2022-03-19T19:55:14+08:00" />
-<meta itemprop="wordCount" content="1062">
+<meta itemprop="name" content="Kubernetes三种探针的使用场景">
+<meta itemprop="description" content="Liveness Probe Liveness最好理解，是保活探针。如果发现容器僵死（如：死锁、死循环）则Kill掉容器，达到重启容器的效果。Liveness会在整个"><meta itemprop="datePublished" content="2022-03-22T18:34:25+08:00" />
+<meta itemprop="dateModified" content="2022-03-22T18:34:25+08:00" />
+<meta itemprop="wordCount" content="631">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Rust初体验"/>
-<meta name="twitter:description" content="这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze"/>
+<meta name="twitter:title" content="Kubernetes三种探针的使用场景"/>
+<meta name="twitter:description" content="Liveness Probe Liveness最好理解，是保活探针。如果发现容器僵死（如：死锁、死循环）则Kill掉容器，达到重启容器的效果。Liveness会在整个"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -115,13 +115,13 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Rust初体验</h1>
+      <h1 class="post-title">Kubernetes三种探针的使用场景</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-03-19 </span>
+        <span class="post-time"> 2022-03-22 </span>
         
-          <span class="more-meta"> 1062 words </span>
-          <span class="more-meta"> 3 mins read </span>
+          <span class="more-meta"> 631 words </span>
+          <span class="more-meta"> 2 mins read </span>
         
       </div>
     </header>
@@ -133,66 +133,25 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#工具链">工具链</a></li>
-        <li><a href="#str和string">&amp;str和String</a></li>
-        <li><a href="#异常处理resultt-error">异常处理Result&lt;T, Error&gt;</a></li>
-        <li><a href="#derive">derive</a></li>
-        <li><a href="#宏函数">宏函数</a></li>
-        <li><a href="#异步asyncawait">异步async、await</a></li>
-        <li><a href="#库">库</a></li>
-        <li><a href="#rust-build">rust-build</a></li>
+        <li><a href="#liveness-probe">Liveness Probe</a></li>
+        <li><a href="#readiness-probe">Readiness Probe</a></li>
+        <li><a href="#startup-probe">Startup Probe</a></li>
       </ul>
     </li>
-    <li><a href="#结论">结论</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <p>这两天用Rust写了一个通过Gitee拉取Github仓库的工具<a href="https://github.com/xbugliu/rusgit">Rusgit</a>，初步了解了Rust的一些特性。</p>
-<ul>
-<li>工具链：rust-analyzer, cargo等</li>
-<li>一些内置类型，&amp;str和String</li>
-<li>异常处理机制 Result<T></li>
-<li>继承 #derive</li>
-<li>宏 print!</li>
-<li>异步async、await和tokio</li>
-<li>命令行解析 clap</li>
-<li>http请求 hyper</li>
-<li>json反序列化 serde</li>
-<li>文件读写 std::io</li>
-<li>启动进程 std::process</li>
-<li>交叉构建 rust-build.action</li>
-</ul>
-<h2 id="工具链">工具链</h2>
-<ul>
-<li>rust-analyzer是vscode下面的一个rust插件，补全、跳转、语法高亮、错误检测、智能提示。</li>
-<li>cargo负责包管理和编译。</li>
-</ul>
-<p>整体使用顺畅，但涉及&quot;Updating crates.io&quot;时会有卡顿，是网络问题，可以通过更改国内的源来规避。</p>
-<h2 id="str和string">&amp;str和String</h2>
-<ul>
-<li>str是内置类型，&amp;str在Rust中是borrow，类似于指向字符串字面量（string literal）或者String的一个指针，是只读的。</li>
-<li>String是一个类。String的内存是分配在堆上的。</li>
-</ul>
-<h2 id="异常处理resultt-error">异常处理Result&lt;T, Error&gt;</h2>
-<p>Rust的异常处理很特殊，不同于C++里面的返回错误码或者捕获异常，使用一个Result的枚举，成功则返回结果T, 失败返回Error。看起来和Golang里面返回多值一样，但实际用起来还是有很大不同。异常可以通过<code>?</code>传递的特性，减少了出错时的异常判断，还有可以用except\unwrap来处理非正常逻辑，都是其方便之处。但假如异常类型不匹配则需要写match，又稍显繁琐。</p>
-<h2 id="derive">derive</h2>
-<p>使用#derive来标记继承，enum和struct都可以derive。</p>
-<h2 id="宏函数">宏函数</h2>
-<p>print!、write!等带<code>!</code>的都是宏函数。print!作为宏函数的优势：1. 避免了print变量时lifetime问题 2. 编译时format和参数检查，避免了C++中不匹配导致的内存溢出问题。</p>
-<h2 id="异步asyncawait">异步async、await</h2>
-<p>async可以标记一个函数为异步函数，await或者join使async函数执行。这些是Rust官方提供的关键字和函数。而tokio是社区的异步框架，来驱动async函数的运行。有一定的侵入性。</p>
-<h2 id="库">库</h2>
-<p>官方的库和三方库都有很多，结合cargo包管理，方便。</p>
-<h2 id="rust-build">rust-build</h2>
-<p>构建速度目前代码很小，没有明显的慢。跨平台交叉构建，没有Golang方便，需要自行安装toolchain。musl静态编译的版本好像用的多。RusGit在Windows正常执行，Linux下竟然Crash了，定位到openssl在musl下冲突，需要static link。</p>
-<h1 id="结论">结论</h1>
-<p>设计新颖，安全性高，会持续关注和学习。</p>
-<p>参考：</p>
-<ol>
-<li><a href="https://stackoverflow.com/questions/67509637/what-benefits-are-there-with-making-println-a-macro">what-benefits-are-there-with-making-println-a-macro</a></li>
-</ol>
+      <h2 id="liveness-probe">Liveness Probe</h2>
+<p>Liveness最好理解，是保活探针。如果发现容器僵死（如：死锁、死循环）则Kill掉容器，达到重启容器的效果。Liveness会在整个Pod生命期检测（先不考虑StartupProbe）。</p>
+<h2 id="readiness-probe">Readiness Probe</h2>
+<p>Readiness也好理解，是就绪探针。如果发现容器当前不可用（如：负载高、下游Pod不可用），则设置容器的状态为未就绪，这样新的请求就不会触达。Readiness也会在整个Pod生命期检测，而不是部分人理解的只在启动时检测。</p>
+<p>Readiness是温和的，给容器机会，直到它改正。Liveness是暴力的，一旦发现容器出问题，则立即Kill。另外Liveness和Readiness是没有依赖关系的。</p>
+<h2 id="startup-probe">Startup Probe</h2>
+<p>Startup是k8s 1.16引入的新特性。Startup的使用场景是什么呢？</p>
+<p>试想有一个存储Server, 加载数据是耗时操作，初始数据小，1秒可完成，数据大后要数分钟。在没有Startup之前，要给Liveness一个较大的initialDelaySeconds，否则Loading时会Kill容器。但一个较大的initialDelaySeconds对小数据量又不太友好。Startup即是解决这个问题的，配置了Startup Probe, 则Startup未就绪前不会触发Liveness和Readiness。Starup就绪后，Liveness和Readiness才会接手。</p>
+<p>所以Startup的使用场景是启动时间不稳定或启动耗时较长时。若非此场景则不必配置Startup。</p>
 
     </div>
 
@@ -207,13 +166,9 @@
 <footer class="post-footer">
       
       <nav class="post-nav">
-        <a class="prev" href="/blog/2022/03/22/k8s-probe/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Kubernetes三种探针的使用场景</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/2022/03/01/multi-arch-image/">
-            <span class="next-text nav-default">多架构镜像的构建</span>
+        
+        <a class="next" href="/blog/2022/03/19/learn-rust/">
+            <span class="next-text nav-default">Rust初体验</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
