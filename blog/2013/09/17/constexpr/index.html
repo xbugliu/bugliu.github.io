@@ -49,7 +49,7 @@
 <meta itemprop="name" content="C&#43;&#43;11系列-常量表达式">
 <meta itemprop="description" content="如何使用constexpr编写编译时常量函数"><meta itemprop="datePublished" content="2013-09-17T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-09-17T00:00:00+00:00" />
-<meta itemprop="wordCount" content="2129">
+<meta itemprop="wordCount" content="2123">
 <meta itemprop="keywords" content="C&#43;&#43;11,constexpr,常量表达式," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;11系列-常量表达式"/>
 <meta name="twitter:description" content="如何使用constexpr编写编译时常量函数"/>
@@ -122,7 +122,7 @@
         <div class="post-category">
             <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
             </div>
-          <span class="more-meta"> 2129 words </span>
+          <span class="more-meta"> 2123 words </span>
           <span class="more-meta"> 5 mins read </span>
         
       </div>
@@ -142,7 +142,10 @@
         </li>
         <li><a href="#constexpr函数的限制">constexpr函数的限制</a></li>
         <li><a href="#constexpr和运行时">constexpr和运行时</a></li>
+        <li><a href="#编译时使用对象">编译时使用对象</a></li>
         <li><a href="#constexpr-vs-const">constexpr vs const</a></li>
+        <li><a href="#constexpr和浮点数">constexpr和浮点数</a></li>
+        <li><a href="#权衡constexpr">权衡constexpr</a></li>
         <li><a href="#编译器支持">编译器支持</a></li>
       </ul>
     </li>
@@ -234,8 +237,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>这意味着你不需要分别写运行时和编译时的函数。</p>
-<p>##编译时使用对象
-假如你有一个Circle类：</p>
+<h2 id="编译时使用对象">编译时使用对象</h2>
+<p>假如你有一个Circle类：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -313,11 +316,11 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="constexpr-vs-const">constexpr vs const</h2>
-<p>假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。
-##constexpr和浮点数
-到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。
-##权衡constexpr
-C++开发者早就深受修改一个头文件则引发重新编译导致编译缓慢的困扰。而constexpr可能引入增加编译时间的风险，但也有一些技术去降低这种风险。首先，因为constexpr函数相同的参数会输出相同的结果，所以它们可以被<a href="http://en.wikipedia.org/wiki/Memoization">memoized</a>，事实上GCC已经支持memoization。</p>
+<p>假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。</p>
+<h2 id="constexpr和浮点数">constexpr和浮点数</h2>
+<p>到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。</p>
+<h2 id="权衡constexpr">权衡constexpr</h2>
+<p>C++开发者早就深受修改一个头文件则引发重新编译导致编译缓慢的困扰。而constexpr可能引入增加编译时间的风险，但也有一些技术去降低这种风险。首先，因为constexpr函数相同的参数会输出相同的结果，所以它们可以被<a href="http://en.wikipedia.org/wiki/Memoization">memoized</a>，事实上GCC已经支持memoization。</p>
 <p>因为可以对constexpr函数memoize,所以用constexpr函数替换模板函数的地方，(编译）性能不会变得更坏，但代码会变得清晰。事实上，替换掉一部分模板实例，编译会显著加快。</p>
 <p>最后，标准允许编译器去限制递归函数的级数。这样可以限制深度递归的编译性能损耗。</p>
 <h2 id="编译器支持">编译器支持</h2>

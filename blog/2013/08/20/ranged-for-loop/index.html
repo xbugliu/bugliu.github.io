@@ -49,7 +49,7 @@
 <meta itemprop="name" content="C&#43;&#43;11系列-区间迭代">
 <meta itemprop="description" content="本文详细讲解了C&#43;&#43;11中ranged for loop的用法"><meta itemprop="datePublished" content="2013-08-20T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2013-08-20T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1493">
+<meta itemprop="wordCount" content="1489">
 <meta itemprop="keywords" content="C&#43;&#43;,for,C&#43;&#43;11,算法,for_each," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="C&#43;&#43;11系列-区间迭代"/>
 <meta name="twitter:description" content="本文详细讲解了C&#43;&#43;11中ranged for loop的用法"/>
@@ -120,7 +120,7 @@
       <div class="post-meta">
         <span class="post-time"> 2013-08-20 </span>
         
-          <span class="more-meta"> 1493 words </span>
+          <span class="more-meta"> 1489 words </span>
           <span class="more-meta"> 3 mins read </span>
         
       </div>
@@ -133,8 +133,10 @@
   <ul>
     <li>
       <ul>
+        <li><a href="#区间迭代的基本语法">区间迭代的基本语法</a></li>
         <li><a href="#修改vector的值">修改vector的值</a></li>
         <li><a href="#区间意味着什么">区间意味着什么？</a></li>
+        <li><a href="#区间迭代提升性能">区间迭代提升性能？</a></li>
         <li><a href="#编译器支持">编译器支持</a></li>
       </ul>
     </li>
@@ -143,9 +145,9 @@
   </div>
 </div>
     <div class="post-content">
-      <p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。
-##区间迭代的基本语法
-近来，基本上所有现代编程语言都有一种对一个区间写for循环的便捷方式。最终，C++也有了相同的概念；你可以给循环提供一个容器，它帮你迭代。前面我们已经在<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a>中看到了一些简单的例子。让我们回忆一下区间迭代的样子：</p>
+      <p>在我前面<a href="/blog/2013/08/01/what-is-cpp11/">介绍C++11</a>的文章中，我提到C++11将会带来一些实用的改进。我的意思是它将移除一些不必要的打字和其它影响快速编码的壁垒。我前面讲过的<a href="/blog/2013/08/08/improved-type-inference-in-cpp11/">auto关键字</a>就是一个例子；现在我想讲一下区间迭代（range-based for loop）。</p>
+<h2 id="区间迭代的基本语法">区间迭代的基本语法</h2>
+<p>近来，基本上所有现代编程语言都有一种对一个区间写for循环的便捷方式。最终，C++也有了相同的概念；你可以给循环提供一个容器，它帮你迭代。前面我们已经在<a href="/blog/2013/08/01/what-is-cpp11/">什么是C++11</a>中看到了一些简单的例子。让我们回忆一下区间迭代的样子：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -394,9 +396,9 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>注意这段代码中区间迭代时，不允许以引用修改IntVector中的元素。这是为了不使代码变长而影响代码的主要结构，所以并没添加返回引用类型的函数。
-##区间迭代提升性能？
-在我使用GCC4.6的有限的测试中，我并没看到区间迭代相对于标准STL迭代的性能提升，但好像可以和STL中的for_each拥有同样的性能。</p>
+</div><p>注意这段代码中区间迭代时，不允许以引用修改IntVector中的元素。这是为了不使代码变长而影响代码的主要结构，所以并没添加返回引用类型的函数。</p>
+<h2 id="区间迭代提升性能">区间迭代提升性能？</h2>
+<p>在我使用GCC4.6的有限的测试中，我并没看到区间迭代相对于标准STL迭代的性能提升，但好像可以和STL中的for_each拥有同样的性能。</p>
 <h2 id="编译器支持">编译器支持</h2>
 <p>不幸的是，区间迭代的编译器支持的不好。MSVC11以后开始支持，GCC是4.6以后支持。</p>
 <p>下一篇：<a href="/blog/2013/09/17/constexpr/">常量表达式</a></p>
