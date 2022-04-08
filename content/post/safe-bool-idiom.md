@@ -9,7 +9,7 @@ description = "C++惯用法safe bool与C++11中的显式操作符简介"
 > C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：[More C++ Idioms](http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms)，虽凝聚了C++程序员的聪明才智，但都是特定时期的产物，
 相信都会被冲到C++语言演化长河的河滩上，仅供后人瞻仰（或者是C++本身）。让我们从Safe bool idiom说起。
 
-##Safe bool idiom
+## Safe bool idiom
 什么是safe bool idiom？就是为自定义类型（class）提供检测真假的能力，而又不会带来副作用。
 
 ### 为类(Class)提供检测真假的能力
@@ -140,7 +140,7 @@ int main()
 这就是safe bool Idiom，详细的代码可以参看这里：[More C++ Idioms/Safe bool](http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/)。
 但我认为这个方案是顾此失彼，会引发新的问题，比如类中重载operator int操作符怎么办？
 
-##C++11的做法
+## C++11的做法
 C++11的基因支持safe bool，方法就是使用[explicit](http://en.cppreference.com/w/cpp/language/explicit)修饰operator：
 ```cpp
 struct Testable
@@ -160,7 +160,7 @@ int main()
 **explicit** 在C++11以前是只能用于修饰构造函数，但在C++11中可以用来修饰操作符，上面代码中的operator bool（）加上**explicit**表式其无法隐式转化为bool。
 这个解决方案，干净漂亮，无副作用。
 
-##总结
+## 总结
 C++11前后的两种Safe Bool的解决方案比较，优劣立现。站在实用的角度上，C++11出现后，C++中好多“高端技术”已经不需要学习，比如StackOver上列出的这些：[what C++ idioms are deprecated in C++11](http://stackoverflow.com/questions/9299101/what-c-idioms-are-deprecated-in-c11)。这些东西就像毛笔字一样，可以仅供专家与爱好者把玩了。
 
 

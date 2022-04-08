@@ -61,7 +61,7 @@ factorial( n );
 ```
 这意味着你不需要分别写运行时和编译时的函数。
 
-##编译时使用对象
+## 编译时使用对象
 假如你有一个Circle类：
 ```cpp
 class Circle
@@ -101,9 +101,9 @@ class Circle
 ```
 ## constexpr vs const
 假如你将一个成员函数标记为constexpr，则顺带也将它标记为了const。如果你将一个变量标记为constexpr，则同样它是const的。但相反并不成立，一个const的变量或函数，并不是constexpr的。
-##constexpr和浮点数
+## constexpr和浮点数
 到这里我们讲到的constexpr功能都可以通过模板元编程实现。但constexpr支持的一项能力是可以计算浮点型的数据。因为double和float不是有效的模板参数，你不可以轻易的通过模板编译期计算浮点数的值。而constexpr允许编译期计算浮点型数据。
-##权衡constexpr
+## 权衡constexpr
 C++开发者早就深受修改一个头文件则引发重新编译导致编译缓慢的困扰。而constexpr可能引入增加编译时间的风险，但也有一些技术去降低这种风险。首先，因为constexpr函数相同的参数会输出相同的结果，所以它们可以被[memoized][1]，事实上GCC已经支持memoization。
 
 因为可以对constexpr函数memoize,所以用constexpr函数替换模板函数的地方，(编译）性能不会变得更坏，但代码会变得清晰。事实上，替换掉一部分模板实例，编译会显著加快。
