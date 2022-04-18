@@ -1,7 +1,7 @@
 ---
-title: "读《Rust in Action》"
+title: "《Rust in Action》读书笔记"
 date: 2022-04-11T11:49:51+08:00
-draft: true
+draft: false
 ---
 
 # Ch1: Rust介绍
@@ -264,4 +264,51 @@ fn main() {
 1. 使用引用的方式传递参数
 2. 变量使用更小的生命周期
 3. 副本，对一些小对象可以复制一份新的数据。可以用Copy或者Clone trait, 区别是Copy是隐式的，Clone是显式调用。实现了Copy后，原理move的地方会变成Copy语义。
-4. 使用Rc包装
+4. 使用Rc包装, Rc<T>类似于C++里面的shared_ptr。
+
+# ch5 深入数据
+
+同样的数据，可以有不同的解释，比如`let a: f32 = 42.42;`, 如果把a的内存强转为u32则它的值是`1110027796`。rust中的unsafe代码std::mem::transmute可以做这个转换。
+
+整形是精确表达数值的，所以定长的整形有范围限制，超出则会溢出，Rust会在溢出时报错。
+
+## 大小端
+
+> When a value larger than byte is stored or serialized into multiple bytes, the choice of the order in which the component bytes are stored is called byte order, or endian, or endianness.
+
+大小端，又叫做字节序，是字节的一种排列方式。和字节内的bit顺序无关。一般只有整形和浮点型受字节序影响，字符串属于单字节的数组不受字节序影响。
+
+## 浮点数
+
+用定长的字节表示任意范围的小数，所以浮点数是不精确的。是用`sign * m * pow(2, e)`的形式表达的sign是符号，m表示尾数(mantissa), e表示幂次方(exponent)。
+
+各种浮点数的标准，是约定了sign, m和e三部分的分配和取值方式。
+
+## CPU的指令也是数据
+
+#ch6 内存
+
+## Cow
+
+写时复制的智能指针。
+
+## 指针
+
+可以从一个引用中强制获取指针。指针的解引用必须在unsafe中进行。
+```
+    let a: i64 = 42;
+    let a_ptr = &a as *const i64; 
+    println!("a: {} ({:p})", a, a_ptr);
+    unsafe {
+        println!("p val: {} ", *a_ptr);
+    } 
+```
+
+## 智能指针
+
+C++中的智能指针的作用主要是管理裸指针，防止资源泄露。而Rust中的智能指针主要有2个作用：
+
+```
+    let a = std::rc::Rc::new(3); // 内存在堆上分配
+    let b = std::boxed::Box::new(3); // 可以有多个owner
+```
