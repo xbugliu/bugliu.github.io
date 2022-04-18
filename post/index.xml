@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2021</copyright>
-    <lastBuildDate>Tue, 22 Mar 2022 18:34:25 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 11 Apr 2022 11:49:51 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>《Rust in Action》读书笔记</title>
+      <link>http://towriting.com/blog/2022/04/11/rust-in-action/</link>
+      <pubDate>Mon, 11 Apr 2022 11:49:51 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/04/11/rust-in-action/</guid>
+      <description>Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了</description>
+    </item>
+    
     <item>
       <title>Kubernetes三种探针的使用场景</title>
       <link>http://towriting.com/blog/2022/03/22/k8s-probe/</link>
@@ -24,6 +33,15 @@
       
       <guid>http://towriting.com/blog/2022/03/19/learn-rust/</guid>
       <description>这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze</description>
+    </item>
+    
+    <item>
+      <title>Prometheus监控系统总结</title>
+      <link>http://towriting.com/blog/2022/03/13/prometheus/</link>
+      <pubDate>Sun, 13 Mar 2022 19:06:07 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/03/13/prometheus/</guid>
+      <description>监控的两要素： 查看系统当前(历史)的运行情况 系统异常时给出告警 通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目</description>
     </item>
     
     <item>

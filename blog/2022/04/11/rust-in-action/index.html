@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《Rust in Action》读书笔记 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2022/04/11/rust-in-action/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《Rust in Action》读书笔记" />
+<meta property="og:description" content="Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2022/04/11/rust-in-action/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-04-11T11:49:51+08:00" />
+<meta property="article:modified_time" content="2022-04-11T11:49:51+08:00" />
+
+<meta itemprop="name" content="《Rust in Action》读书笔记">
+<meta itemprop="description" content="Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了"><meta itemprop="datePublished" content="2022-04-11T11:49:51+08:00" />
+<meta itemprop="dateModified" content="2022-04-11T11:49:51+08:00" />
+<meta itemprop="wordCount" content="2520">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《Rust in Action》读书笔记"/>
+<meta name="twitter:description" content="Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《Rust in Action》读书笔记</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-04-11 </span>
+        
+          <span class="more-meta"> 2520 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#ch1-rust介绍">Ch1: Rust介绍</a>
+      <ul>
+        <li><a href="#rust的安全性">rust的安全性</a></li>
+        <li><a href="#灵活性">灵活性</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch2-语言基础">ch2 语言基础</a>
+      <ul>
+        <li><a href="#显式生命周期">显式生命周期</a></li>
+        <li><a href="#泛型">泛型</a></li>
+        <li><a href="#数组">数组</a></li>
+        <li><a href="#vector">Vector</a></li>
+        <li><a href="#切片">切片</a></li>
+        <li><a href="#三方库">三方库</a></li>
+        <li><a href="#rustup">rustup</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch3-复合结构">ch3 复合结构</a>
+      <ul>
+        <li><a href="#特殊的返回类型">特殊的返回类型</a></li>
+        <li><a href="#结构体">结构体</a></li>
+        <li><a href="#枚举">枚举</a></li>
+        <li><a href="#trait">trait</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch4-生命周期">ch4 生命周期</a>
+      <ul>
+        <li><a href="#术语">术语：</a></li>
+        <li><a href="#移动语义">移动语义</a></li>
+        <li><a href="#析构">析构</a></li>
+        <li><a href="#解决所有者的问题">解决所有者的问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch5-深入数据">ch5 深入数据</a>
+      <ul>
+        <li><a href="#大小端">大小端</a></li>
+        <li><a href="#浮点数">浮点数</a></li>
+        <li><a href="#cpu的指令也是数据">CPU的指令也是数据</a></li>
+        <li><a href="#cow">Cow</a></li>
+        <li><a href="#指针">指针</a></li>
+        <li><a href="#智能指针">智能指针</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="ch1-rust介绍">Ch1: Rust介绍</h1>
+<h2 id="rust的安全性">rust的安全性</h2>
+<p>rust程序员无需关心：</p>
+<ul>
+<li>悬挂指针</li>
+<li>数据竞争</li>
+<li>内存溢出</li>
+<li>迭代器失效</li>
+<li>整形溢出(debug模式)</li>
+</ul>
+<p>这些都是编译时保证的，除了安全还会带来额外的优势，比如如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fn for_each(v: &amp;Vec&lt;T&gt;) {
+</span></span><span class="line"><span class="cl">     for item in 0..v.len() {
+</span></span><span class="line"><span class="cl">        work(v[things]);
+</span></span><span class="line"><span class="cl">     }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为<code>v</code>是Vec<T>的只读引用，所以在for..in循环中，无需进行运行时的边界判断。</p>
+<h2 id="灵活性">灵活性</h2>
+<p>Rust可以灵活的控制内存访问和内存布局，如下面例子：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">use std::rc::Rc;
+</span></span><span class="line"><span class="cl">use std::sync::{Arc, Mutex};
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fn main() {
+</span></span><span class="line"><span class="cl">    let a = 10; // 内存在栈上
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    let b = Box::new(20); // 在堆上，只有一个owner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    let c = Rc::new(Box::new(30)); // 在堆上，多owner
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    let d = Arc::new(Mutex::new(40)); // 在堆上，多owner, 可多线程访问
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    println!(&#34;a: {:?}, b: {:?}, c: {:?}, d: {:?}&#34;, a, b, c, d);
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>灵活性的同时，切记Rust的三个原则：</p>
+<ol>
+<li>数据默认是只读的</li>
+<li>安全是核心</li>
+<li>安全基本上是编译时保证，不引入运行时开销</li>
+</ol>
+<h1 id="ch2-语言基础">ch2 语言基础</h1>
+<h2 id="显式生命周期">显式生命周期</h2>
+<p>所有对象都有生命周期，这是Rust的安全检查系统的一个基石，有生命周期才保证所有对象的访问是有效的。一般无需手工指定生命周期，编译器可以自行推导，但在返回引用的函数中，需要显式指定生命周期，辅助编译器来决策访问的安全性。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">test</span><span class="o">&lt;&#39;</span><span class="na">a</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span>: <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="n">j</span>: <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt;  <span class="kp">&amp;</span><span class="o">&#39;</span><span class="na">a</span> <span class="kt">i32</span> <span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">i</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">j</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>同一个生命周期下的所有对象，必须保证在最后一次访问的时候都是有效的。</p>
+<h2 id="泛型">泛型</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fn add&lt;T&gt;(i: T, j: T) -&gt; T { 
+</span></span><span class="line"><span class="cl"> i + j
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面定义了一个可以接受任意类型T的add函数，和C++里面的template类似，但遗憾的是上面的代码并不会报错：<code> consider restricting type parameter T</code>。
+需要显示约定T支持<code>+</code>操作。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fn add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(i: T, j: T) -&gt; T {
+</span></span><span class="line"><span class="cl"> i + j
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样带来和C++模板方法不一样的设计，C++中会特化函数时检测T是否支持<code>+</code>，若不满足则报错，这相当于把问题抛给了调用方，调用方需要深入模板方法的源码探索编译失败的原因。而Rust是在定义泛型函数时检查合法性，要求限制T的范围，调用方无需关注实现细节。</p>
+<p><code>std::ops::Add</code>是Rust里面的操作符，是一种Trait, 可以类比其他语言里面的接口。</p>
+<h2 id="数组">数组</h2>
+<p>Array是定长的同类变量的集合，有2种定义方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    let a1 = [1, 2, 3]; // 里面包含1, 2, 3三个数
+</span></span><span class="line"><span class="cl">    let a2 = [1; 10];  // 里面包含10个1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>有以下注意事项：</p>
+<ol>
+<li>[T; n]是数组的类型，长度n作为类型的一部分。所以[i32, 1]和[i32, 2]不是一个类型。</li>
+<li>数组的索引取值是有运行时区间检查的。</li>
+</ol>
+<h2 id="vector">Vector</h2>
+<p>Vec<T>是变长的容器，比Array更灵活。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    let v1: Vec&lt;i32&gt; = Vec::with_capacity(5); // 预留size 5
+</span></span><span class="line"><span class="cl">    let mut v2 : Vec&lt;i32&gt; = Vec::new(); // 分配一个空的vec
+</span></span><span class="line"><span class="cl">    v2.push(3); // 插入元素
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="切片">切片</h2>
+<p>Slice是Array、Vector、String的视图，由一个指针和长度来表示。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    let a = [1, 2, 3];
+</span></span><span class="line"><span class="cl">    let s = &amp;a[1..2];
+</span></span><span class="line"><span class="cl">    print!(&#34;len of slice={}&#34;, s.len()); // len of slice=1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="三方库">三方库</h2>
+<p>crate是Rust中三方库的术语，类比于其他语言的package, library。</p>
+<h2 id="rustup">rustup</h2>
+<p>rustup可以用来切换编译器的版本，或者rustup doc查看文档。</p>
+<h1 id="ch3-复合结构">ch3 复合结构</h1>
+<h2 id="特殊的返回类型">特殊的返回类型</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fn no_return() { // 没有返回值
+</span></span><span class="line"><span class="cl">    print!(&#34;no return&#34;);
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fn no_return_explicit() -&gt; () { // 显式定义没有返回值
+</span></span><span class="line"><span class="cl">    print!(&#34;no return&#34;);
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fn infinite() -&gt; ! { // 返回&#39;Never&#39;结果，表示函数总也不会返回
+</span></span><span class="line"><span class="cl">    loop {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="结构体">结构体</h2>
+<p>结构体是一种可以包含多个成员的复合机构，不支持继承。没有构造函数，约定通过new创建一个新的结构体实例。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">HostName</span><span class="p">(</span><span class="nb">String</span><span class="p">);</span><span class="w"> </span><span class="c1">// newtype, 给String起了一个新名字
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="nc">File</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 结构体
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="n">name</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">data</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">impl</span><span class="w"> </span><span class="n">File</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 结构体的实现部分
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">name</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">File</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">File</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">name</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="n">name</span><span class="p">),</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">data</span>: <span class="nb">Vec</span>::<span class="n">new</span><span class="p">(),</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"> </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">ordinary_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;baidu.com&#34;</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HostName</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">ordinary_string</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span><span class="w"> </span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">name</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&#34;text.txt&#34;</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">data</span>: <span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="mi">1</span><span class="p">]};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="枚举">枚举</h2>
+<p>enum是一种包含多个已知变量的符合类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">enum Suit {
+</span></span><span class="line"><span class="cl"> Clubs,
+</span></span><span class="line"><span class="cl"> Spades,
+</span></span><span class="line"><span class="cl"> Diamonds,
+</span></span><span class="line"><span class="cl"> Hearts,
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>enum相较于C++的enum更强大：</p>
+<ol>
+<li>可以通过match匹配</li>
+<li>支持impl定义方法</li>
+<li>枚举值还可以包含变量</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">enum Card {
+</span></span><span class="line"><span class="cl"> King(Suit), 
+</span></span><span class="line"><span class="cl"> Queen(Suit), 
+</span></span><span class="line"><span class="cl"> Jack(Suit), 
+</span></span><span class="line"><span class="cl"> Ace(Suit), 
+</span></span><span class="line"><span class="cl"> Pip(Suit, usize), 
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="trait">trait</h2>
+<p>#[derive(Debug)]是一个宏，给Type引入了Debug的Trait。可以通过impl for来为Type实现Trait。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">impl Read for File { 
+</span></span><span class="line"><span class="cl">    fn read(self: &amp;File, save_to: &amp;mut Vec&lt;u8&gt;) -&gt; Result&lt;usize, String&gt; {
+</span></span><span class="line"><span class="cl">        Ok(0) 
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="ch4-生命周期">ch4 生命周期</h1>
+<h2 id="术语">术语：</h2>
+<ul>
+<li>ownership
+所有变量都有唯一的所有者，当变量不在使用的时候，会触发资源回收。</li>
+<li>lifetime
+在变量的生命周期内访问变量是合法的。函数内局部变量在函数返回后失效。全局变量的生命周期和程序一致。</li>
+<li>borrow
+借用指的是获取了变量的访问权限。虽然一个变量有唯一的owner, 但是可以有多个借用者。</li>
+</ul>
+<h2 id="移动语义">移动语义</h2>
+<p>内置类型总是Copy语意，其他默认总是移动语意:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">fn test_int_fun(i: i32) {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fn test_string_fun(i: String) {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">fn main() {
+</span></span><span class="line"><span class="cl">    let s1 = String::from(&#34;test&#34;);
+</span></span><span class="line"><span class="cl">    test_string_fun(s1);
+</span></span><span class="line"><span class="cl">    print!(&#34;s1{}&#34;, s1); // s1失效，已经被move到test_string_fun
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    let i1 = 10;
+</span></span><span class="line"><span class="cl">    test_int_fun(i1);
+</span></span><span class="line"><span class="cl">    print!(&#34;i1{}&#34;, i1); // i1正常
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>移动发生的2个时机：</p>
+<ol>
+<li>赋值</li>
+<li>作为函数的参数或者返回值</li>
+</ol>
+<h2 id="析构">析构</h2>
+<p>可以实现drop(&amp;mut self)，来做一些清理的事情。</p>
+<h2 id="解决所有者的问题">解决所有者的问题</h2>
+<ol>
+<li>使用引用的方式传递参数</li>
+<li>变量使用更小的生命周期</li>
+<li>副本，对一些小对象可以复制一份新的数据。可以用Copy或者Clone trait, 区别是Copy是隐式的，Clone是显式调用。实现了Copy后，原理move的地方会变成Copy语义。</li>
+<li>使用Rc包装, Rc<T>类似于C++里面的shared_ptr。</li>
+</ol>
+<h1 id="ch5-深入数据">ch5 深入数据</h1>
+<p>同样的数据，可以有不同的解释，比如<code>let a: f32 = 42.42;</code>, 如果把a的内存强转为u32则它的值是<code>1110027796</code>。rust中的unsafe代码std::mem::transmute可以做这个转换。</p>
+<p>整形是精确表达数值的，所以定长的整形有范围限制，超出则会溢出，Rust会在溢出时报错。</p>
+<h2 id="大小端">大小端</h2>
+<blockquote>
+<p>When a value larger than byte is stored or serialized into multiple bytes, the choice of the order in which the component bytes are stored is called byte order, or endian, or endianness.</p>
+</blockquote>
+<p>大小端，又叫做字节序，是字节的一种排列方式。和字节内的bit顺序无关。一般只有整形和浮点型受字节序影响，字符串属于单字节的数组不受字节序影响。</p>
+<h2 id="浮点数">浮点数</h2>
+<p>用定长的字节表示任意范围的小数，所以浮点数是不精确的。是用<code>sign * m * pow(2, e)</code>的形式表达的sign是符号，m表示尾数(mantissa), e表示幂次方(exponent)。</p>
+<p>各种浮点数的标准，是约定了sign, m和e三部分的分配和取值方式。</p>
+<h2 id="cpu的指令也是数据">CPU的指令也是数据</h2>
+<p>#ch6 内存</p>
+<h2 id="cow">Cow</h2>
+<p>写时复制的智能指针。</p>
+<h2 id="指针">指针</h2>
+<p>可以从一个引用中强制获取指针。指针的解引用必须在unsafe中进行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    let a: i64 = 42;
+</span></span><span class="line"><span class="cl">    let a_ptr = &amp;a as *const i64; 
+</span></span><span class="line"><span class="cl">    println!(&#34;a: {} ({:p})&#34;, a, a_ptr);
+</span></span><span class="line"><span class="cl">    unsafe {
+</span></span><span class="line"><span class="cl">        println!(&#34;p val: {} &#34;, *a_ptr);
+</span></span><span class="line"><span class="cl">    } 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="智能指针">智能指针</h2>
+<p>C++中的智能指针的作用主要是管理裸指针，防止资源泄露。而Rust中的智能指针主要有2个作用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    let a = std::rc::Rc::new(3); // 内存在堆上分配
+</span></span><span class="line"><span class="cl">    let b = std::boxed::Box::new(3); // 可以有多个owner
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/blog/2022/03/22/k8s-probe/">
+            <span class="next-text nav-default">Kubernetes三种探针的使用场景</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2021</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

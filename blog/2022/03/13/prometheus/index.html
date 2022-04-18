@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Prometheus监控系统总结 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="监控的两要素： 查看系统当前(历史)的运行情况 系统异常时给出告警 通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2022/03/13/prometheus/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Prometheus监控系统总结" />
+<meta property="og:description" content="监控的两要素： 查看系统当前(历史)的运行情况 系统异常时给出告警 通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2022/03/13/prometheus/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-03-13T19:06:07+08:00" />
+<meta property="article:modified_time" content="2022-03-13T19:06:07+08:00" />
+
+<meta itemprop="name" content="Prometheus监控系统总结">
+<meta itemprop="description" content="监控的两要素： 查看系统当前(历史)的运行情况 系统异常时给出告警 通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目"><meta itemprop="datePublished" content="2022-03-13T19:06:07+08:00" />
+<meta itemprop="dateModified" content="2022-03-13T19:06:07+08:00" />
+<meta itemprop="wordCount" content="3068">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Prometheus监控系统总结"/>
+<meta name="twitter:description" content="监控的两要素： 查看系统当前(历史)的运行情况 系统异常时给出告警 通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Prometheus监控系统总结</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-03-13 </span>
+        
+          <span class="more-meta"> 3068 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#监控的两要素">监控的两要素：</a></li>
+        <li><a href="#目标">目标</a>
+          <ul>
+            <li><a href="#业务目标">业务目标</a></li>
+            <li><a href="#性能目标">性能目标</a></li>
+            <li><a href="#稳定性目标">稳定性目标</a></li>
+          </ul>
+        </li>
+        <li><a href="#prometheus">Prometheus</a>
+          <ul>
+            <li><a href="#部署">部署</a></li>
+            <li><a href="#架构">架构</a></li>
+            <li><a href="#metrics">metrics</a></li>
+            <li><a href="#exporter">exporter</a></li>
+            <li><a href="#promql">promql</a></li>
+            <li><a href="#grafana">Grafana</a></li>
+            <li><a href="#alerts">Alerts</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="监控的两要素">监控的两要素：</h2>
+<ol>
+<li>查看系统当前(历史)的运行情况</li>
+<li>系统异常时给出告警</li>
+</ol>
+<p>通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目标和维稳。</p>
+<h2 id="目标">目标</h2>
+<p>监控是一种手段，目标才是目的。上监控之前要清晰的了解，系统应该达成哪些目标，稳定性应达成哪些目标。对于目标按层次分成3类：</p>
+<ul>
+<li>
+<h3 id="业务目标">业务目标</h3>
+<p>业务目标，是最高层次的目标，如PV, UV，在线用户数，乃至日营收等，其关乎产品是否有价值，是否符合团队预期。业务目标总是伴随着一些限定条件，比如时间点、投入人力、投入机器资源等。业务指标应该是项目、产品、开发负责人一起制定出来的。</p>
+</li>
+<li>
+<h3 id="性能目标">性能目标</h3>
+<p>性能指标，服务于业务指标，如接口耗时，接口成功率，页面加载耗时等。性能指标直接关乎产品是否好用，主要应该由开发和测试制定目标，然后由开发负责。
+性能指标往往会有取舍，比如延迟低但吞吐量大，入库慢但查询快，需结合场景去权衡。性能指标也要限制条件，主要是硬件资源、并发量、数据量，没有限定条件的指标是没有意义的。对于耗时，除了平均，业界往往用百分位（tp95, tp99）来观察抖动情况。</p>
+</li>
+<li>
+<h3 id="稳定性目标">稳定性目标</h3>
+<p>稳定性同样服务于业务指标，性能很好，但服务长期不可用是没有意义的。系统整体的服务稳定性(SLA)、机器的负载，磁盘的剩余容量都是稳定性需要关注的。稳定性应该是开发和运维一起制定和负责的。</p>
+<p>稳定性指标需要防患未然，如磁盘占用空间，磁盘的使用寿命，在当前时刻不会影响系统性能，但将来的某个时刻有概率会出问题，这个是需要关心的。</p>
+</li>
+</ul>
+<h2 id="prometheus">Prometheus</h2>
+<p>Prometheus是一种工具，可以用来监控以上三种目标。</p>
+<h3 id="部署">部署</h3>
+<p>在k8s中，使用helm安装，我们用的是<a href="https://github.com/grafana/helm-charts/tree/main/charts/loki-stack">loki-stack</a>, 集成了prometheus、grafana、loki：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> helm upgrade --install loki --namespace=loki loki-stack   --set grafana.enabled=true,prometheus.enabled=true
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="架构">架构</h3>
+<p><img src="/images/posts/prometheus/What-is-Prometheus-Architecutre-components1-740x414.png" alt="prometheus"></p>
+<h3 id="metrics">metrics</h3>
+<p>prometheus的核心概念是metrics(指标)。一个metrics一般对应一项真实世界的指标，比如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  http_request_total{method=&#34;POST&#34;, code=404} 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>表示http的请求数：http_request_total代表指标的名字，method和code表示指标下面有2个标签，标签可以用来做过滤。</p>
+<p>metrics有四种类型：</p>
+<ol>
+<li>Gauge 瞬时值，前后数值没有关系，一般用来表达CPU占用率，内存占用率、网速等瞬时状态。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">   # HELP go_goroutines Number of goroutines that currently exist.
+</span></span><span class="line"><span class="cl">   # TYPE go_goroutines gauge
+</span></span><span class="line"><span class="cl">   go_goroutines 73
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>Counter 计数器，总是递增的。一般以total后缀命名。可以结合prometheus的rate, increase函数计算QPS, 区间增量。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">   # TYPE http_requests_total_count counter
+</span></span><span class="line"><span class="cl">   # HELP http_requests_total_count A counter of the total number of external HTTP requests.
+</span></span><span class="line"><span class="cl">   http_request_total 3.7156890216e+10
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注：counter逻辑上是递增的，但服务的重启会导致counter归零，这个会导致counter的绝对值下降，但rate等函数会处理好这种情况，所以一般无需关心。</p>
+<ol start="3">
+<li>Summary 一般用来表示分位值。由Client SDK计算。比如计算接口耗时的TP95。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">   # HELP go_gc_duration_seconds A summary of the GC invocation durations.
+</span></span><span class="line"><span class="cl">   # TYPE go_gc_duration_seconds summary
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds{quantile=&#34;0&#34;} 3.291e-05
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds{quantile=&#34;0.25&#34;} 4.3849e-05
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds{quantile=&#34;0.5&#34;} 6.2452e-05
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds{quantile=&#34;0.75&#34;} 9.8154e-05
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds{quantile=&#34;1&#34;} 0.011689149
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds_sum 3.451780079
+</span></span><span class="line"><span class="cl">   go_gc_duration_seconds_count 13118
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>Histogram 和summary类似，可以表示百分位。但由Prometheus Server端计算，CLient端只做分桶计数。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">   # HELP http_request_duration_seconds request duration histogram
+</span></span><span class="line"><span class="cl">   # TYPE http_request_duration_seconds histogram
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_bucket{le=&#34;0.5&#34;} 0
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_bucket{le=&#34;1&#34;} 1
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_bucket{le=&#34;2&#34;} 2
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_bucket{le=&#34;3&#34;} 3
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_bucket{le=&#34;5&#34;} 3
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_bucket{le=&#34;+Inf&#34;} 3
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_sum 6
+</span></span><span class="line"><span class="cl">   http_request_duration_seconds_count 3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="exporter">exporter</h3>
+<p>exporter会暴露一个Http的接口，供Prometheus来采集Metrics。可以：</p>
+<ol>
+<li>业务服务集成Prometheus Sdk, 直接收集和暴露Metrics接口。适合我们自己编写的服务。golang建议使用<a href="https://github.com/armon/go-metrics">go-metrics</a>这个sdk</li>
+<li>编写独立的服务，专门用来收集指标和暴露Metrics接口。适合对第三方服务开发exporter。业界也有大量的exporter供我们使用：mysql-exporter，node-exporter等。</li>
+</ol>
+<p>在exporter的deployment中配置pull的开关和端口, 配置完成后prometheus server会定时来拉取metrics。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">      annotations:
+</span></span><span class="line"><span class="cl">        prometheus.io/scrape: &#39;true&#39;
+</span></span><span class="line"><span class="cl">        prometheus.io/port: &#39;9090&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>除了exporter，还可以通过将metrics委托给push-gataway来收集，push-gateway自身是一个exporter，适用于启动时间端的服务（比如job）。</p>
+<p>如果exporter不属于k8s的pod, 需要配置prometheus的scrape_configs，具体可以参考<a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">这里</a>。</p>
+<h3 id="promql">promql</h3>
+<p>可以在prometheus的web页面进行简单的metrics查询。</p>
+<p><img src="/images/posts/prometheus/query.png" alt="prometheus"></p>
+<p>samples</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">http_requests_total  # 查询http_requests_total的数据
+</span></span><span class="line"><span class="cl">http_requests_total{job=&#34;prometheus&#34;} # 过滤job=prometheus
+</span></span><span class="line"><span class="cl">http_requests_total{job=&#34;prometheus&#34;}[5m] # 查询最近5分钟，job=prometheus的数据
+</span></span><span class="line"><span class="cl">rate(http_requests_total{job=&#34;prometheus&#34;}[5m]) # 查询最近5分钟，job=prometheus的QPS数据
+</span></span><span class="line"><span class="cl">increase(http_requests_total{job=&#34;prometheus&#34;}[5m]) # 查询最近5分钟，job=prometheus的增量值
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="grafana">Grafana</h3>
+<p>grafana是最终展示prometheus metrics报表的地方。简单来说分2步：</p>
+<ol>
+<li>添加prometheus数据源</li>
+<li>配置dashboard 配置dashboard的过程即是编写promql的过程。</li>
+</ol>
+<p><a href="https://grafana.com/grafana/dashboards/">dashboard库</a>中可以找到一些现成的dashboard。</p>
+<h4 id="dashboard的导入导出">dashboard的导入导出</h4>
+<p>我们grafana的dashboard一般是在公司的开发环境配置好的，但生产环境是在客户的私有网络，如何同步? 官方只支持单个dashboard都导入和导出。最后我们采用dump&amp;import db文件（sqlite）的方案。</p>
+<ol>
+<li>拷贝开发环境的grafana db文件。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">   <span class="c1">#!/bin/bash</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span>/home/dev/k8s.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nv">pod</span><span class="o">=</span><span class="k">$(</span>kubectl get pod -n loki <span class="p">|</span> grep loki-grafana <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="nb">echo</span> <span class="s2">&#34;grafana pod=</span><span class="nv">$pod</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   rm -f ./grafana.db
+</span></span><span class="line"><span class="cl">   kubectl -n loki  cp <span class="s2">&#34;</span><span class="nv">$pod</span><span class="s2">:/var/lib/grafana/grafana.db&#34;</span> ./grafana.db
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>过滤开发环境的用户数据</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sqlite3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&#34;./grafana.db&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;./grafana.sql&#34;</span><span class="p">,</span> <span class="s2">&#34;w&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">blacklists</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;annotation&#34;</span><span class="p">,</span> <span class="s2">&#34;alert_notification&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">blacklists</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;INSERT INTO </span><span class="se">\&#34;</span><span class="si">{}</span><span class="se">\&#34;</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bl</span><span class="p">)</span> <span class="k">for</span> <span class="n">bl</span> <span class="ow">in</span> <span class="n">blacklists</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;blacklists: &#34;</span><span class="p">,</span> <span class="n">blacklists</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">create_cmds</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;CREATE INDEX&#34;</span><span class="p">,</span> <span class="s2">&#34;CREATE UNIQUE INDEX&#34;</span><span class="p">,</span> <span class="s2">&#34;CREATE TABLE&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">insert_cmd</span> <span class="o">=</span> <span class="s2">&#34;INSERT INTO&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">iterdump</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">blacklist</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">bl</span> <span class="ow">in</span> <span class="n">blacklists</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">bl</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">blacklist</span> <span class="o">=</span> <span class="kc">True</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">pass</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">blacklist</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">create_cmd</span> <span class="ow">in</span> <span class="n">create_cmds</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">create_cmd</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">create_cmd</span><span class="p">,</span> <span class="n">create_cmd</span> <span class="o">+</span> <span class="s2">&#34; IF NOT EXISTS &#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">insert_cmd</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">insert_cmd</span><span class="p">,</span> <span class="s2">&#34;INSERT OR REPLACE INTO&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;error sql lines&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">file</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>导入现场</li>
+</ol>
+<h3 id="alerts">Alerts</h3>
+<p>这里其实有两个Alert, 一个是Prometheus的Alert，一个是Grafana的Alert。我们这里采用的是Prometheus的Alert，其更灵活和强大。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  # 示例1
+</span></span><span class="line"><span class="cl">  - alert: KubeControllerManagerDown
+</span></span><span class="line"><span class="cl">    annotations:
+</span></span><span class="line"><span class="cl">      message: KubeControllerManager has disappeared from Prometheus target discovery.
+</span></span><span class="line"><span class="cl">    expr: |
+</span></span><span class="line"><span class="cl">      absent(up{job=&#34;kube-controller-manager&#34;} == 1)
+</span></span><span class="line"><span class="cl">    for: 15m
+</span></span><span class="line"><span class="cl">    labels:
+</span></span><span class="line"><span class="cl">      severity: critical
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  # 示例2
+</span></span><span class="line"><span class="cl">  - alert: KubePodNotReady
+</span></span><span class="line"><span class="cl">    annotations:
+</span></span><span class="line"><span class="cl">      message: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready
+</span></span><span class="line"><span class="cl">        state for longer than an hour.
+</span></span><span class="line"><span class="cl">    expr: |
+</span></span><span class="line"><span class="cl">      sum by (namespace, pod) (kube_pod_status_phase{app_kubernetes_io_name=&#34;kube-state-metrics&#34;, phase=~&#34;Pending|Unknown&#34;}) &gt; 0
+</span></span><span class="line"><span class="cl">    for: 1h
+</span></span><span class="line"><span class="cl">    labels:
+</span></span><span class="line"><span class="cl">      severity: critical
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面是2个alert规则的示例：</p>
+<ul>
+<li>alert名字：KubeControllerManagerDown</li>
+<li>annotations：alert自定义的数据，这里面我们添加了一个message, 表示alert的文本描述。</li>
+<li>expr: 触发alert点表达式。由promql语句组成，会有一个比较条件，最终表达式返回的是bool类型。</li>
+<li>for: 持续的时间，大于则触发alert</li>
+<li>labels: 标签数据，和annotations的区别是labels会基于metrics自动填充，alert配置时可以覆盖值。</li>
+</ul>
+<p>pormetheus执行alert rule的检测，一旦有新的alert, 则会推送给alertmanager, alertmanager可以：</p>
+<ol>
+<li>web页面可以查看alert, 临时屏蔽alert的推送</li>
+<li>配置webhook, 将alert发给下游，比如钉钉</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> receivers:
+</span></span><span class="line"><span class="cl">  - name: webhook_all
+</span></span><span class="line"><span class="cl">    webhook_configs:
+</span></span><span class="line"><span class="cl">    - url: http://10.1.0.200:8060/dingtalk/webhook_default/send
+</span></span><span class="line"><span class="cl">      send_resolved: false
+</span></span><span class="line"><span class="cl">  - name: mention_dev1
+</span></span><span class="line"><span class="cl">    webhook_configs:
+</span></span><span class="line"><span class="cl">    - url: http://10.0.0.200:8060/dingtalk/mention_dev1/send
+</span></span><span class="line"><span class="cl">      send_resolved: false
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>配置route, 将不同的alert推送给不同的receiver, 实现alert@到人的效果。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> route:
+</span></span><span class="line"><span class="cl">  group_wait: 30s
+</span></span><span class="line"><span class="cl">  group_interval: 5m
+</span></span><span class="line"><span class="cl">  receiver: webhook_all
+</span></span><span class="line"><span class="cl">  - match_re: 
+</span></span><span class="line"><span class="cl">      alertname: .*空间不足
+</span></span><span class="line"><span class="cl">      receiver: mention_dev1  # 如果是空间不足相关的报警，则通知dev1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="钉钉">钉钉</h4>
+<p><a href="https://github.com/timonwong/prometheus-webhook-dingtalk">prometheus-webhook-dingtalk</a>可以适配alertmanager, 将alert推送给钉钉。</p>
+<p>参考：</p>
+<ol>
+<li><a href="https://prometheus.io/docs/prometheus/latest/querying/functions/">Prometheus的方法</a></li>
+<li><a href="https://www.robustperception.io/how-does-a-prometheus-counter-work">Promeetheus的counter是如何工作的</a></li>
+<li><a href="https://prometheus.io/docs/visualization/grafana/">GRAFANA SUPPORT FOR PROMETHEUS</a></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2022/03/19/learn-rust/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Rust初体验</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2022/03/01/multi-arch-image/">
+            <span class="next-text nav-default">多架构镜像的构建</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2021</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>
