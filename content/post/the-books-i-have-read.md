@@ -15,8 +15,8 @@ description = "整理我这些年来读过的书籍"
 * 资治通鉴 六十四卷到七十三卷
 * 数据密集型应用系统设计 (第二遍)
 * 性能之巅
-* Rust In Action [notes][16]
-* Effective Modern C++ [notes][17]
+* Rust In Action [notes][17]
+* Effective Modern C++ [notes][16]
 
 ## 2021年：
 * 邓小平时代 [review][11]
