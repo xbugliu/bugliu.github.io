@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2021</copyright>
-    <lastBuildDate>Mon, 11 Apr 2022 11:49:51 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Aug 2022 21:15:11 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>读《李宗仁回忆录》</title>
+      <link>http://towriting.com/blog/2022/08/03/lizongren/</link>
+      <pubDate>Wed, 03 Aug 2022 21:15:11 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/08/03/lizongren/</guid>
+      <description>一部回忆录，半部民国史。 将星崛起 李宗仁出身寒微，家道中落，青黄不接时会去亲戚家借米。那时谁也想不到衣衫褴褛在山路飞奔的孩子，20年后竟然一统</description>
+    </item>
+    
     <item>
       <title>《Rust in Action》读书笔记</title>
       <link>http://towriting.com/blog/2022/04/11/rust-in-action/</link>
@@ -15,6 +24,15 @@
       
       <guid>http://towriting.com/blog/2022/04/11/rust-in-action/</guid>
       <description>Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了</description>
+    </item>
+    
+    <item>
+      <title>《Effective Modern C&#43;&#43;》读书笔记</title>
+      <link>http://towriting.com/blog/2022/04/08/effective-modern-cpp/</link>
+      <pubDate>Fri, 08 Apr 2022 13:45:07 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/04/08/effective-modern-cpp/</guid>
+      <description>introduction 能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。 callable object可以当做函数使</description>
     </item>
     
     <item>

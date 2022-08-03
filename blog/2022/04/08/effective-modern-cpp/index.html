@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>《Effective Modern C&#43;&#43;》读书笔记 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="introduction 能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。 callable object可以当做函数使" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.95.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2022/04/08/effective-modern-cpp/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.154ed883776547b0e136be39b3037f61350da06f888d0868d1756a9463cd9520.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="《Effective Modern C&#43;&#43;》读书笔记" />
+<meta property="og:description" content="introduction 能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。 callable object可以当做函数使" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2022/04/08/effective-modern-cpp/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-04-08T13:45:07+08:00" />
+<meta property="article:modified_time" content="2022-04-08T13:45:07+08:00" />
+
+<meta itemprop="name" content="《Effective Modern C&#43;&#43;》读书笔记">
+<meta itemprop="description" content="introduction 能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。 callable object可以当做函数使"><meta itemprop="datePublished" content="2022-04-08T13:45:07+08:00" />
+<meta itemprop="dateModified" content="2022-04-08T13:45:07+08:00" />
+<meta itemprop="wordCount" content="2840">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="《Effective Modern C&#43;&#43;》读书笔记"/>
+<meta name="twitter:description" content="introduction 能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。 callable object可以当做函数使"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">《Effective Modern C&#43;&#43;》读书笔记</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-04-08 </span>
+        
+          <span class="more-meta"> 2840 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#introduction">introduction</a></li>
+        <li><a href="#item1-模板类型推导">item1 模板类型推导</a></li>
+        <li><a href="#item2-auto">item2 auto</a></li>
+        <li><a href="#item3-decltype">item3 decltype</a></li>
+      </ul>
+    </li>
+    <li><a href="#item4-查看推导的类型">item4 查看推导的类型</a></li>
+    <li><a href="#item5-auto">item5 auto</a>
+      <ul>
+        <li><a href="#item6-当出现非预期推导时为auto使用显式类型转换">item6 当出现非预期推导时，为auto使用显式类型转换</a></li>
+        <li><a href="#item7-初始化和的不同">item7 初始化()和{}的不同。</a></li>
+        <li><a href="#优先使用nullptr">优先使用nullptr</a></li>
+      </ul>
+    </li>
+    <li><a href="#item-12-总是使用override">item 12 总是使用override</a></li>
+    <li><a href="#item13-使用const_iterator">item13 使用const_iterator</a></li>
+    <li><a href="#item14-假如函数不会抛异常定义noexcept">item14 假如函数不会抛异常，定义noexcept</a></li>
+    <li><a href="#item15-尽可能的使用constexpr">item15 尽可能的使用constexpr</a></li>
+    <li><a href="#item20-weak_prt">item20 weak_prt</a></li>
+    <li><a href="#item21-优先使用make_shared">item21 优先使用make_shared</a></li>
+    <li><a href="#item22-impl模式时注意实现相关的成员函数">item22 Impl模式时，注意实现相关的成员函数</a></li>
+    <li><a href="#item23-理解stdmove和stdforward">item23 理解std::move和std::forward</a></li>
+    <li><a href="#item24">item24</a></li>
+    <li><a href="#item26-避免对universal-reference重载">item26 避免对universal reference重载。</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="introduction">introduction</h2>
+<p>能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。</p>
+<p>callable object可以当做函数使用，lambda又叫做闭包。
+声明引入了类型和名字，定义引入了实现。</p>
+<h2 id="item1-模板类型推导">item1 模板类型推导</h2>
+<ul>
+<li>模板方法，参数是&amp;&amp;时，可以传入lvalue参数, 但会退化成lvalue。</li>
+<li>普通方法参数是&amp;&amp;时，不能传lvalue（规范了一种move的语意）。</li>
+<li>模板方法，parameter定义为T, 传入数组会退化成指针，传入T&amp;, 则保留数组。</li>
+</ul>
+<h2 id="item2-auto">item2 auto</h2>
+<p>auto的推导规则基本和模板类型推导一致。除了auto x = {1}这个形式，x会被推导成std::initializer_list。
+auto在C++14中可以作为函数的返回值推导，还可以用在labmba中的参数类型推导。</p>
+<h2 id="item3-decltype">item3 decltype</h2>
+<p>decltype推导的类型（变量或表达式）一般总是原始类型。特殊情况是decltype作为返回值推导时，如果返回值是左值，则推导为T&amp;：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="nf">func1</span><span class="p">(</span><span class="kt">int</span><span class="o">&amp;</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">decltype</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">func1</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="c1">// func1 返回int&amp;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>decltype(auto)结合是C++14的一个特性，可以方便的推导返回值的类型。</p>
+<h1 id="item4-查看推导的类型">item4 查看推导的类型</h1>
+<ul>
+<li>通过IDE</li>
+<li>通过编译错误</li>
+<li>通过typeid或者boost::typeindex</li>
+</ul>
+<p>但需要注意，ide或者typeid都不一定精确。</p>
+<h1 id="item5-auto">item5 auto</h1>
+<p>auto可以减少问题，比如未初始化，性能损失，也可以较少拼写。</p>
+<p>auto在承接lambda时比std::function有更好的性能。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  std::unordered_map&lt;std::string, int&gt; m;
+</span></span><span class="line"><span class="cl">  for (const std::pair&lt;std::string, int&gt;&amp; p : m) { // 类型错误，应该是std::pair&lt;const std::string, int&gt;, 会带来临时对象，应该换成auto
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>推荐尽量多的使用auto, auto的最大副作用是浏览代码是不知道类型，这个完全可以通过IDE的提示来解决。</p>
+<h2 id="item6-当出现非预期推导时为auto使用显式类型转换">item6 当出现非预期推导时，为auto使用显式类型转换</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  std::vector&lt;bool&gt; features() {}
+</span></span><span class="line"><span class="cl">  process(bool) {}
+</span></span><span class="line"><span class="cl">  auto b = features()[5];
+</span></span><span class="line"><span class="cl">  process(b); // 未知行为，类型是std::vector&lt;bool&gt;::reference
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关于为何返回std::vector<bool>::reference, 具体见: <a href="https://en.cppreference.com/w/cpp/container/vector_bool">std::vector<bool></a>。总之在有中间隐式代理类型的情况下，auto就不那么好用了。</p>
+<p>出现这种情况最好的方式是给一个显式的类型转换。</p>
+<h2 id="item7-初始化和的不同">item7 初始化()和{}的不同。</h2>
+<p>初始化的三种方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">int x = 0;
+</span></span><span class="line"><span class="cl">int x(0);
+</span></span><span class="line"><span class="cl">int x{0}; // c++11引入，可以用来给容器初始化一些值，也可以给成员变量初始化值。 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>C++11之前的初始化无法表达给一个容器初始化几个值。</p>
+<p>{}可以作为统一的初始化方式，可以应用在所有场景，并且独有：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">float a, b, c;
+</span></span><span class="line"><span class="cl">int x{a+b+c}; // 编译错误
+</span></span><span class="line"><span class="cl">int y = a+b+c; //ok
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">widget w3{}; // 可以解决most vexing parse问题。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><a href="https://en.wikipedia.org/wiki/Most_vexing_parse">most vexing parse</a></p>
+<p>但{}初始化也不是完美的，在参数有std::initializer_list时，编译器会优先将{}转换成initializer_list。</p>
+<h2 id="优先使用nullptr">优先使用nullptr</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> void f(int);
+</span></span><span class="line"><span class="cl"> void f(void*);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>基于整型和指针重载会产生二义性，而使用nullptr可以解决这个问题。使用nullptr也可以让代码更明确。</p>
+<p>#item 9 优先使用alias而不是typedef。</p>
+<p>#item 10 使用带scope的enum。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  enum Color {Write, Black, Red};
+</span></span><span class="line"><span class="cl">  enum class Color {Write, Black, Red}; // enum class, with scope
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>enum class除了不会污染scope之外，还有一个好处是强类型。另外一个优势是enum class支持前置声明，而c++98的num是不支持的，因为不知道num的size。</p>
+<p>#11 使用deleted</p>
+<p>deleted比private不实现函数的优势是编译期更好的警告，deleted一般是要Public。</p>
+<p>deleted作用于普通函数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  bool isLucky(int);
+</span></span><span class="line"><span class="cl">  bool isLucky(bool) = deleted;
+</span></span><span class="line"><span class="cl">  bool isLucky(bool) = deleted;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="item-12-总是使用override">item 12 总是使用override</h1>
+<p>新奇的特性：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">class Widget {
+</span></span><span class="line"><span class="cl"> void doWork() &amp;; // 作用于左值的this
+</span></span><span class="line"><span class="cl"> void doWork() &amp;&amp;; // 作用于右值的this
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为override需要派生类的函数定义满足一定的形似性，所以有可能你写的override的虚函数并没有override，而override关键字可以帮你提醒。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  struct Widget {
+</span></span><span class="line"><span class="cl">      Data s;
+</span></span><span class="line"><span class="cl">      Data&amp; data() {
+</span></span><span class="line"><span class="cl">          return s;
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  int main()
+</span></span><span class="line"><span class="cl">  {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      Widget w1;
+</span></span><span class="line"><span class="cl">      auto d = w1.data(); // copy data
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="item13-使用const_iterator">item13 使用const_iterator</h1>
+<p>使用cbegin和cend。</p>
+<h1 id="item14-假如函数不会抛异常定义noexcept">item14 假如函数不会抛异常，定义noexcept</h1>
+<p>跳读</p>
+<h1 id="item15-尽可能的使用constexpr">item15 尽可能的使用constexpr</h1>
+<p>所有的constexpr值是const的，但反之不然。
+自定义类型也可以是constexpr。</p>
+<p>#item16 const函数必须要保证线程安全</p>
+<p>单个变量可以使用atomic, 但多个变量只能使用Mutex保证线程安全。</p>
+<p>#item17 了解自动生成的函数</p>
+<p>自动生成的方法，一般是内联和Public的。如果在子类的虚构中调用，且父类的析构是虚函数，则生成都函数也是虚函数。</p>
+<p>默认生成的函数，只有在使用的时候，才会自动生成。</p>
+<p>拷贝构造和赋值操作符是相互独立的。但移动构造和移动赋值是有关系的，定义了其中一个，编译器则不会自动生成另一个。</p>
+<p>如果定义了拷贝构造或赋值操作符，则不会自动生成移动函数，反之亦然。</p>
+<p>定义了析构函数后，将不会自动生成move函数。</p>
+<p>#item18 unique_ptr</p>
+<p>unique_ptr不允许赋值，但可以reset。
+如果没有自定义的delete函数，unique_ptr的size和裸指针是一样的。
+unique_ptr&lt;[]&gt;是数组形式。
+unique_ptr可以转化成shared_ptr。</p>
+<p>#item19 shared_ptr</p>
+<p>成本：</p>
+<ol>
+<li>dynamic内存，为了保存引用计数</li>
+<li>引用计数的原子性</li>
+</ol>
+<p>和unique_ptr不同的是，deleter不是类型的一部分。shared_ptr对象会指向一个control block，里面包含引用计数，弱引用技术。</p>
+<p>推荐使用mark_shared, 不应该把要给raw指针传给2个shared_ptr。</p>
+<h1 id="item20-weak_prt">item20 weak_prt</h1>
+<p>weak本身不能解引用。将weak_ptr转成shared_ptr的2中方式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">std::weak_ptr&lt;Widget&gt; wpw(spw);
+</span></span><span class="line"><span class="cl">auto spw1 = wp2.lock();
+</span></span><span class="line"><span class="cl">std::shared_ptr&lt;Widget&gt; spw2(wpw); // 如果wpw expired, 则抛出异常                      
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>weak_ptr也指向和shared_ptr相同的控制快。</p>
+<h1 id="item21-优先使用make_shared">item21 优先使用make_shared</h1>
+<p>make_shared的好处是：</p>
+<ol>
+<li>防止写错，将一个指针赋值给2个shared_ptr</li>
+<li>防止异常时，资源泄露</li>
+</ol>
+<p>make_shared的不足，std::initializer_list不支持。</p>
+<h1 id="item22-impl模式时注意实现相关的成员函数">item22 Impl模式时，注意实现相关的成员函数</h1>
+<p>impl模式的好处是减少对头文件的依赖，加快构建速度。
+但std::unique_ptr<Impl>时需要实现Impl的一些默认函数，否则会编译失败，因为编译器默认生成函数时，并不知道Impl的实现。</p>
+<h1 id="item23-理解stdmove和stdforward">item23 理解std::move和std::forward</h1>
+<p>std::move和std::foward并不总是有效。他们都是编译时的东西，不会产生任何运行时代码。</p>
+<p>std::move只是将输入转成右值，没有move，只有cast。
+std::foward只有在输入是右值的时候才转换右值。</p>
+<h1 id="item24">item24</h1>
+<p>模板参数T&amp;&amp;, 只有输入是右值时，才是右值引用。auto&amp;&amp;同理。</p>
+<h1 id="item26-避免对universal-reference重载">item26 避免对universal reference重载。</h1>
+<p>universal reference是最贪婪的匹配。</p>
+<p>// todo</p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2022/04/11/rust-in-action/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">《Rust in Action》读书笔记</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2022/03/22/k8s-probe/">
+            <span class="next-text nav-default">Kubernetes三种探针的使用场景</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2021</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.64437849d125a2d603b3e71d6de5225d641a32d17168a58106e0b61852079683.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-42601840-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>
