@@ -17,6 +17,9 @@ description = "整理我这些年来读过的书籍"
 * 性能之巅
 * Rust In Action [notes][17]
 * Effective Modern C++ [notes][16]
+* 李宗仁回忆录 [notes][18]
+* 我的伯父周恩来
+* 毛泽东传 - 中央文献出版社
 
 ## 2021年：
 * 邓小平时代 [review][11]
@@ -325,5 +328,6 @@ description = "整理我这些年来读过的书籍"
 [15]: /blog/2021/12/03/xiong-xiang-hui/
 [16]: /blog/2022/04/08/effective-modern-cpp/
 [17]: /blog/2022/04/11/rust-in-action/
+[18]: /blog/2022/08/03/lizongren/
 
 
