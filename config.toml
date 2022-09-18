@@ -43,6 +43,11 @@ post = "/blog/:year/:month/:day/:filename/"
   identifier = "archives"
   url = "/post/"
 [[menu.main]]
+  name = "Categories"
+  weight = 20
+  identifier = "categories"
+  url = "/categories/"
+[[menu.main]]
   name = "Books"
   weight = 30
   identifier = "books"
