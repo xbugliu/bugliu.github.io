@@ -7,7 +7,79 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2021</copyright>
-    <lastBuildDate>Sat, 23 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/categories/%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Sep 2022 18:08:02 +0800</lastBuildDate><atom:link href="http://towriting.com/categories/%E9%98%85%E8%AF%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>读《武岭梦残》</title>
+      <link>http://towriting.com/blog/2022/09/17/review-wuling-mengcai/</link>
+      <pubDate>Sat, 17 Sep 2022 18:08:02 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/09/17/review-wuling-mengcai/</guid>
+      <description>蒋的前途 淮海战役，国军主力覆灭，平津战役傅作义起义，国民党败局已定，蒋介石也深知这一点。但处于绝境中的人，总是会抱着几丝幻想，他心中应有以下</description>
+    </item>
+    
+    <item>
+      <title>读《李宗仁回忆录》</title>
+      <link>http://towriting.com/blog/2022/08/03/lizongren/</link>
+      <pubDate>Wed, 03 Aug 2022 21:15:11 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/08/03/lizongren/</guid>
+      <description>一部回忆录，半部民国史。 将星崛起 李宗仁出身寒微，家道中落，青黄不接时会去亲戚家借米。那时谁也想不到衣衫褴褛在山路飞奔的孩子，20年后竟然一统</description>
+    </item>
+    
+    <item>
+      <title>《Rust in Action》读书笔记</title>
+      <link>http://towriting.com/blog/2022/04/11/rust-in-action/</link>
+      <pubDate>Mon, 11 Apr 2022 11:49:51 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/04/11/rust-in-action/</guid>
+      <description>Ch1: Rust介绍 rust的安全性 rust程序员无需关心： 悬挂指针 数据竞争 内存溢出 迭代器失效 整形溢出(debug模式) 这些都是编译时保证的，除了</description>
+    </item>
+    
+    <item>
+      <title>《Effective Modern C&#43;&#43;》读书笔记</title>
+      <link>http://towriting.com/blog/2022/04/08/effective-modern-cpp/</link>
+      <pubDate>Fri, 08 Apr 2022 13:45:07 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/04/08/effective-modern-cpp/</guid>
+      <description>introduction 能取到地址的是左值，否则为右值。函数的参数parameter总是左值，但传进来的arguments可能是右值。 callable object可以当做函数使</description>
+    </item>
+    
+    <item>
+      <title>读《我的情报与外交生涯》</title>
+      <link>http://towriting.com/blog/2021/12/03/xiong-xiang-hui/</link>
+      <pubDate>Fri, 03 Dec 2021 21:20:20 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/12/03/xiong-xiang-hui/</guid>
+      <description>此书是熊向晖同志晚年写的回忆性质的文章合集。分成解放前的情报工作和解放后的外交工作。 情报工作 我党一直是很重视情报工作。建党初期在周恩来同志领</description>
+    </item>
+    
+    <item>
+      <title>读《朱元璋传》</title>
+      <link>http://towriting.com/blog/2021/11/24/zhu-yuan-zhang/</link>
+      <pubDate>Wed, 24 Nov 2021 20:38:19 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/11/24/zhu-yuan-zhang/</guid>
+      <description>朱元璋早年悲惨的经历是元末那个年代的缩影，底层劳动人民没有活路，不反抗只能等死，所以革命形成燎原之势。开仓库，救穷人，就是最好的革命口号。几</description>
+    </item>
+    
+    <item>
+      <title>读 《置身事内》</title>
+      <link>http://towriting.com/blog/2021/09/19/zhishen/</link>
+      <pubDate>Sun, 19 Sep 2021 22:03:29 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/09/19/zhishen/</guid>
+      <description>《置身事内-中国政府与经济发展》是一部描述新中国经济发展与政策的书籍，涉及的范围宽广、并且贴近当下，语言生动，畅快的阅读中，让人能了解中国经</description>
+    </item>
+    
+    <item>
+      <title>读凤凰架构</title>
+      <link>http://towriting.com/blog/2021/07/24/the-fenix-project/</link>
+      <pubDate>Sat, 24 Jul 2021 10:33:30 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/07/24/the-fenix-project/</guid>
+      <description>从4月起，通勤由自己开车改为班车，每天一下子多出了近1个半小时来阅读。用文石结合微信读书，体验很好。偶然发现《凤凰架构》，评价很高，内容很贴</description>
+    </item>
+    
     <item>
       <title>读《长安十二时辰》</title>
       <link>http://towriting.com/blog/2018/06/23/changan12/</link>
@@ -33,6 +105,69 @@
       
       <guid>http://towriting.com/blog/2014/11/15/api-design-for-c-plus-plus-notes/</guid>
       <description>从书名看是关于设计C++接口的书，内容却不仅仅是关于C++接口设计。书还算实用，但如果看过代码大全和Effective系列的话，可以不用在看</description>
+    </item>
+    
+    <item>
+      <title>读《摩托车修理店的未来工作哲学》</title>
+      <link>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/</link>
+      <pubDate>Sun, 26 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/10/26/shop-class-as-soulcraft-notes/</guid>
+      <description>&amp;lt;摩托车修理店的未来工作哲学&amp;gt;是一本大抵关于工作的书。 薪水的意义 记得刚毕业的头一年月薪虽少，但内心竟极不安：我每天干的这点事情配</description>
+    </item>
+    
+    <item>
+      <title>读《寻找家园》</title>
+      <link>http://towriting.com/blog/2014/07/21/review-xzjy/</link>
+      <pubDate>Mon, 21 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/07/21/review-xzjy/</guid>
+      <description>诚然，这是一本文辞优美的自传集。自以为博学杂收，但此前竟从未听说过高尔泰，概和主流媒介打压有关。80后的我，有幸避过了那段岁月，所以对于书中</description>
+    </item>
+    
+    <item>
+      <title>读《苏东坡传》</title>
+      <link>http://towriting.com/blog/2014/04/27/the-gay-genius-review/</link>
+      <pubDate>Sun, 27 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/04/27/the-gay-genius-review/</guid>
+      <description>昨天在kindle上读完了《苏东坡传》，本以为千年前人物的传记，必简短：年代久远，事迹佚失，有甚可写。谁知此书篇幅不小，断断续续一月才读完，</description>
+    </item>
+    
+    <item>
+      <title>读：人生元编程</title>
+      <link>http://towriting.com/blog/2014/02/23/mac-shuo-review/</link>
+      <pubDate>Sun, 23 Feb 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/02/23/mac-shuo-review/</guid>
+      <description>《人生元编程》这本书最近很火，所以昨天花了半天的时间在Kindle上翻看了一遍。最近自媒体将网文整理成集出书的很多，这一本也是，作者池建强，</description>
+    </item>
+    
+    <item>
+      <title>《C&#43;&#43;标准库第二版 上册》笔记</title>
+      <link>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/</link>
+      <pubDate>Wed, 18 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/18/read-notes-of-cpp-standard-1/</guid>
+      <description>p63 a pair&amp;lt;&amp;gt; using a type that has only a nonconstant copy constructor will no longer compile. p64 std::piecewise_construct is passed as the first argument is class Foo forced to use a constructor that takes the elements of the tuple rather than a tuple as a whole. p65 The make_pair() function template enables you to create a value pair without writing the types explicitly. p67 pair used in functions that</description>
+    </item>
+    
+    <item>
+      <title>《黑天鹅—如何应对不可知的未来》读书笔记</title>
+      <link>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/</link>
+      <pubDate>Wed, 11 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/11/read-notes-of-the-black-swan/</guid>
+      <description>《黑天鹅—如何应对不可知的未来》上册的阅读笔记： 我们通过观察或经验获得的知识具有严重的局限性和脆弱性 为什么读报实际上降低了你对世界的认识呢 黑</description>
+    </item>
+    
+    <item>
+      <title>《黑客与画家》阅读笔记</title>
+      <link>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/</link>
+      <pubDate>Sun, 25 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/25/read-notes-hacker-and-painters/</guid>
+      <description>整理下自己前段时间阅读《黑客与画家》后记下的精彩观点： 要读懂这本书，必须理解什么是黑客。hack指漂亮的解决方法，而hacker是指使用ha</description>
     </item>
     
     <item>

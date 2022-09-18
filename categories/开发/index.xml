@@ -7,7 +7,52 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2021</copyright>
-    <lastBuildDate>Sun, 11 Oct 2015 00:00:00 +0000</lastBuildDate><atom:link href="http://towriting.com/categories/%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 22 Mar 2022 18:34:25 +0800</lastBuildDate><atom:link href="http://towriting.com/categories/%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes三种探针的使用场景</title>
+      <link>http://towriting.com/blog/2022/03/22/k8s-probe/</link>
+      <pubDate>Tue, 22 Mar 2022 18:34:25 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/03/22/k8s-probe/</guid>
+      <description>Liveness Probe Liveness最好理解，是保活探针。如果发现容器僵死（如：死锁、死循环）则Kill掉容器，达到重启容器的效果。Liveness会在整个</description>
+    </item>
+    
+    <item>
+      <title>Rust初体验</title>
+      <link>http://towriting.com/blog/2022/03/19/learn-rust/</link>
+      <pubDate>Sat, 19 Mar 2022 19:55:14 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/03/19/learn-rust/</guid>
+      <description>这两天用Rust写了一个通过Gitee拉取Github仓库的工具Rusgit，初步了解了Rust的一些特性。 工具链：rust-analyze</description>
+    </item>
+    
+    <item>
+      <title>Prometheus监控系统总结</title>
+      <link>http://towriting.com/blog/2022/03/13/prometheus/</link>
+      <pubDate>Sun, 13 Mar 2022 19:06:07 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/03/13/prometheus/</guid>
+      <description>监控的两要素： 查看系统当前(历史)的运行情况 系统异常时给出告警 通过两要素可使系统具备可观测性，并及时反馈系统异常。监控的目的是为了达到性能目</description>
+    </item>
+    
+    <item>
+      <title>多架构镜像的构建</title>
+      <link>http://towriting.com/blog/2022/03/01/multi-arch-image/</link>
+      <pubDate>Tue, 01 Mar 2022 19:33:37 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2022/03/01/multi-arch-image/</guid>
+      <description>多架构的镜像 我们在Docker Hub官网上会看的有些镜像的Tag是支持多个OS/ARCH的，比如nginx: 这样的好处是: 在不同的架构(ar</description>
+    </item>
+    
+    <item>
+      <title>开源分布式向量检索系统Vearch解剖</title>
+      <link>http://towriting.com/blog/2021/10/07/vearch/</link>
+      <pubDate>Thu, 07 Oct 2021 19:29:25 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2021/10/07/vearch/</guid>
+      <description>一、向量检索的工程特点 图像AI领域，其检索一般是基于特征。项目落地如何衡量优劣呢？主要关注两类指标，一类是算法效果，包括准确率、召回率等，一</description>
+    </item>
+    
     <item>
       <title>Android 6.0 openssl crash</title>
       <link>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</link>
@@ -15,6 +60,15 @@
       
       <guid>http://towriting.com/blog/2015/10/11/android-6-dot-0-openssl-crash/</guid>
       <description>Android 6.0发布将近半年，预计本月推出正式版本。所以开发者们要重视起APP在Android 6.0下的兼容性问题。最近我们的App就遭遇到因6.0</description>
+    </item>
+    
+    <item>
+      <title>MongoDB中的$in和$elemMatch</title>
+      <link>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</link>
+      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2015/01/14/mongodb-in-elem/</guid>
+      <description>PC客户端开发多年，一直想涉足下Web开发，进入15年，想起14年有一个计划是用ruby写一个网站，已经无法完成了！亡羊补牢也不晚，于是动手</description>
     </item>
     
     <item>
@@ -54,12 +108,30 @@
     </item>
     
     <item>
+      <title>Linux下开启TRIM</title>
+      <link>http://towriting.com/blog/2014/06/28/archlinux-trim/</link>
+      <pubDate>Sat, 28 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2014/06/28/archlinux-trim/</guid>
+      <description>新买得一块SSD，听说开启TRIM才能更好的发挥SSD的性能，Linux并没有默认开启TRIM，但开启还是比较简单。 首先要检测SSD是否支持</description>
+    </item>
+    
+    <item>
       <title>谁在用C&#43;&#43; STL？</title>
       <link>http://towriting.com/blog/2014/04/18/who-use-stl/</link>
       <pubDate>Fri, 18 Apr 2014 00:00:00 +0000</pubDate>
       
       <guid>http://towriting.com/blog/2014/04/18/who-use-stl/</guid>
       <description>C++用了四年了，这两天才把 《Effective STL》看了一遍。此书作为C++经典书系Effective三部曲之一，知名度与所受褒扬远不及</description>
+    </item>
+    
+    <item>
+      <title>Windows提供的INI接口不是线程安全的</title>
+      <link>http://towriting.com/blog/2013/12/17/ini-muti-thread/</link>
+      <pubDate>Tue, 17 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/17/ini-muti-thread/</guid>
+      <description>INI是Windows系统下人们喜闻乐见的一种配置存储方式。Windows提供了一套简单的接口操作INI文件，但它们并不是线程安全的，对于这</description>
     </item>
     
     <item>
@@ -72,6 +144,24 @@
     </item>
     
     <item>
+      <title>那些C&#43;&#43;牛人的博客</title>
+      <link>http://towriting.com/blog/2013/12/12/cpp-blogs/</link>
+      <pubDate>Thu, 12 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/12/cpp-blogs/</guid>
+      <description>现整理收集C++世界里那些“牛人”的个人博客。凡三类：一是令人高山仰止的大牛，对C++语言本身产生过深远的影响的人；二是C++运用炉火纯青的</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;中的静态断言</title>
+      <link>http://towriting.com/blog/2013/12/10/static-assert/</link>
+      <pubDate>Tue, 10 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/12/10/static-assert/</guid>
+      <description>什么是静态断言 断言（Assert)是报告代码状态错误的技术手段。Windows下的C++开发肯定都知道ASSERT或ATLASSERT，这两</description>
+    </item>
+    
+    <item>
       <title>Effective Tools - 多粘贴板 &amp;&amp; 快速搜索</title>
       <link>http://towriting.com/blog/2013/11/17/effective-tools/</link>
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
@@ -81,12 +171,21 @@
     </item>
     
     <item>
-      <title>C&#43;&#43;11系列-常量表达式</title>
-      <link>http://towriting.com/blog/2013/09/17/constexpr/</link>
-      <pubDate>Tue, 17 Sep 2013 00:00:00 +0000</pubDate>
+      <title>从Safe bool惯用法到explicit标识符</title>
+      <link>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</link>
+      <pubDate>Fri, 01 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://towriting.com/blog/2013/09/17/constexpr/</guid>
-      <description>C++11有一些这样的改善，这种改善保证写出的代码比以往任何时候的执行效率都要好。这种改善之一就是生成常量表达式，允许程序利用编译时的计算能</description>
+      <guid>http://towriting.com/blog/2013/11/01/safe-bool-idiom/</guid>
+      <description>C++是一个学语法都能让人入迷的奇葩语言，有各种的奇技淫巧。比如这里的许多的惯用法：More C++ Idioms，虽凝聚了C++程序员的聪明才智，</description>
+    </item>
+    
+    <item>
+      <title>Openshift小技巧-热部署</title>
+      <link>http://towriting.com/blog/2013/10/21/openshift-tips/</link>
+      <pubDate>Mon, 21 Oct 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/10/21/openshift-tips/</guid>
+      <description>最近试着用Openshift搭建了一个Octopress程序，搭建成功后，发现每次部署时，都会引起站点临时无法访问，这是自己使用Github</description>
     </item>
     
     <item>
@@ -108,12 +207,30 @@
     </item>
     
     <item>
-      <title>C&#43;&#43;11系列-什么是C&#43;&#43;11</title>
-      <link>http://towriting.com/blog/2013/08/01/what-is-cpp11/</link>
-      <pubDate>Thu, 01 Aug 2013 00:00:00 +0000</pubDate>
+      <title>创建支持拖拽的进程</title>
+      <link>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</link>
+      <pubDate>Tue, 06 Aug 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://towriting.com/blog/2013/08/01/what-is-cpp11/</guid>
-      <description>什么是C++0x? C++0x是C++最新标准标准化过程中的曾用名，在这一系列文章中我们将介绍最新标准添加的一系列新的语言特性。在2011年9</description>
+      <guid>http://towriting.com/blog/2013/08/06/process-can-drag-drop/</guid>
+      <description>Win7下管理员权限的进程一般不支持拖拽，除非启动一个管理员权限的Explorer。前一段时间，同事给我提出一个需求：管理员权限进程创建非管</description>
+    </item>
+    
+    <item>
+      <title>Bg,Fg,&amp;,Ctrl-Z -- 5个例子搞定Unix(linux)后台任务</title>
+      <link>http://towriting.com/blog/2013/08/03/unix-background-job/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/03/unix-background-job/</guid>
+      <description>当你执行一个要花费很长时间的unix脚本或者命令时，你可以在后台执行这个任务。 在这篇文章中，让我们回顾一下如何执行一个任务到后台、将任务切换</description>
+    </item>
+    
+    <item>
+      <title>暴力禁止windows自动安装驱动</title>
+      <link>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/08/03/forbid-auto-install-driver/</guid>
+      <description>windows系统有时候给人的感觉很智能，很勤快，比如插入一个手机，它会自动帮你安装上相应驱动（前提是它能找到对应驱动）。但这种殷勤的行为不</description>
     </item>
     
     <item>
@@ -123,6 +240,24 @@
       
       <guid>http://towriting.com/blog/2013/07/31/de-elevate-start-process/</guid>
       <description>Win7下有些进程需要以管理员权限启动，比如安装程序。但又需要这个具有管理员权限的进程启动一个非管理员权限的进程。要实现这一点，方法很简单，</description>
+    </item>
+    
+    <item>
+      <title>获取进程打开的互斥量</title>
+      <link>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</link>
+      <pubDate>Thu, 25 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/25/mutexs-owned-by-process/</guid>
+      <description>最近有个任务涉及到区分【同进程名进程】，所以想到了用进程&amp;quot;拥有&amp;quot;的互斥量来区分这些进程。所以下面实现了获取指定进程&amp;qu</description>
+    </item>
+    
+    <item>
+      <title>Smart GetProcAddress之实现</title>
+      <link>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</link>
+      <pubDate>Sat, 20 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://towriting.com/blog/2013/07/20/smart-getprocaddress/</guid>
+      <description>Windows下有过编程经验的朋友肯定用过这个函数：GetProcAddress，作用呢，就是从加载的动态库中获取指定函数名的函数入口地址，</description>
     </item>
     
   </channel>
