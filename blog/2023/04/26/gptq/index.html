@@ -48,7 +48,7 @@
 <meta itemprop="name" content="GPTQ 量化过程解析">
 <meta itemprop="description" content="什么是GPTQ 量化是一种通过实数映射整数，来降低位宽度从而减小权重大小、提高推理速度的技术。随着大模型的兴起，常见的INT8量化已不满足降本"><meta itemprop="datePublished" content="2023-04-26T20:05:35+08:00" />
 <meta itemprop="dateModified" content="2023-04-26T20:05:35+08:00" />
-<meta itemprop="wordCount" content="1836">
+<meta itemprop="wordCount" content="1842">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="GPTQ 量化过程解析"/>
 <meta name="twitter:description" content="什么是GPTQ 量化是一种通过实数映射整数，来降低位宽度从而减小权重大小、提高推理速度的技术。随着大模型的兴起，常见的INT8量化已不满足降本"/>
@@ -147,7 +147,7 @@
         <div class="post-category">
             <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
             </div>
-          <span class="more-meta"> 1836 words </span>
+          <span class="more-meta"> 1842 words </span>
           <span class="more-meta"> 4 mins read </span>
         
       </div>
@@ -381,13 +381,13 @@
 <h3 id="3-算子是否采用了int4计算">3. 算子是否采用了INT4计算</h3>
 <p>没有，只是权重进行了量化，目前计算用的是fp32.</p>
 <h3 id="4-性能有提升吗">4. 性能有提升吗</h3>
-<p>没有提升，测试反而下降了，测试参数：bloom 7b模型 单卡，max_lenght 1024, do_sample=False, 使用bloom_inference.py对比测试：</p>
+<p>没有提升，测试反而下降了，测试参数：bloom 7b模型 单卡 int4量化，max_lenght 1024, do_sample=False, 使用bloom_inference.py对比测试：</p>
 <table>
 <thead>
 <tr>
 <th>bloom 7b</th>
 <th>fp16</th>
-<th>int8</th>
+<th>int4</th>
 </tr>
 </thead>
 <tbody>
