@@ -6,8 +6,17 @@
     <description>Recent content on 书写|记下人生痕迹</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <copyright>bugliu 2021</copyright>
-    <lastBuildDate>Sat, 03 Dec 2022 21:23:11 +0800</lastBuildDate><atom:link href="http://towriting.com/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>bugliu 2023</copyright>
+    <lastBuildDate>Wed, 26 Apr 2023 20:05:35 +0800</lastBuildDate><atom:link href="http://towriting.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPTQ 量化过程解析</title>
+      <link>http://towriting.com/blog/2023/04/26/gptq/</link>
+      <pubDate>Wed, 26 Apr 2023 20:05:35 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2023/04/26/gptq/</guid>
+      <description>什么是GPTQ 量化是一种通过实数映射整数，来降低位宽度从而减小权重大小、提高推理速度的技术。随着大模型的兴起，常见的INT8量化已不满足降本</description>
+    </item>
+    
     <item>
       <title>读《火种》</title>
       <link>http://towriting.com/blog/2022/12/03/hongzhong/</link>
