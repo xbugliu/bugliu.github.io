@@ -151,18 +151,18 @@ __global__ void VecQuant4MatMulKernel(
 
 ### 4. 性能有提升吗
 
-没有提升，测试反而下降了，测试参数：bloom 7b模型 单卡，max_lenght 1024, do_sample=False, 使用bloom_inference.py对比测试：
+ 性能基本没有提升，测试参数：bloom 7b模型 单卡 int4量化，max_lenght 1024, do_sample=False, 使用bloom_inference.py对比测试：
 
 
-
-| bloom 7b	| fp16	| int8 |
+| bloom 7b	| fp16	| int4 |
 | ------| ----- | --------- |
 | 文件大小	| 13.2G | 	5.0G | 
 | 显存占用（初始化完成）| 	13.9	| 7.8G | 
 | 显存占用（峰值）| 	19.8	| 15.4G | 
-| GPU算力	| 98%	| 98% | 
-| 速度（token/秒）| 	50.1	| 3.5 | 
+| GPU算力	| 70%	| 50% | 
+| 速度（token/秒）| 	53	| 35 | 
 
+从结果看，略有下降，后续需优化算子提升性能。
 
 [1]: https://huggingface.co/docs/optimum/concept_guides/quantization
 [2]: https://github.com/LianjiaTech/BELLE/blob/main/models/gptq/gptq.py
