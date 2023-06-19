@@ -187,7 +187,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 
 因为性能依然不理想，所以基于fastest-inference-4bit进行优化，经过三轮优化，最终实现：
 
-1. 耗时降低到cublas fp16耗时到31% (m=1)
+1. 耗时降低到cublas fp16耗时的31% (m=1)
 2. 耗时降低到fastest-inference-4bit的51% (m=1)
 3. 初步解决了m增加，耗时线性增加到问题, m=16时耗时降低到fastest-inference-4bit的10%
 
@@ -195,6 +195,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 
 * 测试环境：A100单卡，权重为bloom 175B 2卡query_key_value的尺寸：14336*21504
 * 矩阵乘算子耗时对比，时间单位（微秒）
+* BLOCKWIDTH=1024
 
 |  m   | cublas耗时 | int4-old-cuda-耗时 | int4-fastest-inference-4bit | 优化1 | 优化2 | 优化3  |
 | :--: | :----------------: | :-------------------: | :----------------------: | :------: | :------: | :--------: |
@@ -225,7 +226,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 *  减少bank冲突，加大deq2的冗余，减少冲突，当m=1，配置TBANK=32。
 
 工程实现注意事项：
-1. 因为share memory的限制，最多16行vec共享一次权重读取和还原时。对于m大于16的情况，16的整数倍通过配置blockIdx.z在一次kernel launch中执行，余数单独调用一次kernel launch
+1. 因为share memory的限制，最多16行vec共享一次权重读取和还原。m大于16时，16的整数倍通过配置blockIdx.z在一次kernel launch中执行，余数单独调用一次kernel launch
 
 优化效果：相比fastest-inference-4bit耗时降低35%, 且m增加耗时增加问题改善。
 
@@ -489,19 +490,19 @@ __global__ void VecQuant4MatMulKernel_perf(
 经过3轮优化后，m<16时，int4算子比cublas有明显优势，但当m>16时，int4算子耗时增加明显。
 
 在FastTransformer中，有2个场景会用到m>16:
-1. 生成content的阶段，即由embding计算kv cache的时候，m=batch*input_token_len，m很容易超过16，此时慢会影响首字耗时
-2. 在生成一个tokenid的过程中，m=batch, 一般很难超过16
+1. 生成content阶段，即由embding计算kv cache的时候，m=batch*input_token_len，m很容易超过16，一次推理调用一次，会影响首字耗时
+2. 生成一个token阶段，m=batch, 一般很难超过16
 
-因为m>16会影响首字耗时，所以采用下列策略：
+因为m>16会影响首字耗时，所以采用下列策略优化：
 
-1. 回退cublas的方案，因为cublas随着m的增加耗时基本不增加，所以实现了一个反量化的接口，对于m>48的场景先反量化到fp16，然后再调用cublas, 48为实测下，反量化+cublas耗时小于int4算子耗时的拐点。
+1. 回退cublas的方案，因为cublas对多m优化较好，所以实现了一个反量化的接口，对于m>48的场景先反量化到fp16，然后再调用cublas。48为实测下，反量化+cublas耗时小于int4算子耗时的拐点。
 2. 反量化需要显存，一块卡复用一个buf即可。
 
 ### kernel优化的套路
 
 因为我也是第一次做kernel优化，所以记录下：
 
-1. 规划好block和thread的职责，先实现一个版本，常见的优化方法：多级存储，向量化读写
+1. 规划好block和thread的职责，先实现一个简单的版本
 2. 核对kernel结果是否正确
 3. 调整grid和block的size, 对比测试找到一个最优的值
 4. 使用 Nsight Compute分析kernel的瓶颈, 需要关注的点：
@@ -510,6 +511,7 @@ __global__ void VecQuant4MatMulKernel_perf(
   * memory workload 里面的bank conflict
   * Source Counters 可以定位warp挂起的原因
 5. 解决Nsight Compute分析出的瓶颈
+6. 常见的优化方法：多级存储，向量化读写
 
 ##  四、未完的事
 
