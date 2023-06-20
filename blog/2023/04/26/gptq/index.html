@@ -48,7 +48,7 @@
 <meta itemprop="name" content="GPTQ 量化过程解析">
 <meta itemprop="description" content="什么是GPTQ 量化是一种通过实数映射整数，来降低位宽度从而减小权重大小、提高推理速度的技术。随着大模型的兴起，常见的INT8量化已不满足降本"><meta itemprop="datePublished" content="2023-04-26T20:05:35+08:00" />
 <meta itemprop="dateModified" content="2023-04-26T20:05:35+08:00" />
-<meta itemprop="wordCount" content="1860">
+<meta itemprop="wordCount" content="1895">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="GPTQ 量化过程解析"/>
 <meta name="twitter:description" content="什么是GPTQ 量化是一种通过实数映射整数，来降低位宽度从而减小权重大小、提高推理速度的技术。随着大模型的兴起，常见的INT8量化已不满足降本"/>
@@ -147,7 +147,7 @@
         <div class="post-category">
             <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
             </div>
-          <span class="more-meta"> 1860 words </span>
+          <span class="more-meta"> 1895 words </span>
           <span class="more-meta"> 4 mins read </span>
         
       </div>
@@ -173,6 +173,7 @@
         <li><a href="#权重保存">权重保存</a></li>
         <li><a href="#问答">问答</a>
           <ul>
+            <li><a href="#0-量化后精度损失如何">0. 量化后精度损失如何</a></li>
             <li><a href="#1-量化了哪些算子">1. 量化了哪些算子</a></li>
             <li><a href="#2-能降低多少显存">2. 能降低多少显存</a></li>
             <li><a href="#3-算子是否采用了int4计算">3. 算子是否采用了INT4计算</a></li>
@@ -357,6 +358,8 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="问答">问答</h2>
+<h3 id="0-量化后精度损失如何">0. 量化后精度损失如何</h3>
+<p>经过评测精度损失可以接受</p>
 <h3 id="1-量化了哪些算子">1. 量化了哪些算子</h3>
 <p>量化了Transfromer decoder层的四个算子：</p>
 <ul>
@@ -419,6 +422,7 @@
 </tbody>
 </table>
 <p>从结果看，略有下降，后续需优化算子提升性能。</p>
+<p>传送门：<a href="/blog/2023/06/19/gptq2">GPTQ 落地与优化</a></p>
 <p>参考：
 <a href="https://oldpan.me/archives/how-to-quan-1">https://oldpan.me/archives/how-to-quan-1</a></p>
 
