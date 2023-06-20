@@ -5,23 +5,23 @@ date: 2023-06-19T20:41:48+08:00
 categories: ["开发"]
 ---
 
-回顾前一篇[文章][2]，GPTQ给大模型带来了降本的可能，但无法直接落地。经过迁移适配，我们将GPTQ的INT4 Kernel集成进[FasterTransformer][3]（简称FT），优化后可以在2卡A100运行175B的模型，对比fp16相同算力下**性能提升3.8倍，成本降低74%**。
+回顾前一篇[文章][2]，GPTQ给大模型带来了降本的可能，但存在性能不佳的问题，无法直接落地。经过迁移适配，我们将GPTQ的INT4 Kernel集成进[FasterTransformer][3]（简称FT），优化后可以在2卡A100运行175B的模型，对比fp16相同算力下**性能提升3.8倍，成本降低74%**。
 
 看一下数据：
-| 模型版本                            | 模型文件大小 | 初始显存 | 峰值显存 | 显卡(A100)个数 | 算力  | 每秒生成token数 |
+| 模型版本                            | 模型大小 | 初始显存 | 峰值显存 | 显卡(A100)数 | 算力  | 每秒生成token数 |
 | ----------------------------------- | -------- | -------- | -------- | ------ | ----- | ---- |
 | FP16                                | 329G     | 49G*8    | 无数据   | 8卡    | 99%   | 23   |
 | INT8                                | 329G     | 49G*4    | 50G*4    | 4卡    | 99%   | 27   |
-| INT4-开源版本-old-cuda              | 93G      | 52G*2    | 54G*2    | 2卡    | 99%   | 10   |
-| INT4-开源版本-fastest-inference-4bit| 93G      | 52G*2    | 54G*2    | 2卡    | 99%   | 12   |
+| INT4-old-cuda              | 93G      | 52G*2    | 54G*2    | 2卡    | 99%   | 10   |
+| INT4-fastest-inference-4bit| 93G      | 52G*2    | 54G*2    | 2卡    | 99%   | 12   |
 | INT4-优化版本                       | 93G      | 52G*2    | 54G*2    | 2卡    | 99%   | 22   |
 
 
 测试基于FasterTransformer, 基础模型为bloom 175B, 模型版本:
 * FP16 - 默认的推理方式，配置8卡Tensor并行，Linear算子调用的cublas的gemm
-* INT8 - Weight Only的量化方式，算子基于cutlass::gemm::kernel::GemmFpAIntB
-* [INT4-开源版本-old-cuda][0] GPTQ最初的开源实现，VecQuant4MatMulKernel是INT4的矩阵乘算子
-* [INT4-开源版本-fastest-inference-4bit][1] GPTQ-for-LLaMa项目对INT4算子做了优化，主要的改动是2个half变成一个half2
+* INT8 - Weight Only量化，算子基于cutlass::gemm::kernel::GemmFpAIntB
+* [INT4-old-cuda][0] GPTQ最初的开源实现，VecQuant4MatMulKernel是INT4的矩阵乘算子
+* [INT4-fastest-inference-4bit][1] GPTQ-for-LLaMa项目对INT4算子做了优化，主要的改动是2个half变成一个half2
 * INT4-优化版本 我们基于fastest-inference-4bit版本做了一些优化
 
 ## 一、FT改造
@@ -46,8 +46,8 @@ INT4权重说明：
 
 ```python
 
-# 处理int4权重，转换名字，保存成numpy格式
- def _process_quant_file(model_config, model_file, dtype: torch.dtype, tp_size: int, save_dir: Path):
+# 处理int4权重，转换名字，保存成numpy格式, model_file为gptq int4量化后保存的权重文件
+def _process_quant_file(model_config, model_file, dtype: torch.dtype, tp_size: int, save_dir: Path):
     state_dict = torch.load(model_file, map_location="cpu")
     for name in state_dict:
         param = state_dict[name]
@@ -87,7 +87,7 @@ def reorder_qkv_weight_or_bias(model_config: PretrainedConfig,
 修改ParallelGptDecoderLayerWeight<T>::loadModel函数，以加载int4的权重文件，比较简单，不再赘述。
 
 ### 替换矩阵乘kernel
-封装[vecquant4matmul_cuda][0]算子成GptqGemmRunner，然后替换掉  
+封装[vecquant4matmul_cuda][0]算子成GptqGemmRunner类，然后替换掉  
 * self_attention.dense 
 * self_attention.query_key_value 
 * mlp.dense_4h_to_h 
@@ -131,7 +131,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 ```
 
 ## 二、kernel性能摸底
-调通流程不难，难点在于kernel算子性能，未经优化int4的kernel性能不及FP16，不符合预期，所以必须针对kernel进行优化。
+调通流程不难，难点在于kernel算子性能，未优化的int4 kernel性能不及FP16，不符合预期，性能优化势在必行。
 
 ### 1. 原始实现-old-cuda
 参加代码[VecQuant4MatMulKernel][0]:
@@ -150,7 +150,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 * 从mat中获取Int32的权重，通过scale和zero还原成8个fp16，与blockvec中的值进行乘加。
 * 将乘加的结果通过atomicAdd保存到mul中。
 
-性能测试：
+kernel算子性能测试：
 
 * 测试环境：A100单卡，权重为bloom 175B 2卡query_key_value的尺寸：14336*21504
 * 矩阵乘算子耗时对比，时间单位（微秒）
@@ -168,7 +168,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 
 结论：默认的实现有一些问题：
 
-1. int4比fp16约快37%，不符合预期，应该更快。因为带宽约降低75%，算力增加了约2倍，但带宽一般是瓶颈。
+1. int4比fp16约快37%(m=1)，不符合预期，应该更快。因为带宽约降低75%，算力增加了约2倍，但带宽一般是瓶颈。
 2. 默认的BLOCKWIDTH配置的太小，计算访存比低，测试下来1024最优。
 3. 随着M的增加，耗时线性增加，原因是多个M未做还原复用。
 
@@ -214,7 +214,7 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 
 
 优化思想：
-* 合并减少读取scale和zero的次数 因为每128个权重共享一个scale和zero。
+* 合并减少读取scale和zero的次数 因为每128个权重共享一个scale和zero, 所以每128个int4权重读取一次scale和zero, 并不需要每8个int4读一次。
 * 加大每个线程处理的结果数，每个线程处理2个结果。
 
 优化效果：相比fastest-inference-4bit耗时降低22%。
@@ -228,10 +228,12 @@ void DecoderSelfAttentionLayer<T>::forward(TensorMap*                output_tens
 工程实现注意事项：
 1. 因为share memory的限制，最多16行vec共享一次权重读取和还原。m大于16时，16的整数倍通过配置blockIdx.z在一次kernel launch中执行，余数单独调用一次kernel launch
 
-优化效果：相比fastest-inference-4bit耗时降低35%, 且m增加耗时增加问题改善。
+优化效果：相比fastest-inference-4bit耗时降低35%, 且m增加耗时增加问题较大改善。
 
 
 <!-- ```
+
+
 template <int BATCH, int TWIDTH, int TBANK, typename scalar_t>
 __global__ void VecQuant4MatMulKernel_perf2(
     const  half2* __restrict__ vec,
@@ -362,6 +364,13 @@ __global__ void VecQuant4MatMulKernel_perf2(
 
 最终矩阵乘代码：
 ```
+
+// int4 矩阵乘
+// BATCH: 每BATCH行共享mat的还原,。m<16时，BATCH=m; m>16时BATCH=16, 然后blockIdx.z=16的倍数，余数单独调用一次kernel。
+// TWIDTH: 每个block处理[BATCH, TWIDTH] * [TWIDTH, TWIDTH], 需根据显卡实际测试最优值。
+// TBANK: 控制deq2的冗余，减少bank冲突，取值范围[1, 32]
+// scalar_t: vec的数据类型，fp16
+
 template <int BATCH, int TWIDTH, int TBANK, typename scalar_t>
 __global__ void VecQuant4MatMulKernel_perf(
     const  half2* __restrict__ vec,
@@ -490,12 +499,12 @@ __global__ void VecQuant4MatMulKernel_perf(
 经过3轮优化后，m<16时，int4算子比cublas有明显优势，但当m>16时，int4算子耗时增加明显。
 
 在FastTransformer中，有2个场景会用到m>16:
-1. 生成content阶段，即由embding计算kv cache的时候，m=batch*input_token_len，m很容易超过16，一次推理调用一次，会影响首字耗时
+1. 生成context阶段，即由embedding计算kv cache的时候，m=batch*input_token_len，m很容易超过16，一次推理调用一次，会影响首字耗时
 2. 生成一个token阶段，m=batch, 一般很难超过16
 
 因为m>16会影响首字耗时，所以采用下列策略优化：
 
-1. 回退cublas的方案，因为cublas对多m优化较好，所以实现了一个反量化的接口，对于m>48的场景先反量化到fp16，然后再调用cublas。48为实测下，反量化+cublas耗时小于int4算子耗时的拐点。
+1. 回退cublas，因为cublas对多m优化较好，所以实现了一个反量化的接口，对于m>48的场景先反量化到fp16，然后再调用cublas。48为实测下，反量化+cublas耗时小于int4算子耗时的拐点。
 2. 反量化需要显存，一块卡复用一个buf即可。
 
 ### kernel优化的套路
@@ -517,6 +526,7 @@ __global__ void VecQuant4MatMulKernel_perf(
 
 1. 继续优化int4的kernel, 在m>16后，应该有更优雅的实现方法
 2. 实现并验证双buf预取方法，增加带宽的利用率
+3. 一些疑点：为何INT2向量化读慢于2个int32 
 
 
 [0]: https://github.com/qwopqwop200/GPTQ-for-LLaMa/blob/old-cuda/quant_cuda_kernel.cu
