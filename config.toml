@@ -113,7 +113,7 @@ post = "/blog/:year/:month/:day/:filename/"
   baiduVerification = ""   # Baidu Verification
   googleVerification = ""  # Google Verification         # 谷歌
 
-  googleAnalyticsID = "G-YXVB4P8382"
+  googleAnalyticsID = "G-R5GWFRP16Y"
 
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)

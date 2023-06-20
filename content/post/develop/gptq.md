@@ -123,6 +123,12 @@ __global__ void VecQuant4MatMulKernel(
 ```
 
 ## 问答
+
+### 0. 量化后精度损失如何
+
+经过评测精度损失可以接受
+
+
 ### 1. 量化了哪些算子
    
 量化了Transfromer decoder层的四个算子：
@@ -164,12 +170,15 @@ __global__ void VecQuant4MatMulKernel(
 
 从结果看，略有下降，后续需优化算子提升性能。
 
+传送门：[GPTQ 落地与优化][7]
+
 [1]: https://huggingface.co/docs/optimum/concept_guides/quantization
 [2]: https://github.com/LianjiaTech/BELLE/blob/main/models/gptq/gptq.py
 [3]: https://intellabs.github.io/distiller/algo_quantization.html
 [4]: https://pytorch.org/docs/stable/generated/torch.nn.Linear.html
 [5]: https://github.com/LianjiaTech/BELLE/blob/main/models/gptq/bloom.py
 [6]: https://github.com/LianjiaTech/BELLE/blob/main/models/gptq/bloom_inference.py
+[7]: /blog/2023/06/19/gptq2
 
 
 参考：
