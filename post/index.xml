@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2023</copyright>
-    <lastBuildDate>Wed, 26 Apr 2023 20:05:35 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Jun 2023 20:41:48 +0800</lastBuildDate><atom:link href="http://towriting.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPTQ 落地与优化</title>
+      <link>http://towriting.com/blog/2023/06/19/gptq2/</link>
+      <pubDate>Mon, 19 Jun 2023 20:41:48 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2023/06/19/gptq2/</guid>
+      <description>回顾前一篇文章，GPTQ给大模型带来了降本的可能，但存在性能不佳的问题，无法直接落地。经过迁移适配，我们将GPTQ的INT4 Kernel集成</description>
+    </item>
+    
     <item>
       <title>GPTQ 量化过程解析</title>
       <link>http://towriting.com/blog/2023/04/26/gptq/</link>
