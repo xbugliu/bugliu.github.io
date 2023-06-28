@@ -5,7 +5,7 @@ date: 2023-06-19T20:41:48+08:00
 categories: ["开发"]
 ---
 
-回顾前一篇[文章][2]，GPTQ给大模型带来了降本的可能，但存在性能不佳的问题，无法直接落地。经过迁移适配，我们将GPTQ的INT4 Kernel集成进[FasterTransformer][3]（简称FT），优化后可以在2卡A100运行175B的模型，对比fp16相同算力下**性能提升3.8倍，成本降低74%**。
+回顾前一篇[文章][2]，GPTQ给大模型带来了降本的可能，但存在性能不佳的问题，无法直接落地。经过迁移适配，我们将GPTQ的INT4 Kernel集成进[FasterTransformer][3]（简称FT），优化后可以在2卡A100运行175B的模型，对比fp16相同算力下性能提升近4倍。
 
 看一下数据：
 | 模型版本                            | 模型大小 | 初始显存 | 峰值显存 | 显卡(A100)数 | 算力  | 每秒生成token数 |
@@ -233,7 +233,6 @@ kernel算子性能测试：
 
 <!-- ```
 
-
 template <int BATCH, int TWIDTH, int TBANK, typename scalar_t>
 __global__ void VecQuant4MatMulKernel_perf2(
     const  half2* __restrict__ vec,
@@ -293,12 +292,12 @@ __global__ void VecQuant4MatMulKernel_perf2(
     half2 scale = __float2half2_rn(scale_f);
     half2 zero = __float2half2_rn(-(scale_f * (((as_unsigned(zeros[g * zero_width + z_w]) >> z_mod) & 0xF) + 1)));
 
-   float scale_f2 = scales[g * width + w2];
+    float scale_f2 = scales[g * width + w2];
     half2 scale2 = __float2half2_rn(scale_f2);
     half2 zero2 = __float2half2_rn(-(scale_f2 * (((as_unsigned(zeros[g * zero_width + z_w2]) >> z_mod2) & 0xF) + 1)));
 
     const int gk = GROUPSIZE / 2 * (gi+1);
-    while (k < gk) { // blockvec一次取2个值
+    while (k < gk) {
 
       tmp = as_unsigned(mat[i]);
       tmp2 = as_unsigned(mat[i + blockwidth2]);
