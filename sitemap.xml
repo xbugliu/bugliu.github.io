@@ -3,27 +3,48 @@
   
   <url>
     <loc>http://towriting.com/categories/</loc>
-    <lastmod>2023-06-19T20:41:48+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://towriting.com/blog/2023/06/19/gptq2/</loc>
-    <lastmod>2023-06-19T20:41:48+08:00</lastmod>
+    <lastmod>2023-09-17T20:30:49+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/post/</loc>
-    <lastmod>2023-06-19T20:41:48+08:00</lastmod>
+    <lastmod>2023-09-17T20:30:49+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://towriting.com/</loc>
+    <lastmod>2023-09-17T20:30:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2023/09/17/leader-weicao/</loc>
+    <lastmod>2023-09-17T20:30:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E8%81%8C%E5%9C%BA/</loc>
+    <lastmod>2023-09-17T20:30:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2023/09/02/continuous-batch/</loc>
+    <lastmod>2023-09-02T12:24:53+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/blog/2023/06/19/gptq2/</loc>
     <lastmod>2023-06-19T20:41:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -150,13 +171,6 @@
   
   <url>
     <loc>http://towriting.com/tags/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2022-01-05T20:10:24+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://towriting.com/categories/%E8%81%8C%E5%9C%BA/</loc>
     <lastmod>2022-01-05T20:10:24+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

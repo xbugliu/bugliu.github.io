@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Continuous batch架构剖析 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2023/09/02/continuous-batch/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Continuous batch架构剖析" />
+<meta property="og:description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2023/09/02/continuous-batch/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-09-02T12:24:53+08:00" />
+<meta property="article:modified_time" content="2023-09-02T12:24:53+08:00" />
+<meta itemprop="name" content="Continuous batch架构剖析">
+<meta itemprop="description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐"><meta itemprop="datePublished" content="2023-09-02T12:24:53+08:00" />
+<meta itemprop="dateModified" content="2023-09-02T12:24:53+08:00" />
+<meta itemprop="wordCount" content="3283">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Continuous batch架构剖析"/>
+<meta name="twitter:description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+  
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R5GWFRP16Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-R5GWFRP16Y');
+</script>
+  
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Continuous batch架构剖析</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-09-02 </span>
+        
+          <span class="more-meta"> 3283 words </span>
+          <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#什么是continuous-batch">什么是continuous batch</a></li>
+        <li><a href="#基于fastertransfromer的continuous-batch">基于FasterTransfromer的Continuous batch</a></li>
+        <li><a href="#pagedattention">PagedAttention</a></li>
+        <li><a href="#架构解析">架构解析</a>
+          <ul>
+            <li><a href="#client--tritionbackend">Client &amp; TritionBackend</a></li>
+            <li><a href="#workermanager">WorkerManager</a></li>
+            <li><a href="#worker">Worker</a></li>
+            <li><a href="#cacheengine--blockmanager">CacheEngine &amp; BlockManager</a></li>
+            <li><a href="#buffermanager">BufferManager</a></li>
+            <li><a href="#scheduler">Scheduler</a></li>
+            <li><a href="#model">Model</a></li>
+            <li><a href="#显存预分配">显存预分配</a></li>
+            <li><a href="#配置">配置</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="什么是continuous-batch">什么是continuous batch</h2>
+<p>介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐量(throughput)的一种方法。其原理有三：</p>
+<ol>
+<li>并发提升，提升了GPU核的利用率</li>
+<li>显卡带宽&amp;算力的复用，比如矩阵乘多batch时权重的带宽复用</li>
+<li>Kernel Launch次数减少，有效载荷提升</li>
+</ol>
+<p>传统的Batch是模型粒度的，将多个请求合并在一起，然后调用模型的推理接口，完成后在解batch，将结果返回给各个请求。这种方式对于大语言模型推理并不适用，因为大模型的推理有2个特点：</p>
+<ol>
+<li>生成长度不可知</li>
+<li>一个请求的时间可能很长</li>
+</ol>
+<p>这2个特点导致，传统的Batch方案会导致极大的算力浪费，系统大部分时间都在处理较长的请求，如图所示：</p>
+<p>各个框架都注意到这个问题，23年5月 TGI提出了<a href="https://github.com/huggingface/text-generation-inference/tree/main/router#continuous-batching">Continuous batching</a>的解决方案，后vllm 实现了PagedAttention更加强了Continuous batching的能力。除了Continuous batching，lmdeploy里面的<a href="https://github.com/InternLM/lmdeploy/blob/main/docs/zh_cn/turbomind.md#persistent-batch">Persistent Batch</a>，TensorRT里面的Inflight Batch都是相似的思路。</p>
+<p>Continuous batching是专门提升大语言模型吞吐量的一种组batch方式，相比于传统的模型粒度的组batch，是在迭代阶段(生成token)组batch，完美的规避了请求长短不一的问题。如图所示：</p>
+<p>除了batch，有些同学询问是否可以通过多并发来提升大模型吞吐量，回答是提升有限。前面batch提升吞吐量的三个原理，多并发只对第一个原理有帮助，而在大模型推理领域，原因2带宽也是很关键的。</p>
+<p>另外需要注意吞吐量和延迟(latency)是矛盾的，Batch在提升吞吐量的同时，往往伴随着延迟的增加。</p>
+<h2 id="基于fastertransfromer的continuous-batch">基于FasterTransfromer的Continuous batch</h2>
+<p>FasterTransfromer（简称FT）是英伟达开源的针对transformer结构的加速引擎，在单batch场景下有非常优秀的表现，但只支持普通batch, 且有诸多限制，所以早在VLLM以前我们就计划优化FasterTransfromer的batch。正好vllm的成功给了我们启发和借鉴。</p>
+<p>有人会说Vllm已足够优秀，基于FasterTransformer新造轮子是否有意义？ 答案是非常有必要，就像简单的一道西红柿炒蛋，食材一样，但锅具不同，厨师各异， 味道天地之别。在大模型GPU推理上，为性能计，C++这口锅显然优于Python（vllm基于python），加上我们针对业务场景优化，性能超越Vllm是水到渠成的。看一下数据：</p>
+<p>为了对比的公平性，移除了vllm里面的tokenizer，放入测试脚本中。对比vllm，FT实现有如下优化：</p>
+<ol>
+<li>无python的GIL问题，观察vllm, batch&gt;16时cpu占用率100%，并发越高，cuda util越低，GIL的问题非常明显</li>
+<li>预分配显存内存 在服务启动时预分配资源，减少推理过程中的动态开销。</li>
+<li>更高效的算子，比如qkv拆分+保存cache+bias融合为一个算子，更快的<a href="https://github.com/vllm-project/vllm/issues/249">sample算子</a></li>
+<li>调度层细节优化  比如 一、获取结果用内核信号量代替vllm里面的map查询，二、仅任务变更时才刷新mask,  三、alibi全局计算一次 等等</li>
+</ol>
+<p>当然我们是参考vllm实现了这些功能，有后发优势，vllm中依然有一些优秀的feature:  flashattention, tokenizer增量解码等值得借鉴。</p>
+<h2 id="pagedattention">PagedAttention</h2>
+<p>在PagedAttention以前，kv cache一般基于output_length预分配的，output_lenght往往很大，导致显存占用很大，比如175B output_lenght=1024时显存占用3.9G。但实际生成的output_lenght往往很小，导致显存的巨大浪费。显存的浪费导致，导致无法组很大的batch, 吞吐量上不去。</p>
+<p>所以vllm发明了PagedAttention，减少kv cache显存浪费，从而可以配合continuous batch提高batch数，提升吞吐量。核心原理如图：</p>
+<p>keycache和valuecache是独立存在的，以keycache说明</p>
+<ol>
+<li>cache申请为连续的显存</li>
+<li>逻辑上上以页来划分，每个页有Block_size个槽位(slot), 每个槽位对应一个Token</li>
+<li>会话在生成过程中，动态按页申请显存。每个会话维护一个页表</li>
+<li>推理时将页表信息传入MHA算子，即为PagedAttention。</li>
+</ol>
+<p>这里可以看出PagedAttention的优势是按页分配无浪费，但引入了一个问题，页是动态申请的，会话进行到一半申请不到页怎么办？这个就是后面调度要解决的了。</p>
+<h2 id="架构解析">架构解析</h2>
+<h3 id="client--tritionbackend">Client &amp; TritionBackend</h3>
+<p>这2个模块是接口层，接收服务端的请求，构造一个Task, 并添加到工作队列中，然后就不停的等待新Token的产生，直到结束。结果流式的推送到TritionBackend中。</p>
+<p>TritionBackend进行改造，兼容老版本接口，服务端或triton可以直接运行。</p>
+<h3 id="workermanager">WorkerManager</h3>
+<p>worker的协调者，负责初始化worker和创建多worker间的共享数据</p>
+<h3 id="worker">Worker</h3>
+<p>batch推理的具体协调和驱动者。每个卡一个worker,  每个worker中有一个model和cacheEngine, 卡0的worker额外有Scheduler和blockManager，用来调度Task组Batch，驱动model进行模型推理。</p>
+<h3 id="cacheengine--blockmanager">CacheEngine &amp; BlockManager</h3>
+<p>CacheEngine是kvcache物理层面的管理者，作用有2:</p>
+<ol>
+<li>启动时预分配kvcache，每一层的cache是一个连续的显存（keycache和value分别是独立的地址）</li>
+<li>当调度发生swap时，处理显存和内存的SwapIn &amp; SwapOut</li>
+</ol>
+<p>BlockManager是kvcache逻辑层面的管理者，主要是维护闲置页列表:</p>
+<ol>
+<li>当会话来申请时，有闲置页则给它，移出闲置页列表</li>
+<li>会话结束，再把页还回来，加入闲置页列表</li>
+</ol>
+<h3 id="buffermanager">BufferManager</h3>
+<p>推理过程中衔接流程的buffer很多，比如<code>input_ids_buf</code>, <code>logits_buf</code>, <code>qk_buf</code>, 这些除了attention过程中的q<em>k的qk_buf（num_head</em>seq_len*seq_len）外一般都比较小。 BufferManager负责部分buffer，另外一部分buffer由model自行维护。</p>
+<h3 id="scheduler">Scheduler</h3>
+<h3 id="model">Model</h3>
+<p>Model是具体模型的实现，比如Bloom、GLM2。欲支持contiuous batch最主要的工作是支持PagedAttention, 其Forward方法相比于之前的循环迭代生成token, 变成了每次只生成一个Token（每个batch一个)。流程如下图：</p>
+<p>框架抽象好Model的接口，我们可以任意的添加新的模型，新的模型无需关注调度等逻辑。</p>
+<h3 id="显存预分配">显存预分配</h3>
+<p>预分配目的有2：</p>
+<ol>
+<li><strong>为性能计</strong></li>
+<li><strong>防患未然</strong>  定位过多次input_len过长OOM导致的Crash, 预分配提前检查显存是否满足业务方最大值情况，不满足则启动时报错。</li>
+</ol>
+<p>那如何预分配呢？用到显存的3个模块:CacheEngine、BufferManager和Model。显存取决于input_token_len和output_token_len，通过业务配置的max_input_token_len和max_output_token_len，计算出三个模块在单batch下需要的显存大小，然后根据系统剩余显存，计算出可分配的malloc_max_input_token_len和malloc_max_output_len, 并用这2个值调用3个模块申请显存。</p>
+<h3 id="配置">配置</h3>
+<p>配置较简单。内部杂乱的配置项，通过启动时显存和运行时系统的负载自动调节。</p>
+<p>目前部署时需关注2个选项：</p>
+<ul>
+<li><code>FT_INPUT_TOKEN_LEN</code> - 对于context阶段不支持FlashAttention的Model, <code>FT_INPUT_TOKEN_LEN</code>过大会导致kvcache空间过小，进而batch上不去。</li>
+<li><code>FT_OUTPUT_TOKEN_LEN</code> - 和<code>FT_INPUT_TOKEN_LEN</code>共同影响kvcache的显存，分配的kvcache不满足单batch的input_token_len + output_token_len则启动失败。</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/blog/2023/09/17/leader-weicao/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">带新人切忌“太好心”</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/blog/2023/06/19/gptq2/">
+            <span class="next-text nav-default">GPTQ 落地与优化</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2023</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/slideout/1.0.1/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

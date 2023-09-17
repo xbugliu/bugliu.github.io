@@ -7,7 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2023</copyright>
-    <lastBuildDate>Mon, 19 Jun 2023 20:41:48 +0800</lastBuildDate><atom:link href="http://towriting.com/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Sep 2023 20:30:49 +0800</lastBuildDate><atom:link href="http://towriting.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>带新人切忌“太好心”</title>
+      <link>http://towriting.com/blog/2023/09/17/leader-weicao/</link>
+      <pubDate>Sun, 17 Sep 2023 20:30:49 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2023/09/17/leader-weicao/</guid>
+      <description>从一个真实的故事讲起，那年学驾照，带我的王教练会骂人，但因为考试通过率高，慕名来的学生很多，忙不过来的时候会雇另一位李教练帮他带学生。闲聊中</description>
+    </item>
+    
+    <item>
+      <title>Continuous batch架构剖析</title>
+      <link>http://towriting.com/blog/2023/09/02/continuous-batch/</link>
+      <pubDate>Sat, 02 Sep 2023 12:24:53 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2023/09/02/continuous-batch/</guid>
+      <description>什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐</description>
+    </item>
+    
     <item>
       <title>GPTQ 落地与优化</title>
       <link>http://towriting.com/blog/2023/06/19/gptq2/</link>
