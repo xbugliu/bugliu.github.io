@@ -170,6 +170,9 @@ post = "/blog/:year/:month/:day/:filename/"
     placeholder = '说点什么吧...'
     visitor = false
 
+  [params.waline]
+    enable = true
+
   [params.flowchartDiagrams]# see https://blog.olowolo.com/example-site/post/js-flowchart-diagrams/
     enable = false
     options = ""

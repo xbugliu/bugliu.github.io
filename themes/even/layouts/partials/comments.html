@@ -135,4 +135,9 @@
     <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
   {{- end }}
 
+  <!-- waline -->
+  {{- if .Site.Params.waline.enable}}
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+  {{- end }}
+
 {{- end }}

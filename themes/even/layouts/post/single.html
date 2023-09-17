@@ -68,5 +68,23 @@
         {{- end }}
       </nav>
     </footer>
+
+
+
+    <!-- waline -->
+    {{- if .Site.Params.waline.enable}}
+
+    <div id="waline"></div>
+    <script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+    init({
+      el: '#waline',
+      serverURL: 'https://ping.towriting.com',
+    });
+    </script>
+
+    {{- end }}
+
   </article>
 {{- end }}
