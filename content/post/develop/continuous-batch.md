@@ -6,6 +6,7 @@ draft: true
 
 ## 什么是continuous batch
 
+
 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐量(throughput)的一种方法。其原理有三：
 1. 并发提升，提升了GPU核的利用率
 2. 显卡带宽&算力的复用，比如矩阵乘多batch时权重的带宽复用
@@ -59,6 +60,64 @@ keycache和valuecache是独立存在的，以keycache说明
 这里可以看出PagedAttention的优势是按页分配无浪费，但引入了一个问题，页是动态申请的，会话进行到一半申请不到页怎么办？这个就是后面调度要解决的了。
 
 ## 架构解析
+
+### Client & TritionBackend 
+
+这2个模块是接口层，接收服务端的请求，构造一个Task, 并添加到工作队列中，然后就不停的等待新Token的产生，直到结束。结果流式的推送到TritionBackend中。
+
+TritionBackend进行改造，兼容老版本接口，服务端或triton可以直接运行。 
+
+### WorkerManager
+worker的协调者，负责初始化worker和创建多worker间的共享数据
+
+### Worker
+batch推理的具体协调和驱动者。每个卡一个worker,  每个worker中有一个model和cacheEngine, 卡0的worker额外有Scheduler和blockManager，用来调度Task组Batch，驱动model进行模型推理。
+
+### CacheEngine & BlockManager
+
+CacheEngine是kvcache物理层面的管理者，作用有2:
+
+1. 启动时预分配kvcache，每一层的cache是一个连续的显存（keycache和value分别是独立的地址）
+2. 当调度发生swap时，处理显存和内存的SwapIn & SwapOut
+
+BlockManager是kvcache逻辑层面的管理者，主要是维护闲置页列表:
+1. 当会话来申请时，有闲置页则给它，移出闲置页列表
+2. 会话结束，再把页还回来，加入闲置页列表
+
+### BufferManager
+
+推理过程中衔接流程的buffer很多，比如`input_ids_buf`, `logits_buf`, `qk_buf`, 这些除了attention过程中的q*k的qk_buf（num_head*seq_len*seq_len）外一般都比较小。 BufferManager负责部分buffer，另外一部分buffer由model自行维护。
+
+### Scheduler
+
+
+
+
+### Model
+
+Model是具体模型的实现，比如Bloom、GLM2。欲支持contiuous batch最主要的工作是支持PagedAttention, 其Forward方法相比于之前的循环迭代生成token, 变成了每次只生成一个Token（每个batch一个)。流程如下图：
+
+
+框架抽象好Model的接口，我们可以任意的添加新的模型，新的模型无需关注调度等逻辑。
+
+### 显存预分配
+
+预分配目的有2：
+1. **为性能计**
+2. **防患未然**  定位过多次input_len过长OOM导致的Crash, 预分配提前检查显存是否满足业务方最大值情况，不满足则启动时报错。
+
+那如何预分配呢？用到显存的3个模块:CacheEngine、BufferManager和Model。显存取决于input_token_len和output_token_len，通过业务配置的max_input_token_len和max_output_token_len，计算出三个模块在单batch下需要的显存大小，然后根据系统剩余显存，计算出可分配的malloc_max_input_token_len和malloc_max_output_len, 并用这2个值调用3个模块申请显存。
+
+
+### 配置
+
+配置较简单。内部杂乱的配置项，通过启动时显存和运行时系统的负载自动调节。
+
+目前部署时需关注2个选项：
+
+* `FT_INPUT_TOKEN_LEN` - 对于context阶段不支持FlashAttention的Model, `FT_INPUT_TOKEN_LEN`过大会导致kvcache空间过小，进而batch上不去。
+* `FT_OUTPUT_TOKEN_LEN` - 和`FT_INPUT_TOKEN_LEN`共同影响kvcache的显存，分配的kvcache不满足单batch的input_token_len + output_token_len则启动失败。
+
 
 
 [1]:https://github.com/vllm-project/vllm/issues/249
