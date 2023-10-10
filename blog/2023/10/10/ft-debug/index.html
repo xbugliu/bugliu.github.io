@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>FasterTransfromer调试技巧 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/2023/10/10/ft-debug/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="FasterTransfromer调试技巧" />
+<meta property="og:description" content="FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/2023/10/10/ft-debug/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-10T20:39:55+08:00" />
+<meta property="article:modified_time" content="2023-10-10T20:39:55+08:00" />
+<meta itemprop="name" content="FasterTransfromer调试技巧">
+<meta itemprop="description" content="FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr"><meta itemprop="datePublished" content="2023-10-10T20:39:55+08:00" />
+<meta itemprop="dateModified" content="2023-10-10T20:39:55+08:00" />
+<meta itemprop="wordCount" content="1370">
+<meta itemprop="keywords" content="大模型推理,FasterTransfromer," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="FasterTransfromer调试技巧"/>
+<meta name="twitter:description" content="FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+  
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R5GWFRP16Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-R5GWFRP16Y');
+</script>
+  
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/blog/2013/07/20/the-books-i-have-read">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/2013/07/20/the-books-i-have-read">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">FasterTransfromer调试技巧</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-10-10 </span>
+        
+          <span class="more-meta"> 1370 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#如何编译debug版本">如何编译DEBUG版本</a></li>
+        <li><a href="#如何定位莫名其妙的cuda错误">如何定位莫名其妙的Cuda错误</a></li>
+        <li><a href="#如何定位kernel内部显存问题">如何定位kernel内部显存问题</a></li>
+        <li><a href="#常见问题">常见问题</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTransfromer调试的技巧。</p>
+<h2 id="如何编译debug版本">如何编译DEBUG版本</h2>
+<p>DEBUG版本很有用，gdb调试时会有更多信息。但FT 通过<code>CMake  -DCMAKE_BUILD_TYPE=DEBUG</code>编译DEBUG版本会<a href="https://github.com/NVIDIA/FasterTransformer/issues/590">报错</a>，可以采用如下方式，修改CMakeLists.txt:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 找到： set(CMAKE_CXX_FLAGS_RELEASE &#34;${CMAKE_CXX_FLAGS_RELEASE} -O3&#34;)，然后替换为：
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">if(FT_BUILD_DEBUG)
+</span></span><span class="line"><span class="cl">  message(&#34;build debug is true&#34;)
+</span></span><span class="line"><span class="cl">  set(CMAKE_CXX_FLAGS_RELEASE &#34;-O0 -g&#34;)
+</span></span><span class="line"><span class="cl">else()
+</span></span><span class="line"><span class="cl">  message(&#34;build debug is false&#34;)
+</span></span><span class="line"><span class="cl">  set(CMAKE_CXX_FLAGS_RELEASE &#34;${CMAKE_CXX_FLAGS_RELEASE} -O3&#34;)
+</span></span><span class="line"><span class="cl">endif()
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用<code>cmake -DCMAKE_BUILD_TYPE=Release -DFT_BUILD_DEBUG=1</code> 即可编译DEBUG版本。</p>
+<h2 id="如何定位莫名其妙的cuda错误">如何定位莫名其妙的Cuda错误</h2>
+<p>假如发生如下类似报错：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[FT][ERROR] CUDA runtime error: an illegal memory access was encountered /data/src/fastertransformer/utils/memory_utils.cu:153
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此时通过日志是无法定位的，通过gdb调试看到的调用栈往往也发现不了问题所在，这是因为FT里面的Cuda  kernel大部分是异步的，程序的报错已经不是第一次现场, FT内部实现了一个<code>syncAndCheck</code>函数用于等待cuda kernel调用并检测错误，在调用kernel后跟一个syncAndCheck，可以第一时间发现错误。</p>
+<p>Release版本默认syncAndCheck是不打卡的，可以通过<code>FT_DEBUG_LEVEL=DEBUG</code>打开。
+效果如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">terminate called after throwing an instance of &#39;std::runtime_error&#39;
+</span></span><span class="line"><span class="cl">  what():  [FT][ERROR] CUDA runtime error: an illegal memory access was encountered /data/src/fastertransformer/layers/attention_layers/GptPagedMQAttentionLayer.cc:244 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] *** Process received signal ***
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] Signal: Aborted (6)
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] Signal code:  (-6)
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 0] /usr/lib/x86_64-linux-gnu/libpthread.so.0( 0x14420)[0x7f1121301420]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 1] /usr/lib/x86_64-linux-gnu/libc.so.6(gsignal 0xcb)[0x7f1112d5d00b]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 2] /usr/lib/x86_64-linux-gnu/libc.so.6(abort 0x12b)[0x7f1112d3c859]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 3] /usr/lib/x86_64-linux-gnu/libstdc.so.6( 0x9e911)[0x7f1113114911]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 4] /usr/lib/x86_64-linux-gnu/libstdc.so.6( 0xaa38c)[0x7f111312038c]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 5] /usr/lib/x86_64-linux-gnu/libstdc.so.6( 0xaa3f7)[0x7f11131203f7]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 6] /usr/lib/x86_64-linux-gnu/libstdc.so.6( 0xaa6a9)[0x7f11131206a9]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 7] /data/build/lib/libtransformer-shared.so(fastertransformer::syncAndCheck(char const*, int) 0x481)[0x7f11137a33f1]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 8] /data/build/lib/libtransformer-shared.so(fastertransformer::GptPagedMQAttentionLayer&lt;__half&gt;::forward(fastertransformer::TensorMap*, fastertransformer::TensorMap*, fastertransformer::AttentionWeight&lt;__half, __half&gt; const*, fastertransformer::batch::WorkerInputMetaData&lt;__half&gt;*) 0x4f9)[0x7f1114087929]
+</span></span><span class="line"><span class="cl">[a4adc150d095:52152] [ 9] /data/build/lib/libtransformer-shared.so(fastertransformer::TensorParallelGptContextMQAttentionLayer&lt;__half&gt;::forward(fastertransformer::TensorMap*, fastertransformer::TensorMap*, fastertransformer::AttentionWeight&lt;__half, __half&gt; const*, fastertransformer::batch::WorkerInputMetaData&lt;__half&gt;*) 0x4a8)[0x7f111406ce48]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样我们就可以确定问题的大概位置，然后检查相关代码定位问题。</p>
+<h2 id="如何定位kernel内部显存问题">如何定位kernel内部显存问题</h2>
+<p>通过syncAndCheck能找到出问题的kernel函数，但在kernel实现复杂的情况下，还是会一筹莫展。比如有一个kernel函数有十几个buf参数，实现也很复杂，如何知道哪一行的问题呢？此时就需要用到<a href="https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html">compute-sanitizer</a>了。</p>
+<p>首先修改CMakeLists.txt,  让nvcc编译行号：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> target_compile_options(paged_attention_kernels PRIVATE $&lt;$&lt;COMPILE_LANGUAGE:CUDA&gt;: --generate-line-info &gt;)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后通过compute-sanitizer启动你的程序：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">/usr/local/cuda/bin/compute-sanitizer your_server args
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>compute-sanitizer会将结果输出到终端：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">========= Invalid __global__ write of size 2 bytes
+</span></span><span class="line"><span class="cl">=========     at 0xd80 in /data/src/fastertransformer/kernels/paged_attention/paged_attention_kernels.cu:162:void add_fusedQKV_bias_transpose_and_cache_kernel_rotary_embedding&lt;(bool)1, __half&gt;(T2 *, T2 *, T2 *, T2 *, T2 *, T2 *, const T2 *, int, int, const int *, const int *, const int *, const int *, int, int, int, int)
+</span></span><span class="line"><span class="cl">=========     by thread (63,0,0) in block (506,0,0)
+</span></span><span class="line"><span class="cl">=========     Address 0x7fcd07a0312c is out of bounds
+</span></span><span class="line"><span class="cl">=========     and is 12589 bytes after the nearest allocation at 0x7fcd079ffc00 of size 1024 bytes
+</span></span><span class="line"><span class="cl">=========     Saved host backtrace up to driver entry point at kernel launch time
+</span></span><span class="line"><span class="cl">=========     Host Frame: [0x2ea231]
+</span></span><span class="line"><span class="cl">=========                in /usr/lib/x86_64-linux-gnu/libcuda.so.1
+</span></span><span class="line"><span class="cl">=========     Host Frame: [0x1488c]
+</span></span><span class="line"><span class="cl">=========                in /usr/local/cuda/lib64/libcudart.so.11.0
+</span></span><span class="line"><span class="cl">=========     Host Frame:cudaLaunchKernel [0x6c318]
+</span></span><span class="line"><span class="cl">=========                in /usr/local/cuda/lib64/libcudart.so.11.0
+</span></span><span class="line"><span class="cl">=========     Host Frame:void invokeAddFusedQKVBiasTransposeAndCacheRotary_embedding&lt;__half&gt;(__half*, __half*, __half*, __half*, __half*, __half*, __half const*, int, int, int, int, int const*, int const*, int const*, int const*, int, int, int, int, CUstream_st*) [0xd3ab7a]
+</span></span><span class="line"><span class="cl">=========                in /data/build/lib/libtransformer-shared.so
+</span></span><span class="line"><span class="cl">=========     Host Frame:fastertransformer::GptPagedMQAttentionLayer&lt;__half&gt;::forward(fastertransformer::TensorMap*, fastertransformer::TensorMap*, fastertransformer::AttentionWeight&lt;__half, __half&gt; const*, fastertransformer::batch::WorkerInputMetaData&lt;__half&gt;*) [0xda3914]
+</span></span><span class="line"><span class="cl">=========                in /data/build/lib/libtransformer-shared.so
+</span></span><span class="line"><span class="cl">=========     Host Frame:fastertransformer::TensorParallelGptContextMQAttentionLayer&lt;__half&gt;::forward(fastertransformer::TensorMap*, fastertransformer::TensorMap*, fastertransformer::AttentionWeight&lt;__half, __half&gt; const*, fastertransformer::batch::WorkerInputMetaData&lt;__half&gt;*) [0xd88e48]
+</span></span><span class="line"><span class="cl">=========                in /data/build/lib/libtransformer-shared.so
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面的结果中有3个关键信息：</p>
+<ul>
+<li>代码行号。 如上面的paged_attention_kernels.cu的第162行</li>
+<li>异常类型。 write错误 out of bounds.</li>
+<li>调用栈。</li>
+</ul>
+<p>根据这些信息可以精准的定位Bug原因。</p>
+<h2 id="常见问题">常见问题</h2>
+<ul>
+<li>NCCL卡住</li>
+</ul>
+<p>多卡触发，卡越多概率越大，表现为1. 通过nvidia-smi查看多卡中某些卡的util占用为0，其余为100%，但功率都很低 2. 通过gdb调试会发现阻塞在cudaMallocHost, cublasGemmStridedBatchedEx等Cuda函数</p>
+<p>解决方法：export NCCL_LAUNCH_MODE=GROUP</p>
+<ul>
+<li>启动报错: Caught signal 7 (Bus error: nonexistent physical address)</li>
+</ul>
+<p>原因是系统资源<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting.html#sharing-data">分配不足</a>, 容器启动添加<code>--shm-size=10g</code>即可解决。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86/">大模型推理</a>
+          <a href="/tags/fastertransfromer/">FasterTransfromer</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/blog/2023/09/17/leader-weicao/">
+            <span class="next-text nav-default">带新人切忌“太好心”</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+
+
+
+    
+
+    <div id="waline"></div>
+    <script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+    init({
+      el: '#waline',
+      serverURL: 'https://ping.towriting.com',
+    });
+    </script>
+
+  </article>
+        </div>
+        
+
+  
+
+  
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2023</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/slideout/1.0.1/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
