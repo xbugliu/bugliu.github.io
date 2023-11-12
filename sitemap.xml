@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://towriting.com/tags/fastertransfromer/</loc>
+    <loc>http://towriting.com/categories/</loc>
     <lastmod>2023-10-10T20:39:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://towriting.com/blog/2023/10/10/ft-debug/</loc>
+    <loc>http://towriting.com/tags/fastertransfromer/</loc>
     <lastmod>2023-10-10T20:39:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -44,8 +44,15 @@
   </url>
   
   <url>
-    <loc>http://towriting.com/categories/</loc>
-    <lastmod>2023-09-17T20:30:49+08:00</lastmod>
+    <loc>http://towriting.com/blog/2023/10/10/ft-debug/</loc>
+    <lastmod>2023-10-10T20:39:55+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://towriting.com/categories/%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2023-10-10T20:39:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -65,14 +72,14 @@
   </url>
   
   <url>
-    <loc>http://towriting.com/blog/2023/06/19/gptq2/</loc>
-    <lastmod>2023-06-19T20:41:48+08:00</lastmod>
+    <loc>http://towriting.com/blog/2023/09/02/continuous-batch/</loc>
+    <lastmod>2023-09-02T12:24:53+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://towriting.com/categories/%E5%BC%80%E5%8F%91/</loc>
+    <loc>http://towriting.com/blog/2023/06/19/gptq2/</loc>
     <lastmod>2023-06-19T20:41:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

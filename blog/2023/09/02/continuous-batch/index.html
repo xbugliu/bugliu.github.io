@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Continuous batch架构剖析 - 书写|记下人生痕迹</title>
+  <title>大模型推理 - Continuous batch和FasterTransformer结合 - 书写|记下人生痕迹</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -39,18 +39,18 @@
 <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Continuous batch架构剖析" />
+<meta property="og:title" content="大模型推理 - Continuous batch和FasterTransformer结合" />
 <meta property="og:description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://towriting.com/blog/2023/09/02/continuous-batch/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2023-09-02T12:24:53+08:00" />
 <meta property="article:modified_time" content="2023-09-02T12:24:53+08:00" />
-<meta itemprop="name" content="Continuous batch架构剖析">
+<meta itemprop="name" content="大模型推理 - Continuous batch和FasterTransformer结合">
 <meta itemprop="description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐"><meta itemprop="datePublished" content="2023-09-02T12:24:53+08:00" />
 <meta itemprop="dateModified" content="2023-09-02T12:24:53+08:00" />
-<meta itemprop="wordCount" content="3283">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Continuous batch架构剖析"/>
+<meta itemprop="wordCount" content="4568">
+<meta itemprop="keywords" content="大模型推理,FasterTransfromer," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="大模型推理 - Continuous batch和FasterTransformer结合"/>
 <meta name="twitter:description" content="什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐"/>
 
 <!--[if lte IE 9]>
@@ -140,13 +140,15 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Continuous batch架构剖析</h1>
+      <h1 class="post-title">大模型推理 - Continuous batch和FasterTransformer结合</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2023-09-02 </span>
-        
-          <span class="more-meta"> 3283 words </span>
-          <span class="more-meta"> 7 mins read </span>
+        <div class="post-category">
+            <a href="/categories/%E5%BC%80%E5%8F%91/"> 开发 </a>
+            </div>
+          <span class="more-meta"> 4568 words </span>
+          <span class="more-meta"> 10 mins read </span>
         
       </div>
     </header>
@@ -169,9 +171,9 @@
             <li><a href="#cacheengine--blockmanager">CacheEngine &amp; BlockManager</a></li>
             <li><a href="#buffermanager">BufferManager</a></li>
             <li><a href="#scheduler">Scheduler</a></li>
+            <li><a href="#对抗swap">对抗Swap</a></li>
             <li><a href="#model">Model</a></li>
             <li><a href="#显存预分配">显存预分配</a></li>
-            <li><a href="#配置">配置</a></li>
           </ul>
         </li>
       </ul>
@@ -185,7 +187,7 @@
 <p>介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐量(throughput)的一种方法。其原理有三：</p>
 <ol>
 <li>并发提升，提升了GPU核的利用率</li>
-<li>显卡带宽&amp;算力的复用，比如矩阵乘多batch时权重的带宽复用</li>
+<li>显卡带宽&amp;算力的复用，比如矩阵乘多batch时权重读取的带宽复用</li>
 <li>Kernel Launch次数减少，有效载荷提升</li>
 </ol>
 <p>传统的Batch是模型粒度的，将多个请求合并在一起，然后调用模型的推理接口，完成后在解batch，将结果返回给各个请求。这种方式对于大语言模型推理并不适用，因为大模型的推理有2个特点：</p>
@@ -194,14 +196,22 @@
 <li>一个请求的时间可能很长</li>
 </ol>
 <p>这2个特点导致，传统的Batch方案会导致极大的算力浪费，系统大部分时间都在处理较长的请求，如图所示：</p>
+<p><img src="/images/posts/ft/static_batch.png" alt="static batch "></p>
+<sub>
+上图演示了传统batch，4个会话组batch, 黄色的是prompt, 蓝色是生成的token, 红色的END表示会话结束，可以看到要等待最长的S2结束整个Batch才结束，空白代表着GPU利用率存在着浪费。
+</sub>
 <p>各个框架都注意到这个问题，23年5月 TGI提出了<a href="https://github.com/huggingface/text-generation-inference/tree/main/router#continuous-batching">Continuous batching</a>的解决方案，后vllm 实现了PagedAttention更加强了Continuous batching的能力。除了Continuous batching，lmdeploy里面的<a href="https://github.com/InternLM/lmdeploy/blob/main/docs/zh_cn/turbomind.md#persistent-batch">Persistent Batch</a>，TensorRT里面的Inflight Batch都是相似的思路。</p>
 <p>Continuous batching是专门提升大语言模型吞吐量的一种组batch方式，相比于传统的模型粒度的组batch，是在迭代阶段(生成token)组batch，完美的规避了请求长短不一的问题。如图所示：</p>
+<p><img src="/images/posts/ft/continuous_batch.png" alt="continuous batch"></p>
+<sub>
+上图演示了continuous batch, 可以看到只要有会话结束，新的会话就立即插入进来，相比传统batch, GPU利用率会高很多。
+</sub>
 <p>除了batch，有些同学询问是否可以通过多并发来提升大模型吞吐量，回答是提升有限。前面batch提升吞吐量的三个原理，多并发只对第一个原理有帮助，而在大模型推理领域，原因2带宽也是很关键的。</p>
 <p>另外需要注意吞吐量和延迟(latency)是矛盾的，Batch在提升吞吐量的同时，往往伴随着延迟的增加。</p>
 <h2 id="基于fastertransfromer的continuous-batch">基于FasterTransfromer的Continuous batch</h2>
 <p>FasterTransfromer（简称FT）是英伟达开源的针对transformer结构的加速引擎，在单batch场景下有非常优秀的表现，但只支持普通batch, 且有诸多限制，所以早在VLLM以前我们就计划优化FasterTransfromer的batch。正好vllm的成功给了我们启发和借鉴。</p>
-<p>有人会说Vllm已足够优秀，基于FasterTransformer新造轮子是否有意义？ 答案是非常有必要，就像简单的一道西红柿炒蛋，食材一样，但锅具不同，厨师各异， 味道天地之别。在大模型GPU推理上，为性能计，C++这口锅显然优于Python（vllm基于python），加上我们针对业务场景优化，性能超越Vllm是水到渠成的。看一下数据：</p>
-<p>为了对比的公平性，移除了vllm里面的tokenizer，放入测试脚本中。对比vllm，FT实现有如下优化：</p>
+<p>有人会说Vllm已足够优秀，基于FasterTransformer新造轮子是否有意义？ 答案是非常有必要，就像简单的一道西红柿炒蛋，食材一样，但锅具不同，厨师各异， 味道天地之别。在大模型GPU推理上，为性能计，C++这口锅显然优于Python（vllm基于python），加上我们针对业务场景优化，性能超越Vllm是水到渠成的。最终测试7b下吞吐量达到vllm的2倍(23年8月份测试)，后续调优算子后在66B规模下<strong>单batch速度达到TGI的1.4倍</strong>，<strong>吞吐量达到TGI的3倍</strong> (11月测试，公司数据比较敏感，详细数据不便披露)。</p>
+<p>对比vllm，FT的方案有如下优化：</p>
 <ol>
 <li>无python的GIL问题，观察vllm, batch&gt;16时cpu占用率100%，并发越高，cuda util越低，GIL的问题非常明显</li>
 <li>预分配显存内存 在服务启动时预分配资源，减少推理过程中的动态开销。</li>
@@ -210,8 +220,9 @@
 </ol>
 <p>当然我们是参考vllm实现了这些功能，有后发优势，vllm中依然有一些优秀的feature:  flashattention, tokenizer增量解码等值得借鉴。</p>
 <h2 id="pagedattention">PagedAttention</h2>
-<p>在PagedAttention以前，kv cache一般基于output_length预分配的，output_lenght往往很大，导致显存占用很大，比如175B output_lenght=1024时显存占用3.9G。但实际生成的output_lenght往往很小，导致显存的巨大浪费。显存的浪费导致，导致无法组很大的batch, 吞吐量上不去。</p>
+<p>在PagedAttention以前，kv cache一般基于output_length预分配的，output_lenght往往很大，导致显存占用很大，比如Bloom 175B output_lenght=1024时显存占用3.9G。但实际生成的output_lenght往往很小，导致显存的巨大浪费。显存的浪费导致，导致无法组很大的batch, 吞吐量上不去。</p>
 <p>所以vllm发明了PagedAttention，减少kv cache显存浪费，从而可以配合continuous batch提高batch数，提升吞吐量。核心原理如图：</p>
+<p><img src="/images/posts/ft/page_attention.png" alt="paged_attention"></p>
 <p>keycache和valuecache是独立存在的，以keycache说明</p>
 <ol>
 <li>cache申请为连续的显存</li>
@@ -221,6 +232,7 @@
 </ol>
 <p>这里可以看出PagedAttention的优势是按页分配无浪费，但引入了一个问题，页是动态申请的，会话进行到一半申请不到页怎么办？这个就是后面调度要解决的了。</p>
 <h2 id="架构解析">架构解析</h2>
+<p><img src="/images/posts/ft/arch.png" alt="arch"></p>
 <h3 id="client--tritionbackend">Client &amp; TritionBackend</h3>
 <p>这2个模块是接口层，接收服务端的请求，构造一个Task, 并添加到工作队列中，然后就不停的等待新Token的产生，直到结束。结果流式的推送到TritionBackend中。</p>
 <p>TritionBackend进行改造，兼容老版本接口，服务端或triton可以直接运行。</p>
@@ -240,10 +252,38 @@
 <li>会话结束，再把页还回来，加入闲置页列表</li>
 </ol>
 <h3 id="buffermanager">BufferManager</h3>
-<p>推理过程中衔接流程的buffer很多，比如<code>input_ids_buf</code>, <code>logits_buf</code>, <code>qk_buf</code>, 这些除了attention过程中的q<em>k的qk_buf（num_head</em>seq_len*seq_len）外一般都比较小。 BufferManager负责部分buffer，另外一部分buffer由model自行维护。</p>
+<p>推理过程中衔接流程的buffer很多，比如<code>input_ids_buf</code>, <code>logits_buf</code>, <code>qk_buf</code>, 这些除了attention过程中的q*k的qk_buf（num_head * seq_len * seq_len）外一般都比较小。 BufferManager负责部分buffer，另外一部分buffer由model自行维护。</p>
 <h3 id="scheduler">Scheduler</h3>
+<p>调度器根据资源负载动态组Batch的过程，资源在物理上是显存，逻辑上是kvcache和buffer。每轮迭代之前都会进行调度，以先来先服务原则，调度器维护3个队列：</p>
+<ol>
+<li>waiting list
+新添加的会话会进入waiting, 如果会话可以获取到资源，则进入running</li>
+<li>running list
+表示当前推理的会话，即为组的batch，若running中的会话申请不到资源, 则移出running, 进入waiting</li>
+<li>swaping list
+回答前面的问题“会话进行到一半申请不到页怎么办？”，swaping就是解决这个问题的。</li>
+</ol>
+<p>实际生成过程中output_len不可预知，为了追求吞吐，kvcache是很有可能发生<a href="https://zh.wikipedia.org/zh-hans/%E8%B6%85%E8%B3%A3">超卖</a>的, 此时有两种策略，一是丢掉cache从头计算  二是  cache暂时从显存移入内存，后续再移回。目前我们实现的是方案二。</p>
+<p>如果所有running的会话都申请不到资源，则将running或waiting中的一个会话移入swaping。 等有资源时，再将swaping的任务移入running。</p>
+<p>swaping list的变更，伴随着显存和内存的SwapIn&amp;SwapOut, 对性能的影响很大。</p>
+<h3 id="对抗swap">对抗Swap</h3>
+<p>因为swap对性能影响较大，所以vllm中可以配置<code>--max-num-seqs</code>来限制最大Batch数，但这个值大了会Swap, 小了吞吐量上不去，并且通过batch来限制粒度太大。</p>
+<p>LightLLM提出了一种改进方法：<a href="https://mp.weixin.qq.com/s/-wMLMGAHkxeyDYkixqni9Q">Efficient Router</a>，策略如下：</p>
+<ol>
+<li>kvcache支持的token总数为：<code>max_allocate_total_token_num</code>,  设置一个调度token总数: <code>max_schedule_total_token_num</code></li>
+<li>当waiting的会话要进入running list时，可以根据当前的running list和新会话的input_token_num和ouput_token_num，计算添加新会话后所需最大token总<code>max_need_total_token_num</code></li>
+<li>如果<code>max_need_total_token_num</code> &lt; <code>max_schedule_total_token_num</code>并且可以申请到资源则允许进入running list</li>
+</ol>
+<p>Efficient Router可以更好的平衡batch数和swap的矛盾，若设置<code>max_schedule_total_token_num</code>为<code>max_allocate_total_token_num</code>则永远不会swap，但这个值同样不容易配置，大了会Swap, 小了吞吐量上不去。</p>
+<p>所以我们基于Efficient Router可以再进行一次优化，借鉴TCP拥塞控制的<strong>和式增加，积式减少</strong>,  根据负载动态的调整 <code>max_schedule_total_token_num</code>：</p>
+<ol>
+<li>设置<code>max_schedule_total_token_num</code>初值为<code>max_allocate_total_token_num</code></li>
+<li>调度时若<code>max_need_total_token_num</code>大于<code>max_schedule_total_token_num</code>且kvcache页的利用率小于90%,  则<code>max_schedule_total_token_num + 100</code>。</li>
+<li>若发生swap，则<code>max_schedule_total_token_num - 1000</code>。</li>
+</ol>
 <h3 id="model">Model</h3>
-<p>Model是具体模型的实现，比如Bloom、GLM2。欲支持contiuous batch最主要的工作是支持PagedAttention, 其Forward方法相比于之前的循环迭代生成token, 变成了每次只生成一个Token（每个batch一个)。流程如下图：</p>
+<p>Model是具体模型的实现，比如Bloom、Lamma。欲支持contiuous batch最主要的工作是支持PagedAttention, 其Forward方法相比于之前的循环迭代生成token, 变成了每次只生成一个Token（每个batch一个)。流程如下图：</p>
+<p><img src="/images/posts/ft/batch_model.png" alt="arch"></p>
 <p>框架抽象好Model的接口，我们可以任意的添加新的模型，新的模型无需关注调度等逻辑。</p>
 <h3 id="显存预分配">显存预分配</h3>
 <p>预分配目的有2：</p>
@@ -252,13 +292,6 @@
 <li><strong>防患未然</strong>  定位过多次input_len过长OOM导致的Crash, 预分配提前检查显存是否满足业务方最大值情况，不满足则启动时报错。</li>
 </ol>
 <p>那如何预分配呢？用到显存的3个模块:CacheEngine、BufferManager和Model。显存取决于input_token_len和output_token_len，通过业务配置的max_input_token_len和max_output_token_len，计算出三个模块在单batch下需要的显存大小，然后根据系统剩余显存，计算出可分配的malloc_max_input_token_len和malloc_max_output_len, 并用这2个值调用3个模块申请显存。</p>
-<h3 id="配置">配置</h3>
-<p>配置较简单。内部杂乱的配置项，通过启动时显存和运行时系统的负载自动调节。</p>
-<p>目前部署时需关注2个选项：</p>
-<ul>
-<li><code>FT_INPUT_TOKEN_LEN</code> - 对于context阶段不支持FlashAttention的Model, <code>FT_INPUT_TOKEN_LEN</code>过大会导致kvcache空间过小，进而batch上不去。</li>
-<li><code>FT_OUTPUT_TOKEN_LEN</code> - 和<code>FT_INPUT_TOKEN_LEN</code>共同影响kvcache的显存，分配的kvcache不满足单batch的input_token_len + output_token_len则启动失败。</li>
-</ul>
 
     </div>
 
@@ -271,7 +304,10 @@
   </p>
 </div>
 <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86/">大模型推理</a>
+          <a href="/tags/fastertransfromer/">FasterTransfromer</a>
+          </div>
       <nav class="post-nav">
         <a class="prev" href="/blog/2023/09/17/leader-weicao/">
             <i class="iconfont icon-left"></i>
@@ -279,12 +315,27 @@
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="/blog/2023/06/19/gptq2/">
-            <span class="next-text nav-default">GPTQ 落地与优化</span>
+            <span class="next-text nav-default">大模型推理 - GPTQ 落地与优化</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
       </nav>
     </footer>
+
+
+
+    
+
+    <div id="waline"></div>
+    <script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+    init({
+      el: '#waline',
+      serverURL: 'https://ping.towriting.com',
+    });
+    </script>
+
   </article>
         </div>
         
@@ -292,6 +343,9 @@
   
 
   
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
 
       </div>
     </main>
