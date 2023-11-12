@@ -1,8 +1,9 @@
 ---
-title: "FasterTransfromer调试技巧"
+title: "大模型推理 - FasterTransfromer调试技巧"
 date: 2023-10-10T20:39:55+08:00
 draft: false
 tags: ["大模型推理","FasterTransfromer"]
+categories: ["开发"]
 ---
 
 

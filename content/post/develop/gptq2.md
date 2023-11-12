@@ -1,5 +1,5 @@
 ---
-title: "GPTQ 落地与优化"
+title: "大模型推理 - GPTQ 落地与优化"
 date: 2023-06-19T20:41:48+08:00
 # draft: true
 categories: ["开发"]
