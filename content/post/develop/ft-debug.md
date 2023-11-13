@@ -1,13 +1,13 @@
 ---
-title: "大模型推理 - FasterTransfromer调试技巧"
+title: "大模型推理 - FasterTransformer调试技巧"
 date: 2023-10-10T20:39:55+08:00
 draft: false
-tags: ["大模型推理","FasterTransfromer"]
+tags: ["大模型推理","FasterTransformer"]
 categories: ["开发"]
 ---
 
 
-FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTransfromer调试的技巧。
+FasterTransformer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTransformer调试的技巧。
 
 ## 如何编译DEBUG版本
 

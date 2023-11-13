@@ -1,8 +1,8 @@
 ---
-title: "大模型推理 - Continuous batch和FasterTransformer结合"
+title: "大模型推理 - Continuous batching和FasterTransformer结合"
 date: 2023-09-02T12:24:53+08:00
 # draft: true
-tags: ["大模型推理","FasterTransfromer"]
+tags: ["大模型推理","FasterTransformer"]
 categories: ["开发"]
 ---
 
