@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FasterTransformer on 书写|记下人生痕迹</title>
+    <link>http://towriting.com/tags/fastertransformer/</link>
+    <description>Recent content in FasterTransformer on 书写|记下人生痕迹</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <copyright>bugliu 2023</copyright>
+    <lastBuildDate>Tue, 10 Oct 2023 20:39:55 +0800</lastBuildDate><atom:link href="http://towriting.com/tags/fastertransformer/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>大模型推理 - FasterTransformer调试技巧</title>
+      <link>http://towriting.com/blog/2023/10/10/ft-debug/</link>
+      <pubDate>Tue, 10 Oct 2023 20:39:55 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2023/10/10/ft-debug/</guid>
+      <description>FasterTransformer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr</description>
+    </item>
+    
+  </channel>
+</rss>

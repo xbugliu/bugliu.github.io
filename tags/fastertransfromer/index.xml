@@ -7,16 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>bugliu 2023</copyright>
-    <lastBuildDate>Tue, 10 Oct 2023 20:39:55 +0800</lastBuildDate><atom:link href="http://towriting.com/tags/fastertransfromer/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>大模型推理 - FasterTransfromer调试技巧</title>
-      <link>http://towriting.com/blog/2023/10/10/ft-debug/</link>
-      <pubDate>Tue, 10 Oct 2023 20:39:55 +0800</pubDate>
-      
-      <guid>http://towriting.com/blog/2023/10/10/ft-debug/</guid>
-      <description>FasterTransfromer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr</description>
-    </item>
-    
+    <lastBuildDate>Sat, 02 Sep 2023 12:24:53 +0800</lastBuildDate><atom:link href="http://towriting.com/tags/fastertransfromer/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>大模型推理 - Continuous batching和FasterTransformer结合</title>
       <link>http://towriting.com/blog/2023/09/02/continuous-batch/</link>
