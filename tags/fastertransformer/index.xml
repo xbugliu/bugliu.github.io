@@ -17,5 +17,14 @@
       <description>FasterTransformer(FT)有三难，一个kernel算子理解难，一个是对精度麻烦，再一个就是调试难，今天讲一下FasterTr</description>
     </item>
     
+    <item>
+      <title>大模型推理 - Continuous batching和FasterTransformer结合</title>
+      <link>http://towriting.com/blog/2023/09/02/continuous-batch/</link>
+      <pubDate>Sat, 02 Sep 2023 12:24:53 +0800</pubDate>
+      
+      <guid>http://towriting.com/blog/2023/09/02/continuous-batch/</guid>
+      <description>什么是continuous batch 介绍continuous batch之前，先说下Batch。Batch将多个请求合并一次处理，是提升GPU推理吞吐</description>
+    </item>
+    
   </channel>
 </rss>
