@@ -22,7 +22,7 @@ GoogleAnalytics = ""      # UA-XXXXXXXX-X
 copyright = "bugliu 2023"            # default: author.name ↓        # 默认为下面配置的author.name ↓
 
 [permalinks]
-post = "/blog/:year/:month/:day/:filename/"
+post = "/blog/:slug/"
 
 [author]                  # essential                     # 必需
   name = "bugliu"
