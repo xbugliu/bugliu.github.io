@@ -1,7 +1,7 @@
 +++
 title = "我曾读过的那些书"
 date = "2013-07-20"
-slug = "2013/07/20/the-books-i-have-read"
+slug = "my-books"
 tags =["书籍","记录","阅读"]
 categories = ["生活杂记"]
 description = "整理我这些年来读过的书籍"

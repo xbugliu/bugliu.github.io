@@ -51,7 +51,7 @@ post = "/blog/:slug/"
   name = "Books"
   weight = 30
   identifier = "books"
-  url = "/blog/2013/07/20/the-books-i-have-read"
+  url = "/blog/my-books"
 [[menu.main]]
   name = "About"
   weight = 0
