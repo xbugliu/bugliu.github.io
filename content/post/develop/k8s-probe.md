@@ -3,6 +3,7 @@ title: "Kubernetes三种探针的使用场景"
 date: 2022-03-22T18:34:25+08:00
 draft: false
 categories: ["开发"]
+slug: 2022/03/22/k8s-probe/
 ---
 
 ## Liveness Probe

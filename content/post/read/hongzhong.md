@@ -2,6 +2,7 @@
 title: "读《火种》"
 date: 2022-12-03T21:23:11+08:00
 categories: ["阅读"]
+slug: 2022/12/03/hongzhong/
 ---
 
 

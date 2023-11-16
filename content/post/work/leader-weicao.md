@@ -3,6 +3,7 @@ title: "带新人切忌“太好心”"
 date: 2023-09-17T20:30:49+08:00
 draft: false
 categories: ["职场"]
+slug: 2023/09/17/leader-weicao/
 ---
 
 

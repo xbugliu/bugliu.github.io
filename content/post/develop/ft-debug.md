@@ -4,6 +4,7 @@ date: 2023-10-10T20:39:55+08:00
 draft: false
 tags: ["大模型推理","FasterTransformer"]
 categories: ["开发"]
+slug: 2023/10/10/ft-debug/
 ---
 
 

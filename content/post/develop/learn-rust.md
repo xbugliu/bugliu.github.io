@@ -3,6 +3,7 @@ title: "Rust初体验"
 date: 2022-03-19T19:55:14+08:00
 draft: false
 categories: ["开发"]
+slug: 2022/03/19/learn-rust/
 ---
 
 这两天用Rust写了一个通过Gitee拉取Github仓库的工具[Rusgit][1]，初步了解了Rust的一些特性。

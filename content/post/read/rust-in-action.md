@@ -3,6 +3,7 @@ title: "《Rust in Action》读书笔记"
 date: 2022-04-11T11:49:51+08:00
 draft: false
 categories: ["阅读"]
+slug: 2022/04/11/rust-in-action/
 ---
 
 # Ch1: Rust介绍

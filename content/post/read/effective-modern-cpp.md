@@ -2,6 +2,7 @@
 title: "《Effective Modern C++》读书笔记"
 date: 2022-04-08T13:45:07+08:00
 categories: ["阅读"]
+slug: 2022/04/08/effective-modern-cpp/
 ---
 
 ## introduction

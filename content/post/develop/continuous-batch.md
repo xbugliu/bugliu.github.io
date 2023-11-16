@@ -4,6 +4,7 @@ date: 2023-09-02T12:24:53+08:00
 # draft: true
 tags: ["大模型推理","FasterTransformer"]
 categories: ["开发"]
+slug: 2023/09/02/continuous-batch/
 ---
 
 ## 什么是continuous batch

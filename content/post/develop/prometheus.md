@@ -3,6 +3,7 @@ title: "Prometheus监控系统总结"
 date: 2022-03-13T19:06:07+08:00
 draft: false
 categories: ["开发"]
+slug: 2022/03/13/prometheus/
 ---
 
 

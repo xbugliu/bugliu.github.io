@@ -2,6 +2,7 @@
 title: "读《武岭梦残》"
 date: 2022-09-17T18:08:02+08:00
 categories: ["阅读"]
+slug: 2022/09/17/review-wuling-mengcai/
 ---
 
 ### 蒋的前途

@@ -3,6 +3,7 @@ title: "多架构镜像的构建"
 date: 2022-03-01T19:33:37+08:00
 draft: false
 categories: ["开发"]
+slug: 2022/03/01/multi-arch-image/
 ---
 
 

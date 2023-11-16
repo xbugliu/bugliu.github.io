@@ -3,6 +3,7 @@ title: "大模型推理 - GPTQ 落地与优化"
 date: 2023-06-19T20:41:48+08:00
 # draft: true
 categories: ["开发"]
+slug: 2023/06/19/gptq2/
 ---
 
 回顾前一篇[文章][2]，GPTQ给大模型带来了降本的可能，但存在性能不佳的问题，无法直接落地。经过迁移适配，我们将GPTQ的INT4 Kernel集成进[FasterTransformer][3]（简称FT），优化后可以在2卡A100运行175B的模型，对比fp16相同算力下性能提升近4倍。
