@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>大模型推理 - Prefix Caching加速 - 书写|记下人生痕迹</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="bugliu" /><meta name="description" content="轻视 prefix caching是一个容易想到的大模型推理优化点，但VLLM&amp;amp;TGI推理框架都没有支持（截止2023年11月15日），只是在Fa" /><meta name="keywords" content="阅读, 思考, 书写, 程序员, C&#43;&#43;" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
+
+
+<link rel="canonical" href="http://towriting.com/blog/develop/ft-perfix-caching/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="大模型推理 - Prefix Caching加速" />
+<meta property="og:description" content="轻视 prefix caching是一个容易想到的大模型推理优化点，但VLLM&amp;TGI推理框架都没有支持（截止2023年11月15日），只是在Fa" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://towriting.com/blog/develop/ft-perfix-caching/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-11-17T22:56:51+08:00" />
+<meta property="article:modified_time" content="2023-11-17T22:56:51+08:00" />
+<meta itemprop="name" content="大模型推理 - Prefix Caching加速">
+<meta itemprop="description" content="轻视 prefix caching是一个容易想到的大模型推理优化点，但VLLM&amp;TGI推理框架都没有支持（截止2023年11月15日），只是在Fa"><meta itemprop="datePublished" content="2023-11-17T22:56:51+08:00" />
+<meta itemprop="dateModified" content="2023-11-17T22:56:51+08:00" />
+<meta itemprop="wordCount" content="1966">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="大模型推理 - Prefix Caching加速"/>
+<meta name="twitter:description" content="轻视 prefix caching是一个容易想到的大模型推理优化点，但VLLM&amp;TGI推理框架都没有支持（截止2023年11月15日），只是在Fa"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+  
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R5GWFRP16Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-R5GWFRP16Y');
+</script>
+  
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">towriting</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/blog/my-books">
+        <li class="mobile-menu-item">Books</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">towriting</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/blog/my-books">Books</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">大模型推理 - Prefix Caching加速</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-11-17 </span>
+        
+          <span class="more-meta"> 1966 words </span>
+          <span class="more-meta"> 4 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#轻视">轻视</a></li>
+    <li><a href="#契机">契机</a></li>
+    <li><a href="#实现">实现</a>
+      <ul>
+        <li><a href="#prefixcachemanager">PrefixCacheManager</a></li>
+        <li><a href="#加载过程">加载过程</a></li>
+        <li><a href="#调度过程">调度过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#提升">提升</a></li>
+    <li><a href="#展望">展望</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="轻视">轻视</h1>
+<p>prefix caching是一个容易想到的大模型推理优化点，但VLLM&amp;TGI推理框架都没有支持（截止2023年11月15日），只是在FasterTransfromer中隐约看到过，并不起眼的特性。现在想来这个方案之所以被轻视一是不容易写论文，二是业务上没有长的通用前缀，收益预期不大。</p>
+<h1 id="契机">契机</h1>
+<p>直到我们有一个意图识别的业务上线后，请求的Latency很不稳定，有时1.5秒，有时6~7秒。经分析业务的请求属于长输入短输出：输入Token=1000, 输出Token=30，我们理论分析一下Latency:</p>
+<p><code>Latency = 首字耗时500ms + 30 * PerTokenCost =  1550ms (设decode阶段PerTokenCost为35ms)</code></p>
+<p>但真实的线上服务我们支持了Continuous batch，会将新的请求和老的请求拼在一起处理。因为输入Token=1K较长，batch对长token没有加速效果(1k=500ms, 2k=2*500ms)，假如QPS=1的情况下，会发生如下图的情况：</p>
+<p><img src="/images/posts/prefix_caching/first_word.png" alt="image"></p>
+<ol>
+<li>每1秒会有一个新请求，其中耗时500ms处理首字</li>
+<li>剩余的500ms生成了14个token，这样PerTokenCost变成了1000/14=70ms</li>
+<li>套用前面公式：一次请求的<code>Latency = 500ms + 30 * 70 = 2600ms</code></li>
+</ol>
+<p><strong>可知长输入的首字耗时，侵占了decode的时间，随着QPS的增加，导致请求的整体耗时急剧增加</strong>。理论上QPS=2的时候，时间片会全部给首字，系统会超载，达到batch上限，最终无法接收新的请求。</p>
+<p>再深入分析发现意图识别1000个输入token中有900个固定的前缀，这里prefix caching的收益就很可观了。结合经验分析prefix caching后首字耗时可以降低400ms，<strong>更重要的是减轻首字对decode的影响，会使多batch延迟更低更平稳</strong>。</p>
+<h1 id="实现">实现</h1>
+<p>prefix caching的思想很简单，就是把特定前缀的kvcache缓存起来，但一涉及cuda算子和高性能又没有那么简单，有太多问题不可不察：</p>
+<ul>
+<li>context阶段的attention算子是否支持seq切分？</li>
+<li>多个请求如何零拷贝复用prefix kv cache？</li>
+<li>涉及位置编码相关算子是否要调整？</li>
+<li>如何和continuous batch的调度结合？</li>
+<li>如果保持接口兼容？</li>
+</ul>
+<p>最终方案记录如下（需了解continuous batch的细节，见前文）：</p>
+<h2 id="prefixcachemanager">PrefixCacheManager</h2>
+<p>定义一个新的管理类，提供如下接口：</p>
+<ol>
+<li>add_prefix_prompt  添加一条前缀	prompt</li>
+<li>set_blocktable  给前缀项设置kvcache的页表</li>
+<li>is_requst_match_prefix 请求是否匹配前缀，匹配则返回blocktable</li>
+</ol>
+<h2 id="加载过程">加载过程</h2>
+<ol>
+<li>通过配置文件加载前缀prompt（支持配置多条）</li>
+<li>前缀经过tokenizer之后获取到token_ids, 调用add_prefix_prompt添加一条前缀</li>
+<li>使用token_ids添加任务，调度器调度任务，kvcache自然的保存在CacheEngine中</li>
+<li>拿到cache的页表信息blocktable调用set_blocktable保存。</li>
+</ol>
+<h2 id="调度过程">调度过程</h2>
+<ol>
+<li><strong>新的请求</strong>，调用is_requst_match_prefix接口，若匹配前缀，则获取到blocktable</li>
+<li><strong>context阶段</strong>，调度器给batch打上prefix任务的标记，并传递prefix的blocktable信息。</li>
+</ol>
+<p>假设总的输入prompt长度为<code>total_seq_len</code>, 其中匹配前缀为<code>prefix_seq_len</code>, 剩余为<code>user_seq_len</code>, 满足<code>total_seq_len = prefix_seq_len + user_seq_len</code>。
+整个推理过程如图：</p>
+<p><img src="/images/posts/prefix_caching/prefix_model.png" alt="image"></p>
+<p>这里面有3个关键点：</p>
+<ul>
+<li>担心FlashAttention算子在切分seq时有坑，万幸一切顺利。</li>
+<li>要实现一个concate_kvcache_with_prefix算子，把prefix的cache和user_seq拼起来，因为cache是按PageAttention要求的格式存储，要了解FlashAttention和PageAttention输入cache格式的差异。</li>
+<li>旋转位置编码的需要注意传入正确的total_seq_len。</li>
+</ul>
+<ol start="3">
+<li><strong>decode阶段</strong>，处理起来较简单，主要是将prefix的blocktable和user的blocktable拼起来，模型内部attention部分逻辑无需调整。这里面采取了一个取巧的方法，prefix_seq是页大小的整数倍，这样就没有任何的显存拷贝了，所有的请求可以复用同一块prefix cache显存。</li>
+</ol>
+<h1 id="提升">提升</h1>
+<p>缓存的前缀长度约900, 经测试，优化后首字从500ms降低到100ms以内, 在Latency稳定在2秒以内的情况下，QPS从1提升到10+。（因某些原因，详细的测试数据不便披露）</p>
+<h1 id="展望">展望</h1>
+<p>prefix针对特殊的业务是有效的，但另一些业务还是有随机的长prompt, 系统依然存在着速度不稳定的风险。对此英伟达的开发提出一个将context和decode分离的方案，目前看来是终极解决方案。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/cn/">知识共享署名 3.0 中国大陆许可协议</a></span>
+  </p>
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        
+        <a class="next" href="/blog/2023/10/10/ft-debug/">
+            <span class="next-text nav-default">大模型推理 - FasterTransformer调试技巧</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+
+
+
+    
+
+    <div id="waline"></div>
+    <script type="module">
+    import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+
+    init({
+      el: '#waline',
+      serverURL: 'https://ping.towriting.com',
+    });
+    </script>
+
+  </article>
+        </div>
+        
+
+  
+
+  
+
+  
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css">
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="http://towriting.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2013 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>bugliu 2023</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/slideout/1.0.1/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
