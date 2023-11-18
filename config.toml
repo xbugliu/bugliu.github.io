@@ -171,7 +171,7 @@ post = "/blog/:slug/"
     visitor = false
 
   [params.waline]
-    enable = true
+    enable = false
 
   [params.flowchartDiagrams]# see https://blog.olowolo.com/example-site/post/js-flowchart-diagrams/
     enable = false
